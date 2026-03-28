@@ -267,6 +267,13 @@ footer em{color:var(--geo);font-style:normal}
 //  QUIZ DATA — Add your quiz files here
 //  Just update the path to match your GitHub folder structure
 // ═══════════════════════════════════════════════════════
+
+quizData.forEach(q => {
+  if (q.subject !== "geography") {
+    q.coming = true;
+  }
+});
+  
 const quizData = [
 
 // ──── GEOGRAPHY ────
