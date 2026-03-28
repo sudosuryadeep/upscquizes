@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RiverIQ – India Rivers & Lakes UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#060d18;--ink2:#0a1628;--ink3:#0d1e38;
+  --g1:rgba(255,255,255,.045);--gb:rgba(255,255,255,.09);
+  --river:#0ea5e9;--river2:#38bdf8;--river3:#7dd3fc;
+  --teal:#06b6d4;--teal2:#22d3ee;
+  --emerald:#10b981;--rose:#f43f5e;--amber:#fbbf24;
+  --lime:#a3e635;--violet:#8b5cf6;
+  --txt:#e2e8f0;--txt2:#7c8494;--txt3:#a0aec0;
+  --r:16px;--r2:22px;--r3:30px;
+  --shadow:0 8px 32px rgba(0,0,0,.5);
+  --glow:0 0 40px rgba(14,165,233,.25);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--ink);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+
+/* Flowing water BG */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 5% 20%,rgba(14,165,233,.13),transparent),
+    radial-gradient(ellipse 60% 50% at 95% 60%,rgba(6,182,212,.1),transparent),
+    radial-gradient(ellipse 50% 70% at 50% 100%,rgba(56,189,248,.08),transparent);
+  pointer-events:none
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;
+  animation:gridDrift 30s linear infinite;
+}
+@keyframes gridDrift{0%{background-position:0 0}100%{background-position:60px 60px}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ════ START SCREEN ════ */
+#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0}
+
+.brand-icon{
+  width:110px;height:110px;border-radius:50%;
+  background:conic-gradient(from 180deg,var(--river),var(--teal),#0077b6,var(--river2),var(--river));
+  display:flex;align-items:center;justify-content:center;font-size:3rem;
+  margin:0 auto 1.8rem;
+  box-shadow:var(--glow),0 0 80px rgba(14,165,233,.15);
+  animation:ripple 4s ease-in-out infinite;
+  position:relative;
+}
+.brand-icon::before{
+  content:'';position:absolute;inset:-10px;border-radius:50%;
+  border:1.5px solid rgba(14,165,233,.25);
+  animation:expandRing 4s ease-in-out infinite;
+}
+.brand-icon::after{
+  content:'';position:absolute;inset:-22px;border-radius:50%;
+  border:1px solid rgba(14,165,233,.12);
+  animation:expandRing 4s ease-in-out infinite .5s;
+}
+@keyframes ripple{0%,100%{box-shadow:var(--glow),0 0 80px rgba(14,165,233,.15)}50%{box-shadow:0 0 60px rgba(14,165,233,.5),0 0 100px rgba(6,182,212,.2)}}
+@keyframes expandRing{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+
+.main-title{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:800;line-height:1;margin-bottom:.4rem}
+.t1{display:block;background:linear-gradient(135deg,var(--river2),var(--teal2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.t2{display:block;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.6em}
+.main-sub{color:var(--txt2);font-size:.88rem;margin-bottom:2.5rem;letter-spacing:.06em;text-transform:uppercase}
+
+.meta-strip{display:flex;align-items:stretch;max-width:700px;width:100%;margin:0 auto 2.5rem;border-radius:var(--r2);overflow:hidden;border:1px solid var(--gb)}
+.mi{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem 1.6rem;background:var(--g1);backdrop-filter:blur(12px);flex:1;border-right:1px solid var(--gb)}
+.mi:last-child{border-right:none}
+.mi-ic{font-size:1.4rem;margin-bottom:.3rem}
+.mi-v{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--river),var(--teal2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mi-l{font-size:.65rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
+
+.topic-cloud{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:640px;margin:0 auto 2.5rem}
+.tc{font-size:.72rem;font-weight:600;padding:.32rem .85rem;border-radius:50px;border:1px solid rgba(14,165,233,.2);background:rgba(14,165,233,.07);color:var(--river3);letter-spacing:.03em;transition:.2s}
+.tc:hover{border-color:var(--river);color:var(--river2);background:rgba(14,165,233,.15)}
+
+.start-cta{
+  padding:1.1rem 3.5rem;
+  background:linear-gradient(135deg,#0077b6,var(--river),var(--teal));
+  color:#fff;border:none;border-radius:50px;
+  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;
+  cursor:pointer;letter-spacing:.04em;
+  box-shadow:0 6px 30px rgba(14,165,233,.45);transition:.25s;
+  position:relative;overflow:hidden;
+}
+.start-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:.25s}
+.start-cta:hover::before{opacity:1}
+.start-cta:hover{transform:translateY(-4px);box-shadow:0 14px 45px rgba(14,165,233,.6)}
+.save-note{color:var(--txt2);font-size:.74rem;margin-top:1.1rem;opacity:.7}
+
+/* ════ QUIZ SCREEN ════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.quiz-shell{max-width:880px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;padding-bottom:1rem}
+
+/* Top bar */
+.top-bar{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;
+  padding:.85rem 1.3rem;
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  backdrop-filter:blur(14px);
+}
+.qprog-nums{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
+.qprog-nums em{color:var(--river);font-style:normal}
+.timer-box{
+  display:flex;align-items:center;gap:.4rem;padding:.42rem 1.1rem;
+  background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.28);
+  border-radius:50px;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;
+  color:var(--river2);transition:.3s;white-space:nowrap;
+}
+.timer-box.danger{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4);color:#fb7185;animation:blink .85s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.top-right{display:flex;justify-content:flex-end}
+
+/* Progress */
+.pbar-rail{height:4px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,#0077b6,var(--river),var(--teal2));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(14,165,233,.6)}
+
+/* Q Card */
+.q-card{
+  background:linear-gradient(145deg,rgba(10,22,40,.92),rgba(6,13,24,.96));
+  border:1px solid rgba(14,165,233,.15);border-radius:var(--r3);
+  padding:2rem 2.2rem;backdrop-filter:blur(18px);
+  box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:cardIn .38s cubic-bezier(.4,0,.2,1);
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+
+.q-top-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.q-num-badge{background:linear-gradient(135deg,#0077b6,var(--teal));color:#fff;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:800;padding:.28rem .85rem;border-radius:50px;letter-spacing:.05em}
+.q-yr-tag{font-size:.7rem;color:var(--amber);background:rgba(251,191,36,.1);padding:.26rem .72rem;border-radius:50px;border:1px solid rgba(251,191,36,.3);font-weight:600}
+.q-topic-tag{font-size:.68rem;color:var(--teal2);background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.22);padding:.26rem .72rem;border-radius:50px}
+.q-status{margin-left:auto;font-size:.68rem;font-weight:700;padding:.26rem .78rem;border-radius:50px}
+.qs-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+.qs-ans{background:rgba(16,185,129,.13);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.qs-skp{background:rgba(251,191,36,.11);color:var(--amber);border:1px solid rgba(251,191,36,.28)}
+
+/* Map image */
+.map-wrap{
+  display:flex;justify-content:center;margin:1rem 0;
+  flex-direction:column;align-items:center;gap:.5rem;
+}
+.map-wrap img{
+  max-width:100%;max-height:320px;
+  border-radius:12px;border:1px solid rgba(14,165,233,.25);
+  box-shadow:0 4px 24px rgba(0,0,0,.6);
+  background:#fff;padding:4px;
+  object-fit:contain;
+  opacity:0;transition:opacity .4s ease;
+}
+.map-wrap img.loaded{opacity:1}
+.map-caption{font-size:.72rem;color:var(--river3);text-align:center;font-style:italic;padding:.4rem .8rem;background:rgba(14,165,233,.07);border-radius:8px;border:1px solid rgba(14,165,233,.15)}
+
+.q-body{font-size:.95rem;line-height:1.85;color:var(--txt);margin-bottom:1.5rem;white-space:pre-wrap}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.65rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.9rem;padding:.95rem 1.1rem;
+  background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:var(--r);cursor:pointer;transition:all .22s;
+  text-align:left;width:100%;color:var(--txt);
+  font-family:'Space Grotesk',sans-serif;font-size:.875rem;line-height:1.55;
+  position:relative;overflow:hidden;
+}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,165,233,.1),transparent);opacity:0;transition:.22s}
+.opt:hover:not(.picked):not(:disabled)::before{opacity:1}
+.opt:hover:not(.picked):not(:disabled){border-color:rgba(14,165,233,.45);transform:translateX(6px)}
+.opt-ltr{
+  min-width:30px;height:30px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.22);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;color:var(--river);
+  flex-shrink:0;transition:.22s;position:relative;z-index:1;
+}
+.opt-txt{position:relative;z-index:1}
+.opt.picked{background:rgba(14,165,233,.13);border-color:var(--river)}
+.opt.picked .opt-ltr{background:var(--river);color:#fff;border-color:var(--river)}
+
+/* Nav */
+.q-nav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.7rem;flex-wrap:wrap}
+.nav-cl{display:flex;gap:.6rem}
+.btn{padding:.72rem 1.5rem;border:none;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:.22s;letter-spacing:.02em}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-ghost:disabled{opacity:.28;cursor:not-allowed}
+.btn-amber{background:rgba(251,191,36,.11);border:1px solid rgba(251,191,36,.28);color:var(--amber)}
+.btn-amber:hover{background:rgba(251,191,36,.22)}
+.btn-river{background:linear-gradient(135deg,#0077b6,var(--river));color:#fff;box-shadow:0 4px 16px rgba(14,165,233,.35)}
+.btn-river:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(14,165,233,.55)}
+.btn-grn{background:linear-gradient(135deg,#059669,var(--emerald));color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3)}
+.btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.5)}
+
+/* Q dots */
+.dotmap{display:flex;flex-wrap:wrap;gap:.35rem;max-width:880px;width:100%;margin:0 auto}
+.qdot{width:28px;height:28px;border-radius:8px;border:none;font-size:.64rem;font-weight:700;cursor:pointer;transition:.18s;background:rgba(255,255,255,.05);color:var(--txt2)}
+.qdot:hover{background:rgba(14,165,233,.25);color:var(--river2)}
+.qdot.cur{background:linear-gradient(135deg,#0077b6,var(--teal));color:#fff;box-shadow:0 2px 12px rgba(14,165,233,.5)}
+.qdot.d-ans{background:rgba(16,185,129,.18);color:#34d399;border:1px solid rgba(16,185,129,.35)}
+.qdot.d-skp{background:rgba(251,191,36,.17);color:var(--amber);border:1px solid rgba(251,191,36,.35)}
+
+/* ════ MODAL ════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#0a1628;border:1px solid rgba(14,165,233,.35);border-radius:var(--r3);padding:2.5rem;max-width:430px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7),var(--glow)}
+.modal-emoji{font-size:3rem;margin-bottom:1rem;display:block}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.8rem;color:var(--river2)}
+.modal p{color:var(--txt2);font-size:.87rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ════ RESULTS SCREEN ════ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.res-shell{max-width:920px;width:100%}
+
+.res-hero{
+  background:linear-gradient(135deg,rgba(14,165,233,.1),rgba(6,182,212,.06));
+  border:1px solid rgba(14,165,233,.2);border-radius:var(--r3);
+  padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);
+  margin-bottom:1.5rem;overflow:hidden;position:relative;
+}
+.res-hero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 110%,transparent 55%,rgba(14,165,233,.06) 75%,transparent);animation:spin 14s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.score-ring{width:160px;height:160px;position:relative;margin:0 auto 1.5rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;line-height:1}
+.ring-den{font-size:.78rem;color:var(--txt2)}
+
+.res-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:800;margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.88rem;margin-bottom:1.5rem;position:relative;z-index:1}
+.grade-pill{display:inline-block;padding:.45rem 1.6rem;border-radius:50px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.6rem;position:relative;z-index:1}
+.pct-line{color:var(--txt2);font-size:.87rem;position:relative;z-index:1}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1.5rem}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.2rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
+.sc:hover{transform:translateY(-3px);border-color:rgba(14,165,233,.3)}
+.sc-ic{font-size:1.45rem;margin-bottom:.4rem}
+.sc-v{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;margin-bottom:.15rem}
+.sc-l{font-size:.68rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+
+/* Insights */
+.insights-panel{background:linear-gradient(135deg,rgba(14,165,233,.07),rgba(6,182,212,.04));border:1px solid rgba(14,165,233,.22);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.5rem}
+.panel-title{font-family:'Syne',sans-serif;font-size:.93rem;font-weight:700;color:var(--river2);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem}
+.ins-line{font-size:.83rem;color:var(--txt3);margin-bottom:.55rem;display:flex;gap:.6rem;line-height:1.65}
+.weak-chips{display:flex;flex-wrap:wrap;gap:.42rem;margin-top:.85rem}
+.wc{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.28);color:#fda4af;font-size:.7rem;font-weight:600;padding:.26rem .78rem;border-radius:50px}
+
+/* Tabs */
+.tab-row{display:flex;gap:.32rem;padding:.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);backdrop-filter:blur(10px);margin-bottom:1rem}
+.tbtn{flex:1;padding:.5rem;border:none;border-radius:10px;background:transparent;font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s}
+.tbtn.on{background:linear-gradient(135deg,#0077b6,var(--teal));color:#fff}
+
+/* Review cards */
+.rev-card{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.35rem;margin-bottom:.85rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cardIn .35s ease}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--emerald)}
+.rev-card.rw{border-left-color:var(--rose)}
+.rev-card.rs{border-left-color:var(--amber)}
+.rev-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.72rem;flex-wrap:wrap}
+.rv-num{font-size:.68rem;font-weight:700;padding:.2rem .62rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.rv-yr{font-size:.68rem;color:var(--amber);background:rgba(251,191,36,.1);padding:.2rem .62rem;border-radius:50px;border:1px solid rgba(251,191,36,.28)}
+.rv-badge{font-size:.67rem;font-weight:700;padding:.2rem .68rem;border-radius:50px}
+.rv-badge.rc{background:rgba(16,185,129,.15);color:#34d399}
+.rv-badge.rw{background:rgba(244,63,94,.15);color:#fb7185}
+.rv-badge.rs{background:rgba(251,191,36,.13);color:var(--amber)}
+.rv-topic{margin-left:auto;font-size:.67rem;color:var(--teal2);background:rgba(6,182,212,.09);padding:.2rem .62rem;border-radius:50px;border:1px solid rgba(6,182,212,.2)}
+.rv-q{font-size:.83rem;color:var(--txt3);margin-bottom:.85rem;line-height:1.7;white-space:pre-wrap}
+.rv-map{max-width:220px;border-radius:10px;border:1px solid rgba(14,165,233,.2);margin:.6rem 0;display:block;background:#fff;padding:3px}
+.rv-row{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.3rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:120px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#fb7185}
+.rv-exp{margin-top:.75rem;padding:.8rem 1rem;background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.15);border-radius:10px;font-size:.79rem;color:var(--river3);line-height:1.65}
+.rv-exp strong{color:var(--river2)}
+
+.res-ctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-rose{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;transition:.22s}
+.btn-rose:hover{background:rgba(244,63,94,.22)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(14,165,233,.45);border-radius:10px}
+
+@media(max-width:640px){
+  .q-card{padding:1.3rem}
+  .top-bar{grid-template-columns:1fr auto;gap:.6rem;padding:.7rem 1rem}
+  .top-right{display:none}
+  .q-nav{flex-direction:column}
+  .nav-cl{justify-content:center}
+  .modal-row{flex-direction:column}
+  .meta-strip{flex-direction:column}
+  .mi{border-right:none;border-bottom:1px solid var(--gb)}
+  .mi:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ START ═══════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="brand-icon">🌊</div>
+  <h1 class="main-title">
+    <span class="t1">RiverIQ</span>
+    <span class="t2">India Rivers & Lakes</span>
+  </h1>
+  <p class="main-sub">UPSC Prelims · Rivers · Lakes · Wetlands · 1996–2023</p>
+
+  <div class="meta-strip">
+    <div class="mi"><span class="mi-ic">📋</span><span class="mi-v">44</span><span class="mi-l">Questions</span></div>
+    <div class="mi"><span class="mi-ic">⏱️</span><span class="mi-v">30 Min</span><span class="mi-l">Timer</span></div>
+    <div class="mi"><span class="mi-ic">🗺️</span><span class="mi-v">3 Maps</span><span class="mi-l">Visual Q</span></div>
+    <div class="mi"><span class="mi-ic">📅</span><span class="mi-v">1996–2023</span><span class="mi-l">PYQ Era</span></div>
+  </div>
+
+  <div class="topic-cloud">
+    <span class="tc">💧 River Systems</span>
+    <span class="tc">🏞️ Lakes & Wetlands</span>
+    <span class="tc">🌊 Tributaries</span>
+    <span class="tc">❄️ Glaciers → Rivers</span>
+    <span class="tc">🗺️ Map-Based Q</span>
+    <span class="tc">🔁 River Courses</span>
+    <span class="tc">🌧️ Drainage Patterns</span>
+    <span class="tc">🏗️ Dams & Reservoirs</span>
+    <span class="tc">🌿 Ramsar Sites</span>
+    <span class="tc">⛲ Waterfalls</span>
+  </div>
+
+  <button class="start-cta" onclick="startQuiz()">🚀 Begin Quiz</button>
+  <p class="save-note">💾 Progress auto-saved · Resume anytime</p>
+</div>
+
+<!-- ═══════════════ QUIZ ═══════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-shell">
+
+    <div class="top-bar">
+      <div class="qprog-nums">Q <em id="qCur">1</em> / <em id="qTot">44</em></div>
+      <div class="timer-box" id="timerEl">⏱ 30:00</div>
+      <div class="top-right">
+        <button class="btn btn-ghost" style="font-size:.77rem;padding:.48rem .95rem" onclick="showModal()">Submit Early</button>
+      </div>
+    </div>
+
+    <div class="pbar-rail"><div class="pbar-fill" id="pbarFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="q-num-badge" id="qBadge">Q1</span>
+        <span class="q-yr-tag" id="qYr">2023</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status qs-none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-body" id="qBody"></div>
+      <div class="map-wrap" id="mapWrap" style="display:none">
+        <img id="mapImg" src="" alt="Map" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'"/>
+        <div class="map-caption" id="mapCap"></div>
+      </div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-cl">
+          <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
+          <button class="btn btn-amber" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-cl">
+          <button class="btn btn-river" id="btnNext" onclick="nav(1)">Next →</button>
+          <button class="btn btn-grn" id="btnSubmit" style="display:none" onclick="showModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotmap" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-shell">
+    <div class="res-hero">
+      <div class="res-title" id="resTitle">🎉 Quiz Complete!</div>
+      <div class="res-sub" id="resSub"></div>
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-num" id="ringNum">0</div>
+          <div class="ring-den" id="ringDen">/ 44</div>
+        </div>
+      </div>
+      <div class="grade-pill" id="gradePill">—</div>
+      <div class="pct-line" id="pctLine"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sc"><div class="sc-ic">✅</div><div class="sc-v" id="stC" style="color:var(--emerald)">0</div><div class="sc-l">Correct</div></div>
+      <div class="sc"><div class="sc-ic">❌</div><div class="sc-v" id="stW" style="color:var(--rose)">0</div><div class="sc-l">Wrong</div></div>
+      <div class="sc"><div class="sc-ic">⤭</div><div class="sc-v" id="stS" style="color:var(--amber)">0</div><div class="sc-l">Skipped</div></div>
+      <div class="sc"><div class="sc-ic">🎯</div><div class="sc-v" id="stAcc" style="color:var(--river2)">0%</div><div class="sc-l">Accuracy</div></div>
+      <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v" id="stTime" style="color:#c084fc">—</div><div class="sc-l">Time Taken</div></div>
+      <div class="sc"><div class="sc-ic">📊</div><div class="sc-v" id="stAvg" style="color:var(--lime)">—</div><div class="sc-l">Avg / Q</div></div>
+    </div>
+
+    <div class="insights-panel">
+      <div class="panel-title">🧠 Smart Analysis &amp; Weak-Area Radar</div>
+      <div id="insightBody"></div>
+    </div>
+
+    <div class="tab-row">
+      <button class="tbtn on" onclick="setTab('all',this)">All (44)</button>
+      <button class="tbtn" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tbtn" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tbtn" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-ctas">
+      <button class="btn-rose" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-river" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <span class="modal-emoji">🌊</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-grn" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L4=['A','B','C','D'];
+
+// ══════════════════════════════════════════════
+//  44 QUESTIONS DATA
+// ══════════════════════════════════════════════
+const Q=[
+  {id:1,yr:"2023",topic:"Lakes & Rivers",
+   text:"Consider the following statements:\n1. Jhelum River passes through Wular Lake.\n2. Krishna River directly feeds Kolleru Lake.\n3. Meandering of Gandak River formed Kanwar Lake.\n\nHow many of the statements given above are correct?",
+   opts:["Only one","Only two","All three","None"],ans:1,
+   exp:"Statement 1 is CORRECT — Jhelum flows through Wular Lake (J&K). Statement 2 is WRONG — Kolleru Lake is fed by Budameru and Tammileru streams, not Krishna directly. Statement 3 is CORRECT — Kanwar (Kabar Taal) in Bihar formed by meandering of Gandak. So 2 statements are correct."},
+
+  {id:2,yr:"2022",topic:"Wetlands & Lakes",
+   text:"Consider the following pairs:\n   Wetland / Lake          →   Location\n1. Hokera Wetland        →   Punjab\n2. Renuka Wetland        →   Himachal Pradesh\n3. Rudrasagar Lake       →   Tripura\n4. Sasthamkotta Lake     →   Tamil Nadu\n\nHow many pairs given above are correctly matched?",
+   opts:["Only one pair","Only two pairs","Only three pairs","All four pairs"],ans:2,
+   exp:"Hokera Wetland is in J&K (not Punjab) — WRONG. Renuka Wetland is in Himachal Pradesh — CORRECT. Rudrasagar Lake is in Tripura — CORRECT. Sasthamkotta Lake is in Kerala (not Tamil Nadu) — WRONG. So only 2 pairs are correct."},
+
+  {id:3,yr:"2022",topic:"Reservoirs & States",
+   text:"Consider the following pairs:\n   Reservoir          →   State\n1. Ghataprabha     →   Telangana\n2. Gandhi Sagar    →   Madhya Pradesh\n3. Indira Sagar     →   Andhra Pradesh\n4. Maithon           →   Chhattisgarh\n\nHow many pairs given above are NOT correctly matched?",
+   opts:["Only one pair","Only two pairs","Only three pairs","All four pairs"],ans:2,
+   exp:"Ghataprabha is in Karnataka (not Telangana) — WRONG match. Gandhi Sagar is in MP — CORRECT. Indira Sagar is in MP (not AP) — WRONG match. Maithon is in Jharkhand (not Chhattisgarh) — WRONG match. So 3 pairs are NOT correctly matched."},
+
+  {id:4,yr:"2021",topic:"Indus River System",
+   text:"With reference to the Indus river system, of the following four rivers, three of them pour into one of them which joins the Indus directly. Among the following, which one is such river that joins the Indus directly?",
+   opts:["Chenab","Jhelum","Ravi","Sutlej"],ans:3,
+   exp:"Jhelum, Chenab, and Ravi all join the Sutlej (through the Panjnad). The Sutlej then joins the Indus directly. So Sutlej is the river that joins the Indus direct after receiving the other three."},
+
+  {id:5,yr:"2021",topic:"Saline Lakes",
+   text:"With reference to India, Didwana, Kuchaman, Sargol and Khatu are the names of:",
+   opts:["Glaciers","Mangrove areas","Ramsar sites","Saline lakes"],ans:3,
+   exp:"Didwana, Kuchaman, Sargol and Khatu are all saline/salt lakes located in Rajasthan. They are important for salt production. Sambhar, Pachpadra, Didwana, Kuchaman are well-known salt lakes of Rajasthan."},
+
+  {id:6,yr:"2021",topic:"Eastern Ghats Rivers",
+   text:"Consider the following rivers:\n1. Brahmani\n2. Nagavali\n3. Subarnarekha\n4. Vamsadhara\n\nWhich of the above rise from the Eastern Ghats?",
+   opts:["1 and 2","2 and 4","3 and 4","1 and 3"],ans:1,
+   exp:"Nagavali rises from Eastern Ghats (Odisha/AP border area). Vamsadhara also rises from Eastern Ghats (Kalahandi district, Odisha). Brahmani and Subarnarekha originate from the Chota Nagpur plateau area, not Eastern Ghats proper."},
+
+  {id:7,yr:"2020",topic:"Groundwater",
+   text:"Consider the following statements:\n1. 36% of India's districts are classified as 'overexploited' or 'critical' by CGWA.\n2. CGWA was formed under the Environment (Protection) Act.\n3. India has the largest area under groundwater irrigation in the world.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 and 3 only","2 only","1 and 3 only"],ans:1,
+   exp:"Statement 1 is WRONG — approximately 17% districts are overexploited/critical, not 36%. Statement 2 is CORRECT — CGWA was formed under Environment (Protection) Act, 1986. Statement 3 is CORRECT — India has the world's largest area under groundwater irrigation, ahead of China and USA."},
+
+  {id:8,yr:"2019",topic:"Water Reservoirs",
+   text:"What is common to the places known as Aliyar, Isapur and Kangsabati?",
+   opts:["Recently discovered uranium deposits","Tropical rain forests","Underground cave systems","Water reservoirs"],ans:3,
+   exp:"Aliyar (Tamil Nadu), Isapur (Maharashtra on Wardha river), and Kangsabati (West Bengal on Kangsabati river) are all water reservoirs/dams. This is a tricky factual question about lesser-known reservoirs of India."},
+
+  {id:9,yr:"2019",topic:"Rivers & Places",
+   text:"Consider the following pairs:\n   Famous Place     →   River\n1. Pandharpur       →   Chandrabhaga\n2. Tiruchirappalli  →   Cauvery\n3. Hampi               →   Malaprabha\n\nWhich of the pairs given above are correctly matched?",
+   opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:0,
+   exp:"Pandharpur is on the banks of Chandrabhaga (Bhima river's name at Pandharpur) — CORRECT. Tiruchirappalli (Trichy) is on the Cauvery River — CORRECT. Hampi is on the Tungabhadra river, NOT Malaprabha — WRONG. So only pairs 1 and 2 are correct."},
+
+  {id:10,yr:"2019",topic:"Glaciers & Rivers",
+   text:"Consider the following pairs:\n   Glacier           →   River\n1. Bandarpunch  →   Yamuna\n2. Bara Shigri    →   Chenab\n3. Milam             →   Mandakini\n4. Siachen          →   Nubra\n5. Zemu              →   Manas\n\nWhich of the pairs are correctly matched?",
+   opts:["1, 2 and 4","1, 3 and 4","2 and 5","3 and 5"],ans:0,
+   exp:"Bandarpunch glacier → Yamuna: CORRECT. Bara Shigri → Chenab: CORRECT. Milam glacier → Gori Ganga (tributary of Kali), NOT Mandakini — WRONG. Siachen glacier → Nubra river: CORRECT. Zemu glacier → Teesta river (Sikkim), NOT Manas — WRONG. So 1, 2 and 4 are correct."},
+
+  {id:11,yr:"2018",topic:"Lakes",
+   text:"Which of the following is an Artificial Lake?",
+   opts:["Kodaikanal (Tamil Nadu)","Kolleru (Andhra Pradesh)","Nainital (Uttarakhand)","Renuka (Himachal Pradesh)"],ans:0,
+   exp:"Kodaikanal Lake in Tamil Nadu is an ARTIFICIAL lake, created by a dam in 1863 by British. Kolleru is a natural lake fed by rivers. Nainital is a natural lake of glacial/tectonic origin. Renuka Lake in HP is a natural lake."},
+
+  {id:12,yr:"2017",topic:"Teesta River",
+   text:"With reference to river Teesta, consider the following statements:\n1. The source of river Teesta is the same as that of Brahmaputra but it flows through Sikkim.\n2. River Rangeet originates in Sikkim and is a tributary of river Teesta.\n3. River Teesta flows into Bay of Bengal on the border of India and Bangladesh.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 and 3 only","2 only","2 and 3 only","1, 2 and 3"],ans:1,
+   exp:"Statement 1 is WRONG — Teesta originates from Teesta Khangse glacier in Sikkim, not the same as Brahmaputra. Statement 2 is CORRECT — Rangeet river originates in Sikkim and is a major left bank tributary of Teesta. Statement 3 is WRONG — Teesta joins the Brahmaputra in Bangladesh, not directly into the Bay of Bengal at India-Bangladesh border. Only Statement 2 is correct."},
+
+  {id:13,yr:"2016",topic:"Brahmaputra Tributaries",
+   text:"Which of the following is/are tributary/tributaries of Brahmaputra?\n1. Dibang\n2. Kameng\n3. Lohit\n\nSelect the correct answer using the code given below:",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:3,
+   exp:"All three — Dibang, Kameng (also called Jiabharali), and Lohit — are tributaries of the Brahmaputra in Arunachal Pradesh/Assam. Lohit joins from the east, Dibang from the NE, and Kameng from the north side of the Brahmaputra valley."},
+
+  {id:14,yr:"2015",topic:"Godavari Tributaries",
+   text:"Consider the following rivers:\n1. Vamsadhara\n2. Indravati\n3. Pranahita\n4. Pennar\n\nWhich of the above are tributaries of Godavari?",
+   opts:["1, 2 and 3","2, 3 and 4","1, 2 and 4","2 and 3 only"],ans:3,
+   exp:"Indravati is a major left bank tributary of Godavari — CORRECT. Pranahita (formed by Wainganga + Wardha + Penganga) joins Godavari — CORRECT. Vamsadhara is an independent river flowing into Bay of Bengal — NOT a Godavari tributary. Pennar is a completely separate river system — WRONG. So only 2 and 3 are correct."},
+
+  {id:15,yr:"2014",topic:"Arunachal Rivers",
+   text:"Consider the following rivers:\n1. Barak\n2. Lohit\n3. Subansiri\n\nWhich of the above flows/flow through Arunachal Pradesh?",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:1,
+   exp:"Lohit rises in Tibet and flows through Arunachal Pradesh — CORRECT. Subansiri rises in Tibet and flows through Arunachal Pradesh — CORRECT. Barak rises in Nagaland/Manipur hills and does NOT flow through Arunachal Pradesh. So only 2 and 3."},
+
+  {id:16,yr:"2013",topic:"Narmada River",
+   text:"The Narmada river flows to the west, while most other large peninsular rivers flow to the east. Why?\n1. It occupies a linear rift valley.\n2. It flows between the Vindhyas and the Satpuras.\n3. The land slopes to the west from central India.\n\nSelect the correct answer using the codes given below:",
+   opts:["1 only","2 and 3","1 and 3","None"],ans:0,
+   exp:"Statement 1 is CORRECT and the key reason — Narmada flows in a rift valley (graben structure) between Vindhya (north) and Satpura (south). Statement 2 describes its geography but is NOT the cause of westward flow. Statement 3 is WRONG — the general land slope in central India is actually towards the east. Only reason 1 (rift valley) is correct."},
+
+  {id:17,yr:"2011",topic:"River Wildlife Sites",
+   text:"Two important rivers — one with its source in Jharkhand (known by a different name in Odisha), and another with its source in Odisha — merge at a place only a short distance from the coast of Bay of Bengal before flowing into the sea. This is an important wildlife and biodiversity protected area. Which one of the following could this be?",
+   opts:["Bhitarkanika","Chandipur-on-sea","Gopalpur-on-sea","Simlipal"],ans:0,
+   exp:"The two rivers are Brahmani (source in Jharkhand, called Koel there) and Baitarani (source in Odisha). They merge near the coast and flow into the Bay of Bengal through the Bhitarkanika mangrove delta — one of India's largest mangrove ecosystems and a Ramsar site in Odisha."},
+
+  {id:18,yr:"2011",topic:"River Courses",
+   text:"The Brahmaputra, Irrawaddy and Mekong rivers originate in Tibet and run through narrow and parallel mountain ranges in their upper reaches. Of these rivers, Brahmaputra makes a 'U' turn in its course to flow into India. This 'U' turn is due to:",
+   opts:["Uplift of folded Himalayan series","Syntaxial bending of geologically young Himalayas","Geo-tectonic disturbance in the tertiary folded mountain chains","Both (a) and (b) above"],ans:1,
+   exp:"The Brahmaputra makes a dramatic U-turn (hairpin bend) around Namcha Barwa peak. This is explained by 'syntaxial bending' — the Himalayas bend inward (syntaxis) at their eastern end around Namcha Barwa, causing the river to loop around this young, still-rising mountain. The river pre-dates the mountains (antecedent river)."},
+
+  {id:19,yr:"2010",topic:"River Luni",
+   text:"With reference to the river Luni, which one of the following statements is correct?",
+   opts:["It flows into Gulf of Khambhat","It flows into Gulf of Kuchchh","It flows into Pakistan and merges with a tributary of Indus","It is lost in the marshy land of the Rann of Kuchchh"],ans:3,
+   exp:"The Luni river originates in the Aravalli hills near Ajmer (Rajasthan), flows southwest, and eventually gets lost in the marshy land of the Rann of Kutch in Gujarat. It does not reach any sea/gulf — the desert terrain absorbs the water before it can drain out."},
+
+  {id:20,yr:"2010",topic:"Dams & Lakes",
+   text:"Which one of the following pairs is NOT correctly matched?\n   Dam / Lake            →   River",
+   opts:["Govind Sagar    →   Satluj","Kolleru Lake      →   Krishna","Ukai Reservoir  →   Tapi","Wular Lake        →   Jhelum"],ans:1,
+   exp:"Govind Sagar (Bhakra Dam) is on Sutlej — CORRECT. Kolleru Lake is NOT fed by Krishna directly — it receives water from Budameru and Tammileru streams (Krishna and Godavari floodwaters during floods, but Krishna does NOT directly feed it) — this pair is WRONGLY matched. Ukai is on Tapi — CORRECT. Wular Lake is on Jhelum — CORRECT."},
+
+  {id:21,yr:"2010",topic:"HP Rivers",
+   text:"Rivers that pass through Himachal Pradesh are:",
+   opts:["Beas and Chenab only","Beas and Ravi only","Chenab, Ravi and Satluj only","Beas, Chenab, Ravi, Satluj and Yamuna"],ans:3,
+   exp:"All five rivers pass through Himachal Pradesh: Beas (originates in HP near Rohtang), Chenab (originates in Lahaul-Spiti), Ravi (originates near Bara Bhangal, HP), Satluj (enters HP from Tibet via Shipki La), and Yamuna (originates in Uttarakhand but its tributaries touch HP, and it forms the eastern border of HP)."},
+
+  {id:22,yr:"2009",topic:"River Flow Directions",
+   text:"Consider the following statements:\n1. There are no east-flowing rivers in Kerala.\n2. There are no west-flowing rivers in Madhya Pradesh.\n\nWhich of the above statements is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3,
+   exp:"Statement 1 is WRONG — Kabani, Bhavani and a few rivers in Kerala do have east-flowing components or tributaries. Statement 2 is WRONG — Narmada flows west through MP, and Tapti also has western drainage. NEITHER statement is fully correct, hence the answer is Neither 1 nor 2."},
+
+  {id:23,yr:"2009",topic:"River Origins",
+   text:"Which one of the following rivers does NOT originate in India?",
+   opts:["Beas","Chenab","Ravi","Sutlej"],ans:3,
+   exp:"Sutlej (Langchen Khambab) originates in the Mansarovar lake region in Tibet, China — it does NOT originate in India. Beas originates near Rohtang Pass (HP), Chenab originates in Lahaul-Spiti (HP), and Ravi originates near Bara Bhangal (HP). All three originate within India."},
+
+  {id:24,yr:"2009",topic:"River Origins",
+   text:"At which one of the following places do two important rivers of India originate — one flows towards north and merges with another important river flowing towards the Bay of Bengal, while the other flows towards the Arabian Sea?",
+   opts:["Amarkantak","Badrinath","Mahabaleshwar","Nasik"],ans:0,
+   exp:"Amarkantak in MP is the origin of both: (1) Narmada — flows west towards the Arabian Sea; (2) Sone river — flows northeast and joins the Ganga (which flows to Bay of Bengal). Also Johila river originates here. Amarkantak is thus the meeting point of major watershed divides."},
+
+  {id:25,yr:"2008",topic:"Waterfalls",
+   text:"Which of the following pairs are correctly matched?\n   Waterfalls           →   River\n1. Kapildhara Falls   →   Godavari\n2. Jog Falls              →   Sharavati\n3. Sivasamudram Falls → Cauvery\n\nSelect the correct answer:",
+   opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:1,
+   exp:"Kapildhara Falls is on the Narmada river (not Godavari) — WRONG. Jog Falls (Gersoppa Falls) is on the Sharavati river in Karnataka — CORRECT. Sivasamudram Falls is on the Cauvery river in Karnataka — CORRECT. So only 2 and 3 are correctly matched."},
+
+  {id:26,yr:"2008",topic:"River Tributaries",
+   text:"Consider the following:\n   Tributary    →   Main River\n1. Chambal    →   Narmada\n2. Sone          →   Yamuna\n3. Manas       →   Brahmaputra\n\nWhich of the pairs given above is/are correctly matched?",
+   opts:["1, 2 and 3","1 and 2 only","2 and 3 only","3 only"],ans:3,
+   exp:"Chambal joins the Yamuna (NOT Narmada) — WRONG. Sone joins the Ganga (NOT Yamuna) — WRONG. Manas is a major right-bank tributary of Brahmaputra in Assam — CORRECT. Only pair 3 is correctly matched."},
+
+  {id:27,yr:"2007",topic:"Towns & Rivers",
+   text:"Match List-I with List-II:\n   Town (List-I)    ↔   River (List-II)\nA. Betul                  1. Indravati\nB. Jagdalpur          2. Narmada\nC. Jabalpur            3. Shipra\nD. Ujjain                 4. Tapti\n\nA – B – C – D",
+   opts:["1 – 4 – 2 – 3","4 – 1 – 2 – 3","4 – 1 – 3 – 2","1 – 4 – 3 – 2"],ans:1,
+   exp:"Betul (MP) is near Tapti (Tapi) river — A=4. Jagdalpur (Bastar, Chhattisgarh) is on Indravati river — B=1. Jabalpur (MP) is on Narmada river — C=2. Ujjain (MP) is on Shipra (Kshipra) river — D=3. So A-B-C-D = 4-1-2-3."},
+
+  {id:28,yr:"2007",topic:"River Origins",
+   text:"Which one of the following rivers originates at Amarkantak?",
+   opts:["Damodar","Mahanadi","Narmada","Tapti"],ans:2,
+   exp:"Narmada river originates at Amarkantak plateau (MP) at an altitude of about 1,057 m. Mahanadi originates in Chhattisgarh (Sihawa ranges). Damodar originates in Jharkhand. Tapti/Tapi originates in Betul district of MP, not Amarkantak. Only Narmada starts from Amarkantak."},
+
+  {id:29,yr:"2007",topic:"River Flow Directions",
+   text:"Assertion (A): River Kalinadi is an east-flowing river in the southern part of India.\nReason (R): The Deccan Plateau is higher along its western edge and gently slopes towards the Bay of Bengal in the east.",
+   opts:[
+     "Both A and R are individually true and R is the correct explanation of A",
+     "Both A and R are individually true but R is NOT the correct explanation of A",
+     "A is true but R is false",
+     "A is false but R is true"
+   ],ans:3,
+   exp:"Assertion A is FALSE — Kalinadi (Kali river) is a WEST-flowing river in Karnataka that drains into the Arabian Sea. Reason R is TRUE — the Deccan Plateau does slope eastward, which causes most rivers to flow east. Since A is wrong and R is correct, the answer is D."},
+
+  {id:30,yr:"2006",topic:"River Sequences",
+   text:"From north towards south, which one of the following is the correct sequence of the given rivers in India?",
+   opts:[
+     "Shyok – Spiti – Zaskar – Satluj",
+     "Shyok – Zaskar – Spiti – Satluj",
+     "Zaskar – Shyok – Satluj – Spiti",
+     "Zaskar – Satluj – Shyok – Spiti"
+   ],ans:1,
+   exp:"From north to south: Shyok flows in northern Ladakh (highest/northernmost); Zaskar flows in the Zaskar region, south of Shyok; Spiti is in Himachal Pradesh; Satluj flows southernmost of these four. So north-to-south: Shyok → Zaskar → Spiti → Satluj."},
+
+  {id:31,yr:"2004",topic:"Lakes",
+   text:"Lake Sambhar is nearest to which one of the following cities of Rajasthan?",
+   opts:["Bharatpur","Jaipur","Jodhpur","Udaipur"],ans:1,
+   exp:"Lake Sambhar (India's largest inland salt lake) is located about 80 km west of Jaipur in Rajasthan. It lies between Jaipur and Nagaur districts. The Sambhar Salt Lake is a Ramsar site and famous for flamingo sightings."},
+
+  {id:32,yr:"2004",topic:"River Deltas",
+   text:"Assertion (A): West-flowing rivers of Peninsular India have no deltas.\nReason (R): These rivers do not carry any alluvial sediments.",
+   opts:[
+     "Both A and R are individually true and R is the correct explanation of A",
+     "Both A and R are individually true but R is NOT the correct explanation of A",
+     "A is true but R is false",
+     "A is false but R is true"
+   ],ans:2,
+   exp:"Assertion A is CORRECT — west-flowing rivers like Narmada and Tapti do not form deltas; they form estuaries. Reason R is WRONG — they DO carry alluvial sediments; the reason they don't form deltas is that they flow through rift valleys/hard rock terrain with steep gradient and fall directly into the sea through estuaries, not because they have no sediments."},
+
+  {id:33,yr:"2003",topic:"River Lengths",
+   text:"What is the correct sequence of the rivers — Godavari, Mahanadi, Narmada and Tapi in the descending order of their lengths?",
+   opts:[
+     "Godavari — Mahanadi — Narmada — Tapi",
+     "Godavari — Narmada — Mahanadi — Tapi",
+     "Narmada — Godavari — Tapi — Mahanadi",
+     "Narmada — Tapi — Godavari — Mahanadi"
+   ],ans:1,
+   exp:"River lengths: Godavari = 1,465 km (longest), Narmada = 1,312 km, Mahanadi = 900 km, Tapi = 724 km (shortest). Descending order: Godavari > Narmada > Mahanadi > Tapi. Answer is B."},
+
+  {id:34,yr:"2002",topic:"Lagoons",
+   text:"Which one of the following is NOT a lagoon?",
+   opts:["Ashtamudi lake","Chilka lake","Periyar lake","Pulicat lake"],ans:2,
+   exp:"Periyar Lake (Kerala) is an artificial reservoir created by the Mullaperiyar Dam on the Periyar river — it is NOT a lagoon. Ashtamudi (Kerala), Chilka (Odisha), and Pulicat (AP/TN border) are all lagoons — coastal water bodies separated from the sea by barrier sand ridges."},
+
+  {id:35,yr:"2002",topic:"River Sequences",
+   text:"The correct sequence of the eastward-flowing rivers of Peninsular India from north to south is:",
+   opts:[
+     "Subarnarekha, Mahanadi, Godavari, Krishna, Pennar, Cauvery and Vagai",
+     "Subarnarekha, Mahanadi, Godavari, Cauvery, Vagai, Pennar",
+     "Mahanadi, Subarnarekha, Godavari, Krishna, Cauvery, Pennar and Vagai",
+     "Mahanadi, Subarnarekha, Krishna, Godavari, Cauvery, Vagai and Pennar"
+   ],ans:0,
+   exp:"North to south sequence of east-flowing peninsular rivers: Subarnarekha → Mahanadi → Godavari → Krishna → Pennar → Cauvery → Vagai (Vaigai). Option A gives this correct sequence. Vagai is the southernmost of these major rivers before we reach rivers like Tamiraparani."},
+
+  {id:36,yr:"2000",topic:"World Drainage Basins",
+   text:"Match the drainage basins labelled as A, B, C and D in the map with the names listed below:\n1. Ganga-Brahmaputra\n2. Indus\n3. Parana\n4. Zambezi\n\nMatch and select the correct answer:",
+   opts:["A-3, B-1, C-2, D-4","A-1, B-3, C-4, D-2","A-1, B-3, C-2, D-4","A-3, B-1, C-4, D-2"],ans:3,
+   mapImg:"https://i.ibb.co/PzV90sgr/Screenshot-2026-03-29-011108.png",
+   mapCap:"🌍 World map — Match drainage basins A, B, C, D to: Ganga-Brahmaputra, Indus, Parana, Zambezi",
+   exp:"From the world map: A (South America) = Parana (3); B (South Asia, large basin) = Ganga-Brahmaputra (1); C (northwest South Asia) = Indus (2); D (southern Africa) = Zambezi (4). So A-3, B-1, C-2, D-4 — Answer D."},
+
+  {id:37,yr:"2000",topic:"River Facts",
+   text:"Which one of the following statements is NOT true?",
+   opts:[
+     "Ghaggar's water is utilised in the Indira Gandhi Canal",
+     "Narmada rises from Amarkantak region",
+     "Nizam Sagar is situated on the Manjra river",
+     "Penganga is a tributary of the Godavari"
+   ],ans:0,
+   exp:"The Indira Gandhi Canal (Rajasthan Canal) is fed primarily by the Satluj-Beas river waters from the Harike Barrage, NOT by Ghaggar. Ghaggar is a seasonal river that flows through Punjab, Haryana and Rajasthan. Statement A is NOT true. All other statements B, C, D are correct."},
+
+  {id:38,yr:"2000",topic:"Flood Management",
+   text:"Assertion (A): The frequency of floods in North Indian plains has increased during the last couple of decades.\nReason (R): There has been reduction in the depth of river valleys due to deposition of silt.",
+   opts:[
+     "Both A and R are true, and R is the correct explanation of A",
+     "Both A and R are true, but R is NOT a correct explanation of A",
+     "A is true, but R is false",
+     "A is false, but R is true"
+   ],ans:0,
+   exp:"Both statements are TRUE. Assertion A: Floods in north Indian plains have indeed increased due to deforestation, encroachment, and siltation. Reason R: Silt deposition does reduce river valley depth (raises river bed), reducing carrying capacity, causing rivers to overflow more easily. R correctly explains A. Answer is A."},
+
+  {id:39,yr:"2000",topic:"Ganga Plain",
+   text:"Assertion (A): Ganga Plain is the most densely populated part of India.\nReason (R): Ganga is the most harnessed river of India.",
+   opts:[
+     "Both A and R are true, and R is the correct explanation of A",
+     "Both A and R are true, but R is NOT a correct explanation of A",
+     "A is true, but R is false",
+     "A is false, but R is true"
+   ],ans:1,
+   exp:"Assertion A is TRUE — Ganga plain is indeed the most densely populated part of India (fertile alluvial soil, agriculture, civilization). Reason R is also TRUE — Ganga is heavily harnessed (dams, barrages, canals). BUT R is NOT the correct explanation of A — the dense population is due to fertile soil, good climate, and long agricultural history, not just because the river is harnessed. Answer is B."},
+
+  {id:40,yr:"1998",topic:"Rift Valley Rivers",
+   text:"Which one of the following east-flowing rivers of India has a rift valley due to down-warping?",
+   opts:["Damodar","Mahanadi","Sone","Yamuna"],ans:0,
+   exp:"Damodar river flows through a rift valley formed by down-warping (faulting/graben structure) in Jharkhand and West Bengal. It is often called the 'Sorrow of Bengal' due to flooding. The Damodar valley is a structural rift valley, unlike the others listed which are not rift valley rivers."},
+
+  {id:41,yr:"1997",topic:"Map-Based: SE Asian River",
+   text:"The river shown on the map (refer image below) is:",
+   opts:["Irrawaddy","Mekong","Chao Phraya","Salween"],ans:3,
+   mapImg:"https://i.ibb.co/XxGD96Y9/Screenshot-2026-03-29-011217.png",
+   mapCap:"🗺️ Map showing a river in Southeast Asia — identify the river",
+   exp:"The map shows the Salween (Nu River) — it originates in Tibet and flows through Myanmar (Burma) and a small part of Thailand before entering the Andaman Sea. It runs parallel to the Irrawaddy and Mekong in a narrow gorge. The distinctive course shown is the Salween."},
+
+  {id:42,yr:"1997",topic:"Map-Based: Ganga Tributaries",
+   text:"In the map shown (refer image below), rivers labelled as 1, 2, 3 and 4 are respectively:",
+   opts:[
+     "Kosi, Gomati, Ghaghara and Gandak",
+     "Kosi, Ganga, Gomati and Ghaghara",
+     "Gandak, Ganga, Gomati and Ghaghara",
+     "Teesta, Gomati, Ghaghara and Kosi"
+   ],ans:0,
+   mapImg:"https://i.ibb.co/TMcKLHFh/Screenshot-2026-03-29-011224.png",
+   mapCap:"🗺️ Map showing rivers in the Ganga plain — identify rivers 1, 2, 3 and 4",
+   exp:"The map shows the Ganga plain tributaries. From the map positions: River 1 (east, from Nepal hills) = Kosi; River 2 (central, from UP) = Gomati; River 3 (western tributary from Nepal) = Ghaghara; River 4 (between Kosi and center) = Gandak. Answer: Kosi, Gomati, Ghaghara and Gandak."},
+
+  {id:43,yr:"1996",topic:"River Islands",
+   text:"Which one of the following rivers thrice forks into two streams and reunites a few miles farther on, thus forming the islands of Srirangapatna, Sivasamudram and Srirangam?",
+   opts:["Cauvery","Tungabhadra","Krishna","Godavari"],ans:0,
+   exp:"The Cauvery river famously forks three times: (1) forming Srirangapatna island in Karnataka; (2) forming Sivasamudram island (where Sivasamudram Falls are located) in Karnataka; (3) forming Srirangam island near Tiruchirapalli in Tamil Nadu. This unique tripartite forking is a distinctive geographic feature of the Cauvery."},
+
+  {id:44,yr:"1996",topic:"River Sequences",
+   text:"Consider the following rivers:\nI.   Kishenganga\nII.  Ganga\nIII. Wainganga\nIV.  Penganga\n\nThe correct sequence of these rivers when arranged in the north-south direction is:",
+   opts:["I, II, III, IV","II, I, III, IV","II, I, IV, III","I, II, IV, III"],ans:0,
+   exp:"North to south: Kishenganga flows in J&K/Kashmir (northernmost) → Ganga flows in UP/Bihar belt → Wainganga flows in MP/Maharashtra → Penganga flows further south in Maharashtra/Telangana (southernmost). Correct N-S order: Kishenganga (I) → Ganga (II) → Wainganga (III) → Penganga (IV) = I, II, III, IV."}
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let S={cur:0,ans:new Array(44).fill(null),skp:new Array(44).fill(false),startTime:null,tLeft:30*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('riveriq_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('📂 Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    }else{localStorage.removeItem('riveriq_v1');S.startTime=Date.now();}
+  }else{S.startTime=Date.now();}
+  show('quiz-screen');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updateTimerUI();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updateTimerUI();
+    if(S.tLeft%15===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimerUI(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer-box danger':'timer-box';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pbarFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStatus');
+  if(S.skp[i])               {sp.textContent='⤭ Skipped';  sp.className='q-status qs-skp';}
+  else if(S.ans[i]!==null)   {sp.textContent='✅ Answered'; sp.className='q-status qs-ans';}
+  else                        {sp.textContent='○ Unanswered';sp.className='q-status qs-none';}
+
+  // Map
+  const mw=document.getElementById('mapWrap'),mi=document.getElementById('mapImg'),mc=document.getElementById('mapCap');
+  if(q.mapImg){
+    mi.classList.remove('loaded');
+    mi.src=q.mapImg;
+    mc.textContent=q.mapCap||'';
+    mw.style.display='flex';
+  }else{mw.style.display='none';}
+
+  // Options
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' picked':'');
+    b.innerHTML=`<span class="opt-ltr">${L4[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSubmit').style.display=last?'inline-block':'none';
+  updateDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)nav(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='qdot';d.textContent=i+1;d.id=`qd${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`qd${i}`);if(!d)return;
+    d.className='qdot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showModal(){
+  const answered=S.ans.filter(a=>a!==null).length;
+  const skipped=S.skp.filter(Boolean).length;
+  const una=Q.length-answered-skipped;
+  document.getElementById('modalTxt').textContent=
+    `📊 Answered: ${answered}  |  Skipped: ${skipped}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modalOverlay').classList.add('on');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('on');}
+
+function submitQuiz(){
+  closeModal();clearInterval(S.tInt);S.done=true;
+  const usedSec=(30*60)-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)skipped++;
+    else if(S.ans[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgT=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Outstanding';gc='#10b981';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#0ea5e9';}
+  else if(pct>=60){grade='🥈 Good';gc='#8b5cf6';}
+  else if(pct>=45){grade='🥉 Average';gc='#f59e0b';}
+  else{grade='📚 Keep Revising';gc='#f43f5e';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=gc;
+  arc.style.strokeDashoffset=314.16*(1-pct/100);
+
+  document.getElementById('ringNum').textContent=correct;
+  document.getElementById('ringDen').textContent='/ '+Q.length;
+  const gp=document.getElementById('gradePill');
+  gp.textContent=grade;gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctLine').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🌊 Excellent Performance!';document.getElementById('resSub').textContent='Strong command over India\'s river systems — keep flowing!';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Attempt!';document.getElementById('resSub').textContent='Review weak areas below and revise river geography systematically.';}
+  else{document.getElementById('resTitle').textContent='📚 More Revision Needed';document.getElementById('resSub').textContent='Focus on tributaries, origins, and drainage patterns.';}
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(usedSec);
+  document.getElementById('stAvg').textContent=avgT+'s';
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('riveriq_v1');
+  show('results-screen');
+}
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topicErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topicErr[q.topic]=(topicErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('🌟 Near-perfect! You have exceptional mastery over India\'s river systems and lakes.');
+  else if(pct>=75)lines.push('💪 Very strong result! A few targeted revisions will push you to mastery.');
+  else if(pct>=50)lines.push('📈 Good base. Revise river tributaries, origins, and drainage patterns systematically.');
+  else lines.push('📖 Start with NCERT Class 9 Geography (Ch. 3 — Drainage) and Class 11 India Physical Geography before retrying.');
+
+  if(attempted>0&&acc<55&&attempted>8)
+    lines.push(`🎯 Accuracy: ${acc}% — several wrong answers among attempted. Practice elimination; avoid random guessing.`);
+  if(skipped>8)
+    lines.push(`⤭ ${skipped} questions skipped. For UPSC, educated guesses using elimination can yield marks even with partial knowledge.`);
+
+  if(topicErr['River Tributaries']||topicErr['Godavari Tributaries']||topicErr['Brahmaputra Tributaries'])
+    lines.push('🌊 Revise tributaries carefully: Godavari (Indravati, Pranahita, Manjra), Ganga (Yamuna, Sone, Chambal), Brahmaputra (Dibang, Lohit, Subansiri, Manas).');
+  if(topicErr['River Origins'])
+    lines.push('📍 River origins are frequently asked! Revise: Narmada/Sone→Amarkantak, Mahanadi→Sihawa, Luni→Aravalli, Sutlej→Tibet (Mansarovar).');
+  if(topicErr['Lakes']||topicErr['Lagoons'])
+    lines.push('🏞️ Lakes: Chilka/Pulicat/Ashtamudi = lagoons; Kodaikanal = artificial; Periyar/Nainital = natural. Sambhar = salt lake near Jaipur.');
+  if(topicErr['River Sequences'])
+    lines.push('📋 River sequences N→S: Subarnarekha→Mahanadi→Godavari→Krishna→Pennar→Cauvery→Vagai. Memorize this order!');
+  if(topicErr['Glaciers & Rivers'])
+    lines.push('❄️ Glacier-river pairs to revise: Gangotri→Ganga, Zemu→Teesta, Siachen→Nubra, Bara Shigri→Chenab, Bandarpunch→Yamuna.');
+  if(topicErr['River Flow Directions'])
+    lines.push('🔁 West-flowing peninsular rivers: Narmada, Tapi (rift valleys). Most others flow east. Kalinadi flows WEST (not east).');
+  if(topicErr['World Drainage Basins']||topicErr['Map-Based: SE Asian River']||topicErr['Map-Based: Ganga Tributaries'])
+    lines.push('🗺️ Map-based questions need regular atlas practice. Revise world drainage basins and identify rivers on blank maps.');
+  if(topicErr['Wetlands & Lakes'])
+    lines.push('🌿 Ramsar sites to remember: Chilka, Keoladeo, Loktak, Wular, Hokera (J&K), Renuka (HP), Rudrasagar (Tripura), Sasthamkotta (Kerala).');
+
+  ranked.slice(0,4).forEach(([t,c])=>{
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong. Prioritise in your next revision session.`);
+  });
+
+  const ib=document.getElementById('insightBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line"><span>${l}</span></div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-chips">${ranked.map(([t])=>`<span class="wc">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(f);
+}
+function renderReview(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWrong)return;
+    if(f==='skipped'&&!isSkp)return;
+    const rc=isOk?'rc':isWrong?'rw':'rs';
+    const lbl=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L4[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L4[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.mapImg?`<img class="rv-map" src="${q.mapImg}" alt="Map Q${i+1}" loading="lazy" onload="this.style.opacity='1'" style="opacity:0;transition:opacity .4s" onerror="this.style.display='none'">`:'';
+    const expHtml=q.exp?`<div class="rv-exp"><strong>📖 Explanation:</strong> ${q.exp}</div>`:'';
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-num">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      ${mapHtml}
+      <div class="rv-row"><span class="rv-lbl">Your Answer:</span><span class="rv-val ${isSkp?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct Answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${expHtml}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('riveriq_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  }));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('riveriq_v1');
+  S={cur:0,ans:new Array(44).fill(null),skp:new Array(44).fill(false),startTime:null,tLeft:30*60,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>

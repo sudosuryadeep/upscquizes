@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoMaster – Physical Geography Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a1a;--bg2:#111128;
+  --glass:rgba(255,255,255,0.05);--gbord:rgba(255,255,255,0.1);
+  --pur:#7c3aed;--pur-l:#a78bfa;--blue:#3b82f6;--blue-l:#93c5fd;
+  --pink:#ec4899;--grn:#10b981;--red:#ef4444;--yel:#f59e0b;
+  --txt:#f1f5f9;--txt2:#94a3b8;--npurp:#c084fc;--nblue:#60a5fa;
+}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse at 20% 50%,rgba(124,58,237,.18) 0%,transparent 55%),
+  radial-gradient(ellipse at 80% 15%,rgba(59,130,246,.15) 0%,transparent 50%),
+  radial-gradient(ellipse at 50% 85%,rgba(236,72,153,.12) 0%,transparent 50%);
+  pointer-events:none;z-index:0}
+
+/* ── SCREENS ── */
+.screen{display:none;position:relative;z-index:1}
+.screen.active{display:flex}
+
+/* ── START ── */
+#start-screen{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+.logo{width:90px;height:90px;background:linear-gradient(135deg,var(--pur),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem;box-shadow:0 0 40px rgba(124,58,237,.5);animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(124,58,237,.5)}50%{box-shadow:0 0 60px rgba(124,58,237,.9),0 0 90px rgba(59,130,246,.3)}}
+.start-title{font-size:clamp(2rem,6vw,3.8rem);font-weight:800;background:linear-gradient(135deg,var(--npurp),var(--nblue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem}
+.start-sub{font-size:1rem;color:var(--txt2);margin-bottom:2rem}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;max-width:580px;width:100%;margin:0 auto 2.5rem}
+.info-card{background:var(--glass);border:1px solid var(--gbord);border-radius:18px;padding:1.2rem;backdrop-filter:blur(12px);transition:transform .2s}
+.info-card:hover{transform:translateY(-3px)}
+.info-card .ic{font-size:1.6rem;margin-bottom:.4rem}
+.info-card .lbl{font-size:.72rem;color:var(--txt2);margin-bottom:.2rem}
+.info-card .val{font-size:1.15rem;font-weight:700;color:var(--npurp)}
+.badge-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.badge{font-size:.75rem;font-weight:600;padding:.35rem .9rem;border-radius:50px;border:1px solid var(--gbord);background:var(--glass);color:var(--txt2)}
+
+/* ── BUTTONS ── */
+.btn{padding:.8rem 1.8rem;border:none;border-radius:50px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .25s;outline:none}
+.btn-primary{background:linear-gradient(135deg,var(--pur),var(--blue));color:#fff;box-shadow:0 4px 20px rgba(124,58,237,.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(124,58,237,.6)}
+.btn-primary:active{transform:translateY(0)}
+.btn-secondary{background:var(--glass);border:1px solid var(--gbord);color:var(--txt);backdrop-filter:blur(10px)}
+.btn-secondary:hover{background:rgba(255,255,255,.1)}
+.btn-secondary:disabled{opacity:.35;cursor:not-allowed}
+.btn-skip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--yel)}
+.btn-skip:hover{background:rgba(245,158,11,.2)}
+.btn-submit{background:linear-gradient(135deg,var(--grn),#059669);color:#fff;box-shadow:0 4px 15px rgba(16,185,129,.35)}
+.btn-submit:hover{box-shadow:0 6px 28px rgba(16,185,129,.55);transform:translateY(-2px)}
+.btn-danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+.btn-danger:hover{background:rgba(239,68,68,.25)}
+
+/* ── QUIZ SCREEN ── */
+#quiz-screen{min-height:100vh;flex-direction:column;padding:1rem}
+.quiz-wrap{max-width:920px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;min-height:calc(100vh - 2rem)}
+
+.quiz-header{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;background:var(--glass);border:1px solid var(--gbord);border-radius:16px;backdrop-filter:blur(12px)}
+.q-counter{font-size:.88rem;font-weight:600;color:var(--txt2)}
+.q-counter span{color:var(--npurp);font-weight:800}
+.timer-pill{display:flex;align-items:center;gap:.4rem;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:50px;padding:.38rem 1rem;font-weight:700;font-size:.92rem;color:var(--npurp);letter-spacing:.03em;transition:all .3s}
+.timer-pill.warn{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.4);color:var(--red);animation:blink .9s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.55}}
+
+.prog-wrap{height:5px;background:rgba(255,255,255,.07);border-radius:10px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pur),var(--blue));border-radius:10px;transition:width .4s ease;box-shadow:0 0 10px rgba(124,58,237,.55)}
+
+/* Question card */
+.q-card{background:var(--glass);border:1px solid var(--gbord);border-radius:22px;padding:2rem;backdrop-filter:blur(16px);flex:1}
+.q-meta-row{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.q-badge-pill{background:linear-gradient(135deg,var(--pur),var(--blue));color:#fff;font-size:.72rem;font-weight:700;padding:.28rem .75rem;border-radius:50px}
+.q-year-pill{font-size:.72rem;color:var(--txt2);background:rgba(255,255,255,.06);padding:.28rem .7rem;border-radius:50px;border:1px solid var(--gbord)}
+.q-status-pill{font-size:.7rem;font-weight:700;padding:.28rem .8rem;border-radius:50px;margin-left:auto}
+.q-status-pill.ans{background:rgba(16,185,129,.18);color:var(--grn);border:1px solid rgba(16,185,129,.35)}
+.q-status-pill.skp{background:rgba(245,158,11,.18);color:var(--yel);border:1px solid rgba(245,158,11,.35)}
+.q-status-pill.none{background:rgba(255,255,255,.06);color:var(--txt2);border:1px solid var(--gbord)}
+.q-topic-tag{font-size:.68rem;color:var(--nblue);background:rgba(96,165,250,.1);padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(96,165,250,.25)}
+
+.q-text{font-size:1rem;font-weight:500;line-height:1.75;color:var(--txt);margin-bottom:1.5rem;white-space:pre-wrap}
+
+.opts{display:flex;flex-direction:column;gap:.75rem}
+.opt-btn{display:flex;align-items:flex-start;gap:.9rem;padding:.95rem 1.1rem;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.08);border-radius:14px;cursor:pointer;transition:all .22s;text-align:left;color:var(--txt);font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:400;line-height:1.55;width:100%}
+.opt-btn:hover:not(.sel):not(:disabled){background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.4);transform:translateX(5px)}
+.opt-letter{min-width:28px;height:28px;background:rgba(255,255,255,.09);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;transition:all .22s;flex-shrink:0}
+.opt-btn.sel{background:rgba(124,58,237,.18);border-color:var(--pur)}
+.opt-btn.sel .opt-letter{background:var(--pur);color:#fff}
+
+.q-nav{display:flex;gap:.7rem;margin-top:1.4rem;justify-content:space-between;flex-wrap:wrap}
+.nav-l,.nav-r{display:flex;gap:.7rem}
+
+/* Q-Map dots */
+.q-map{display:flex;flex-wrap:wrap;gap:.4rem;max-width:920px;width:100%;margin:0 auto}
+.q-dot{width:30px;height:30px;border-radius:9px;border:none;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .18s;background:rgba(255,255,255,.06);color:var(--txt2)}
+.q-dot:hover{background:rgba(124,58,237,.25);color:var(--npurp)}
+.q-dot.cur{background:linear-gradient(135deg,var(--pur),var(--blue));color:#fff;box-shadow:0 2px 12px rgba(124,58,237,.5)}
+.q-dot.ans-dot{background:rgba(16,185,129,.2);color:var(--grn);border:1px solid rgba(16,185,129,.4)}
+.q-dot.skp-dot{background:rgba(245,158,11,.2);color:var(--yel);border:1px solid rgba(245,158,11,.4)}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#151530;border:1px solid rgba(124,58,237,.35);border-radius:26px;padding:2.2rem;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 70px rgba(0,0,0,.6)}
+.modal-ic{font-size:3rem;margin-bottom:1rem}
+.modal h3{font-size:1.25rem;font-weight:700;margin-bottom:.7rem}
+.modal p{color:var(--txt2);font-size:.88rem;margin-bottom:1.5rem;line-height:1.65;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.8rem;justify-content:center}
+
+/* ── RESULTS ── */
+#results-screen{min-height:100vh;flex-direction:column;padding:1.5rem 1rem;align-items:center}
+.res-wrap{max-width:920px;width:100%}
+.res-header{text-align:center;margin-bottom:2rem}
+.res-header h2{font-size:clamp(1.5rem,4vw,2.6rem);font-weight:800;background:linear-gradient(135deg,var(--npurp),var(--nblue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-header p{color:var(--txt2);font-size:.9rem;margin-top:.4rem}
+
+/* Score Hero */
+.score-hero{background:var(--glass);border:1px solid var(--gbord);border-radius:26px;padding:2.5rem;text-align:center;backdrop-filter:blur(18px);margin-bottom:1.5rem;overflow:hidden;position:relative}
+.score-hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(124,58,237,.06),transparent 50%);animation:spin 10s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.score-circle{width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,var(--pur),var(--blue));display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 0 50px rgba(124,58,237,.45);position:relative;z-index:1}
+.score-num{font-size:2.8rem;font-weight:800;color:#fff;line-height:1}
+.score-denom{font-size:.85rem;color:rgba(255,255,255,.7)}
+.grade-badge{display:inline-block;padding:.4rem 1.3rem;border-radius:50px;font-weight:700;font-size:1.05rem;margin-bottom:.5rem;position:relative;z-index:1}
+.pct-txt{color:var(--txt2);font-size:.88rem;position:relative;z-index:1}
+
+/* Stats Grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--glass);border:1px solid var(--gbord);border-radius:18px;padding:1.3rem;text-align:center;backdrop-filter:blur(10px);transition:transform .2s}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-ic{font-size:1.6rem;margin-bottom:.45rem}
+.stat-val{font-size:1.45rem;font-weight:800;margin-bottom:.15rem}
+.stat-lbl{font-size:.72rem;color:var(--txt2)}
+
+/* Insights */
+.insights-card{background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(59,130,246,.1));border:1px solid rgba(124,58,237,.3);border-radius:22px;padding:1.5rem;margin-bottom:1.5rem}
+.insights-card h3{font-size:.95rem;font-weight:700;margin-bottom:1rem;color:var(--npurp);display:flex;align-items:center;gap:.5rem}
+.insight-item{display:flex;gap:.7rem;margin-bottom:.65rem;font-size:.85rem;color:var(--txt2);line-height:1.55}
+.weak-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+.w-tag{background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:.72rem;font-weight:600;padding:.28rem .8rem;border-radius:50px}
+
+/* Tab bar */
+.tab-bar{display:flex;gap:.4rem;margin-bottom:1rem;background:var(--glass);border:1px solid var(--gbord);border-radius:14px;padding:.35rem;backdrop-filter:blur(10px)}
+.tab-btn{flex:1;padding:.55rem;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--txt2)}
+.tab-btn.on{background:linear-gradient(135deg,var(--pur),var(--blue));color:#fff}
+
+/* Review items */
+.rev-item{background:var(--glass);border:1px solid var(--gbord);border-radius:18px;padding:1.3rem;margin-bottom:1rem;backdrop-filter:blur(10px);border-left:4px solid transparent;transition:all .2s}
+.rev-item:hover{transform:translateX(3px)}
+.rev-item.correct{border-left-color:var(--grn)}
+.rev-item.wrong{border-left-color:var(--red)}
+.rev-item.skipped{border-left-color:var(--yel)}
+.rev-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem;flex-wrap:wrap}
+.rev-qnum{font-size:.72rem;font-weight:700;padding:.22rem .65rem;border-radius:50px;background:rgba(255,255,255,.08);color:var(--txt2)}
+.rev-sbadge{font-size:.68rem;font-weight:700;padding:.22rem .65rem;border-radius:50px}
+.rev-sbadge.correct{background:rgba(16,185,129,.18);color:var(--grn)}
+.rev-sbadge.wrong{background:rgba(239,68,68,.18);color:var(--red)}
+.rev-sbadge.skipped{background:rgba(245,158,11,.18);color:var(--yel)}
+.rev-topic{margin-left:auto;font-size:.68rem;color:var(--nblue);background:rgba(96,165,250,.1);padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(96,165,250,.2)}
+.rev-qtext{font-size:.84rem;color:var(--txt2);margin-bottom:.8rem;line-height:1.6;white-space:pre-wrap}
+.rev-ans-row{display:flex;gap:.5rem;font-size:.8rem;margin-bottom:.35rem;align-items:flex-start}
+.rev-ans-row .lbl{font-weight:600;min-width:110px;color:var(--txt2);flex-shrink:0}
+.rev-ans-row .val{color:var(--txt)}
+.rev-ans-row .val.c{color:var(--grn)}
+.rev-ans-row .val.w{color:var(--red)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+::-webkit-scrollbar-thumb{background:rgba(124,58,237,.5);border-radius:10px}
+
+/* Responsive */
+@media(max-width:600px){
+  .q-nav{flex-direction:column}
+  .nav-l,.nav-r{justify-content:center}
+  .q-card{padding:1.3rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .modal-btns{flex-direction:column}
+  .tab-btn{font-size:.68rem;padding:.45rem}
+  .rev-meta{gap:.35rem}
+  .rev-topic{display:none}
+}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.q-card,.score-hero,.stat-card,.rev-item,.insights-card{animation:fadeUp .35s ease}
+</style>
+</head>
+<body>
+
+<!-- ════════════ START SCREEN ════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="logo">🌍</div>
+  <h1 class="start-title">GeoMaster</h1>
+  <p class="start-sub">Physical Geography · Geomorphology · UPSC PYQ</p>
+
+  <div class="info-grid">
+    <div class="info-card"><div class="ic">📝</div><div class="lbl">Questions</div><div class="val">37</div></div>
+    <div class="info-card"><div class="ic">⏱️</div><div class="lbl">Time Limit</div><div class="val">30 Min</div></div>
+    <div class="info-card"><div class="ic">🎯</div><div class="lbl">Type</div><div class="val">MCQ</div></div>
+    <div class="info-card"><div class="ic">📚</div><div class="lbl">Source</div><div class="val">UPSC PYQ</div></div>
+  </div>
+
+  <div class="badge-row">
+    <span class="badge">🌐 Geomorphology</span>
+    <span class="badge">🌊 Hydrosphere</span>
+    <span class="badge">🌋 Volcanology</span>
+    <span class="badge">🌙 Astronomy</span>
+    <span class="badge">🪨 Geology</span>
+    <span class="badge">🕐 Time Zones</span>
+  </div>
+
+  <button class="btn btn-primary" style="font-size:1.05rem;padding:.95rem 2.5rem" onclick="startQuiz()">🚀 Start Quiz</button>
+  <p style="color:var(--txt2);font-size:.78rem;margin-top:1rem">Progress is auto-saved in your browser</p>
+</div>
+
+<!-- ════════════ QUIZ SCREEN ════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-wrap">
+
+    <!-- Header -->
+    <div class="quiz-header">
+      <div class="q-counter">Question <span id="qCur">1</span> / <span id="qTot">37</span></div>
+      <div class="timer-pill" id="timerEl">⏱ 30:00</div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+    <!-- Question card -->
+    <div class="q-card">
+      <div class="q-meta-row">
+        <span class="q-badge-pill" id="qBadge">Q1</span>
+        <span class="q-year-pill" id="qYear">2023</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status-pill none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="opts" id="optsGrid"></div>
+
+      <div class="q-nav">
+        <div class="nav-l">
+          <button class="btn btn-secondary" id="btnPrev" onclick="navigate(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQuestion()">⤭ Skip</button>
+        </div>
+        <div class="nav-r">
+          <button class="btn btn-primary" id="btnNext" onclick="navigate(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSubmit" style="display:none" onclick="showSubmitModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q-dot map -->
+    <div class="q-map" id="qMap"></div>
+
+  </div>
+</div>
+
+<!-- ════════════ RESULTS SCREEN ════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-wrap">
+    <div class="res-header">
+      <h2 id="resTitle">🎉 Quiz Complete!</h2>
+      <p id="resSub"></p>
+    </div>
+
+    <div class="score-hero">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-denom" id="scoreDenom">/ 37</div>
+      </div>
+      <div class="grade-badge" id="gradeBadge">—</div>
+      <div class="pct-txt" id="pctTxt"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-ic">✅</div><div class="stat-val" id="stCorrect" style="color:var(--grn)">0</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-card"><div class="stat-ic">❌</div><div class="stat-val" id="stWrong" style="color:var(--red)">0</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-card"><div class="stat-ic">⤭</div><div class="stat-val" id="stSkipped" style="color:var(--yel)">0</div><div class="stat-lbl">Skipped</div></div>
+      <div class="stat-card"><div class="stat-ic">🎯</div><div class="stat-val" id="stAcc" style="color:var(--nblue)">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-card"><div class="stat-ic">⏱️</div><div class="stat-val" id="stTime" style="color:var(--npurp)">0:00</div><div class="stat-lbl">Time Taken</div></div>
+      <div class="stat-card"><div class="stat-ic">📊</div><div class="stat-val" id="stAvg" style="color:var(--pink)">0s</div><div class="stat-lbl">Avg / Question</div></div>
+    </div>
+
+    <div class="insights-card">
+      <h3>🧠 Smart Insights & Weak Area Analysis</h3>
+      <div id="insightsList"></div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn on" onclick="switchTab('all',this)">All (37)</button>
+      <button class="tab-btn" onclick="switchTab('correct',this)">✅ Correct</button>
+      <button class="tab-btn" onclick="switchTab('wrong',this)">❌ Wrong</button>
+      <button class="tab-btn" onclick="switchTab('skipped',this)">⤭ Skipped</button>
+    </div>
+
+    <div id="reviewList"></div>
+
+    <div style="text-align:center;margin:2rem 0;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-danger" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-primary" onclick="scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SUBMIT MODAL ════════════ -->
+<div class="overlay" id="submitModal">
+  <div class="modal">
+    <div class="modal-ic">📋</div>
+    <h3>Submit Quiz?</h3>
+    <p id="modalSummary">Are you sure?</p>
+    <div class="modal-btns">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//   QUIZ DATA  –  37 UPSC PYQ Questions
+// ═══════════════════════════════════════════════
+const Q = [
+  {id:1,yr:"2023",topic:"Minerals & Resources",
+   text:"Ilmenite and rutile, abundantly available in certain coastal tracts of India, are rich sources of which one of the following?",
+   opts:["Aluminium","Copper","Iron","Titanium"],ans:3},
+
+  {id:2,yr:"2023",topic:"Seismology",
+   text:"Consider the following statements:\n1. In a seismograph, P waves are recorded earlier than S waves.\n2. In P waves, the individual particles vibrate to and fro in the direction of wave propagation whereas in S waves, the particles vibrate up and down at right angles to the direction of wave propagation.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:2},
+
+  {id:3,yr:"2022",topic:"Seasons & Astronomy",
+   text:"In the northern hemisphere, the longest day of the year normally occurs in the:",
+   opts:["First half of June","Second half of June","First half of July","Second half of July"],ans:1},
+
+  {id:4,yr:"2019",topic:"Seasons & Astronomy",
+   text:"On 21st June, the Sun:",
+   opts:["Does not set below the horizon at the Arctic Circle","Does not set below the horizon at the Antarctic Circle","Shines vertically overhead at noon on the Equator","Shines vertically overhead at the Tropic of Capricorn"],ans:0},
+
+  {id:5,yr:"2019",topic:"Human Evolution & Geology",
+   text:"The word 'Denisovan' is sometimes mentioned in media in reference to:",
+   opts:["Fossils of a kind of dinosaurs","An early human species","A cave system found in North-East India","A geological period in the history of Indian subcontinent"],ans:1},
+
+  {id:6,yr:"2018",topic:"River Erosion & Conservation",
+   text:"Which of the following is/are possible consequences of heavy sand mining in riverbeds?\n1. Decreased salinity in the water\n2. Pollution of groundwater\n3. Lowering of the water table\nSelect the correct answer using the code below:",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:1},
+
+  {id:7,yr:"2014",topic:"Continental Drift & Evolution",
+   text:"Which of the following phenomena might have influenced the evolution of organisms?\n1. Continental drift\n2. Glacial cycles\nSelect the correct answer using the code given below.",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:2},
+
+  {id:8,yr:"2013",topic:"Seasons & Astronomy",
+   text:"Variations in the length of daytime and night-time from season to season are due to:",
+   opts:["The earth's rotation on its axis","The earth's revolution round the Sun in an elliptical manner","Latitudinal position of the place","Revolution of the earth on a tilted axis"],ans:3},
+
+  {id:9,yr:"2013",topic:"Hydrosphere",
+   text:"On the planet earth, most of the freshwater exists as ice caps and glaciers. Out of the remaining freshwater, the largest proportion:",
+   opts:["Is found in atmosphere as moisture and clouds","Is found in freshwater lakes and rivers","Exists as groundwater","Exists as soil moisture"],ans:2},
+
+  {id:10,yr:"2013",topic:"Earth Dynamics",
+   text:"Consider the following:\n1. Electromagnetic radiation\n2. Geothermal energy\n3. Gravitational force\n4. Plate movements\n5. Rotation of the earth\n6. Revolution of the earth\nWhich of the above are responsible for bringing dynamic changes on the surface of the earth?",
+   opts:["1, 2, 3 and 4 only","1, 3, 5 and 6 only","2, 4, 5 and 6 only","1, 2, 3, 4, 5 and 6"],ans:3},
+
+  {id:11,yr:"2013",topic:"Soil Conservation",
+   text:"Contour Bunding is a method of soil conservation used in:",
+   opts:["Desert margins, liable to strong wind action","Low flat plains, close to stream courses, liable to flooding","Scrublands, liable to spread of weed growth","None of the above (used on hilly / sloping terrain)"],ans:3},
+
+  {id:12,yr:"2012",topic:"Origin of Life",
+   text:"Which one of the following sets of elements was primarily responsible for the origin of life on the Earth?",
+   opts:["Hydrogen, Oxygen, Sodium","Carbon, Hydrogen, Nitrogen","Oxygen, Calcium, Phosphorus","Carbon, Hydrogen, Potassium"],ans:1},
+
+  {id:13,yr:"2012",topic:"Navigation & Astronomy",
+   text:"A person stood alone in a desert on a dark night and wanted to reach his village which was situated 5 km east of the point where he was standing. He had no instruments to find the direction but he located the Polestar. The most convenient way now to reach his village is to walk in the:",
+   opts:["Direction facing the Polestar","Direction opposite to the Polestar","Direction keeping the Polestar to his left","Direction keeping the Polestar to his right"],ans:2},
+
+  {id:14,yr:"2010",topic:"Soil Conservation",
+   text:"With reference to soil conservation, consider the following practices:\n1. Crop rotation\n2. Sand fences\n3. Terracing\n4. Wind breaks\nWhich of the above are considered appropriate methods for soil conservation in India?",
+   opts:["1, 2 and 3 only","2 and 4 only","1, 3 and 4 only","1, 2, 3 and 4"],ans:3},
+
+  {id:15,yr:"2009",topic:"Earth's Interior",
+   text:"In the structure of planet Earth, below the mantle, the core is mainly made up of which one of the following?",
+   opts:["Aluminium","Chromium","Iron","Silicon"],ans:2},
+
+  {id:16,yr:"2008",topic:"Scientific Theories",
+   text:"Which of the following pairs is/are correctly matched?\nTheory / Law ↔ Associated Scientist\n1. Continental Drift: Edwin Hubble\n2. Expansion of Universe: Alfred Wegener\n3. Photoelectric Effect: Albert Einstein\nSelect the correct answer using the code given below:",
+   opts:["2 and 3 only","3 only","2 only","1 only"],ans:1},
+
+  {id:17,yr:"2008",topic:"Solar System",
+   text:"In order of their distance from the Sun, which of the following planets lie between Mars and Uranus?",
+   opts:["Earth and Jupiter","Jupiter and Saturn","Saturn and Earth","Saturn and Neptune"],ans:1},
+
+  {id:18,yr:"2006",topic:"Solar System",
+   text:"What is the approximate mean velocity with which the Earth moves round the Sun in its orbit?",
+   opts:["20 km/s","30 km/s","40 km/s","50 km/s"],ans:1},
+
+  {id:19,yr:"2005",topic:"Moon & Tides",
+   text:"Assertion (A): The same face of the Moon is always presented to the Earth.\nReason (R): The Moon rotates about its own axis in 23 days which is about the same time that it takes to orbit the Earth.\n\nSelect the correct option:",
+   opts:["Both A and R are true and R is the correct explanation of A","Both A and R are true but R is NOT the correct explanation of A","A is true but R is false","A is false but R is true"],ans:2},
+
+  {id:20,yr:"2005",topic:"Solar System",
+   text:"Assertion (A): Existence of human life on Venus is highly improbable.\nReason (R): Venus has an extremely high level of carbon dioxide in its atmosphere.\n\nSelect the correct option:",
+   opts:["Both A and R are true and R is the correct explanation of A","Both A and R are true but R is NOT the correct explanation of A","A is true but R is false","A is false but R is true"],ans:0},
+
+  {id:21,yr:"2005",topic:"Earth's Magnetism",
+   text:"Consider the following statements:\n1. The axis of the earth's magnetic field is inclined at 23° to the geographic axis of the earth.\n2. The earth's magnetic pole in the northern hemisphere is located on a peninsula in northern Canada.\n3. Earth's magnetic equator passes through Thumba in South India.\nWhich of the statements is/are correct?",
+   opts:["1, 2 and 3","2 and 3","2 only","3 only"],ans:1},
+
+  {id:22,yr:"2005",topic:"Earth's Geography",
+   text:"Consider the following statements:\n1. Total land area of earth is approximately 1475 lakh square kilometres.\n2. Ratio of land area to water area of earth is approximately 1:4.\n3. Maximum percentage of earth's water is in the Pacific Ocean.\nWhich of the statements given above are correct?",
+   opts:["1 and 3","2 and 3","1 only","3 only"],ans:0},
+
+  {id:23,yr:"2005",topic:"Earth's Geography",
+   text:"Which one of the following is the correct sequence of the given Continents in the decreasing order of their percentage of earth's land?",
+   opts:["North America, Africa, South America, Europe","Africa, North America, South America, Europe","North America, Africa, Europe, South America","Africa, North America, Europe, South America"],ans:1},
+
+  {id:24,yr:"2004",topic:"Seismology & Volcanology",
+   text:"Consider the following geological phenomena:\n1. Development of a fault\n2. Movement along a fault\n3. Impact produced by a volcanic eruption\n4. Folding of rocks\nWhich of the above cause earthquakes?",
+   opts:["1, 2 and 3","2 and 4","1, 3 and 4","1, 2, 3 and 4"],ans:3},
+
+  {id:25,yr:"2001",topic:"Soil Erosion",
+   text:"Identify the correct order of the processes of soil erosion from the following:",
+   opts:["Splash erosion → Sheet erosion → Rill erosion → Gully erosion","Sheet erosion → Splash erosion → Gully erosion → Rill erosion","Rill erosion → Gully erosion → Sheet erosion → Splash erosion","Gully erosion → Rill erosion → Sheet erosion → Splash erosion"],ans:0},
+
+  {id:26,yr:"2001",topic:"Volcanology & Igneous Rocks",
+   text:"Consider the following statements:\nI. Most magmas are a combination of liquid, solid and gas.\nII. Water vapour and carbon dioxide are the principal gases dissolved in a magma.\nIII. Basaltic magma is hotter than the silicic magma.\nIV. The magma solidified between sedimentary rocks in a horizontal position is known as a dike.\nWhich of these statements are correct?",
+   opts:["I, II and III","II, III and IV","I and IV","I, II and IV"],ans:0},
+
+  {id:27,yr:"2001",topic:"Seismology",
+   text:"Consider the following statements regarding earthquakes:\nI. The intensity of earthquake is measured on Mercalli scale.\nII. The magnitude of an earthquake is a measure of energy released.\nIII. Earthquake magnitudes are based on direct measurements of the amplitude of seismic waves.\nIV. In the Richter scale, each whole number demonstrates a hundredfold increase in the amount of energy released.\nWhich of these statements are correct?",
+   opts:["I, II and III","II, III and IV","I and IV","I and III"],ans:0},
+
+  {id:28,yr:"2001",topic:"Rock Types & Geology",
+   text:"Consider the following statements about sedimentary rocks:\nI. Sedimentary rocks are formed at Earth's surface by the hydrological system.\nII. The formation of sedimentary rocks involves the weathering of pre-existing rocks.\nIII. Sedimentary rocks contain fossils.\nIV. Sedimentary rocks typically occur in layers.\nWhich of these statements are correct?",
+   opts:["I and II","I and IV","II, III and IV","I, II, III and IV"],ans:3},
+
+  {id:29,yr:"2001",topic:"Volcanology",
+   text:"Volcanic eruptions do not occur in the:",
+   opts:["Baltic Sea","Black Sea","Caribbean Sea","Caspian Sea"],ans:0},
+
+  {id:30,yr:"1999",topic:"Time Zones & IDL",
+   text:"A ship sailing from the eastern extremity of the Aleutian Islands to Dutch Harbour crosses the 180° meridian at 23:30 hrs on January 1, 1999. What time and date will be recorded by the captain of the ship in his diary after one hour's journey from the point of crossing?",
+   opts:["January 1 — 00:30 hrs","January 2 — 00:30 hrs","January 3 — 00:30 hrs","January 4 — 00:30 hrs"],ans:1},
+
+  {id:31,yr:"1999",topic:"Origin of Earth",
+   text:"Which one of the following scholars suggests the earth's origin from gases and dust particles?",
+   opts:["James Jeans","H. Alfven","F. Hoyle","O. Schmidt"],ans:3},
+
+  {id:32,yr:"1999",topic:"Minerals & Resources",
+   text:"Which one of the following types of coal contains a higher percentage of carbon than the rest?",
+   opts:["Bituminous coal","Lignite","Peat","Anthracite"],ans:3},
+
+  {id:33,yr:"1999",topic:"Moon & Tides",
+   text:"Regarding ocean tides — tides are highest (Spring tides) when the Sun, Moon and Earth are in alignment (syzygy). At which position is the height of the ocean tide maximum?\n(M1 = Moon between Sun & Earth / New Moon; M2 = Earth between Moon & Sun / Full Moon alignment; M3 = Moon at 90° to Earth-Sun line / Neap tide; M4 = Moon and Sun on exactly opposite sides of Earth in full syzygy)",
+   opts:["M1","M2","M3","M4"],ans:3},
+
+  {id:34,yr:"1998",topic:"Time Zones",
+   text:"When there is noon at the GMT meridian, people on another place on Earth are taking their 6 o'clock morning tea. The longitude of that place is:",
+   opts:["17° 30' E","7° 30' W","172° 30' E","90° W"],ans:3},
+
+  {id:35,yr:"1997",topic:"Time Zones",
+   text:"If the earth's direction of rotation is reversed, what would be the IST when it is noon at the International Date Line?",
+   opts:["06:30 hrs","05:30 hrs","18:30 hrs","17:30 hrs"],ans:2},
+
+  {id:36,yr:"1997",topic:"Earth's Crust Composition",
+   text:"Which one of the following is present in the largest amount in terms of per cent by mass in the earth's crust?",
+   opts:["Silicon","Oxygen","Carbon","Calcium"],ans:1},
+
+  {id:37,yr:"1995",topic:"Time Zones",
+   text:"Standard time of the following countries is ahead or behind GMT:\nI. Cuba   II. Greece   III. Iraq   IV. Costa Rica   V. Japan\nWhich arrangement gives the correct order from ahead to behind GMT?",
+   opts:["V, III, II, I, IV","II, IV, I, III, V","IV, I, III, II, V","III, V, IV, I, II"],ans:0}
+];
+
+// ═══════════════════════════════════════════════
+//   QUIZ STATE
+// ═══════════════════════════════════════════════
+let S = {
+  cur: 0,
+  answers: new Array(37).fill(null),
+  skipped: new Array(37).fill(false),
+  startTime: null,
+  timerInt: null,
+  timeLeft: 30*60,
+  submitted: false
+};
+
+const L = ['A','B','C','D'];
+
+// ═══════════════════════════════════════════════
+//   START
+// ═══════════════════════════════════════════════
+function startQuiz(){
+  const saved = localStorage.getItem('geomaster_v2');
+  if(saved){
+    const d = JSON.parse(saved);
+    if(!d.submitted && confirm('📂 Continue your previous session?')){
+      S = {...S, ...d, timerInt: null};
+    } else {
+      localStorage.removeItem('geomaster_v2');
+      S.startTime = Date.now();
+    }
+  } else {
+    S.startTime = Date.now();
+  }
+  showScreen('quiz-screen');
+  buildMap();
+  renderQ();
+  startTimer();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ═══════════════════════════════════════════════
+//   TIMER
+// ═══════════════════════════════════════════════
+function startTimer(){
+  if(S.timerInt) clearInterval(S.timerInt);
+  updateTimer();
+  S.timerInt = setInterval(()=>{
+    if(S.submitted){clearInterval(S.timerInt);return;}
+    S.timeLeft--;
+    updateTimer();
+    if(S.timeLeft%15===0) save();
+    if(S.timeLeft<=0){
+      clearInterval(S.timerInt);
+      alert('⏰ Time is up! Auto-submitting your quiz…');
+      submitQuiz();
+    }
+  },1000);
+}
+
+function updateTimer(){
+  const m=Math.floor(S.timeLeft/60), s=S.timeLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className = S.timeLeft<=300 ? 'timer-pill warn' : 'timer-pill';
+}
+const pad=n=>String(n).padStart(2,'0');
+
+// ═══════════════════════════════════════════════
+//   RENDER QUESTION
+// ═══════════════════════════════════════════════
+function renderQ(){
+  const i=S.cur, q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYear').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('progFill').style.width=((i+1)/Q.length*100)+'%';
+
+  // Status pill
+  const sp=document.getElementById('qStatus');
+  if(S.skipped[i])    {sp.textContent='⤭ Skipped'; sp.className='q-status-pill skp';}
+  else if(S.answers[i]!==null){sp.textContent='✅ Answered'; sp.className='q-status-pill ans';}
+  else                {sp.textContent='○ Unanswered'; sp.className='q-status-pill none';}
+
+  // Options
+  const og=document.getElementById('optsGrid');
+  og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn'+(S.answers[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-letter">${L[idx]}</span><span>${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  // Nav
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'block';
+  document.getElementById('btnSubmit').style.display=last?'block':'none';
+
+  updateMap();
+}
+
+function pick(idx){
+  if(S.submitted)return;
+  S.answers[S.cur]=idx;
+  S.skipped[S.cur]=false;
+  renderQ(); save();
+}
+
+function navigate(d){
+  const n=S.cur+d;
+  if(n>=0&&n<Q.length){S.cur=n;renderQ();}
+}
+
+function skipQuestion(){
+  S.skipped[S.cur]=true;
+  S.answers[S.cur]=null;
+  save();
+  if(S.cur<Q.length-1) navigate(1); else renderQ();
+}
+
+// ═══════════════════════════════════════════════
+//   Q-DOT MAP
+// ═══════════════════════════════════════════════
+function buildMap(){
+  const mp=document.getElementById('qMap'); mp.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='q-dot'; d.textContent=i+1; d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();}; mp.appendChild(d);
+  });
+}
+function updateMap(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`); if(!d)return;
+    d.className='q-dot';
+    if(i===S.cur) d.classList.add('cur');
+    else if(S.skipped[i]) d.classList.add('skp-dot');
+    else if(S.answers[i]!==null) d.classList.add('ans-dot');
+  });
+}
+
+// ═══════════════════════════════════════════════
+//   MODAL
+// ═══════════════════════════════════════════════
+function showSubmitModal(){
+  const ans=S.answers.filter(a=>a!==null).length;
+  const skp=S.skipped.filter(Boolean).length;
+  const una=Q.length-ans-skp;
+  document.getElementById('modalSummary').textContent=
+    `📊 Answered: ${ans}  |  Skipped: ${skp}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('submitModal').classList.add('on');
+}
+function closeModal(){document.getElementById('submitModal').classList.remove('on');}
+
+// ═══════════════════════════════════════════════
+//   SUBMIT & ANALYTICS
+// ═══════════════════════════════════════════════
+function submitQuiz(){
+  closeModal();
+  clearInterval(S.timerInt);
+  S.submitted=true;
+
+  const usedSec=(30*60)-S.timeLeft;
+  let correct=0,wrong=0,skipped=0;
+
+  Q.forEach((q,i)=>{
+    if(S.skipped[i]||S.answers[i]===null) skipped++;
+    else if(S.answers[i]===q.ans) correct++;
+    else wrong++;
+  });
+
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted>0?Math.round(correct/attempted*100):0;
+  const avgTime=Math.round(usedSec/Q.length);
+
+  // Grade
+  let grade,gc;
+  if(pct>=90){grade='🏆 Excellent';gc='#10b981';}
+  else if(pct>=75){grade='🥇 Very Good';gc='#3b82f6';}
+  else if(pct>=60){grade='🥈 Good';gc='#a78bfa';}
+  else if(pct>=45){grade='🥉 Average';gc='#f59e0b';}
+  else{grade='📚 Needs More Effort';gc='#ef4444';}
+
+  // Populate
+  document.getElementById('scoreNum').textContent=correct;
+  document.getElementById('scoreDenom').textContent='/ '+Q.length;
+  const gb=document.getElementById('gradeBadge');
+  gb.textContent=grade; gb.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctTxt').textContent=pct+'% Score';
+  document.getElementById('stCorrect').textContent=correct;
+  document.getElementById('stWrong').textContent=wrong;
+  document.getElementById('stSkipped').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtTime(usedSec);
+  document.getElementById('stAvg').textContent=avgTime+'s';
+
+  if(pct>=75){
+    document.getElementById('resTitle').textContent='🎉 Outstanding Performance!';
+    document.getElementById('resSub').textContent='You have a strong command over Physical Geography concepts.';
+  } else if(pct>=50){
+    document.getElementById('resTitle').textContent='👍 Good Effort!';
+    document.getElementById('resSub').textContent='Review the weak topics highlighted below and try again.';
+  } else {
+    document.getElementById('resTitle').textContent='📚 Keep Practicing!';
+    document.getElementById('resSub').textContent='Focus on the insights below and revise your notes systematically.';
+  }
+
+  buildInsights(correct,wrong,skipped,pct,acc);
+  renderReview('all');
+  localStorage.removeItem('geomaster_v2');
+  showScreen('results-screen');
+  window.scrollTo(0,0);
+}
+
+function fmtTime(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+// ═══════════════════════════════════════════════
+//   SMART INSIGHTS
+// ═══════════════════════════════════════════════
+function buildInsights(correct,wrong,skipped,pct,acc){
+  const topicWrong={};
+  Q.forEach((q,i)=>{
+    if(!S.skipped[i]&&S.answers[i]!==null&&S.answers[i]!==q.ans)
+      topicWrong[q.topic]=(topicWrong[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicWrong).sort((a,b)=>b[1]-a[1]);
+  const ins=[];
+
+  // General
+  if(pct>=90) ins.push('🌟 Stellar performance! You demonstrate near-mastery of Physical Geography.');
+  else if(pct>=75) ins.push('💪 Strong result! A few targeted revisions can push you into the excellence bracket.');
+  else if(pct>=50) ins.push('📈 Decent base. Systematic revision of wrong answers will significantly improve your score.');
+  else ins.push('📖 Start with fundamentals — Earth Structure, Seismology, Seasons & Astronomy are high-yield areas.');
+
+  if(acc<50&&attempted(correct,wrong)>8)
+    ins.push('🎯 Your accuracy rate is low ('+acc+'%). Avoid guessing — attempt only when you have at least partial knowledge.');
+
+  if(skipped>7)
+    ins.push(`⤭ You skipped ${skipped} questions. For UPSC Prelims, an educated guess is often worthwhile — practice elimination techniques.`);
+
+  // Topic-specific
+  if(topicWrong['Seismology']||topicWrong['Seismology & Volcanology'])
+    ins.push('🌍 Revise: Types of seismic waves (P, S, L), Mercalli vs Richter scale, epicentre vs focus.');
+  if(topicWrong['Seasons & Astronomy'])
+    ins.push('🌞 Revise: Earth\'s tilt (23.5°), solstices, equinoxes, and Arctic/Antarctic circle phenomena.');
+  if(topicWrong['Time Zones']||topicWrong['Time Zones & IDL'])
+    ins.push('🕐 Practice: Time zone arithmetic, International Date Line crossing rules, and IST calculations.');
+  if(topicWrong['Soil Conservation']||topicWrong['Soil Erosion'])
+    ins.push('🌱 Revise: Stages of soil erosion (Splash → Sheet → Rill → Gully) and conservation techniques.');
+  if(topicWrong['Volcanology']||topicWrong['Volcanology & Igneous Rocks'])
+    ins.push('🌋 Revise: Types of volcanic intrusions (sill vs dike), magma types, and active volcanic zones.');
+  if(topicWrong['Solar System'])
+    ins.push('🪐 Revise: Planetary order, Earth\'s orbital speed (~30 km/s), and comparative planetology.');
+
+  // Top weak topics
+  ranked.slice(0,4).forEach(([t,c])=>{
+    ins.push(`❌ Weak area — ${t}: ${c} wrong answer${c>1?'s':''}. Prioritise this topic in your revision.`);
+  });
+
+  const il=document.getElementById('insightsList');
+  il.innerHTML=ins.map(s=>`<div class="insight-item"><span>${s}</span></div>`).join('');
+
+  if(ranked.length){
+    il.innerHTML+=`<div class="weak-tags">${ranked.map(([t])=>`<span class="w-tag">${t}</span>`).join('')}</div>`;
+  }
+}
+function attempted(c,w){return c+w;}
+
+// ═══════════════════════════════════════════════
+//   REVIEW
+// ═══════════════════════════════════════════════
+function switchTab(filter,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderReview(filter);
+}
+
+function renderReview(filter){
+  const rl=document.getElementById('reviewList');
+  let html='';
+  let count=0;
+  Q.forEach((q,i)=>{
+    const ua=S.answers[i];
+    const isSkp=S.skipped[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(filter==='correct'&&!isOk) return;
+    if(filter==='wrong'&&!isWrong) return;
+    if(filter==='skipped'&&!isSkp) return;
+    count++;
+    const sc=isOk?'correct':isWrong?'wrong':'skipped';
+    const st=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-item ${sc}">
+      <div class="rev-meta">
+        <span class="rev-qnum">Q${i+1}</span>
+        <span class="q-year-pill">${q.yr}</span>
+        <span class="rev-sbadge ${sc}">${st}</span>
+        <span class="rev-topic">${q.topic}</span>
+      </div>
+      <div class="rev-qtext">${q.text}</div>
+      <div>
+        <div class="rev-ans-row"><span class="lbl">Your Answer:</span><span class="val ${isSkp?'':isOk?'c':'w'}">${uaTxt}</span></div>
+        <div class="rev-ans-row"><span class="lbl">Correct Answer:</span><span class="val c">${caTxt}</span></div>
+      </div>
+    </div>`;
+  });
+  if(!count) html='<p style="color:var(--txt2);text-align:center;padding:2.5rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════
+//   SAVE / RESTART
+// ═══════════════════════════════════════════════
+function save(){
+  localStorage.setItem('geomaster_v2',JSON.stringify({
+    cur:S.cur, answers:S.answers, skipped:S.skipped,
+    startTime:S.startTime, timeLeft:S.timeLeft, submitted:S.submitted
+  }));
+}
+
+function restartQuiz(){
+  if(!confirm('🔄 Restart quiz? All progress will be lost.')) return;
+  clearInterval(S.timerInt);
+  localStorage.removeItem('geomaster_v2');
+  S={cur:0,answers:new Array(37).fill(null),skipped:new Array(37).fill(false),
+     startTime:null,timerInt:null,timeLeft:30*60,submitted:false};
+  showScreen('start-screen');
+}
+</script>
+</body>
+</html>

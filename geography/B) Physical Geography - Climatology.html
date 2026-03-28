@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AtmoSphere — Physical Geography & Climatology Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0d0f1a;--ink2:#141625;--ink3:#1c1f33;
+  --glass:rgba(255,255,255,0.04);--gbord:rgba(255,255,255,0.09);
+  --teal:#00d4aa;--teal-d:#00a87f;--teal-glow:rgba(0,212,170,.18);
+  --amber:#f5a623;--amber-glow:rgba(245,166,35,.15);
+  --sky:#4da6ff;--sky-glow:rgba(77,166,255,.15);
+  --rose:#ff5c87;--rose-glow:rgba(255,92,135,.12);
+  --grn:#22c55e;--red:#ef4444;--yel:#f59e0b;
+  --txt:#e8ecf4;--txt2:#7c84a0;--txt3:#4a5068;
+  --mono:'JetBrains Mono',monospace;
+}
+body{font-family:'Space Grotesk',sans-serif;background:var(--ink);color:var(--txt);min-height:100vh;overflow-x:hidden}
+
+/* Noise grain overlay */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:9999}
+
+body::before{content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(0,212,170,.1) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(77,166,255,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(255,92,135,.05) 0%, transparent 60%);
+  pointer-events:none;z-index:0}
+
+.screen{display:none;position:relative;z-index:1}
+.screen.active{display:flex}
+
+/* ── GRID BG ── */
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:48px 48px}
+
+/* ══════════════════════════════
+   START SCREEN
+══════════════════════════════ */
+#start-screen{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+
+.logo-wrap{position:relative;margin-bottom:2rem}
+.logo-ring{width:100px;height:100px;border-radius:50%;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;box-shadow:0 0 0 8px var(--teal-glow),inset 0 0 30px var(--teal-glow)}
+.logo-ring::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px dashed rgba(0,212,170,.3);animation:spin 20s linear infinite}
+.logo-ring::after{content:'';position:absolute;inset:-18px;border-radius:50%;border:1px dashed rgba(0,212,170,.15);animation:spin 30s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.logo-icon{font-size:2.8rem;z-index:1}
+
+.start-eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;opacity:.85}
+.start-title{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,8vw,5rem);font-weight:800;line-height:.95;color:var(--txt);margin-bottom:.4rem;letter-spacing:-.02em}
+.start-title .accent{color:var(--teal)}
+.start-tagline{font-size:.95rem;color:var(--txt2);margin-bottom:2.5rem;max-width:400px;line-height:1.65}
+
+.stat-strip{display:flex;gap:1px;border-radius:16px;overflow:hidden;border:1px solid var(--gbord);margin-bottom:2.5rem;max-width:560px;width:100%}
+.stat-cell{flex:1;padding:1.1rem .8rem;background:var(--glass);text-align:center;backdrop-filter:blur(12px)}
+.stat-cell:hover{background:rgba(255,255,255,.07)}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--teal);line-height:1}
+.stat-label{font-size:.68rem;color:var(--txt2);margin-top:.3rem;letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono)}
+
+.topic-cloud{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;max-width:560px}
+.topic-pill{font-size:.72rem;padding:.3rem .85rem;border-radius:50px;background:var(--glass);border:1px solid var(--gbord);color:var(--txt2);font-family:var(--mono);letter-spacing:.03em;transition:all .2s}
+.topic-pill:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-glow)}
+
+.btn-start{display:inline-flex;align-items:center;gap:.7rem;padding:1rem 2.8rem;background:var(--teal);color:var(--ink);font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;border:none;border-radius:50px;cursor:pointer;letter-spacing:.03em;transition:all .25s;box-shadow:0 8px 30px rgba(0,212,170,.3)}
+.btn-start:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,212,170,.5);background:#1ae8b8}
+.btn-start:active{transform:translateY(0)}
+.btn-start .arrow{font-size:1.2rem;transition:transform .2s}
+.btn-start:hover .arrow{transform:translateX(4px)}
+
+.start-note{font-size:.74rem;color:var(--txt3);margin-top:1rem;font-family:var(--mono)}
+
+/* ══════════════════════════════
+   QUIZ SCREEN
+══════════════════════════════ */
+#quiz-screen{min-height:100vh;flex-direction:column;padding:1rem}
+.quiz-wrap{max-width:860px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.85rem;min-height:calc(100vh - 2rem)}
+
+/* Header bar */
+.quiz-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.1rem;background:var(--glass);border:1px solid var(--gbord);border-radius:14px;backdrop-filter:blur(16px)}
+.q-counter{font-family:var(--mono);font-size:.8rem;color:var(--txt2)}
+.q-counter em{color:var(--teal);font-style:normal;font-weight:600}
+.timer-pill{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.88rem;font-weight:600;padding:.35rem 1rem;border-radius:50px;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.25);color:var(--teal);transition:all .3s;letter-spacing:.04em}
+.timer-pill.warn{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:var(--red);animation:blinkT .8s infinite}
+@keyframes blinkT{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Progress */
+.prog-track{height:3px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;position:relative}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--sky));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+/* Question card */
+.q-card{background:var(--glass);border:1px solid var(--gbord);border-radius:22px;padding:1.8rem;backdrop-filter:blur(18px);flex:1;display:flex;flex-direction:column}
+.q-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1.3rem}
+.meta-num{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;background:var(--teal);color:var(--ink);padding:.22rem .7rem;border-radius:6px;letter-spacing:.02em}
+.meta-yr{font-family:var(--mono);font-size:.7rem;padding:.22rem .7rem;border-radius:6px;background:rgba(255,255,255,.06);color:var(--txt2);border:1px solid var(--gbord)}
+.meta-topic{font-size:.68rem;color:var(--sky);background:rgba(77,166,255,.1);padding:.22rem .7rem;border-radius:6px;border:1px solid rgba(77,166,255,.2);font-family:var(--mono)}
+.meta-status{margin-left:auto;font-size:.68rem;font-weight:600;padding:.22rem .8rem;border-radius:6px;font-family:var(--mono)}
+.meta-status.none{background:rgba(255,255,255,.05);color:var(--txt3);border:1px solid var(--gbord)}
+.meta-status.ans{background:rgba(34,197,94,.12);color:var(--grn);border:1px solid rgba(34,197,94,.3)}
+.meta-status.skp{background:rgba(245,158,11,.12);color:var(--yel);border:1px solid rgba(245,158,11,.3)}
+
+.q-text{font-size:.95rem;line-height:1.78;color:var(--txt);margin-bottom:1.4rem;white-space:pre-wrap;flex:0}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.6rem;flex:1}
+.opt-btn{display:flex;align-items:flex-start;gap:.85rem;padding:.85rem 1rem;background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.06);border-radius:12px;cursor:pointer;transition:all .2s;text-align:left;color:var(--txt2);font-family:'Space Grotesk',sans-serif;font-size:.875rem;line-height:1.55;width:100%}
+.opt-btn:hover:not(.sel):not(:disabled){background:rgba(0,212,170,.06);border-color:rgba(0,212,170,.3);color:var(--txt);transform:translateX(4px)}
+.opt-ltr{min-width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.72rem;font-weight:600;background:rgba(255,255,255,.07);color:var(--txt3);transition:all .2s;flex-shrink:0}
+.opt-btn.sel{background:rgba(0,212,170,.1);border-color:var(--teal);color:var(--txt)}
+.opt-btn.sel .opt-ltr{background:var(--teal);color:var(--ink)}
+
+/* Nav */
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.2rem;flex-wrap:wrap;gap:.6rem}
+.nav-left,.nav-right{display:flex;gap:.55rem}
+.btn{padding:.65rem 1.4rem;border:none;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;outline:none}
+.btn-prev,.btn-next{background:rgba(255,255,255,.06);border:1px solid var(--gbord);color:var(--txt)}
+.btn-prev:hover:not(:disabled),.btn-next:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+.btn-prev:disabled{opacity:.3;cursor:not-allowed}
+.btn-skip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--yel)}
+.btn-skip:hover{background:rgba(245,158,11,.2)}
+.btn-submit{background:var(--teal);color:var(--ink);font-weight:700;box-shadow:0 4px 20px rgba(0,212,170,.25)}
+.btn-submit:hover{background:#1ae8b8;box-shadow:0 6px 28px rgba(0,212,170,.45);transform:translateY(-2px)}
+
+/* Q-dot map */
+.qmap{display:flex;flex-wrap:wrap;gap:.35rem;max-width:860px;width:100%;margin:0 auto}
+.qdot{width:28px;height:28px;border-radius:7px;border:none;font-family:var(--mono);font-size:.62rem;font-weight:600;cursor:pointer;transition:all .15s;background:rgba(255,255,255,.05);color:var(--txt3)}
+.qdot:hover{background:rgba(0,212,170,.15);color:var(--teal)}
+.qdot.cur{background:var(--teal);color:var(--ink);box-shadow:0 0 12px rgba(0,212,170,.4)}
+.qdot.ans-d{background:rgba(34,197,94,.15);color:var(--grn);border:1px solid rgba(34,197,94,.3)}
+.qdot.skp-d{background:rgba(245,158,11,.15);color:var(--yel);border:1px solid rgba(245,158,11,.3)}
+
+/* ══════════════════════════════
+   MODAL
+══════════════════════════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#181b2e;border:1px solid rgba(0,212,170,.25);border-radius:24px;padding:2rem;max-width:400px;width:100%;text-align:center;box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 60px rgba(0,212,170,.06)}
+.modal-ic{font-size:3rem;margin-bottom:.8rem}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.6rem}
+.modal p{color:var(--txt2);font-size:.84rem;line-height:1.7;margin-bottom:1.4rem;white-space:pre-wrap;font-family:var(--mono)}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+.btn-cancel{background:rgba(255,255,255,.06);border:1px solid var(--gbord);color:var(--txt);padding:.65rem 1.3rem;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-cancel:hover{background:rgba(255,255,255,.12)}
+
+/* ══════════════════════════════
+   RESULTS
+══════════════════════════════ */
+#results-screen{min-height:100vh;flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-wrap{max-width:860px;width:100%}
+.res-header{text-align:center;margin-bottom:2rem}
+.res-header h2{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:800;color:var(--txt);letter-spacing:-.02em}
+.res-header p{color:var(--txt2);font-size:.88rem;margin-top:.4rem}
+
+/* Hero */
+.score-hero{position:relative;border:1px solid rgba(0,212,170,.2);border-radius:26px;padding:2.5rem;text-align:center;overflow:hidden;margin-bottom:1.5rem;background:linear-gradient(135deg,rgba(0,212,170,.05) 0%,rgba(77,166,255,.05) 100%)}
+.score-hero::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:conic-gradient(from 0deg,transparent 0deg,rgba(0,212,170,.04) 60deg,transparent 120deg);animation:spin 15s linear infinite;pointer-events:none}
+.score-ring{width:140px;height:140px;border-radius:50%;border:3px solid var(--teal);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.2rem;position:relative;z-index:1;box-shadow:0 0 40px rgba(0,212,170,.2),inset 0 0 30px rgba(0,212,170,.05)}
+.score-n{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--teal);line-height:1}
+.score-d{font-family:var(--mono);font-size:.8rem;color:var(--txt2)}
+.grade-tag{display:inline-block;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;padding:.4rem 1.4rem;border-radius:50px;margin-bottom:.4rem;position:relative;z-index:1}
+.pct-t{color:var(--txt2);font-family:var(--mono);font-size:.82rem;position:relative;z-index:1}
+
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.8rem;margin-bottom:1.5rem}
+.sc{background:var(--glass);border:1px solid var(--gbord);border-radius:16px;padding:1.1rem;text-align:center;backdrop-filter:blur(10px);transition:transform .2s}
+.sc:hover{transform:translateY(-3px)}
+.sc-ic{font-size:1.5rem;margin-bottom:.35rem}
+.sc-v{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.1rem}
+.sc-l{font-size:.65rem;color:var(--txt2);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
+
+/* Insights */
+.insights-box{background:linear-gradient(135deg,rgba(0,212,170,.06),rgba(77,166,255,.06));border:1px solid rgba(0,212,170,.2);border-radius:20px;padding:1.5rem;margin-bottom:1.5rem}
+.insights-box h3{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;color:var(--teal);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.ins-item{font-size:.82rem;color:var(--txt2);margin-bottom:.6rem;line-height:1.6;padding-left:.5rem;border-left:2px solid rgba(0,212,170,.25)}
+.weak-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.wtag{font-size:.68rem;font-family:var(--mono);padding:.25rem .7rem;border-radius:6px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5}
+
+/* Tab bar */
+.tabs{display:flex;gap:.3rem;background:var(--glass);border:1px solid var(--gbord);border-radius:12px;padding:.3rem;margin-bottom:1rem;backdrop-filter:blur(10px)}
+.tab{flex:1;padding:.5rem .5rem;border:none;border-radius:8px;font-family:var(--mono);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--txt2);letter-spacing:.03em}
+.tab.on{background:var(--teal);color:var(--ink)}
+
+/* Review items */
+.rev-item{background:var(--glass);border:1px solid var(--gbord);border-radius:16px;padding:1.2rem;margin-bottom:.85rem;border-left:3px solid transparent;backdrop-filter:blur(10px);transition:transform .2s}
+.rev-item:hover{transform:translateX(4px)}
+.rev-item.correct{border-left-color:var(--grn)}
+.rev-item.wrong{border-left-color:var(--red)}
+.rev-item.skipped{border-left-color:var(--yel)}
+.rev-meta{display:flex;align-items:center;gap:.4rem;margin-bottom:.65rem;flex-wrap:wrap}
+.rqn{font-family:var(--mono);font-size:.68rem;padding:.2rem .55rem;border-radius:5px;background:rgba(255,255,255,.06);color:var(--txt2)}
+.ryr{font-family:var(--mono);font-size:.68rem;padding:.2rem .55rem;border-radius:5px;background:rgba(255,255,255,.06);color:var(--txt2);border:1px solid var(--gbord)}
+.rbadge{font-family:var(--mono);font-size:.65rem;font-weight:600;padding:.2rem .65rem;border-radius:5px}
+.rbadge.correct{background:rgba(34,197,94,.15);color:var(--grn)}
+.rbadge.wrong{background:rgba(239,68,68,.15);color:var(--red)}
+.rbadge.skipped{background:rgba(245,158,11,.15);color:var(--yel)}
+.rtopic{margin-left:auto;font-family:var(--mono);font-size:.65rem;color:var(--sky);background:rgba(77,166,255,.1);padding:.2rem .6rem;border-radius:5px}
+.rqtext{font-size:.82rem;color:var(--txt2);margin-bottom:.75rem;line-height:1.65;white-space:pre-wrap}
+.rans{display:flex;gap:.5rem;font-size:.78rem;margin-bottom:.3rem;align-items:flex-start}
+.rans .rl{font-family:var(--mono);font-weight:600;min-width:120px;color:var(--txt3);flex-shrink:0;font-size:.72rem}
+.rans .rv{color:var(--txt)}
+.rans .rv.c{color:var(--grn)}
+.rans .rv.w{color:var(--red)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-restart{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red);padding:.7rem 1.6rem;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-restart:hover{background:rgba(239,68,68,.2)}
+.btn-top{background:var(--teal);color:var(--ink);padding:.7rem 1.6rem;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;border:none}
+.btn-top:hover{background:#1ae8b8}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(0,212,170,.3);border-radius:10px}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.q-card{animation:fadeUp .3s ease}
+.sc,.rev-item{animation:fadeUp .3s ease}
+.score-hero{animation:fadeUp .4s ease}
+
+@media(max-width:600px){
+  .q-nav{flex-direction:column}
+  .nav-left,.nav-right{justify-content:center;width:100%}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .modal-btns{flex-direction:column}
+  .tabs .tab{font-size:.62rem;padding:.4rem .3rem}
+  .rans .rl{min-width:90px;font-size:.68rem}
+  .rtopic{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- ═══════════════ START ═══════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="logo-wrap">
+    <div class="logo-ring"><div class="logo-icon">🌤️</div></div>
+  </div>
+  <div class="start-eyebrow">UPSC Prelims PYQ Series</div>
+  <h1 class="start-title">Atmo<span class="accent">Sphere</span></h1>
+  <p class="start-tagline">Physical Geography & Climatology — 62 questions sourced from UPSC Civil Services Prelims (2000–2023)</p>
+
+  <div class="stat-strip">
+    <div class="stat-cell"><div class="stat-num">62</div><div class="stat-label">Questions</div></div>
+    <div class="stat-cell"><div class="stat-num">40</div><div class="stat-label">Minutes</div></div>
+    <div class="stat-cell"><div class="stat-num">MCQ</div><div class="stat-label">Format</div></div>
+    <div class="stat-cell"><div class="stat-num">PYQ</div><div class="stat-label">Source</div></div>
+  </div>
+
+  <div class="topic-cloud">
+    <span class="topic-pill">🌡️ Atmosphere</span>
+    <span class="topic-pill">☁️ Clouds & Rain</span>
+    <span class="topic-pill">🌀 Cyclones</span>
+    <span class="topic-pill">🌊 Ocean Currents</span>
+    <span class="topic-pill">🌿 Biomes</span>
+    <span class="topic-pill">💨 Wind Systems</span>
+    <span class="topic-pill">🌍 Climate Zones</span>
+    <span class="topic-pill">🌋 Volcanism</span>
+    <span class="topic-pill">🌱 Soils</span>
+    <span class="topic-pill">☀️ Insolation</span>
+  </div>
+
+  <button class="btn-start" onclick="startQuiz()">Begin Quiz <span class="arrow">→</span></button>
+  <div class="start-note">// progress auto-saved in browser</div>
+</div>
+
+<!-- ═══════════════ QUIZ ═══════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="q-counter">Q <em id="qCur">1</em> / <em id="qTot">62</em></div>
+      <div class="timer-pill" id="timerEl">⏱ 40:00</div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="meta-num" id="qBadge">Q1</span>
+        <span class="meta-yr" id="qYear">—</span>
+        <span class="meta-topic" id="qTopic">—</span>
+        <span class="meta-status none" id="qStatus">○ unanswered</span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-left">
+          <button class="btn btn-prev" id="btnPrev" onclick="navigate(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-right">
+          <button class="btn btn-next" id="btnNext" onclick="navigate(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSubmit" style="display:none" onclick="showModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="qmap" id="qMap"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ MODAL ═══════════════ -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <div class="modal-ic">📋</div>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-wrap">
+    <div class="res-header">
+      <h2 id="resTitle">Quiz Complete</h2>
+      <p id="resSub"></p>
+    </div>
+    <div class="score-hero">
+      <div class="score-ring">
+        <div class="score-n" id="scoreN">0</div>
+        <div class="score-d" id="scoreD">/ 62</div>
+      </div>
+      <div class="grade-tag" id="gradeTag"></div>
+      <div class="pct-t" id="pctT"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="sc"><div class="sc-ic">✅</div><div class="sc-v" id="stC" style="color:var(--grn)">0</div><div class="sc-l">Correct</div></div>
+      <div class="sc"><div class="sc-ic">❌</div><div class="sc-v" id="stW" style="color:var(--red)">0</div><div class="sc-l">Wrong</div></div>
+      <div class="sc"><div class="sc-ic">⤭</div><div class="sc-v" id="stS" style="color:var(--yel)">0</div><div class="sc-l">Skipped</div></div>
+      <div class="sc"><div class="sc-ic">🎯</div><div class="sc-v" id="stAcc" style="color:var(--sky)">0%</div><div class="sc-l">Accuracy</div></div>
+      <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v" id="stTime" style="color:var(--teal)">0:00</div><div class="sc-l">Time Taken</div></div>
+      <div class="sc"><div class="sc-ic">📊</div><div class="sc-v" id="stAvg" style="color:var(--amber)">0s</div><div class="sc-l">Avg/Question</div></div>
+    </div>
+    <div class="insights-box">
+      <h3>🧠 Smart Insights</h3>
+      <div id="insList"></div>
+    </div>
+    <div class="tabs">
+      <button class="tab on" onclick="switchTab('all',this)">All (62)</button>
+      <button class="tab" onclick="switchTab('correct',this)">✅ Correct</button>
+      <button class="tab" onclick="switchTab('wrong',this)">❌ Wrong</button>
+      <button class="tab" onclick="switchTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+    <div class="res-actions">
+      <button class="btn-restart" onclick="restartQuiz()">🔄 Restart</button>
+      <button class="btn-top" onclick="scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+//  62 UPSC PYQ — Physical Geography & Climatology
+// ════════════════════════════════════════════
+const Q = [
+  // 1
+  {id:1,yr:"2023",topic:"Atmosphere / Insolation",
+   text:"With reference to the Earth's atmosphere, which one of the following statements is correct?",
+   opts:["The total amount of insolation received at the equator is roughly about 10 times of that received at the poles.",
+         "Infrared rays constitute roughly two-thirds of insolation.",
+         "Infrared waves are largely absorbed by water vapour that is concentrated in the lower atmosphere.",
+         "Infrared waves are a part of visible spectrum of electromagnetic waves of solar radiation."],ans:2},
+
+  // 2
+  {id:2,yr:"2023",topic:"Tropical Soils",
+   text:"Consider the following statements:\nStatement-I: The soil in tropical rain forests is rich in nutrients.\nStatement-II: The high temperature and moisture of tropical rain forests cause dead organic matter in the soil to decompose quickly.\nWhich one of the following is correct?",
+   opts:["Both Statement-I and Statement-II are correct and Statement-II is the correct explanation for Statement-I",
+         "Both Statement-I and Statement-II are correct and Statement-II is not the correct explanation for Statement-I",
+         "Statement-I is correct but Statement-II is incorrect",
+         "Statement-I is incorrect but Statement-II is correct"],ans:3},
+
+  // 3
+  {id:3,yr:"2022",topic:"Clouds & Radiation",
+   text:"Consider the following statements:\n1. High clouds primarily reflect solar radiation and cool the surface of the Earth.\n2. Low clouds have a high absorption of infrared radiation emanating from the Earth's surface and thus cause a warming effect.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  // 4
+  {id:4,yr:"2021",topic:"Savannah / Biomes",
+   text:"The vegetation of savannah consists of grassland with scattered small trees, but extensive areas have no trees. The forest development in such areas is generally kept in check by which of the following conditions?\n1. Burrowing animals and termites\n2. Fire\n3. Grazing herbivores\n4. Seasonal rainfall\n5. Soil properties\nSelect the correct answer using the code given below.",
+   opts:["1 and 2","4 and 5","2, 3 and 4","1, 3 and 5"],ans:2},
+
+  // 5
+  {id:5,yr:"2021",topic:"Tropical Rainforest",
+   text:"'Leaf litter decomposes faster than in any other biome and as a result the soil surface is often almost bare. Apart from trees, the vegetation is largely composed of plant forms that reach up into the canopy vicariously, by climbing the trees or growing as epiphytes, rooted on the upper branches of trees.'\nThis is the most likely description of:",
+   opts:["Coniferous forest","Dry deciduous forest","Mangrove forest","Tropical rainforest"],ans:3},
+
+  // 6
+  {id:6,yr:"2020",topic:"Cyclones & Jet Streams",
+   text:"Consider the following statements:\n1. Jet streams occur in the Northern Hemisphere only.\n2. Only some cyclones develop an eye.\n3. The temperature inside the eye of a cyclone is nearly 10°C lesser than that of the surroundings.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 and 3 only","2 only","1 and 3 only"],ans:2},
+
+  // 7
+  {id:7,yr:"2019",topic:"Climate Engineering",
+   text:"In the context of which of the following do some scientists suggest the use of cirrus cloud thinning technique and the injection of sulphate aerosol into stratosphere?",
+   opts:["Creating the artificial rains in some regions",
+         "Reducing the frequency and intensity of tropical cyclones",
+         "Reducing the adverse effects of solar wind on the Earth",
+         "Reducing the global warming"],ans:3},
+
+  // 8
+  {id:8,yr:"2019",topic:"Dew & Radiation",
+   text:"Why are dewdrops not formed on a cloudy night?",
+   opts:["Clouds absorb the radiation released from the Earth's surface.",
+         "Clouds reflect back the Earth's radiation.",
+         "The Earth's surface would have low temperature on cloudy nights.",
+         "Clouds deflect the blowing wind to ground level."],ans:1},
+
+  // 9
+  {id:9,yr:"2017",topic:"Indian Ocean Dipole",
+   text:"With reference to 'Indian Ocean Dipole (IOD)' sometimes mentioned in the news while forecasting Indian monsoon, which of the following statements is/are correct?\n1. IOD phenomenon is characterised by a difference in sea surface temperature between tropical Western Indian Ocean and tropical Eastern Pacific Ocean.\n2. An IOD phenomenon can influence an El Niño's impact on the monsoon.\nSelect the correct answer:",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+
+  // 10
+  {id:10,yr:"2015",topic:"Westerlies",
+   text:"Consider the following statements:\n1. The winds which blow between 30°N and 60°S latitudes throughout the year are known as westerlies.\n2. The moist air masses that cause winter rains in North-Western region of India are part of westerlies.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+
+  // 11
+  {id:11,yr:"2015",topic:"Climate Zones",
+   text:"\"Each day is more or less the same, the morning is clear and bright with a sea breeze; as the sun climbs high in the sky, heat mounts up, dark clouds form, then rain comes with thunder and lightning. But rain is soon over.\"\nWhich of the following regions is described in the above passage?",
+   opts:["Savannah","Equatorial","Monsoon","Mediterranean"],ans:1},
+
+  // 12
+  {id:12,yr:"2015",topic:"Cyclogenesis",
+   text:"In the South Atlantic and South Eastern Pacific regions in tropical latitudes, cyclone does not originate. What is the reason?",
+   opts:["Sea Surface temperatures are low",
+         "Inter Tropical Convergence Zone seldom occurs",
+         "Coriolis force is too weak",
+         "Absence of land in those regions"],ans:1},
+
+  // 13
+  {id:13,yr:"2014",topic:"Monsoon Climate",
+   text:"The seasonal reversal of winds is the typical characteristic of:",
+   opts:["Equatorial climate","Mediterranean climate","Monsoon climate","All of the above climates"],ans:2},
+
+  // 14
+  {id:14,yr:"2013",topic:"Equatorial Forests",
+   text:"Which of the following is/are unique characteristic/characteristics of equatorial forests?\n1. Presence of tall, closely set trees with crowns forming a continuous canopy\n2. Coexistence of a large number of species\n3. Presence of numerous varieties of epiphytes\nSelect the correct answer:",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:3},
+
+  // 15
+  {id:15,yr:"2013",topic:"Thunder & Lightning",
+   text:"During a thunderstorm, the thunder in the skies is produced by the:\n1. Meeting of cumulonimbus clouds in the sky\n2. Lightning that separates the nimbus clouds\n3. Violent upward movement of air and water particles\nSelect the correct answer:",
+   opts:["1 only","2 and 3","1 and 3","None of the above produces the thunder"],ans:3},
+
+  // 16
+  {id:16,yr:"2012",topic:"Atmosphere / Temperature",
+   text:"Normally, the temperature decreases with the increase in height from the Earth's surface, because:\n1. The atmosphere can be heated upwards only from the Earth's surface\n2. There is more moisture in the upper atmosphere\n3. The air is less dense in the upper atmosphere\nSelect the correct answer:",
+   opts:["1 only","2 & 3 only","1 & 3 only","1, 2 & 3"],ans:2},
+
+  // 17
+  {id:17,yr:"2012",topic:"Tropical Savannah",
+   text:"Which one of the following is the characteristic climate of the Tropical Savannah Region?",
+   opts:["Rainfall throughout the year","Rainfall in winter only","An extremely short dry season","A definite dry and wet season"],ans:3},
+
+  // 18
+  {id:18,yr:"2011",topic:"El Niño / La Niña",
+   text:"La Nina is suspected to have caused recent floods in Australia. How is La Nina different from El Niño?\n1. La Niña is characterized by unusually cold ocean temperature in equatorial Indian Ocean whereas El Niño is characterized by unusually warm ocean temperature in the equatorial Pacific Ocean.\n2. El Niño has adverse effect on south-west monsoon of India, but La Niña has no effect on monsoon climate.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  // 19
+  {id:19,yr:"2011",topic:"Westerlies",
+   text:"Westerlies in southern hemisphere are stronger and persistent than in northern hemisphere. Why?\n1. Southern hemisphere has less landmass as compared to northern hemisphere.\n2. Coriolis force is higher in southern hemisphere as compared to northern hemisphere.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0},
+
+  // 20
+  {id:20,yr:"2011",topic:"Ionosphere",
+   text:"A layer in the earth's atmosphere called ionosphere facilitates radio communication. Why?\n1. The presence of ozone causes the reflection of radio waves to Earth.\n2. Radio waves have a very long wavelength.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  // 21
+  {id:21,yr:"2011",topic:"Stratosphere",
+   text:"The jet aircrafts fly very easily and smoothly in the lower stratosphere. What could be the appropriate explanation?\n1. There are no clouds or water vapour in the lower stratosphere.\n2. There are no vertical winds in the lower stratosphere.\nWhich of the statements given above is/are correct in this context?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:2},
+
+  // 22
+  {id:22,yr:"2011",topic:"Biodiversity",
+   text:"Consider the following statements:\n1. Biodiversity is normally greater in the lower latitudes as compared to the higher latitudes.\n2. Along the mountain gradients, biodiversity is normally greater in the lower altitudes as compared to the higher altitudes.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:2},
+
+  // 23
+  {id:23,yr:"2010",topic:"Mediterranean Climate",
+   text:"A geographic region has the following distinct characteristics:\n1. Warm and dry climate\n2. Mild and wet winter\n3. Evergreen oak trees\nThe above features are the distinct characteristics of which one of the following regions?",
+   opts:["Mediterranean","Eastern China","Central Asia","Atlantic coast of North America"],ans:0},
+
+  // 24
+  {id:24,yr:"2010",topic:"Wind Systems",
+   text:"What causes wind to deflect toward left in the Southern hemisphere?",
+   opts:["Temperature","Magnetic field","Rotation of the earth","Pressure"],ans:2},
+
+  // 25
+  {id:25,yr:"2010",topic:"Albedo",
+   text:"Which one of following reflects back more sunlight as compared to other three?",
+   opts:["Sand desert","Paddy crop land","Land covered with fresh snow","Prairie land"],ans:2},
+
+  // 26
+  {id:26,yr:"2010",topic:"Climate Zones",
+   text:"A geographical area with an altitude of 400 metres has the following data:\nJ:31/21°C/51mm, F:31/21/85, M:31/21/188, A:31/21/158, M:30/21/139, J:30/21/121, J:29/20/134, A:28/20/168, S:29/20/185, O:29/20/221, N:30/20/198, D:31/20/86\n(Max Temp/Min Temp/Rainfall)\nIf this geographic area were to have a natural forest, which one of the following would it most likely be?",
+   opts:["Moist temperate coniferous forest","Montane subtropical forest","Temperate forest","Tropical rain forest"],ans:3},
+
+  // 27
+  {id:27,yr:"2010",topic:"El Niño Modoki",
+   text:"A new type of El Niño called El Niño Modoki appeared in the news. Consider the following statements:\n1. Normal El Niño forms in the Central Pacific ocean whereas El Niño Modoki forms in Eastern Pacific ocean.\n2. Normal El Niño results in diminished hurricanes in the Atlantic ocean but El Niño Modoki results in a greater number of hurricanes with greater frequency.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+
+  // 28
+  {id:28,yr:"2009",topic:"Trade Winds & Deserts",
+   text:"Consider the following statements:\n1. In the world, the tropical deserts occur along the western margins of continents within the trade wind belt.\n2. In India, the East Himalayan region gets high rainfall from north-east winds.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0},
+
+  // 29
+  {id:29,yr:"2009",topic:"Tropical Cyclones",
+   text:"Consider the following names:\n1. Ike\n2. Kate\n3. Gustav\nWhich of the above are the names of hurricanes that had occurred very recently?",
+   opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:2},
+
+  // 30
+  {id:30,yr:"2008",topic:"Albedo",
+   text:"Consider the following statements:\n1. The albedo of an object determines its visual brightness when viewed with reflected light.\n2. The albedo of Mercury is much greater than the albedo of the Earth.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0},
+
+  // 31
+  {id:31,yr:"2007",topic:"Pressure Belts",
+   text:"Consider the following statements:\n1. Either of the two belts over the oceans at about 30° to 35° N and S Latitudes is known as Horse Latitude.\n2. Horse latitudes are low pressure belts.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0},
+
+  // 32
+  {id:32,yr:"2006",topic:"Local Winds & Geography",
+   text:"Consider the following statements:\n1. Length of a terrestrial mile is lesser than that of a nautical mile.\n2. Harmattan is a dusty land-wind of the East African Coast.\n3. Greece and Albania form a part of the Iberian Peninsula.\nWhich of the statements given above is/are correct?",
+   opts:["1, 2 and 3","2 and 3 only","3 only","1 only"],ans:3},
+
+  // 33
+  {id:33,yr:"2005",topic:"Coriolis Effect",
+   text:"Assertion (A): Wind patterns are clockwise in the northern hemisphere and anticlockwise in the southern hemisphere.\nReason (R): The directions of wind patterns in the northern and the southern hemisphere are governed by the Coriolis effect.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true and R is not the correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:0},
+
+  // 34
+  {id:34,yr:"2004",topic:"Clouds",
+   text:"Which one of the following statements is correct?",
+   opts:["Cirrus clouds are composed of ice crystals.",
+         "Cirrus clouds exhibit a flat base and have the appearance of rising domes.",
+         "Cumulus clouds are white and thin, and form delicate patches and give a fibrous and feathery appearance.",
+         "Cumulus clouds are classified as high clouds."],ans:0},
+
+  // 35
+  {id:35,yr:"2004",topic:"Atmosphere",
+   text:"Assertion (A): The thickness of the atmosphere is maximum over the Equator.\nReason (R): High insolation and strong convection currents occur over the Equator.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true but R is not the correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:0},
+
+  // 36
+  {id:36,yr:"2003",topic:"Forest Cover",
+   text:"Which one among the following covers the highest percentage of forest area in the world?",
+   opts:["Temperate Coniferous forests","Temperate Deciduous forests","Tropical Monsoon forests","Tropical Rain forests"],ans:0},
+
+  // 37
+  {id:37,yr:"2003",topic:"Humidity & Latitude",
+   text:"Assertion (A): The amount of moisture in the atmosphere is related to latitude.\nReason (R): The capacity to hold moisture in the form of water vapour is related to temperature.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true but R is NOT the correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:0},
+
+  // 38
+  {id:38,yr:"2003",topic:"Equatorial Rainfall",
+   text:"Assertion (A): Areas lying within five to eight degrees latitude on either side of the equator receive rainfall throughout the year.\nReason (R): High temperatures and high humidity cause convectional rain to fall mostly in the afternoons near the equator.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true but R is NOT the correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:0},
+
+  // 39
+  {id:39,yr:"2003",topic:"Tropical Rainforest",
+   text:"Assertion (A): Unlike temperate forests, the tropical rain forests, if cleared, can yield productive farm land that can support intensive agriculture for several years even without chemical fertilizers.\nReason (R): The primary productivity of the tropical rain forest is very high when compared to that of the temperate forests.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true but R is NOT the correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:3},
+
+  // 40
+  {id:40,yr:"2002",topic:"Thunder Clouds",
+   text:"Consider the following climatic and geographical phenomena:\n1. Condensation\n2. High temperature and humidity\n3. Orography\n4. Vertical wind\nThunder Cloud development is due to which of these phenomena?",
+   opts:["1 and 2","2, 3 and 4","1, 3 and 4","1, 2, 3 and 4"],ans:3},
+
+  // 41
+  {id:41,yr:"2002",topic:"El Niño / Monsoon",
+   text:"For short-term climate prediction, which one of the following events, detected in the last decade, is associated with occasional weak monsoon rains in the India subcontinent?",
+   opts:["La Niña","Movement of Jet Streams","El Niño and Southern Oscillations","Greenhouse effects on global level"],ans:2},
+
+  // 42
+  {id:42,yr:"2002",topic:"Climate Zones",
+   text:"Consider the following statements:\n1. In equatorial regions, the year is divided into four main seasons\n2. In Mediterranean region, summer receives more rain\n3. In China type climate, rainfall occurs throughout the year\n4. Tropical highlands exhibit vertical zonation of different climates\nWhich of these statements are correct?",
+   opts:["1, 2, 3 and 4","1, 2 and 3","1, 2 and 4","3 and 4"],ans:3},
+
+  // 43
+  {id:43,yr:"2002",topic:"Albedo & Ecosystems",
+   text:"Consider the following ecosystems:\n1. Taiga\n2. Tropical evergreen\n3. Tropical deciduous\n4. Tundra\nThe correct sequence in decreasing order of the albedo values of these ecosystems is:",
+   opts:["1, 4, 3, 2","4, 1, 2, 3","4, 1, 3, 2","1, 4, 2, 3"],ans:2},
+
+  // 44
+  {id:44,yr:"2002",topic:"Pressure Belts",
+   text:"Assertion (A): 60°–65° latitudes in both the hemispheres have a low pressure belt instead of high pressure.\nReason (R): The low pressure areas are permanent over oceans rather than on land.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true but R is not a correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:2},
+
+  // 45
+  {id:45,yr:"2002",topic:"Cyclones",
+   text:"Assertion (A): The surface winds spiral inwards upon the centre of the cyclone.\nReason (R): Air descends in the centre of the cyclone.",
+   opts:["Both A and R are individually true and R is the correct explanation of A",
+         "Both A and R are individually true but R is not a correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:2},
+
+  // 46
+  {id:46,yr:"2001",topic:"Climate Data Analysis",
+   text:"Temperature and rainfall data for a meteorological station:\nJ:9.4°C/12.2cm, F:10.6/9.1, M:11.7/7.9, A:12.2/2.5, M:13.3/1.8, J:13.9/0.3, J:13.9/-, A:14.4/-, S:15.6/0.8, O:15/2.5, N:13.3/6.1, D:10.6/11.7\nAvg Temp: 12.8°C | Avg Rainfall: 54.9cm p.a.\nIdentify the region:",
+   opts:["Mediterranean region","Monsoon region","Steppe region","N.W. European region"],ans:0},
+
+  // 47
+  {id:47,yr:"2001",topic:"Local Winds",
+   text:"Match the Local Wind with its Region:\nI. Fohn — A) Argentina\nII. Samun — B) Kurdistan\nIII. Santa Ana — C) California\nIV. Zonda — D) Alps\nSelect the correct matching:",
+   opts:["I-B, II-D, III-A, IV-C","I-D, II-B, III-C, IV-A","I-B, II-D, III-C, IV-A","I-D, II-B, III-A, IV-C"],ans:1},
+
+  // 48
+  {id:48,yr:"2001",topic:"Anticyclone",
+   text:"Assertion (A): Anticyclonic conditions are formed in winter season when atmospheric pressure is high and air temperatures are low.\nReason (R): Winter rainfall in Northern India causes development of anticyclonic conditions with low temperatures.",
+   opts:["Both A and R are individually true, and R is the correct explanation of A",
+         "Both A and R are individually true, but R is NOT a correct explanation of A",
+         "A is true, but R is false",
+         "A is false, but R is true"],ans:0},
+
+  // 49
+  {id:49,yr:"2001",topic:"Clouds & Heat",
+   text:"Cloudy nights are warmer compared to clear cloudless nights, because clouds:",
+   opts:["Prevent cold waves from the sky from descending on Earth",
+         "Reflect back heat given off by Earth",
+         "Produce heat and radiate it towards Earth",
+         "Absorb heat from the atmosphere and send it towards Earth"],ans:1},
+
+  // 50
+  {id:50,yr:"2000",topic:"Roaring Forties",
+   text:"Consider the following statements about the 'Roaring Forties':\nI. They blow uninterrupted in the Northern and Southern Hemispheres.\nII. They blow with great strength and constancy.\nIII. Their direction is generally from North-West to East in the Southern Hemisphere.\nIV. Overcast skies, rain and raw weather are generally associated with them.\nWhich of these statements are correct?",
+   opts:["I, II and III","II, III and IV","I, III and IV","I, II and IV"],ans:1},
+
+  // 51
+  {id:51,yr:"1999",topic:"Cyclone Rainfall",
+   text:"In the structure of a cyclone, which area witnesses heavy torrential short-duration rainfall accompanied by thunderstorms?\n(A = Eye Wall / Inner core; B = Outer spiral bands; C = Eye; D = Upper outflow region)",
+   opts:["A — Eye Wall","B — Outer Spiral Bands","C — Eye","D — Upper outflow"],ans:0},
+
+  // 52
+  {id:52,yr:"1999",topic:"Climate Data Analysis",
+   text:"Consider the following temperature and rainfall data:\nJan:6.7°C/14cm, Feb:6.7/13.2, Mar:7.2/11.4, Apr:8.9/9.4, May:11.1/8.1, Jun:13.9/8.1, Jul:15/9.6, Aug:15/12.2, Sep:13.9/10.4, Oct:11.1/14.4, Nov:8.9/14, Dec:7.8/16.8\nThe climate to which this data pertains is:",
+   opts:["St. Lawrence type","China type","West European type","Mediterranean type"],ans:2},
+
+  // 53
+  {id:53,yr:"1998",topic:"Climate Data Analysis",
+   text:"Consider the following climatic conditions (northern hemisphere):\nJan:3.9°C/4.7cm, Feb:4.4/5.7, Mar:8.3/8.2, Apr:14.4/9.2, May:20.0/9.2, Jun:23.3/17.7, Jul:27.8/14.5, Aug:27.8/14.0, Sep:22.3/12.7, Oct:18.3/7.0, Nov:12.2/5.0, Dec:6.7/3.5\nThese are most likely to be found in the natural regions of:",
+   opts:["China type","Equatorial type","Hot desert type","Monsoon type"],ans:0},
+
+  // 54
+  {id:54,yr:"1998",topic:"Atmospheric Layers",
+   text:"The correct sequence of different layers of the atmosphere from the surface of the Earth upwards is:",
+   opts:["Troposphere, Stratosphere, Ionosphere, Mesosphere",
+         "Stratosphere, Troposphere, Ionosphere, Mesosphere",
+         "Troposphere, Stratosphere, Mesosphere, Ionosphere",
+         "Stratosphere, Troposphere, Mesosphere, Ionosphere"],ans:2},
+
+  // 55
+  {id:55,yr:"1997",topic:"India Climate Zones",
+   text:"The January isotherm taken as a basis for dividing India into tropical and subtropical zones is:",
+   opts:["21°C","18°C","12°C","15°C"],ans:1},
+
+  // 56
+  {id:56,yr:"1997",topic:"Cartography",
+   text:"Daily weather map showing isobars is an example of:",
+   opts:["Choropleth map","Isopleth map","Chorochromatic map","Choroschematic map"],ans:1},
+
+  // 57
+  {id:57,yr:"1996",topic:"Ionosphere",
+   text:"Which one of the following layers of the atmosphere is responsible for the deflection of radio waves?",
+   opts:["Troposphere","Stratosphere","Mesosphere","Ionosphere"],ans:3},
+
+  // 58
+  {id:58,yr:"1996",topic:"Equatorial Rainfall",
+   text:"Assertion (A): Areas near the equator receive rainfall throughout the year.\nReason (R): High temperatures and high humidity cause convectional rain in most afternoons near the equator.",
+   opts:["Both A and R are true and R is the correct explanation of A",
+         "Both A and R are true but R is not a correct explanation of A",
+         "A is true but R is false",
+         "A is false but R is true"],ans:0},
+
+  // 59
+  {id:59,yr:"1996",topic:"Indian Monsoon",
+   text:"High temperature and low pressure over the Indian Subcontinent during the summer season, draws air from the Indian Ocean leading to the in-blowing of the:",
+   opts:["Southeast monsoon","Southwest monsoon","Trade winds","Westerlies"],ans:1},
+
+  // 60
+  {id:60,yr:"1995",topic:"Climate Zones",
+   text:"The graph shows mean average monthly temperatures (in °C) and mean monthly rainfall (in cms) of a place with wet summers and dry winters pattern typical of warm climate with seasonal rainfall peaking in summer months. This graph is indicative of which one of the climatic zones of the world?",
+   opts:["Wet and dry tropical","Rainy tropical","Semi-arid tropical","Temperate marine"],ans:0},
+
+  // 61
+  {id:61,yr:"1995",topic:"Local Winds",
+   text:"Willy-Willy is:",
+   opts:["A type of tree grown in temperate regions",
+         "A wind that blows in a desert",
+         "A tropical cyclone of the north-west Australia",
+         "A kind of common fish found near Lakshadweep islands"],ans:2},
+
+  // 62
+  {id:62,yr:"1995",topic:"Clouds",
+   text:"The clouds float in the atmosphere because of their low:",
+   opts:["Temperature","Velocity","Pressure","Density"],ans:3}
+];
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+const TOTAL=Q.length, TIME_LIMIT=40*60;
+let S={
+  cur:0, answers:new Array(TOTAL).fill(null),
+  skipped:new Array(TOTAL).fill(false),
+  startTime:null, timerInt:null, timeLeft:TIME_LIMIT, submitted:false
+};
+const L=['A','B','C','D'];
+
+// ════════════════════════════════════════════
+//  START
+// ════════════════════════════════════════════
+function startQuiz(){
+  const saved=localStorage.getItem('atmo_v1');
+  if(saved){
+    const d=JSON.parse(saved);
+    if(!d.submitted&&confirm('📂 Continue previous session?')){
+      S={...S,...d,timerInt:null};
+    } else {
+      localStorage.removeItem('atmo_v1');
+      S.startTime=Date.now();
+    }
+  } else {
+    S.startTime=Date.now();
+  }
+  showScreen('quiz-screen');
+  buildMap();
+  renderQ();
+  startTimer();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ════════════════════════════════════════════
+//  TIMER
+// ════════════════════════════════════════════
+function startTimer(){
+  if(S.timerInt)clearInterval(S.timerInt);
+  updateTimer();
+  S.timerInt=setInterval(()=>{
+    if(S.submitted){clearInterval(S.timerInt);return;}
+    S.timeLeft--;
+    updateTimer();
+    if(S.timeLeft%20===0)save();
+    if(S.timeLeft<=0){clearInterval(S.timerInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimer(){
+  const m=Math.floor(S.timeLeft/60),s=S.timeLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.timeLeft<=300?'timer-pill warn':'timer-pill';
+}
+const pad=n=>String(n).padStart(2,'0');
+
+// ════════════════════════════════════════════
+//  RENDER Q
+// ════════════════════════════════════════════
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=TOTAL;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYear').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('progFill').style.width=((i+1)/TOTAL*100)+'%';
+
+  const sp=document.getElementById('qStatus');
+  if(S.skipped[i]){sp.textContent='⤭ skipped';sp.className='meta-status skp';}
+  else if(S.answers[i]!==null){sp.textContent='✅ answered';sp.className='meta-status ans';}
+  else{sp.textContent='○ unanswered';sp.className='meta-status none';}
+
+  const og=document.getElementById('optsGrid');
+  og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn'+(S.answers[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-ltr">${L[idx]}</span><span>${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===TOTAL-1);
+  document.getElementById('btnNext').style.display=last?'none':'block';
+  document.getElementById('btnSubmit').style.display=last?'block':'none';
+  updateMap();
+}
+
+function pick(idx){
+  if(S.submitted)return;
+  S.answers[S.cur]=idx;
+  S.skipped[S.cur]=false;
+  renderQ();save();
+}
+function navigate(d){const n=S.cur+d;if(n>=0&&n<TOTAL){S.cur=n;renderQ();}}
+function skipQ(){
+  S.skipped[S.cur]=true;S.answers[S.cur]=null;save();
+  if(S.cur<TOTAL-1)navigate(1);else renderQ();
+}
+
+// ════════════════════════════════════════════
+//  MAP
+// ════════════════════════════════════════════
+function buildMap(){
+  const mp=document.getElementById('qMap');mp.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='qdot';d.textContent=i+1;d.id=`d${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};mp.appendChild(d);
+  });
+}
+function updateMap(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`);if(!d)return;
+    d.className='qdot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skipped[i])d.classList.add('skp-d');
+    else if(S.answers[i]!==null)d.classList.add('ans-d');
+  });
+}
+
+// ════════════════════════════════════════════
+//  MODAL
+// ════════════════════════════════════════════
+function showModal(){
+  const a=S.answers.filter(x=>x!==null).length;
+  const sk=S.skipped.filter(Boolean).length;
+  const un=TOTAL-a-sk;
+  document.getElementById('modalTxt').textContent=`Answered: ${a}  |  Skipped: ${sk}  |  Unanswered: ${un}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+
+// ════════════════════════════════════════════
+//  SUBMIT
+// ════════════════════════════════════════════
+function submitQuiz(){
+  closeModal();clearInterval(S.timerInt);S.submitted=true;
+  const used=(TIME_LIMIT)-S.timeLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skipped[i]||S.answers[i]===null)skipped++;
+    else if(S.answers[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const att=correct+wrong;
+  const pct=Math.round(correct/TOTAL*100);
+  const acc=att>0?Math.round(correct/att*100):0;
+  const avg=Math.round(used/TOTAL);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Excellent';gc='#00d4aa';}
+  else if(pct>=75){grade='🥇 Very Good';gc='#4da6ff';}
+  else if(pct>=60){grade='🥈 Good';gc='#c084fc';}
+  else if(pct>=45){grade='🥉 Average';gc='#f5a623';}
+  else{grade='📚 Keep Practising';gc='#ef4444';}
+
+  document.getElementById('scoreN').textContent=correct;
+  document.getElementById('scoreD').textContent='/ '+TOTAL;
+  const gt=document.getElementById('gradeTag');
+  gt.textContent=grade;gt.style.cssText=`background:${gc}18;color:${gc};border:1px solid ${gc}44`;
+  document.getElementById('pctT').textContent=pct+'% overall score';
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtTime(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🎉 Outstanding Performance!';document.getElementById('resSub').textContent='Strong command over Physical Geography & Climatology concepts.';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Effort!';document.getElementById('resSub').textContent='Review the weak topics highlighted below and try again.';}
+  else{document.getElementById('resTitle').textContent='📚 Keep Practising!';document.getElementById('resSub').textContent='Focus on the insights below and revise your notes systematically.';}
+
+  buildInsights(correct,wrong,skipped,pct,acc,att);
+  renderReview('all');
+  localStorage.removeItem('atmo_v1');
+  showScreen('results-screen');
+  window.scrollTo(0,0);
+}
+function fmtTime(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+// ════════════════════════════════════════════
+//  INSIGHTS
+// ════════════════════════════════════════════
+function buildInsights(correct,wrong,skipped,pct,acc,att){
+  const tw={};
+  Q.forEach((q,i)=>{if(!S.skipped[i]&&S.answers[i]!==null&&S.answers[i]!==q.ans)tw[q.topic]=(tw[q.topic]||0)+1;});
+  const ranked=Object.entries(tw).sort((a,b)=>b[1]-a[1]);
+  const ins=[];
+
+  if(pct>=90)ins.push('🌟 Stellar result! Near-mastery of Physical Geography and Climatology.');
+  else if(pct>=75)ins.push('💪 Strong performance. A few targeted revisions can push you into the excellence bracket.');
+  else if(pct>=50)ins.push('📈 Decent base. Systematic revision of wrong answers will significantly lift your score.');
+  else ins.push('📖 Start with fundamentals — Atmosphere, Climate Zones, Cyclones & Wind Systems are high-yield UPSC areas.');
+
+  if(acc<50&&att>10)ins.push(`🎯 Accuracy is ${acc}% — avoid guessing when uncertain. Use elimination technique instead.`);
+  if(skipped>10)ins.push(`⤭ ${skipped} questions skipped. In UPSC Prelims, an educated guess from 2 options is often worthwhile.`);
+
+  if(tw['Cyclones']||tw['Cyclogenesis']||tw['Cyclones & Jet Streams'])ins.push('🌀 Revise: Cyclone structure (eye, eye wall, spiral bands), cyclogenesis conditions, Coriolis effect on wind direction.');
+  if(tw['El Niño / La Niña']||tw['El Niño / Monsoon']||tw['Indian Ocean Dipole'])ins.push('🌊 Revise: ENSO (El Niño, La Niña), IOD, their impact on Indian monsoon — a recurring UPSC theme.');
+  if(tw['Atmosphere / Insolation']||tw['Atmosphere / Temperature']||tw['Atmospheric Layers'])ins.push('☀️ Revise: Layers of atmosphere, insolation types (UV, IR), temperature lapse rate in troposphere.');
+  if(tw['Climate Zones']||tw['Climate Data Analysis'])ins.push('🌍 Revise: Mediterranean, Monsoon, Equatorial, Savannah, China-type — learn to identify from data tables.');
+  if(tw['Westerlies']||tw['Wind Systems']||tw['Pressure Belts']||tw['Roaring Forties'])ins.push('💨 Revise: Pressure belts, planetary wind systems, horse latitudes, roaring forties, jet streams.');
+  if(tw['Albedo']||tw['Albedo & Ecosystems'])ins.push('🌨️ Revise: Albedo values — fresh snow > ice > sand > forests; higher albedo = more reflection = cooling effect.');
+  if(tw['Clouds']||tw['Clouds & Radiation']||tw['Thunder & Lightning'])ins.push('☁️ Revise: High vs low clouds, Cirrus (ice crystals), Cumulonimbus (thunderstorms), cloud warming/cooling effects.');
+  if(tw['Savannah / Biomes']||tw['Tropical Rainforest']||tw['Equatorial Forests'])ins.push('🌿 Revise: Biome characteristics — equatorial, savannah, taiga, tundra; epiphytes, canopy structure.');
+
+  ranked.slice(0,4).forEach(([t,c])=>{ins.push(`❌ Weak area — ${t}: ${c} wrong answer${c>1?'s':''}. Prioritise this in your revision schedule.`);});
+
+  const il=document.getElementById('insList');
+  il.innerHTML=ins.map(s=>`<div class="ins-item">${s}</div>`).join('');
+  if(ranked.length)il.innerHTML+=`<div class="weak-row">${ranked.map(([t])=>`<span class="wtag">${t}</span>`).join('')}</div>`;
+}
+
+// ════════════════════════════════════════════
+//  REVIEW
+// ════════════════════════════════════════════
+function switchTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(f);
+}
+function renderReview(filter){
+  let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.answers[i];
+    const isSkp=S.skipped[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWr=!isSkp&&!isOk;
+    if(filter==='correct'&&!isOk)return;
+    if(filter==='wrong'&&!isWr)return;
+    if(filter==='skipped'&&!isSkp)return;
+    const sc=isOk?'correct':isWr?'wrong':'skipped';
+    const st=isOk?'✅ Correct':isWr?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-item ${sc}">
+      <div class="rev-meta">
+        <span class="rqn">Q${i+1}</span>
+        <span class="ryr">${q.yr}</span>
+        <span class="rbadge ${sc}">${st}</span>
+        <span class="rtopic">${q.topic}</span>
+      </div>
+      <div class="rqtext">${q.text}</div>
+      <div>
+        <div class="rans"><span class="rl">Your Answer:</span><span class="rv ${isSkp?'':isOk?'c':'w'}">${uaTxt}</span></div>
+        <div class="rans"><span class="rl">Correct Answer:</span><span class="rv c">${caTxt}</span></div>
+      </div>
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-family:var(--mono)">// no questions in this category</p>';
+  document.getElementById('revList').innerHTML=html;
+}
+
+// ════════════════════════════════════════════
+//  SAVE / RESTART
+// ════════════════════════════════════════════
+function save(){
+  localStorage.setItem('atmo_v1',JSON.stringify({cur:S.cur,answers:S.answers,skipped:S.skipped,startTime:S.startTime,timeLeft:S.timeLeft,submitted:S.submitted}));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be lost.'))return;
+  clearInterval(S.timerInt);localStorage.removeItem('atmo_v1');
+  S={cur:0,answers:new Array(TOTAL).fill(null),skipped:new Array(TOTAL).fill(false),startTime:null,timerInt:null,timeLeft:TIME_LIMIT,submitted:false};
+  showScreen('start-screen');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiIQ — Indian Agriculture UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b1208;--bg2:#111a0d;--bg3:#182212;
+  --g1:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);
+  --leaf:#4ade80;--leaf2:#86efac;--leaf3:#bbf7d0;
+  --gold:#d4a847;--gold2:#f0c060;--gold3:#fde68a;
+  --rust:#e07a30;--rust2:#f59e0b;
+  --sky:#38bdf8;--violet:#a78bfa;
+  --grn:#22c55e;--red:#ef4444;--yel:#fbbf24;
+  --txt:#eef2e8;--txt2:#8a9e7a;--txt3:#a8b89a;
+  --mono:'JetBrains Mono',monospace;
+  --serif:'DM Serif Display',serif;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+
+/* Organic texture overlay */
+body::after{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.6}
+
+body::before{content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 30%, rgba(74,222,128,.09) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 85% 70%, rgba(212,168,71,.07) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 60% at 50% 100%, rgba(224,122,48,.06) 0%, transparent 50%);
+  pointer-events:none;z-index:0}
+
+/* Subtle field-row lines */
+.field-lines{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(
+    175deg,
+    transparent 0px,
+    transparent 58px,
+    rgba(74,222,128,.018) 58px,
+    rgba(74,222,128,.018) 60px
+  )}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ══════════ START ══════════ */
+#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0}
+
+.emblem{
+  width:108px;height:108px;border-radius:24px;
+  background:linear-gradient(145deg,rgba(74,222,128,.15),rgba(212,168,71,.12));
+  border:1px solid rgba(74,222,128,.3);
+  display:flex;align-items:center;justify-content:center;font-size:3.2rem;
+  margin:0 auto 2rem;
+  box-shadow:0 0 0 12px rgba(74,222,128,.04), 0 0 60px rgba(74,222,128,.12);
+  animation:breathe 4s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{box-shadow:0 0 0 12px rgba(74,222,128,.04),0 0 60px rgba(74,222,128,.12)}
+  50%{box-shadow:0 0 0 20px rgba(74,222,128,.08),0 0 90px rgba(74,222,128,.25)}
+}
+
+.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--leaf);margin-bottom:.9rem;opacity:.8}
+.s-title{font-family:var(--serif);font-size:clamp(3rem,9vw,6rem);line-height:.9;margin-bottom:.5rem;color:var(--txt)}
+.s-title em{font-style:italic;color:var(--gold2)}
+.s-desc{font-size:.9rem;color:var(--txt2);max-width:440px;line-height:1.7;margin:0 auto 2.5rem}
+
+.info-bar{display:flex;max-width:620px;width:100%;border-radius:18px;overflow:hidden;border:1px solid var(--gb);margin:0 auto 2.5rem}
+.ib{flex:1;padding:1rem .8rem;background:var(--g1);text-align:center;border-right:1px solid var(--gb);backdrop-filter:blur(14px)}
+.ib:last-child{border-right:none}
+.ib-val{font-family:var(--serif);font-size:1.6rem;color:var(--gold2);display:block;line-height:1}
+.ib-lbl{font-family:var(--mono);font-size:.62rem;color:var(--txt2);margin-top:.3rem;letter-spacing:.08em;text-transform:uppercase}
+
+.crops-cloud{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:580px;margin:0 auto 2.5rem}
+.ctag{font-size:.72rem;padding:.3rem .85rem;border-radius:50px;
+  border:1px solid rgba(74,222,128,.2);background:rgba(74,222,128,.06);
+  color:var(--leaf2);transition:.2s;cursor:default}
+.ctag:hover{border-color:var(--leaf);background:rgba(74,222,128,.14)}
+
+.cta-btn{
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:1.1rem 3rem;
+  background:linear-gradient(135deg,#16a34a,var(--leaf),#86efac);
+  color:var(--bg);border:none;border-radius:50px;
+  font-family:var(--serif);font-size:1.1rem;font-weight:400;
+  cursor:pointer;letter-spacing:.02em;
+  box-shadow:0 6px 28px rgba(74,222,128,.3);transition:.25s;
+}
+.cta-btn:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(74,222,128,.5)}
+.cta-arrow{font-size:1.3rem;transition:transform .2s}
+.cta-btn:hover .cta-arrow{transform:translateX(5px)}
+.s-note{font-family:var(--mono);font-size:.7rem;color:var(--txt2);margin-top:1rem;opacity:.6}
+
+/* ══════════ QUIZ ══════════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.shell{max-width:880px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.85rem;padding-bottom:1.5rem}
+
+/* Header */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 1.25rem;background:var(--g1);border:1px solid var(--gb);
+  border-radius:16px;backdrop-filter:blur(16px)
+}
+.qnum{font-family:var(--serif);font-size:1.1rem;color:var(--txt)}
+.qnum em{color:var(--gold2);font-style:normal}
+.timer{
+  font-family:var(--mono);font-size:.88rem;font-weight:600;
+  padding:.38rem 1.1rem;border-radius:50px;
+  background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);
+  color:var(--leaf);letter-spacing:.05em;transition:.3s
+}
+.timer.red{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:var(--red);animation:blink .8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+.progbar{height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.progfill{height:100%;background:linear-gradient(90deg,#16a34a,var(--leaf),var(--gold2));border-radius:10px;transition:width .5s ease;box-shadow:0 0 12px rgba(74,222,128,.5)}
+
+/* Card */
+.card{
+  background:linear-gradient(150deg,rgba(24,34,18,.97),rgba(11,18,8,.99));
+  border:1px solid rgba(74,222,128,.13);border-radius:26px;
+  padding:2rem 2.2rem;
+  box-shadow:0 12px 50px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:cardIn .35s cubic-bezier(.4,0,.2,1)
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.q-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.m-num{font-family:var(--mono);font-size:.7rem;font-weight:600;
+  background:linear-gradient(135deg,#16a34a,var(--leaf));color:var(--bg);
+  padding:.25rem .75rem;border-radius:6px;letter-spacing:.04em}
+.m-yr{font-family:var(--mono);font-size:.68rem;color:var(--gold2);
+  background:rgba(212,168,71,.1);padding:.25rem .7rem;border-radius:6px;
+  border:1px solid rgba(212,168,71,.28)}
+.m-topic{font-family:var(--mono);font-size:.65rem;color:var(--leaf3);
+  background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);
+  padding:.25rem .7rem;border-radius:6px}
+.m-status{margin-left:auto;font-family:var(--mono);font-size:.65rem;font-weight:600;padding:.25rem .78rem;border-radius:6px}
+.ms-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+.ms-ans{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.ms-skp{background:rgba(251,191,36,.1);color:var(--yel);border:1px solid rgba(251,191,36,.28)}
+
+.q-text{font-size:.95rem;line-height:1.85;color:var(--txt);margin-bottom:1.4rem;white-space:pre-wrap}
+
+/* Map image */
+.mapbox{display:flex;flex-direction:column;align-items:center;gap:.6rem;margin:1rem 0}
+.mapbox img{
+  max-width:100%;max-height:320px;border-radius:14px;
+  border:1px solid rgba(74,222,128,.2);
+  box-shadow:0 6px 30px rgba(0,0,0,.6);
+  background:#fff;padding:4px;object-fit:contain;
+  opacity:0;transition:opacity .4s ease
+}
+.mapbox img.vis{opacity:1}
+.mapcap{font-size:.72rem;color:var(--leaf2);text-align:center;
+  padding:.38rem .9rem;background:rgba(74,222,128,.07);
+  border-radius:8px;border:1px solid rgba(74,222,128,.15);font-style:italic}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.6rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.85rem;
+  padding:.9rem 1.05rem;
+  background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.06);
+  border-radius:13px;cursor:pointer;transition:all .2s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:var(--sans);font-size:.875rem;line-height:1.55;
+  position:relative;overflow:hidden
+}
+.opt::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(74,222,128,.09),transparent);
+  opacity:0;transition:.2s}
+.opt:hover:not(.sel):not(:disabled)::before{opacity:1}
+.opt:hover:not(.sel):not(:disabled){border-color:rgba(74,222,128,.4);color:var(--txt);transform:translateX(5px)}
+.opt-l{min-width:28px;height:28px;border-radius:8px;
+  background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--leaf);
+  flex-shrink:0;transition:.2s;position:relative;z-index:1}
+.opt-t{position:relative;z-index:1}
+.opt.sel{background:rgba(74,222,128,.12);border-color:var(--leaf);color:var(--txt)}
+.opt.sel .opt-l{background:var(--leaf);color:var(--bg)}
+
+/* Nav */
+.nav{display:flex;justify-content:space-between;margin-top:1.5rem;gap:.6rem;flex-wrap:wrap}
+.navg{display:flex;gap:.55rem}
+.btn{padding:.68rem 1.4rem;border:none;border-radius:50px;
+  font-family:var(--sans);font-size:.83rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-gh{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
+.btn-gh:hover{background:rgba(255,255,255,.1)}
+.btn-gh:disabled{opacity:.28;cursor:not-allowed}
+.btn-skip{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);color:var(--yel)}
+.btn-skip:hover{background:rgba(251,191,36,.2)}
+.btn-go{background:linear-gradient(135deg,#16a34a,var(--leaf));color:var(--bg);font-weight:700;box-shadow:0 4px 18px rgba(74,222,128,.3)}
+.btn-go:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(74,222,128,.5)}
+.btn-sub{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);font-weight:700;box-shadow:0 4px 16px rgba(212,168,71,.3)}
+.btn-sub:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,71,.5)}
+
+/* Dot map */
+.dotmap{display:flex;flex-wrap:wrap;gap:.32rem;max-width:880px;width:100%;margin:0 auto}
+.dot{width:28px;height:28px;border-radius:8px;border:none;
+  font-family:var(--mono);font-size:.62rem;font-weight:600;
+  cursor:pointer;transition:.17s;
+  background:rgba(255,255,255,.05);color:var(--txt2)}
+.dot:hover{background:rgba(74,222,128,.18);color:var(--leaf)}
+.dot.cur{background:linear-gradient(135deg,#16a34a,var(--leaf));color:var(--bg);box-shadow:0 2px 12px rgba(74,222,128,.4)}
+.dot.d-ans{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.dot.d-skp{background:rgba(251,191,36,.14);color:var(--yel);border:1px solid rgba(251,191,36,.3)}
+
+/* ══════════ MODAL ══════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
+  backdrop-filter:blur(16px);z-index:600;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#0f1c0a;border:1px solid rgba(74,222,128,.28);border-radius:26px;
+  padding:2.2rem;max-width:420px;width:100%;text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 60px rgba(74,222,128,.06)}
+.modal-ic{font-size:3rem;margin-bottom:.9rem}
+.modal h3{font-family:var(--serif);font-size:1.35rem;margin-bottom:.7rem;color:var(--leaf2)}
+.modal p{color:var(--txt2);font-size:.85rem;line-height:1.7;margin-bottom:1.5rem;
+  font-family:var(--mono);white-space:pre-wrap}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+
+/* ══════════ RESULTS ══════════ */
+#results-screen{flex-direction:column;align-items:center;padding:2rem 1rem}
+.rshell{max-width:920px;width:100%}
+
+/* Hero */
+.res-hero{
+  border:1px solid rgba(74,222,128,.18);border-radius:28px;
+  padding:2.8rem 2rem;text-align:center;
+  background:linear-gradient(145deg,rgba(74,222,128,.06),rgba(212,168,71,.04));
+  margin-bottom:1.5rem;overflow:hidden;position:relative
+}
+.res-hero::before{content:'';position:absolute;inset:0;
+  background:conic-gradient(from 0deg at 50% 100%,transparent 60%,rgba(74,222,128,.05) 80%,transparent);
+  animation:heroSpin 18s linear infinite;pointer-events:none}
+@keyframes heroSpin{to{transform:rotate(360deg)}}
+
+.score-ring{width:160px;height:160px;margin:0 auto 1.5rem;position:relative}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rg-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:10}
+.rg-fill{fill:none;stroke-width:10;stroke-linecap:round;
+  transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.rg-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rg-num{font-family:var(--serif);font-size:2.8rem;line-height:1;color:var(--gold2)}
+.rg-den{font-family:var(--mono);font-size:.78rem;color:var(--txt2)}
+
+.res-h{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.5rem);color:var(--txt);margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.88rem;margin-bottom:1.2rem;position:relative;z-index:1}
+.grade-tag{display:inline-block;font-family:var(--serif);font-size:1rem;font-style:italic;
+  padding:.4rem 1.5rem;border-radius:50px;margin-bottom:.5rem;position:relative;z-index:1}
+.pct-txt{font-family:var(--mono);font-size:.8rem;color:var(--txt2);position:relative;z-index:1}
+
+/* Stats */
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1.5rem}
+.sc{background:var(--g1);border:1px solid var(--gb);border-radius:18px;
+  padding:1.2rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.22s}
+.sc:hover{transform:translateY(-3px);border-color:rgba(74,222,128,.25)}
+.sc-ic{font-size:1.5rem;margin-bottom:.4rem}
+.sc-v{font-family:var(--serif);font-size:1.5rem;margin-bottom:.12rem}
+.sc-l{font-family:var(--mono);font-size:.62rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em}
+
+/* Advanced analytics panel */
+.analytics{border:1px solid rgba(74,222,128,.2);border-radius:22px;
+  background:linear-gradient(145deg,rgba(74,222,128,.06),rgba(212,168,71,.03));
+  padding:1.8rem;margin-bottom:1.5rem}
+.analytics h3{font-family:var(--serif);font-size:1.05rem;color:var(--gold2);margin-bottom:1.4rem;display:flex;align-items:center;gap:.5rem}
+
+/* Topic performance grid */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem;margin-bottom:1.4rem}
+.topic-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:.9rem 1rem}
+.tc-name{font-family:var(--mono);font-size:.68rem;color:var(--txt3);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.05em}
+.tc-bar-wrap{height:5px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden;margin-bottom:.4rem}
+.tc-bar{height:100%;border-radius:10px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.tc-stats{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.65rem}
+.tc-stat-c{color:var(--grn)}
+.tc-stat-w{color:var(--red)}
+
+/* Insight lines */
+.ins-box{margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.06)}
+.ins-box h4{font-family:var(--mono);font-size:.72rem;color:var(--leaf);margin-bottom:.9rem;letter-spacing:.08em;text-transform:uppercase}
+.ins-line{font-size:.82rem;color:var(--txt2);margin-bottom:.55rem;line-height:1.65;
+  padding-left:.8rem;border-left:2px solid rgba(74,222,128,.25)}
+.weak-pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+.wpill{font-family:var(--mono);font-size:.66rem;padding:.24rem .72rem;border-radius:6px;
+  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.22);color:#fca5a5}
+
+/* Tabs */
+.tabs{display:flex;gap:.3rem;background:var(--g1);border:1px solid var(--gb);
+  border-radius:12px;padding:.28rem;backdrop-filter:blur(10px);margin-bottom:1rem}
+.tab{flex:1;padding:.48rem;border:none;border-radius:8px;
+  font-family:var(--mono);font-size:.7rem;font-weight:600;
+  cursor:pointer;transition:.2s;background:transparent;color:var(--txt2);letter-spacing:.03em}
+.tab.on{background:linear-gradient(135deg,#16a34a,var(--leaf));color:var(--bg)}
+
+/* Review */
+.rev{background:var(--g1);border:1px solid var(--gb);border-radius:18px;
+  padding:1.3rem;margin-bottom:.9rem;border-left:3px solid transparent;
+  backdrop-filter:blur(10px);transition:.2s;animation:cardIn .32s ease}
+.rev:hover{transform:translateX(4px)}
+.rev.correct{border-left-color:var(--grn)}
+.rev.wrong{border-left-color:var(--red)}
+.rev.skipped{border-left-color:var(--yel)}
+.rev-top{display:flex;align-items:center;gap:.42rem;margin-bottom:.72rem;flex-wrap:wrap}
+.rn{font-family:var(--mono);font-size:.66rem;padding:.2rem .6rem;
+  border-radius:5px;background:rgba(255,255,255,.06);color:var(--txt2)}
+.ry{font-family:var(--mono);font-size:.66rem;color:var(--gold2);
+  background:rgba(212,168,71,.1);padding:.2rem .6rem;border-radius:5px;border:1px solid rgba(212,168,71,.25)}
+.rb{font-family:var(--mono);font-size:.64rem;font-weight:600;padding:.2rem .65rem;border-radius:5px}
+.rb.correct{background:rgba(34,197,94,.14);color:#4ade80}
+.rb.wrong{background:rgba(239,68,68,.14);color:#fca5a5}
+.rb.skipped{background:rgba(251,191,36,.12);color:var(--yel)}
+.rt{margin-left:auto;font-family:var(--mono);font-size:.63rem;color:var(--leaf2);
+  background:rgba(74,222,128,.08);padding:.2rem .6rem;border-radius:5px;border:1px solid rgba(74,222,128,.18)}
+.rq{font-size:.83rem;color:var(--txt2);margin-bottom:.85rem;line-height:1.68;white-space:pre-wrap}
+.ra{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.3rem;align-items:flex-start}
+.ra .rl{font-family:var(--mono);font-weight:600;min-width:130px;color:var(--txt2);flex-shrink:0;font-size:.7rem}
+.ra .rv{color:var(--txt)}
+.ra .rv.ok{color:#4ade80}
+.ra .rv.no{color:#fca5a5}
+.rev-map{max-width:240px;border-radius:10px;border:1px solid rgba(74,222,128,.18);
+  margin:.65rem 0;display:block;background:#fff;padding:3px;
+  opacity:0;transition:opacity .4s}
+.rev-map.vis{opacity:1}
+.expl{margin-top:.8rem;padding:.85rem 1rem;
+  background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.14);
+  border-radius:10px;font-size:.79rem;color:var(--leaf3);line-height:1.68}
+.expl strong{color:var(--leaf2)}
+
+.res-footer{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-danger{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.28);color:#fca5a5;
+  padding:.75rem 1.7rem;border-radius:50px;font-family:var(--sans);font-size:.85rem;
+  font-weight:600;cursor:pointer;transition:.2s}
+.btn-danger:hover{background:rgba(239,68,68,.22)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(74,222,128,.3);border-radius:10px}
+
+@media(max-width:620px){
+  .sgrid{grid-template-columns:repeat(2,1fr)}
+  .nav{flex-direction:column}
+  .navg{justify-content:center;width:100%}
+  .modal-btns{flex-direction:column}
+  .tab{font-size:.62rem}
+  .topic-grid{grid-template-columns:1fr 1fr}
+  .info-bar{flex-direction:column}
+  .ib{border-right:none;border-bottom:1px solid var(--gb)}
+  .ib:last-child{border-bottom:none}
+  .ra .rl{min-width:100px}
+}
+</style>
+</head>
+<body>
+<div class="field-lines"></div>
+
+<!-- ══════════════ START ══════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="emblem">🌾</div>
+  <div class="eyebrow">UPSC Prelims PYQ Series</div>
+  <h1 class="s-title">Krishi<em>IQ</em></h1>
+  <p class="s-desc">Indian Agriculture & Farming — 43 questions from UPSC Civil Services Prelims (1995–2023) with smart topic analytics and detailed explanations</p>
+
+  <div class="info-bar">
+    <div class="ib"><span class="ib-val">43</span><span class="ib-lbl">Questions</span></div>
+    <div class="ib"><span class="ib-val">30</span><span class="ib-lbl">Minutes</span></div>
+    <div class="ib"><span class="ib-val">MCQ</span><span class="ib-lbl">Format</span></div>
+    <div class="ib"><span class="ib-val">PYQ</span><span class="ib-lbl">Source</span></div>
+  </div>
+
+  <div class="crops-cloud">
+    <span class="ctag">🌾 Kharif & Rabi</span>
+    <span class="ctag">☕ Cash Crops</span>
+    <span class="ctag">🫘 Pulses</span>
+    <span class="ctag">🌻 Oilseeds</span>
+    <span class="ctag">🍬 Sugarcane</span>
+    <span class="ctag">🌿 Soil & Irrigation</span>
+    <span class="ctag">🗺️ Map Questions</span>
+    <span class="ctag">🌱 Organic Farming</span>
+    <span class="ctag">🍵 Tea & Coffee</span>
+    <span class="ctag">🌾 Rice & Wheat</span>
+    <span class="ctag">📊 State Rankings</span>
+  </div>
+
+  <button class="cta-btn" onclick="startQuiz()">Begin Quiz <span class="cta-arrow">→</span></button>
+  <div class="s-note">// auto-saves progress · resume anytime</div>
+</div>
+
+<!-- ══════════════ QUIZ ══════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="shell">
+    <div class="hdr">
+      <div class="qnum">Q <em id="qCur">1</em> / <em id="qTot">43</em></div>
+      <div class="timer" id="timerEl">⏱ 30:00</div>
+    </div>
+    <div class="progbar"><div class="progfill" id="progfill" style="width:0%"></div></div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="m-num" id="qBadge">Q1</span>
+        <span class="m-yr" id="qYr">—</span>
+        <span class="m-topic" id="qTopic">—</span>
+        <span class="m-status ms-none" id="qSt">○ unanswered</span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="mapbox" id="mapbox" style="display:none">
+        <img id="mapImg" src="" alt="Map" onload="this.classList.add('vis')" onerror="this.parentElement.style.display='none'">
+        <div class="mapcap" id="mapCap"></div>
+      </div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="nav">
+        <div class="navg">
+          <button class="btn btn-gh" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skip()">⤭ Skip</button>
+        </div>
+        <div class="navg">
+          <button class="btn btn-go" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-sub" id="btnSub" style="display:none" onclick="showModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotmap" id="dotmap"></div>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <div class="modal-ic">📋</div>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-gh" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-sub" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ RESULTS ══════════════ -->
+<div id="results-screen" class="screen">
+  <div class="rshell">
+    <div class="res-hero">
+      <div class="res-h" id="resH">Quiz Complete!</div>
+      <div class="res-sub" id="resSub"></div>
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="rg-bg" cx="60" cy="60" r="50"/>
+          <circle class="rg-fill" id="rgarc" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="rg-center">
+          <div class="rg-num" id="rgNum">0</div>
+          <div class="rg-den" id="rgDen">/ 43</div>
+        </div>
+      </div>
+      <div class="grade-tag" id="gradeTag">—</div>
+      <div class="pct-txt" id="pctTxt"></div>
+    </div>
+
+    <div class="sgrid">
+      <div class="sc"><div class="sc-ic">✅</div><div class="sc-v" id="stC" style="color:var(--grn)">0</div><div class="sc-l">Correct</div></div>
+      <div class="sc"><div class="sc-ic">❌</div><div class="sc-v" id="stW" style="color:var(--red)">0</div><div class="sc-l">Wrong</div></div>
+      <div class="sc"><div class="sc-ic">⤭</div><div class="sc-v" id="stS" style="color:var(--yel)">0</div><div class="sc-l">Skipped</div></div>
+      <div class="sc"><div class="sc-ic">🎯</div><div class="sc-v" id="stAcc" style="color:var(--leaf)">0%</div><div class="sc-l">Accuracy</div></div>
+      <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v" id="stTime" style="color:var(--gold2)">—</div><div class="sc-l">Time Taken</div></div>
+      <div class="sc"><div class="sc-ic">📊</div><div class="sc-v" id="stAvg" style="color:var(--violet)">—</div><div class="sc-l">Avg / Q</div></div>
+    </div>
+
+    <div class="analytics">
+      <h3>📊 Advanced Topic Analysis</h3>
+      <div class="topic-grid" id="topicGrid"></div>
+      <div class="ins-box">
+        <h4>🧠 Smart Insights & Revision Guide</h4>
+        <div id="insList"></div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (43)</button>
+      <button class="tab" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-footer">
+      <button class="btn-danger" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-go" onclick="scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L=['A','B','C','D'];
+const TOTAL=43, TIME=30*60;
+
+// ══════════════════════════════════════════
+//  43 QUESTIONS — Indian Agriculture
+// ══════════════════════════════════════════
+const Q=[
+  {id:1,yr:"2023",topic:"India vs China Agriculture",
+   text:"Consider the following statements:\n1. India has more arable area than China\n2. The proportion of irrigated area is more in India as compared to China\n3. The average productivity per hectare in Indian agriculture is higher than that in China\nHow many of the above statements are correct?",
+   opts:["Only one","Only two","All three","None"],ans:1,
+   exp:"Statement 1 is CORRECT — India's arable land (~156 Mha) is more than China's (~119 Mha). Statement 2 is CORRECT — India irrigates a higher proportion of its arable land than China. Statement 3 is WRONG — China's per hectare productivity is significantly higher than India's for most crops. So only TWO statements are correct."},
+
+  {id:2,yr:"2022",topic:"Tea Producing States",
+   text:"Consider the following States: Andhra Pradesh, Kerala, Himachal Pradesh, Tripura\nHow many of the above are generally known as tea-producing States?",
+   opts:["Only one State","Only two States","Only three States","All four States"],ans:3,
+   exp:"All four states produce tea! Andhra Pradesh (Araku valley), Kerala (Munnar, Wayanad), Himachal Pradesh (Kangra valley tea), and Tripura (one of the top 4 tea producing states in India). Many students miss AP and HP, but all four are indeed tea-producing states."},
+
+  {id:3,yr:"2021",topic:"Moringa & Tamarind",
+   text:"Consider the following statements:\n1) Moringa (drumstick tree) is a leguminous evergreen tree.\n2) Tamarind tree is endemic to South Asia.\n3) In India, most of the tamarind is collected as minor forest produce.\n4) India exports tamarind and seeds of moringa.\n5) Seeds of moringa and tamarind can be used in the production of biofuels.\nWhich of the statements given above are correct?",
+   opts:["1, 2, 4 and 5","3, 4 and 5","1, 3 and 4","1, 2, 3 and 5"],ans:1,
+   exp:"Statement 1 WRONG — Moringa (Moringaceae family) is NOT a legume. Statement 2 WRONG — Tamarind is native to tropical Africa, not South Asia. Statement 3 CORRECT — most tamarind in India is indeed collected as minor forest produce. Statement 4 CORRECT — India exports both tamarind and moringa seeds. Statement 5 CORRECT — both can be used for biofuel. So 3, 4 and 5 are correct."},
+
+  {id:4,yr:"2021",topic:"Permaculture Farming",
+   text:"How is permaculture farming different from conventional chemical farming?\n1) Permaculture farming discourages monocultural practices but in conventional chemical farming, monoculture practices are predominant.\n2) Conventional chemical farming can cause increase in soil salinity but this is not observed in permaculture farming.\n3) Conventional chemical farming is easily possible in semi-arid regions but permaculture farming is not so easily possible in such regions.\n4) Practice of mulching is very important in permaculture farming but not necessarily so in conventional chemical farming.\nSelect the correct answer:",
+   opts:["1 and 3","1, 2 and 4","4 only","2 and 3"],ans:1,
+   exp:"Statement 1 CORRECT — permaculture opposes monoculture; conventional farming promotes it. Statement 2 CORRECT — chemical irrigation causes soil salinization; permaculture uses natural water management. Statement 3 WRONG — permaculture can be practiced in semi-arid regions and is even preferred there for water conservation. Statement 4 CORRECT — mulching is a key permaculture practice to retain soil moisture. So 1, 2 and 4 are correct."},
+
+  {id:5,yr:"2021",topic:"Water-Efficient Crops",
+   text:"Among the following, which one is the least water-efficient crop?",
+   opts:["Sugarcane","Sunflower","Pearl millet","Red gram"],ans:0,
+   exp:"Sugarcane is the LEAST water-efficient crop — it requires 1500–3000 mm of water and has one of the highest water footprints among food crops (~210 litres per 100g of sugar). In contrast, Pearl millet and Red gram (pigeon pea) are highly drought-tolerant crops requiring much less water. Sunflower is moderately water-efficient."},
+
+  {id:6,yr:"2020",topic:"Fertigation",
+   text:"What are the advantages of fertigation in agriculture?\n1. Controlling the alkalinity of irrigation water is possible.\n2. Efficient application of Rock Phosphate and all other phosphatic fertilizers is possible.\n3. Increased availability of nutrients to plants is possible.\n4. Reduction in the leaching of chemical nutrients is possible.\nSelect the correct answer:",
+   opts:["1, 2 and 3 only","1, 2 and 4 only","1, 3 and 4 only","2, 3 and 4 only"],ans:2,
+   exp:"Fertigation (fertilizer + irrigation via drip/sprinkler) advantages: (1) CORRECT — pH/alkalinity of water can be adjusted. (2) WRONG — Rock Phosphate is insoluble and CANNOT be efficiently applied through fertigation; only soluble phosphates work. (3) CORRECT — nutrients are delivered directly to root zone, improving uptake. (4) CORRECT — targeted delivery reduces leaching. So 1, 3 and 4 are correct."},
+
+  {id:7,yr:"2020",topic:"Pulse Production India",
+   text:"With reference to pulse production in India, consider the following statements:\n1. Black gram can be cultivated as both kharif and rabi crop.\n2. Green-gram alone accounts for nearly half of pulse production.\n3. In the last three decades, while the production of kharif pulses has increased, the production of rabi pulses has decreased.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 and 3 only","2 only","1, 2 and 3"],ans:0,
+   exp:"Statement 1 CORRECT — Black gram (Vigna mungo) is grown in both kharif and rabi seasons in India. Statement 2 WRONG — Tur/Pigeon pea dominates pulse production (around 15-20%), not green gram. Green gram accounts for about 10-12%. Statement 3 WRONG — both kharif and rabi pulse production have generally increased over three decades. Only statement 1 is correct."},
+
+  {id:8,yr:"2020",topic:"Crop Identification",
+   text:"\"The crop is subtropical in nature. A hard frost is injurious to it. It requires at least 210 frost-free days and 50 to 100 centimeters of rainfall for its growth. A light well-drained soil capable of retaining moisture is ideally suited for the cultivation of the crop.\"\nWhich one of the following is that crop?",
+   opts:["Cotton","Jute","Sugarcane","Tea"],ans:0,
+   exp:"The description perfectly fits COTTON: subtropical/tropical, frost-sensitive, needs 210+ frost-free days, requires 50-100 cm rainfall (cotton can grow in drier conditions compared to sugarcane/tea), and prefers light, well-drained (black/alluvial) soil with good moisture retention. Jute needs very high rainfall (>150cm), Sugarcane needs 100-175cm, Tea needs high rainfall and humidity."},
+
+  {id:9,yr:"2020",topic:"Sugarcane Cultivation",
+   text:"With reference to the current trends in the cultivation of sugarcane in India, consider the following statements:\n1. A substantial saving in seed material is made when 'bud chip settlings' are raised in a nursery and transplanted in the main field.\n2. When direct planting of setts is done, germination percentage is better with single-budded setts as compared to setts with many buds.\n3. If bad weather conditions prevail when setts are directly planted, single-budded setts have better survival as compared to large setts.\n4. Sugarcane can be cultivated using settlings prepared from tissue culture.\nWhich of the statements given above is/are correct?",
+   opts:["1 and 2 only","3 only","1 and 4 only","2, 3 and 4 only"],ans:2,
+   exp:"Statement 1 CORRECT — bud chip settling technology saves significant seed material (one bud per settling vs. 2-3 buds in conventional). Statement 2 WRONG — single-budded setts actually have LOWER germination rates (more risk if bud fails) compared to multi-budded setts. Statement 3 WRONG — single-budded setts are MORE vulnerable in bad weather, NOT better. Statement 4 CORRECT — tissue culture settlings for sugarcane are commercially used. So 1 and 4 are correct."},
+
+  {id:10,yr:"2019",topic:"Rice Export",
+   text:"Among the following, which one is the largest exporter of rice in the world in the last five years?",
+   opts:["China","India","Myanmar","Vietnam"],ans:1,
+   exp:"India has been the world's largest exporter of rice for several years, surpassing Thailand and Vietnam. India exports both basmati and non-basmati rice to over 150 countries. China, despite being the largest producer, is actually a NET IMPORTER of rice. Myanmar and Vietnam export significant quantities but lag behind India. India's rice exports have been around 20+ million tonnes annually."},
+
+  {id:11,yr:"2018",topic:"Agriculture Soils",
+   text:"With reference to agriculture soils, consider the following statements:\n1. A high content of organic matter drastically reduces its water holding capacity.\n2. Soil does not play any role in the sulphur cycle.\n3. Irrigation over a period of time can contribute to the salinization of some agricultural lands.\nWhich of the statements given above is/are correct?",
+   opts:["1 and 2 only","3 only","1 and 3 only","1, 2 and 3"],ans:1,
+   exp:"Statement 1 WRONG — high organic matter INCREASES water holding capacity (humus can hold water many times its weight). Statement 2 WRONG — soil plays a KEY role in the sulphur cycle; soil bacteria decompose sulphur compounds and plants absorb sulphate from soil. Statement 3 CORRECT — prolonged irrigation (especially in arid regions with poor drainage) causes evaporation of water, leaving behind salts — a serious problem in Punjab, Haryana, Rajasthan. Only Statement 3 is correct."},
+
+  {id:12,yr:"2017",topic:"Water Conservation Agriculture",
+   text:"Which of the following practices can help in water conservation in agriculture?\n1. Reduced or zero tillage of the land\n2. Applying gypsum before irrigating the field\n3. Allowing crop residue to remain in the field\nSelect the correct answer:",
+   opts:["1 and 2 only","3 only","1 and 3 only","1, 2 and 3"],ans:3,
+   exp:"All three conserve water: (1) CORRECT — Zero/reduced tillage reduces soil disturbance, maintains soil structure, and reduces evaporation. (2) CORRECT — Gypsum (calcium sulphate) improves soil permeability in saline-alkaline soils, allowing water infiltration rather than runoff. (3) CORRECT — Crop residues act as mulch, reducing evaporation from soil surface. All three are valid water conservation techniques."},
+
+  {id:13,yr:"2014",topic:"Regional Crops",
+   text:"Consider the following pairs:\n   Region: Well-known for the production of\n1. Kinnaur: Areca nut\n2. Mewat: Mango\n3. Coromandel: Soya bean\nWhich of the above pairs is/are correctly matched?",
+   opts:["1 and 2 only","3 only","1, 2 and 3","None"],ans:3,
+   exp:"NONE are correctly matched: Kinnaur (HP) is famous for APPLES, dry fruits, and horticulture — NOT areca nut. Mewat (Haryana) is not particularly known for mango — UP, Bihar and AP are major mango producers. Coromandel (coastal SE India) is known for rice, not soya bean (soya bean is mainly from MP, Maharashtra). So NONE of the pairs are correctly matched."},
+
+  {id:14,yr:"2013",topic:"Kharif Crops",
+   text:"Consider the following crops:\n1. Cotton\n2. Groundnut\n3. Rice\n4. Wheat\nWhich of these are Kharif crops?",
+   opts:["1 and 4","2 and 3 only","1, 2 and 3","2, 3 and 4"],ans:2,
+   exp:"KHARIF crops are sown with onset of monsoon (June-July) and harvested in autumn (Sept-Oct). Cotton (1) KHARIF, Groundnut (2) KHARIF, Rice (3) KHARIF — all three are kharif crops. Wheat (4) is a RABI crop (sown Oct-Nov, harvested March-April). So 1, 2 and 3 are kharif crops."},
+
+  {id:15,yr:"2012",topic:"Rainfed Crops",
+   text:"Consider the following crops of India:\n1. Groundnut\n2. Sesamum\n3. Pearl millet\nWhich of the above is/are predominantly rainfed crop/crops?",
+   opts:["1 & 2 only","2 & 3 only","3 only","1, 2 & 3"],ans:3,
+   exp:"All three are predominantly rainfed crops in India: Groundnut (1) — mostly grown in Rajasthan, Gujarat, AP under rainfed conditions. Sesamum/Sesame (2) — highly drought-tolerant, mostly rainfed. Pearl millet/Bajra (3) — extremely drought-tolerant, cultivated in arid/semi-arid rainfed regions of Rajasthan, Gujarat, Haryana. All three are classified as dryland/rainfed crops."},
+
+  {id:16,yr:"2012",topic:"Mixed Farming",
+   text:"Which of the following is the chief characteristic of 'mixed farming'?",
+   opts:["Cultivation of both cash crops and food crops","Cultivation of two or more crops in the same field","Rearing of animals and cultivation of crops together","None of the above"],ans:2,
+   exp:"Mixed farming is defined as the integration of CROP CULTIVATION and ANIMAL HUSBANDRY on the same farm. Animals provide manure for crops, and crop residues feed animals — creating a symbiotic system. Option A describes 'diversified farming'. Option B describes 'intercropping' or 'multiple cropping'. Mixed farming specifically refers to the combination of livestock rearing with crop cultivation."},
+
+  {id:17,yr:"2012",topic:"Multipurpose Crops",
+   text:"Consider the following crops of India:\n1. Cowpea\n2. Green gram\n3. Pigeon pea\nWhich of the above is/are used as pulse, fodder and green manure?",
+   opts:["1 & 2 only","2 & 3 only","1 & 3 only","1, 2 & 3"],ans:3,
+   exp:"All three are multipurpose legumes used as pulse (food), fodder (animal feed) and green manure (nitrogen fixation when ploughed under): Cowpea (1) — widely used as all three. Green gram/Moong (2) — used as pulse, fodder, and excellent green manure. Pigeon pea/Tur (3) — pulse crop, stalks used as fodder, roots fix nitrogen. All three are versatile multipurpose leguminous crops."},
+
+  {id:18,yr:"2011",topic:"Orchid Cultivation",
+   text:"Among the following states, which one has the most suitable climatic conditions for the cultivation of a large variety of orchids with minimum cost of production, and can develop an export-oriented industry in this field?",
+   opts:["Andhra Pradesh","Arunachal Pradesh","Madhya Pradesh","Uttar Pradesh"],ans:1,
+   exp:"Arunachal Pradesh has the IDEAL conditions for orchids: cool subtropical/montane climate, high humidity, heavy rainfall, rich biodiversity with natural orchid habitats. India has ~1,300+ orchid species of which a majority are found in NE India, especially Arunachal Pradesh. The state already has natural orchid diversity which reduces cultivation costs and it is explored for export-oriented orchid production."},
+
+  {id:19,yr:"2011",topic:"Crop Geography",
+   text:"The lower Gangetic plain is characterised by humid climate with high temperature throughout the year. Which one among the following pairs of crops is most suitable for this region?",
+   opts:["Paddy and cotton","Wheat and jute","Paddy and jute","Wheat and cotton"],ans:2,
+   exp:"Lower Gangetic plain (Bihar, West Bengal, parts of UP) has: high humidity, high temperature year-round, high rainfall. This suits PADDY (rice) — needs standing water, high humidity, high temps — and JUTE — needs high temperatures (24-35°C), heavy rainfall (150-200 cm), and humidity during growth. Wheat needs cool winters, Cotton needs moderate rainfall. So Paddy + Jute is the correct pair."},
+
+  {id:20,yr:"2010",topic:"Tamil Nadu Cotton Industry",
+   text:"Tamil Nadu is a leading producer of mill-made cotton yarn in the country. What could be the reason?\n1. Black cotton soil is the predominant type of soil in the State.\n2. Rich pool of skilled labour is available.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1,
+   exp:"Statement 1 WRONG — Tamil Nadu's predominant soils are RED soils and laterite, NOT black cotton soil (Regur). Black soil is found mainly in Maharashtra, parts of AP, MP and Gujarat. Statement 2 CORRECT — Tamil Nadu's strength in textile/cotton mills is due to its rich skilled labour pool in spinning and textile operations, cheap power (historically), entrepreneurial community, and port access for export. Only statement 2 is correct."},
+
+  {id:21,yr:"2010",topic:"Coffee vs Tea Cultivation",
+   text:"Though coffee and tea both are cultivated on hill slopes, there is some difference between them regarding their cultivation. Consider the following statements:\n1. Coffee plant requires a hot and humid climate of tropical areas whereas tea can be cultivated in both tropical and subtropical areas.\n2. Coffee is propagated by seeds but tea is propagated by stem cuttings only.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0,
+   exp:"Statement 1 CORRECT — Coffee is tropical (needs 15-28°C, 150-250 cm rainfall, humidity), while tea can grow in subtropical areas too (Darjeeling, Assam, Kangra in HP, Dooars — ranging from tropical to subtropical). Statement 2 WRONG — Coffee is indeed propagated by seeds BUT tea is propagated by BOTH seeds AND stem cuttings (vegetative propagation). The statement says tea is propagated by stem cuttings 'only' which is incorrect. Only statement 1 is correct."},
+
+  {id:22,yr:"2008",topic:"Chikmagalur & Mandya",
+   text:"Consider the following statements:\n1. Chikmagalur is well-known for sugar production.\n2. Mandya is well-known as a coffee-production region.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3,
+   exp:"Statement 1 WRONG — Chikmagalur (Karnataka) is famous for COFFEE production (it's the birthplace of coffee in India!), not sugar. Statement 2 WRONG — Mandya (Karnataka) is famous for SUGAR CANE and SUGAR production (it has Asia's one of the largest sugar mills). The options are SWAPPED! This is a classic trick question in UPSC. NEITHER statement is correct as stated."},
+
+  {id:23,yr:"2007",topic:"Foodgrain Production Sequence",
+   text:"Which one of the following is the correct sequence in the decreasing order of production (in million tonnes) of the given foodgrains in India?",
+   opts:["Wheat-Rice-Pulses-Coarse cereals","Rice-Wheat-Pulses-Coarse-cereals","Wheat-Rice-Coarse cereals-Pulses","Rice-Wheat-Coarse cereals-Pulses"],ans:3,
+   exp:"Historical production sequence in India by volume: Rice > Wheat > Coarse cereals > Pulses. Rice production has consistently exceeded wheat production (though they are close). Coarse cereals (sorghum, bajra, maize) come third, and Pulses have the lowest production among the four categories. So the correct order is Rice > Wheat > Coarse cereals > Pulses."},
+
+  {id:24,yr:"2007",topic:"Tea Plantations Africa",
+   text:"Assertion (A): There are no tea plantations in any African country.\nReason (R): Tea plants need fertile soil with high humus.",
+   opts:["Both A and R are individually true and R is the correct explanation of A","Both A and R are individually true but R is not the correct explanation of A","A is true but R is false","A is false but R is true"],ans:3,
+   exp:"Assertion A is FALSE — Kenya is one of the world's LARGEST tea producers/exporters! Other African countries like Tanzania, Rwanda, Uganda, Malawi, Ethiopia, and Zimbabwe also produce tea. Reason R is TRUE — tea does prefer fertile, humus-rich, well-drained acidic soils. Since A is false and R is true, the answer is D."},
+
+  {id:25,yr:"2006",topic:"Net Sown Area AP vs WB",
+   text:"Assertion (A): The percentage of net sown area in the total area of Andhra Pradesh is less as compared to that of West Bengal.\nReason (R): The soil of most of Andhra Pradesh is laterite.",
+   opts:["Both A and R are individually true and R is the correct explanation of A","Both A and R are individually true but R is not the correct explanation of A","A is true but R is false","A is false but R is true"],ans:2,
+   exp:"Assertion A is CORRECT — West Bengal has a higher % of net sown area relative to its total area compared to AP (WB has less forest/hilly terrain). Reason R is WRONG — Andhra Pradesh predominantly has RED soils, not laterite. Laterite is found in smaller pockets in AP. The lower sown area in AP is due to Deccan plateau terrain, forest areas, and Eastern Ghats — not laterite soil. So A is correct but R is false."},
+
+  {id:26,yr:"2005",topic:"India Agriculture Facts",
+   text:"Consider the following statements:\n1. India is the only country in the world producing all the five known commercial varieties of silk.\n2. India is the largest producer of sugar in the world.\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0,
+   exp:"Statement 1 CORRECT — India is the ONLY country that produces all five types of commercial silk: Mulberry, Eri, Tasar (Tussah), Muga, and Spider silk. This makes India unique globally in silk diversity. Statement 2 WRONG — Brazil is the world's largest producer of sugarcane and sugar. India is the second-largest producer. So only statement 1 is correct."},
+
+  {id:27,yr:"2004",topic:"Kharif Crops Identification",
+   text:"Consider the following crops:\n1. Cotton\n2. Groundnut\n3. Maize\n4. Mustard\nWhich of the above are Kharif crops?",
+   opts:["1 and 2","1, 2 and 3","3 and 4","1, 2, 3 and 4"],ans:1,
+   exp:"Kharif crops (sown June-July, harvested Sept-Oct): Cotton (1) KHARIF, Groundnut (2) KHARIF, Maize (3) KHARIF. Mustard (4) is a RABI crop — sown Oct-Nov and harvested Feb-March (cold season crop). So 1, 2 and 3 are kharif; mustard is rabi."},
+
+  {id:28,yr:"2004",topic:"Natural Rubber Export",
+   text:"Assertion (A): India does not export natural rubber.\nReason (R): About 97% of India's demand for natural rubber is met from domestic production.",
+   opts:["Both A and R are individually true and R is the correct explanation of A","Both A and R are individually true but R is not the correct explanation of A","A is true but R is false","A is false but R is true"],ans:3,
+   exp:"Assertion A is FALSE — India DOES export natural rubber, though in smaller quantities. India exports rubber to various countries despite also importing some grades. Reason R is TRUE — India is largely self-sufficient in natural rubber, with Kerala producing ~90% of domestic output, and domestic production meeting most of the demand. Since A is false but R is true, answer is D."},
+
+  {id:29,yr:"2003",topic:"Eastern Coast Rice Production",
+   text:"Assertion (A): The eastern coast of India produces more rice than the western coast.\nReason (R): The eastern coast receives more rainfall than the western coast.",
+   opts:["Both A and R are individually true and R is the correct explanation of A","Both A and R are individually true but R is NOT the correct explanation of A","A is true but R is false","A is false but R is true"],ans:0,
+   exp:"Assertion A is TRUE — Eastern coast (Coromandel coast, Godavari-Krishna delta, Bengal delta) is a major rice producing region. Reason R is ALSO TRUE — but wait! The western coast (Western Ghats, Malabar, Konkan) actually receives MORE rainfall than the eastern coast. However, the eastern coast has BETTER river delta systems, alluvial soil, and multiple cropping. The correct answer per official key is A — both true and R explains A (though geographically the W coast has more rainfall, the eastern coast's deltaic conditions and water availability via rivers explain the rice production difference)."},
+
+  {id:30,yr:"2002",topic:"Indian Agriculture Facts",
+   text:"With reference to Indian agriculture, which one of the following statements is correct?",
+   opts:["About 90 per cent of the area under pulses in India is rainfed.",
+         "The share of pulses in the gross cropped area at the national level has doubled in the last two decades",
+         "India accounts for about 15 per cent of the total area under rice in the world",
+         "Rice occupies about 34 per cent of the gross cropped area of India"],ans:0,
+   exp:"Option A CORRECT — approximately 87-90% of pulse cultivation in India is rainfed, making pulses extremely vulnerable to rainfall variability. Option B WRONG — the share of pulses in GCA has actually DECLINED, not doubled. Option C WRONG — India accounts for about 25-28% of world rice area, not 15%. Option D WRONG — rice occupies about 23-25% of GCA, not 34%. Option A is the correct statement."},
+
+  {id:31,yr:"2000",topic:"Sugarcane Producing States",
+   text:"The correct sequence in decreasing order of the four sugarcane producing States in India is:",
+   opts:["Maharashtra, U.P., Tamil Nadu, Andhra Pradesh","U.P., Maharashtra, Tamil Nadu, Andhra Pradesh","Maharashtra, U.P., Andhra Pradesh, Tamil Nadu","U.P., Maharashtra, Andhra Pradesh, Tamil Nadu"],ans:1,
+   exp:"Sugarcane production order: Uttar Pradesh > Maharashtra > Karnataka > Tamil Nadu (historically). UP is consistently the largest sugarcane producer (contributing ~40-45% of India's sugarcane). Maharashtra is second. Among the options given, UP, Maharashtra, Tamil Nadu, Andhra Pradesh is the correct descending order. Note: In some years Karnataka exceeds Tamil Nadu, but among these specific four states, the sequence B is correct."},
+
+  {id:32,yr:"2000",topic:"State Crop Rankings",
+   text:"Consider the following statements:\nI. Maharashtra has the highest acreage under jowar in India.\nII. Gujarat is the largest producer of groundnut in India.\nIII. Rajasthan has the largest area of cultivable wastelands in India.\nIV. Andhra Pradesh has the highest per hectare yield of maize in India.\nWhich of these statements are correct?",
+   opts:["I and IV","II and III","I and III","II and IV"],ans:1,
+   exp:"Statement I CORRECT — Maharashtra historically has the highest area under jowar (sorghum), being the major food crop of the Deccan plateau. Statement II CORRECT — Gujarat is the largest producer of groundnut in India. Statement III WRONG — Rajasthan has large wasteland but Rajasthan may not be #1 for 'cultivable' wastelands (contested). Statement IV WRONG — AP is not necessarily the highest maize yield state; Karnataka, Andhra Pradesh, Telangana and Bihar are competitive. Official answer is I and III per original key — Maharashtra jowar and Rajasthan wasteland."},
+
+  {id:33,yr:"1999",topic:"Crop Climate Matching",
+   text:"Match List I with List II:\n   Crop ↔ Climate Conditions\nI. Cotton    → A. Rainfall 1000-1500 mm, Temp 40°-60°C\nII. Flax      → B. Rainfall 1500-2000 mm, Temp 25°-35°C\nIII. Sugarbeet → C. Rainfall 600-800 mm, Temp 5°-18°C\nIV. Jute      → D. Rainfall 500-1000 mm, Temp 18°-22°C\n                        E. Rainfall 500-600 mm, Temp 18°-22°C\nCorrect matching I-II-III-IV:",
+   opts:["I-A, II-C, III-D, IV-B","I-B, II-C, III-E, IV-D","I-D, II-E, III-B, IV-A","I-D, II-C, III-E, IV-B"],ans:3,
+   exp:"Cotton (I) → D: Rainfall 500-1000 mm, Temp 18-22°C — cotton needs moderate rainfall and warm temps (though actual growing temp is higher, the classification here matches D). Flax (II) → C: Cool climate, 600-800 mm rainfall, 5-18°C. Sugarbeet (III) → E: 500-600mm, 18-22°C. Jute (IV) → B: High rainfall 1500-2000 mm, high temperature 25-35°C (hot humid climate). So I-D, II-C, III-E, IV-B."},
+
+  {id:34,yr:"1998",topic:"Agricultural Products by State",
+   text:"Match List I (Agricultural products) with List II (Foremost producer):\nI. Cotton    → A. Madhya Pradesh\nII. Gram      → B. Gujarat\nIII. Black pepper → C. West Bengal\nIV. Pineapple → D. Kerala\nCorrect matching I-II-III-IV:",
+   opts:["I-B, II-A, III-D, IV-C","I-B, II-A, III-C, IV-D","I-A, II-B, III-D, IV-C","I-A, II-B, III-C, IV-D"],ans:0,
+   exp:"Cotton (I) → B Gujarat: Gujarat is a top cotton producer. Gram/Chickpea (II) → A MP: Madhya Pradesh is consistently the largest producer of gram. Black pepper (III) → D Kerala: Kerala is the 'Spice Garden of India', dominant in black pepper. Pineapple (IV) → C West Bengal: West Bengal (along with NE states) is a major pineapple producer. So I-B, II-A, III-D, IV-C."},
+
+  {id:35,yr:"1997",topic:"Crop Climate Geography",
+   text:"Match List I (Crops) with List II (Geographical conditions):\nI. Barley    → A. Hot and dry climate with poor soil\nII. Rice      → B. Cool climate with poorer soil\nIII. Millets   → C. Warm and moist climate with high altitude\nIV. Tea        → D. Hot and moist climate with rich soil\nCorrect matching I-II-III-IV:",
+   opts:["I-B, II-D, III-A, IV-C","I-C, II-D, III-A, IV-B","I-B, II-A, III-D, IV-C","I-C, II-B, III-D, IV-A"],ans:0,
+   exp:"Barley (I) → B: Cool climate, can grow on poor soil (hardy crop, grows in hills). Rice (II) → D: Hot, moist (high rainfall/irrigation), rich alluvial soil needed. Millets (III) → A: Hot, dry climate, thrives on poor/sandy soil (highly drought-tolerant). Tea (IV) → C: Warm-moist climate, high altitude (hillsides), well-drained acid soils. So I-B, II-D, III-A, IV-C."},
+
+  {id:36,yr:"1997",topic:"Crop Map Analysis",
+   text:"The places marked A, B, C and D in the map of India are respectively known for the cultivation of:",
+   opts:["groundnut, ragi, tobacco and sugarcane","groundnut, sugarcane, ragi and tobacco","ragi, sugarcane, groundnut and tobacco","ragi, groundnut, sugarcane and tobacco"],
+   ans:1,
+   mapImg:"https://i.ibb.co/prRF8f0G/Screenshot-2026-03-29-013122.png",
+   mapCap:"🗺️ Map of India — identify crops grown at marked locations A, B, C and D",
+   exp:"Looking at the map: A (Gujarat/Rajasthan region) = Groundnut — Gujarat is India's top groundnut producer. B (Karnataka/Maharashtra belt) = Sugarcane — major sugarcane belt. C (Eastern AP/Karnataka) = Ragi (finger millet) — major ragi belt in peninsular India. D (Andhra Pradesh/Guntur area) = Tobacco — Guntur is the largest tobacco market in Asia. So A=groundnut, B=sugarcane, C=ragi, D=tobacco."},
+
+  {id:37,yr:"1997",topic:"Oilseed Production Sequence",
+   text:"The following are the major oilseeds produced in India:\nI. Sesamum\nII. Mustard\nIII. Groundnut\nIV. Soyabean\nWhich one of the following is the correct sequence of the descending order of the quantity of their production?",
+   opts:["I, II, III, IV","III, II, IV, I","II, IV, III, I","IV, III, II, I"],ans:3,
+   exp:"Oilseed production order in India by volume: Groundnut used to dominate but now Soyabean has overtaken many oilseeds. Approximate descending order: Soyabean (IV) > Groundnut (III) > Mustard (II) > Sesamum (I). Soyabean production surged dramatically in India (mainly MP, Maharashtra, Rajasthan). Groundnut comes second. Mustard is third (mainly Rajasthan, UP). Sesamum has the lowest production among these four."},
+
+  {id:38,yr:"1996",topic:"State Crop Pairs",
+   text:"Which of the following pairs of states and their important crops are correctly matched?\nI. Kerala: Tapioca\nII. Maharashtra: Cotton\nIII. W. Bengal: Jute\nIV. Gujarat: Groundnut\nSelect the correct answer:",
+   opts:["I, II and III","I, II and IV","I, III and IV","II, III and IV"],ans:3,
+   exp:"All four pairs are actually correct: Kerala-Tapioca (✓), Maharashtra-Cotton (✓), WB-Jute (✓), Gujarat-Groundnut (✓). But the question asks which are 'correctly matched' and the official answer is D (II, III and IV). Some sources suggest Kerala-Rubber/Coconut is more prominent than Tapioca. However, Kerala IS a major tapioca producer. Per official key, D (II, III and IV) is the answer — implying Kerala-Tapioca is considered less definitive."},
+
+  {id:39,yr:"1996",topic:"Wheat Cultivation",
+   text:"Which one of the following sets of conditions is necessary for a good cultivation of wheat?",
+   opts:["Moderate temperature and moderate rainfall","High temperature and heavy rainfall","High temperature and moderate rainfall","Low temperature and low rainfall"],ans:0,
+   exp:"Wheat requires: MODERATE temperature (15-20°C during growing season, cool winters for vernalization, warm dry weather at harvest), and MODERATE rainfall (50-100 cm, well-distributed) OR irrigation. High temperatures damage wheat (susceptible to heat stress). Heavy rainfall causes lodging and fungal diseases. Low temperature at early stages is needed but frost is harmful. Moderate temperature + moderate rainfall is the ideal condition."},
+
+  {id:40,yr:"1996",topic:"Barak Valley Crops",
+   text:"Which one of the following is an important crop of the Barak valley?",
+   opts:["Jute","Tea","Sugarcane","Cotton"],ans:0,
+   exp:"The Barak Valley in southern Assam (Cachar, Karimganj, Hailakandi districts) is known primarily for JUTE cultivation. The valley's hot humid climate with heavy rainfall (similar to Bengal) is ideal for jute. The Barak river system creates alluvial plains similar to the Ganga delta, making it suitable for jute. Tea is also grown in the region but jute is the most characteristic crop of Barak valley."},
+
+  {id:41,yr:"1996",topic:"Cotton Producing Areas",
+   text:"Which one of the following areas of India produces largest amount of cotton?",
+   opts:["North-western India and Gangetic West Bengal","North-western and Western India","Western and Southern India","Plains of Northern India"],ans:1,
+   exp:"The largest cotton-producing region of India is North-western and Western India — primarily Gujarat and Maharashtra (which together account for over 60% of India's cotton production). Rajasthan, Punjab and Haryana in NW also produce significant cotton. Gujarat is consistently the #1 cotton state. Maharashtra (Vidarbha) is second. Together these NW + W regions dominate Indian cotton production."},
+
+  {id:42,yr:"1995",topic:"Non-Cereal Crop Map",
+   text:"In the map given below, four areas are differently shaded — three indicate cereal crop production areas and one indicates non-cereal crop production area. Identify the non-cereal crop production area:",
+   opts:["1","2","3","4"],ans:3,
+   mapImg:"https://i.ibb.co/kgmfgkJG/Screenshot-2026-03-29-013136.png",
+   mapCap:"🗺️ India map showing crop areas — identify the non-cereal crop production area (1, 2, 3 or 4)",
+   exp:"From the map, areas 1, 2, 3 represent cereal crop regions (rice, wheat, millets). Area 4 represents a NON-CEREAL crop region. Looking at the map positions, area 4 (typically the northeast/eastern coastal region shown) represents jute — which is a non-cereal cash crop. The three cereal areas would be rice belt (east), wheat belt (northwest), and millet belt (peninsular). Area 4 indicates the jute/non-cereal region."},
+
+  {id:43,yr:"1995",topic:"International Trade in Crops",
+   text:"In which one of the following crops is international trade low in the context of total produce?",
+   opts:["Rice","Coffee","Rubber","Wheat"],ans:0,
+   exp:"RICE has the LOWEST international trade relative to total production among these crops. Despite being a major global staple, only about 5-8% of total rice production enters international trade (most is consumed domestically in producing countries like China, India, Bangladesh). Coffee has a very HIGH trade ratio (it's a major export commodity). Rubber and Wheat also have high trade ratios. Rice is thus the answer — low international trade relative to production."}
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let S={cur:0,ans:new Array(TOTAL).fill(null),skp:new Array(TOTAL).fill(false),
+       startTime:null,tLeft:TIME,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('krishiiq_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('📂 Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    }else{localStorage.removeItem('krishiiq_v1');S.startTime=Date.now();}
+  }else{S.startTime=Date.now();}
+  show('quiz-screen');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  tickTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;tickTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function tickTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer red':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=TOTAL;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('progfill').style.width=((i+1)/TOTAL*100)+'%';
+
+  const sp=document.getElementById('qSt');
+  if(S.skp[i])          {sp.textContent='⤭ skipped';  sp.className='m-status ms-skp';}
+  else if(S.ans[i]!==null){sp.textContent='✅ answered'; sp.className='m-status ms-ans';}
+  else                  {sp.textContent='○ unanswered';sp.className='m-status ms-none';}
+
+  // Map
+  const mb=document.getElementById('mapbox'),mi=document.getElementById('mapImg'),mc=document.getElementById('mapCap');
+  if(q.mapImg){
+    mi.classList.remove('vis');mi.src=q.mapImg;
+    mc.textContent=q.mapCap||'';mb.style.display='flex';
+  }else{mb.style.display='none';}
+
+  // Options
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-l">${L[idx]}</span><span class="opt-t">${o}</span>`;
+    b.onclick=()=>pick(idx);og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===TOTAL-1);
+  document.getElementById('btnNext').style.display=last?'none':'block';
+  document.getElementById('btnSub').style.display=last?'block':'none';
+  updateDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<TOTAL){S.cur=n;renderQ();}}
+function skip(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<TOTAL-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotmap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dt${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dt${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showModal(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  const un=TOTAL-a-sk;
+  document.getElementById('modalTxt').textContent=
+    `Answered: ${a}  |  Skipped: ${sk}  |  Unanswered: ${un}\n\nOnce submitted, you cannot change answers.`;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+
+// ══════════════════════════════════════════
+//  SUBMIT & ANALYTICS
+// ══════════════════════════════════════════
+function submitQuiz(){
+  closeModal();clearInterval(S.tInt);S.done=true;
+  const used=TIME-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+
+  // Per-topic tracking
+  const topics={};
+  Q.forEach((q,i)=>{
+    if(!topics[q.topic])topics[q.topic]={c:0,w:0,s:0,total:0};
+    topics[q.topic].total++;
+    if(S.skp[i]||S.ans[i]===null){skipped++;topics[q.topic].s++;}
+    else if(S.ans[i]===q.ans){correct++;topics[q.topic].c++;}
+    else{wrong++;topics[q.topic].w++;}
+  });
+
+  const att=correct+wrong;
+  const pct=Math.round(correct/TOTAL*100);
+  const acc=att?Math.round(correct/att*100):0;
+  const avg=Math.round(used/TOTAL);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Exceptional';gc='#4ade80';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#d4a847';}
+  else if(pct>=60){grade='🥈 Good';gc='#38bdf8';}
+  else if(pct>=45){grade='🥉 Average';gc='#a78bfa';}
+  else{grade='📚 Needs Revision';gc='#ef4444';}
+
+  // Ring animation
+  const arc=document.getElementById('rgarc');
+  arc.style.stroke=gc;
+  setTimeout(()=>{arc.style.strokeDashoffset=314.16*(1-pct/100);},100);
+
+  document.getElementById('rgNum').textContent=correct;
+  document.getElementById('rgDen').textContent='/ '+TOTAL;
+  const gt=document.getElementById('gradeTag');
+  gt.textContent=grade;gt.style.cssText=`background:${gc}1a;color:${gc};border:1px solid ${gc}44`;
+  document.getElementById('pctTxt').textContent=`${pct}% · ${correct} correct from ${TOTAL} questions`;
+
+  if(pct>=75){document.getElementById('resH').textContent='🌾 Excellent Harvest!';document.getElementById('resSub').textContent='Strong grasp of Indian Agriculture. Keep this momentum going!';}
+  else if(pct>=50){document.getElementById('resH').textContent='🌱 Good Effort!';document.getElementById('resSub').textContent='Solid foundation — review the weak topics and you\'ll master this.';}
+  else{document.getElementById('resH').textContent='📚 Needs More Cultivation!';document.getElementById('resSub').textContent='Focus on the insights below. Systematic revision will improve your score significantly.';}
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  buildTopicGrid(topics);
+  buildInsights(topics,pct,acc,skipped,att);
+  renderReview('all');
+  localStorage.removeItem('krishiiq_v1');
+  show('results-screen');
+}
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildTopicGrid(topics){
+  const tg=document.getElementById('topicGrid');tg.innerHTML='';
+  Object.entries(topics).sort((a,b)=>b[1].total-a[1].total).forEach(([name,d])=>{
+    const pct=d.total>0?Math.round(d.c/d.total*100):0;
+    const clr=pct>=70?'#4ade80':pct>=40?'#fbbf24':'#ef4444';
+    tg.innerHTML+=`<div class="topic-card">
+      <div class="tc-name">${name}</div>
+      <div class="tc-bar-wrap"><div class="tc-bar" style="width:${pct}%;background:${clr}"></div></div>
+      <div class="tc-stats">
+        <span class="tc-stat-c">✅ ${d.c}/${d.total}</span>
+        <span>${pct}%</span>
+        <span class="tc-stat-w">❌ ${d.w}</span>
+      </div>
+    </div>`;
+  });
+  // Trigger bar animations after DOM insert
+  setTimeout(()=>{
+    document.querySelectorAll('.tc-bar').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,50);});
+  },100);
+}
+
+function buildInsights(topics,pct,acc,skipped,att){
+  const ins=[];
+  if(pct>=90)ins.push('🌟 Near-mastery of Indian Agriculture! Exceptional performance — you are UPSC-ready on this topic.');
+  else if(pct>=75)ins.push('💪 Strong performance! Target the weak topics identified above to achieve full mastery.');
+  else if(pct>=50)ins.push('📈 Good foundation. Systematic revision of the weak areas below will significantly boost your score.');
+  else ins.push('📖 Start fresh with NCERT Class 10 Agriculture chapter + NCERT Class 12 Human Geography before retrying.');
+
+  if(att>0&&acc<55&&att>8)ins.push(`🎯 Accuracy at ${acc}% — try elimination technique. Remove 2 wrong options first, then choose from remaining 2.`);
+  if(skipped>8)ins.push(`⤭ You skipped ${skipped} questions. UPSC has no negative marking for skipped questions — educated guesses from 2 options can help.`);
+
+  // Topic-specific advice
+  if(topics['Kharif Crops']?.w||topics['Kharif Crops Identification']?.w||topics['Rainfed Crops']?.w)
+    ins.push('🌾 Revise crop seasons: Kharif (June-Oct): Rice, Cotton, Groundnut, Maize, Jute, Sugarcane. Rabi (Oct-Mar): Wheat, Mustard, Barley, Peas, Gram. Zaid (Mar-Jun): Watermelon, Muskmelon.');
+  if(topics['Tea Producing States']?.w||topics['Coffee vs Tea Cultivation']?.w||topics['Chikmagalur & Mandya']?.w)
+    ins.push('☕ Tea/Coffee facts: Chikmagalur = coffee, Mandya = sugarcane/sugar. Tea states: Assam, WB, Tamil Nadu, Kerala, Karnataka, HP, Tripura, Arunachal Pradesh.');
+  if(topics['Regional Crops']?.w||topics['State Crop Rankings']?.w||topics['Agricultural Products by State']?.w)
+    ins.push('🗺️ Key state-crop rankings: Gujarat=Cotton/Groundnut, MP=Gram/Soyabean, Kerala=Rubber/Black Pepper, WB=Jute/Rice, UP=Sugarcane/Wheat, Rajasthan=Bajra/Mustard.');
+  if(topics['Crop Climate Matching']?.w||topics['Crop Climate Geography']?.w||topics['Crop Identification']?.w)
+    ins.push('🌡️ Crop-climate matching: Jute=hot humid >150cm rain; Wheat=cool moderate 50-100cm; Tea=cool hills acidic soil; Cotton=moderate rainfall black soil; Rice=hot humid alluvial soil.');
+  if(topics['Pulse Production India']?.w||topics['Multipurpose Crops']?.w||topics['Indian Agriculture Facts']?.w)
+    ins.push('🫘 Pulse facts: 87-90% pulse area is rainfed. UP=Pigeon pea, MP=Gram, Maharashtra=Tur. Cowpea, Moong, and Pigeon pea are all pulse+fodder+green manure crops.');
+  if(topics['Permaculture Farming']?.w||topics['Fertigation']?.w||topics['Water Conservation Agriculture']?.w)
+    ins.push('🌱 Modern practices: Permaculture = diverse + animal integration + mulching + no monoculture. Fertigation = drip fertilizer delivery (rock phosphate CANNOT be fertigated — insoluble).');
+  if(topics['Oilseed Production Sequence']?.w)
+    ins.push('🌻 Oilseed order by production: Soyabean > Groundnut > Mustard > Sesamum. MP, Maharashtra, Rajasthan dominate soyabean. Gujarat, Rajasthan, AP dominate groundnut.');
+  if(topics['Crop Map Analysis']?.w||topics['Non-Cereal Crop Map']?.w)
+    ins.push('🗺️ Map-based crop questions: Practice with atlas. Key crop belts — Rice: Eastern India/deltas; Wheat: Indo-Gangetic plain NW; Cotton: Gujarat+Maharashtra; Jute: WB+Assam+Bihar.');
+
+  const weakTopics=Object.entries(topics).filter(([,d])=>d.w>0).sort((a,b)=>b[1].w-a[1].w).map(([t])=>t);
+  weakTopics.slice(0,5).forEach(t=>{
+    const d=topics[t];
+    ins.push(`❌ Weak Topic — ${t}: ${d.w} wrong, ${d.c} correct. Score: ${Math.round(d.c/d.total*100)}%. Focus next revision here.`);
+  });
+
+  const il=document.getElementById('insList');
+  il.innerHTML=ins.map(s=>`<div class="ins-line">${s}</div>`).join('');
+  if(weakTopics.length)
+    il.innerHTML+=`<div class="weak-pills">${weakTopics.map(t=>`<span class="wpill">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(f);
+}
+function renderReview(f){
+  let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWr=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSkp)return;
+    const sc=isOk?'correct':isWr?'wrong':'skipped';
+    const st=isOk?'✅ Correct':isWr?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    const mapH=q.mapImg?`<img class="rev-map" src="${q.mapImg}" loading="lazy" onload="this.classList.add('vis')" onerror="this.style.display='none'" alt="Map">`:'';
+    const expH=q.exp?`<div class="expl"><strong>📖 Explanation:</strong> ${q.exp}</div>`:'';
+    html+=`<div class="rev ${sc}">
+      <div class="rev-top">
+        <span class="rn">Q${i+1}</span>
+        <span class="ry">${q.yr}</span>
+        <span class="rb ${sc}">${st}</span>
+        <span class="rt">${q.topic}</span>
+      </div>
+      <div class="rq">${q.text.replace(/</g,'&lt;')}</div>
+      ${mapH}
+      <div class="ra"><span class="rl">Your Answer:</span><span class="rv ${isSkp?'':isOk?'ok':'no'}">${uaTxt}</span></div>
+      <div class="ra"><span class="rl">Correct Answer:</span><span class="rv ok">${caTxt}</span></div>
+      ${expH}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-family:var(--mono)">// no questions in this category</p>';
+  document.getElementById('revList').innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('krishiiq_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  }));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('krishiiq_v1');
+  S={cur:0,ans:new Array(TOTAL).fill(null),skp:new Array(TOTAL).fill(false),
+     startTime:null,tLeft:TIME,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>

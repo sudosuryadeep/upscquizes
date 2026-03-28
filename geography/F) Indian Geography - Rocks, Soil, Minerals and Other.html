@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MineralMaster – India Resources Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080b14;--bg2:#0e1221;--bg3:#131827;
+  --g1:rgba(255,255,255,.042);--gb:rgba(255,255,255,.09);
+  --t1:#e1bc6e;--t2:#c97d3a;--t3:#7ecfb0;
+  --blue:#4f8ef7;--rose:#f76f8e;--emerald:#22c993;--amber:#f5c842;--slate:#94a3b8;
+  --txt:#dde6f0;--txt2:#7a8899;--txt3:#aab4c4;
+  --r:14px;--r2:22px;--r3:30px;
+  --sh:0 8px 36px rgba(0,0,0,.5);
+  --glow:0 0 40px rgba(110,170,255,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+
+/* BG */
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 75% 55% at 15% 25%,rgba(110,155,255,.1),transparent),
+    radial-gradient(ellipse 60% 50% at 85% 75%,rgba(34,201,147,.08),transparent),
+    radial-gradient(ellipse 55% 65% at 50% 105%,rgba(245,200,66,.06),transparent);
+  pointer-events:none}
+body::after{content:'';position:fixed;inset:0;z-index:0;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 48px),
+                   repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 48px);
+  pointer-events:none}
+
+/* SCREENS */
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ═══════ START ═══════ */
+#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+.s-icon{width:118px;height:118px;margin:0 auto 2rem;position:relative;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.s-icon::before{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#e1bc6e,#c97d3a,#7ecfb0,#4f8ef7,#e1bc6e);animation:rotateBg 5s linear infinite;filter:blur(2px);opacity:.8}
+.s-icon::after{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--bg2)}
+.s-icon span{position:relative;z-index:1}
+@keyframes rotateBg{to{transform:rotate(360deg)}}
+
+.s-title{font-family:'Outfit',sans-serif;font-size:clamp(2rem,6.5vw,4.2rem);font-weight:900;line-height:1.05;margin-bottom:.55rem}
+.s-title .g1{background:linear-gradient(135deg,#e1bc6e,#f7d98a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.s-title .g2{background:linear-gradient(135deg,#7ecfb0,#4f8ef7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.s-sub{font-size:.9rem;color:var(--txt2);margin-bottom:2.8rem;letter-spacing:.05em;text-transform:uppercase}
+
+.s-cards{display:flex;gap:0;margin-bottom:2.8rem;max-width:680px;width:100%;flex-wrap:wrap}
+.sc{flex:1;min-width:130px;padding:1.35rem 1rem;background:var(--g1);border:1px solid var(--gb);backdrop-filter:blur(14px);text-align:center;transition:.2s}
+.sc:first-child{border-radius:var(--r2) 0 0 var(--r2)}
+.sc:last-child{border-radius:0 var(--r2) var(--r2) 0}
+.sc+.sc{border-left:none}
+.sc-ic{font-size:1.45rem;margin-bottom:.35rem}
+.sc-v{font-family:'Outfit',sans-serif;font-size:1.35rem;font-weight:800;background:linear-gradient(135deg,var(--t1),var(--t3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sc-l{font-size:.68rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em}
+
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:640px;margin:0 auto 2.8rem}
+.chip{font-size:.72rem;font-weight:500;padding:.3rem .85rem;border-radius:50px;border:1px solid var(--gb);background:var(--g1);color:var(--txt2);backdrop-filter:blur(8px);transition:.2s}
+.chip:hover{border-color:var(--t1);color:var(--t1)}
+
+.cta{padding:1.05rem 3rem;background:linear-gradient(135deg,#c97d3a,#e1bc6e);color:#08090f;border:none;border-radius:50px;font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;cursor:pointer;letter-spacing:.04em;box-shadow:0 6px 26px rgba(225,188,110,.35);transition:.25s;position:relative;overflow:hidden}
+.cta::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.15),transparent);opacity:0;transition:.25s}
+.cta:hover{transform:translateY(-4px);box-shadow:0 14px 38px rgba(225,188,110,.5)}
+.cta:hover::after{opacity:1}
+.note{color:var(--txt2);font-size:.74rem;margin-top:1rem;opacity:.65}
+
+/* ═══════ QUIZ ═══════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.qshell{max-width:860px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;padding-bottom:1rem}
+
+/* Top Bar */
+.topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:.82rem 1.25rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px)}
+.qnum-lbl{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--txt2)}
+.qnum-lbl em{color:var(--t1);font-style:normal}
+.tclock{display:flex;align-items:center;gap:.42rem;padding:.4rem 1.1rem;background:rgba(79,142,247,.14);border:1px solid rgba(79,142,247,.28);border-radius:50px;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;color:var(--blue);white-space:nowrap;transition:.3s}
+.tclock.hot{background:rgba(247,111,142,.16);border-color:rgba(247,111,142,.38);color:var(--rose);animation:hotBlink .88s infinite}
+@keyframes hotBlink{0%,100%{opacity:1}50%{opacity:.4}}
+.topbar-r{display:flex;justify-content:flex-end}
+
+/* Progress */
+.pbar{height:4px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#c97d3a,#e1bc6e,#7ecfb0);border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(225,188,110,.45)}
+
+/* Q Card */
+.qcard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:2rem 2.2rem;backdrop-filter:blur(20px);animation:cin .36s cubic-bezier(.4,0,.2,1)}
+@keyframes cin{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
+
+.q-toprow{display:flex;align-items:center;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.qbadge{background:linear-gradient(135deg,#c97d3a,#e1bc6e);color:#08090f;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:800;padding:.28rem .85rem;border-radius:50px}
+.ytag{font-size:.71rem;color:var(--txt2);background:rgba(255,255,255,.06);padding:.28rem .72rem;border-radius:50px;border:1px solid var(--gb)}
+.ttag{font-size:.69rem;color:var(--t3);background:rgba(126,207,176,.1);border:1px solid rgba(126,207,176,.25);padding:.28rem .72rem;border-radius:50px}
+.stag{margin-left:auto;font-size:.69rem;font-weight:600;padding:.28rem .8rem;border-radius:50px}
+.st-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+.st-ans{background:rgba(34,201,147,.13);color:#2de8ac;border:1px solid rgba(34,201,147,.3)}
+.st-skp{background:rgba(245,200,66,.11);color:var(--amber);border:1px solid rgba(245,200,66,.3)}
+
+/* Map Image in question */
+.qmapbox{display:flex;justify-content:center;margin:1rem 0}
+.qmapbox img{max-width:340px;width:100%;border-radius:var(--r);border:1px solid var(--gb);box-shadow:var(--sh);background:rgba(255,255,255,.04)}
+.mapcap{font-size:.71rem;color:var(--txt2);text-align:center;margin-top:.4rem;font-style:italic}
+
+.qtext{font-size:.94rem;line-height:1.82;color:var(--txt);margin-bottom:1.55rem;white-space:pre-wrap}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.68rem}
+.opt{display:flex;align-items:flex-start;gap:.9rem;padding:.98rem 1.15rem;background:rgba(255,255,255,.022);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--r);cursor:pointer;transition:all .2s;text-align:left;width:100%;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:400;line-height:1.55;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,125,58,.1),transparent);opacity:0;transition:.2s}
+.opt:hover:not(.sel):not(:disabled)::before{opacity:1}
+.opt:hover:not(.sel):not(:disabled){border-color:rgba(201,125,58,.45);transform:translateX(5px)}
+.oltr{min-width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;flex-shrink:0;transition:.2s;position:relative;z-index:1}
+.otxt{position:relative;z-index:1}
+.opt.sel{background:rgba(201,125,58,.13);border-color:#c97d3a}
+.opt.sel .oltr{background:linear-gradient(135deg,#c97d3a,#e1bc6e);color:#08090f}
+
+/* Nav */
+.qnav{display:flex;justify-content:space-between;margin-top:1.55rem;gap:.65rem;flex-wrap:wrap}
+.nclust{display:flex;gap:.6rem}
+.btn{padding:.75rem 1.5rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:.22s;letter-spacing:.02em}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-ghost:disabled{opacity:.28;cursor:not-allowed}
+.btn-amb{background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);color:var(--amber)}
+.btn-amb:hover{background:rgba(245,200,66,.2)}
+.btn-gold{background:linear-gradient(135deg,#c97d3a,#e1bc6e);color:#08090f;box-shadow:0 4px 16px rgba(225,188,110,.3);font-weight:700}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(225,188,110,.5)}
+.btn-grn{background:linear-gradient(135deg,#0d9e72,#22c993);color:#05100d;box-shadow:0 4px 14px rgba(34,201,147,.28);font-weight:700}
+.btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,201,147,.48)}
+
+/* Dot map */
+.dotmap{display:flex;flex-wrap:wrap;gap:.38rem;max-width:860px;width:100%;margin:0 auto}
+.dot{width:28px;height:28px;border-radius:8px;border:none;font-size:.65rem;font-weight:700;cursor:pointer;transition:.18s;background:rgba(255,255,255,.05);color:var(--txt2)}
+.dot:hover{background:rgba(201,125,58,.22);color:var(--t1)}
+.dot.cur{background:linear-gradient(135deg,#c97d3a,#e1bc6e);color:#08090f;box-shadow:0 2px 12px rgba(225,188,110,.45)}
+.dot.d-ans{background:rgba(34,201,147,.17);color:#2de8ac;border:1px solid rgba(34,201,147,.33)}
+.dot.d-skp{background:rgba(245,200,66,.17);color:var(--amber);border:1px solid rgba(245,200,66,.33)}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#0e1221;border:1px solid rgba(201,125,58,.38);border-radius:var(--r3);padding:2.5rem;max-width:430px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.modal-em{font-size:3rem;display:block;margin-bottom:1.1rem}
+.modal h3{font-family:'Outfit',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.75rem}
+.modal p{color:var(--txt2);font-size:.87rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ═══════ RESULTS ═══════ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.rshell{max-width:900px;width:100%}
+
+/* Hero */
+.rhero{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);margin-bottom:1.4rem;overflow:hidden;position:relative}
+.rhero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 90deg at 50% 110%,transparent 55%,rgba(201,125,58,.06),transparent);animation:heroR 14s linear infinite;pointer-events:none}
+@keyframes heroR{to{transform:rotate(360deg)}}
+
+/* SVG score ring */
+.sring{width:155px;height:155px;position:relative;margin:0 auto 1.6rem}
+.sring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rbg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.rfill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1)}
+.rcenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rnum{font-family:'Outfit',sans-serif;font-size:2.6rem;font-weight:900;line-height:1}
+.rden{font-size:.8rem;color:var(--txt2)}
+
+.gtitle{font-family:'Outfit',sans-serif;font-size:clamp(1.3rem,3.5vw,2rem);font-weight:900;margin-bottom:.4rem;position:relative;z-index:1}
+.gsub{color:var(--txt2);font-size:.88rem;position:relative;z-index:1;margin-bottom:1.4rem}
+.gpill{display:inline-block;padding:.42rem 1.5rem;border-radius:50px;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.55rem;position:relative;z-index:1}
+.gpct{color:var(--txt2);font-size:.87rem;position:relative;z-index:1}
+
+/* Stats */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.4rem}
+@media(max-width:480px){.sg{grid-template-columns:repeat(2,1fr)}}
+.scard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.3rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
+.scard:hover{transform:translateY(-3px);border-color:rgba(201,125,58,.28)}
+.sic{font-size:1.45rem;margin-bottom:.4rem}
+.sv{font-family:'Outfit',sans-serif;font-size:1.45rem;font-weight:800;margin-bottom:.15rem}
+.sl{font-size:.69rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+
+/* Insights */
+.insbox{background:linear-gradient(135deg,rgba(201,125,58,.08),rgba(126,207,176,.06));border:1px solid rgba(201,125,58,.25);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.4rem}
+.ibtitle{font-family:'Outfit',sans-serif;font-size:.94rem;font-weight:700;color:var(--t1);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem}
+.ins{font-size:.84rem;color:var(--txt3);margin-bottom:.58rem;display:flex;gap:.55rem;line-height:1.62}
+.wchips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
+.wch{background:rgba(247,111,142,.11);border:1px solid rgba(247,111,142,.27);color:#fca5a5;font-size:.7rem;font-weight:600;padding:.27rem .8rem;border-radius:50px}
+
+/* Tabs */
+.tabrow{display:flex;gap:.35rem;padding:.32rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);margin-bottom:1rem;backdrop-filter:blur(10px)}
+.tb{flex:1;padding:.52rem;border:none;border-radius:10px;background:transparent;font-family:'DM Sans',sans-serif;font-size:.77rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s}
+.tb.on{background:linear-gradient(135deg,#c97d3a,#e1bc6e);color:#08090f}
+
+/* Review cards */
+.rcard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.4rem;margin-bottom:.9rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cin .35s ease}
+.rcard:hover{transform:translateX(4px)}
+.rcard.rc{border-left-color:var(--emerald)}
+.rcard.rw{border-left-color:var(--rose)}
+.rcard.rs{border-left-color:var(--amber)}
+.rtop{display:flex;align-items:center;gap:.45rem;margin-bottom:.75rem;flex-wrap:wrap}
+.rqn{font-size:.7rem;font-weight:700;padding:.22rem .65rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.ryr{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.05);padding:.22rem .65rem;border-radius:50px;border:1px solid var(--gb)}
+.rbdg{font-size:.68rem;font-weight:700;padding:.22rem .7rem;border-radius:50px}
+.rbdg.rc{background:rgba(34,201,147,.14);color:#34d399}
+.rbdg.rw{background:rgba(247,111,142,.14);color:#fb7185}
+.rbdg.rs{background:rgba(245,200,66,.12);color:var(--amber)}
+.rtopic{margin-left:auto;font-size:.68rem;color:var(--t3);background:rgba(126,207,176,.1);padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(126,207,176,.2)}
+.rqt{font-size:.84rem;color:var(--txt3);margin-bottom:.85rem;line-height:1.65;white-space:pre-wrap}
+.rrow{display:flex;gap:.5rem;font-size:.8rem;margin-bottom:.35rem;align-items:flex-start}
+.rlbl{font-weight:600;min-width:115px;color:var(--txt2);flex-shrink:0}
+.rval{color:var(--txt)}
+.rval.good{color:#34d399}
+.rval.bad{color:#fb7185}
+.rv-map{max-width:210px;border-radius:var(--r);border:1px solid var(--gb);margin:.7rem 0;display:block}
+
+/* Bottom */
+.resctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-out-rose{background:rgba(247,111,142,.1);border:1px solid rgba(247,111,142,.28);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:.22s}
+.btn-out-rose:hover{background:rgba(247,111,142,.22)}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(201,125,58,.45);border-radius:10px}
+
+/* responsive */
+@media(max-width:640px){
+  .qcard{padding:1.3rem}
+  .topbar{grid-template-columns:1fr auto;padding:.7rem 1rem}
+  .topbar-r{display:none}
+  .qnav{flex-direction:column;gap:.5rem}
+  .nclust{justify-content:center}
+  .modal-row{flex-direction:column}
+  .rtopic{display:none}
+  .s-cards{flex-direction:column;border-radius:var(--r2)}
+  .sc{border-radius:0 !important;border-left:1px solid var(--gb)!important}
+  .sc:first-child{border-radius:var(--r2) var(--r2) 0 0 !important}
+  .sc:last-child{border-radius:0 0 var(--r2) var(--r2)!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ START ════ -->
+<div id="start-screen" class="screen active">
+  <div class="s-icon"><span>⛏️</span></div>
+  <h1 class="s-title">
+    <span class="g1">MineralMaster</span>
+    <span class="g2">India Resources</span>
+  </h1>
+  <p class="s-sub">UPSC Prelims · Minerals · Soils · Energy · Resources</p>
+
+  <div class="s-cards">
+    <div class="sc"><div class="sc-ic">📋</div><div class="sc-v">24</div><div class="sc-l">Questions</div></div>
+    <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v">15 Min</div><div class="sc-l">Timer</div></div>
+    <div class="sc"><div class="sc-ic">🗺️</div><div class="sc-v">2 Maps</div><div class="sc-l">Visual Q</div></div>
+    <div class="sc"><div class="sc-ic">📅</div><div class="sc-v">1996–2022</div><div class="sc-l">PYQ Era</div></div>
+  </div>
+
+  <div class="chips">
+    <span class="chip">⛏️ Minerals & Mining</span>
+    <span class="chip">🌍 Soil Types</span>
+    <span class="chip">🛢️ Energy Resources</span>
+    <span class="chip">☢️ Rare Earths</span>
+    <span class="chip">🪨 Coal & Coalfields</span>
+    <span class="chip">🗺️ Map-based Q</span>
+    <span class="chip">🏖️ Beach Sands</span>
+    <span class="chip">🔩 Metal Ores</span>
+  </div>
+
+  <button class="cta" onclick="startQuiz()">⚡ Start Quiz</button>
+  <p class="note">💾 Progress auto-saved · Resume anytime</p>
+</div>
+
+<!-- ════ QUIZ ════ -->
+<div id="quiz-screen" class="screen">
+  <div class="qshell">
+
+    <div class="topbar">
+      <div class="qnum-lbl">Q <em id="qCur">1</em> / <em id="qTot">24</em></div>
+      <div class="tclock" id="timerEl">⏱ 15:00</div>
+      <div class="topbar-r">
+        <button class="btn btn-ghost" style="font-size:.77rem;padding:.48rem 1rem" onclick="showSubmitModal()">Submit Early</button>
+      </div>
+    </div>
+
+    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="q-toprow">
+        <span class="qbadge" id="qBdg">Q1</span>
+        <span class="ytag" id="qYr">2022</span>
+        <span class="ttag" id="qTopic">—</span>
+        <span class="stag st-none" id="qStat">○ Unanswered</span>
+      </div>
+      <div class="qtext" id="qText"></div>
+      <div class="qmapbox" id="qMapBox" style="display:none">
+        <div>
+          <img id="qMapImg" src="" alt="Map" loading="lazy">
+          <div class="mapcap" id="qMapCap"></div>
+        </div>
+      </div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div class="nclust">
+          <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
+          <button class="btn btn-amb" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nclust">
+          <button class="btn btn-gold" id="btnNext" onclick="nav(1)">Next →</button>
+          <button class="btn btn-grn" id="btnSub" style="display:none" onclick="showSubmitModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotmap" id="dotMap"></div>
+
+  </div>
+</div>
+
+<!-- ════ RESULTS ════ -->
+<div id="results-screen" class="screen">
+  <div class="rshell">
+
+    <div class="rhero">
+      <div class="gtitle" id="rTitle">🎉 Quiz Complete!</div>
+      <div class="gsub" id="rSub"></div>
+      <div class="sring">
+        <svg viewBox="0 0 120 120">
+          <circle class="rbg" cx="60" cy="60" r="50"/>
+          <circle class="rfill" id="rfill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="rcenter"><div class="rnum" id="rNum">0</div><div class="rden" id="rDen">/ 24</div></div>
+      </div>
+      <div class="gpill" id="gPill">—</div>
+      <div class="gpct" id="gPct"></div>
+    </div>
+
+    <div class="sg">
+      <div class="scard"><div class="sic">✅</div><div class="sv" id="stC" style="color:var(--emerald)">0</div><div class="sl">Correct</div></div>
+      <div class="scard"><div class="sic">❌</div><div class="sv" id="stW" style="color:var(--rose)">0</div><div class="sl">Wrong</div></div>
+      <div class="scard"><div class="sic">⤭</div><div class="sv" id="stS" style="color:var(--amber)">0</div><div class="sl">Skipped</div></div>
+      <div class="scard"><div class="sic">🎯</div><div class="sv" id="stAcc" style="color:var(--blue)">0%</div><div class="sl">Accuracy</div></div>
+      <div class="scard"><div class="sic">⏱️</div><div class="sv" id="stTm" style="color:#c084fc">—</div><div class="sl">Time Taken</div></div>
+      <div class="scard"><div class="sic">📊</div><div class="sv" id="stAv" style="color:var(--t1)">—</div><div class="sl">Avg / Q</div></div>
+    </div>
+
+    <div class="insbox">
+      <div class="ibtitle">🧠 Smart Insights &amp; Weak-Area Radar</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabrow">
+      <button class="tb on" onclick="setTab('all',this)">All (24)</button>
+      <button class="tb" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tb" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tb" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="resctas">
+      <button class="btn-out-rose" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-gold" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="mOverlay">
+  <div class="modal">
+    <span class="modal-em">📋</span>
+    <h3>Submit Quiz?</h3>
+    <p id="mTxt"></p>
+    <div class="modal-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-grn" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+//   QUESTIONS  –  24 UPSC PYQs
+// ════════════════════════════════════════════
+const L4=['A','B','C','D'];
+
+const Q=[
+  {id:1,yr:"2022",topic:"Rare Earths & Minerals",
+   text:"With reference to India, consider the following statements:\n1. Monazite is a source of rare earths.\n2. Monazite contains thorium.\n3. Monazite occurs naturally in the entire Indian coastal sands in India.\n4. In India, Government bodies only can process or export monazite.\n\nWhich of the statements given above are correct?",
+   opts:["1, 2 and 3 only","1, 2 and 4 only","3 and 4 only","1, 2, 3 and 4"],ans:1},
+
+  {id:2,yr:"2021",topic:"Soil Types",
+   text:"The black cotton soil of India has been formed due to the weathering of:",
+   opts:["Brown forest soil","Fissure volcanic rock","Granite and schist","Shale and limestone"],ans:1},
+
+  {id:3,yr:"2020",topic:"Minerals & Mining",
+   text:"Consider the following minerals:\n1. Bentonite\n2. Chromite\n3. Kyanite\n4. Sillimanite\n\nIn India, which of the above is/are officially designated as major minerals?",
+   opts:["1 and 2 only","4 only","1 and 3 only","2, 3 and 4 only"],ans:3},
+
+  {id:4,yr:"2016",topic:"Energy Resources",
+   text:"In which of the following regions of India are shale gas resources found?\n1. Cambay Basin\n2. Cauvery Basin\n3. Krishna-Godavari Basin\n\nSelect the correct answer using the code given below.",
+   opts:["1 and 2 only","3 only","2 and 3 only","1, 2 and 3"],ans:3},
+
+  {id:5,yr:"2014",topic:"Soil Erosion",
+   text:"In India, the problem of soil erosion is associated with which of the following?\n1. Terrace cultivation\n2. Deforestation\n3. Tropical climate\n\nSelect the correct answer using the code given below.",
+   opts:["1 and 2 only","2 only","1 and 3 only","1, 2 and 3"],ans:1},
+
+  {id:6,yr:"2014",topic:"Energy Resources",
+   text:"With reference to two non-conventional energy sources called 'coalbed methane' and 'shale gas', consider the following statements:\n1. Coalbed methane is the pure methane gas extracted from coal seams, while shale gas is a mixture of propane and butane only that can be extracted from fine-grained sedimentary rocks.\n2. In India, abundant coalbed methane sources exist, but so far no shale gas sources have been found.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  {id:7,yr:"2013",topic:"Soil Types",
+   text:"Which of the following statements regarding laterite soils of India are correct?\n1. They are generally red in colour.\n2. They are rich in nitrogen and potash.\n3. They are well-developed in Rajasthan and UP.\n4. Tapioca and cashew nuts grow well on these soils.\n\nSelect the correct answer using the codes given below.",
+   opts:["1, 2 and 3","2, 3 and 4","1 and 4","2 and 3 only"],ans:2},
+
+  {id:8,yr:"2013",topic:"Minerals & Mining",
+   text:"Consider the following statements:\n1. Natural gas occurs in the Gondwana beds.\n2. Mica occurs in abundance in Kodarma.\n3. Dharwars are famous for petroleum.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 and 2","2 only","2 and 3","None"],ans:1},
+
+  {id:9,yr:"2012",topic:"Coal & Energy",
+   text:"Despite having large reserves of coal, why does India import millions of tonnes of coal?\n1. It is the policy of India to save its own coal reserves for future use.\n2. Most of the power plants in India are coal-based and they are not able to get sufficient supplies from within the country.\n3. Steel companies need large quantities of coking coal which has to be imported.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:1},
+
+  {id:10,yr:"2010",topic:"Soil Types",
+   text:"When you travel in certain parts of India, you will notice red soil. What is the main reason for this colour?",
+   opts:["Abundance of magnesium","Accumulated humus","Presence of ferric oxides","Abundance of phosphates"],ans:2},
+
+  {id:11,yr:"2010",topic:"Coal & Energy",
+   text:"Which one of the following is the appropriate reason for considering the Gondwana rocks as most important of rock systems of India?",
+   opts:["More than 90% of limestone reserves of India are found in them","More than 90% of India's coal reserves are found in them","More than 90% of fertile black cotton soils are spread over them","None of the reasons given above is appropriate"],ans:1},
+
+  {id:12,yr:"2010",topic:"Minerals & Mining",
+   text:"With reference to the mineral sources of India, consider the following pairs:\n         Mineral  ↔  90% National Source in:\n1. Copper      ↔   Jharkhand\n2. Nickel         ↔   Orissa\n3. Tungsten   ↔   Kerala\n\nWhich of the pairs given above is/are correctly matched?",
+   opts:["1 and 2 only","2 only","1 and 3 only","1, 2 and 3"],ans:1},
+
+  {id:13,yr:"2009",topic:"Rare Earths & Minerals",
+   text:"Consider the following statements:\n1. India does not have any deposits of Thorium.\n2. Kerala's monazite sands contain Uranium.\n\nWhich of the above statements is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  {id:14,yr:"2008",topic:"Coal & Energy",
+   text:"In which one of the following states are Namchik-Namphuk Coalfields located?",
+   opts:["Arunachal Pradesh","Meghalaya","Manipur","Mizoram"],ans:0},
+
+  {id:15,yr:"2008",topic:"Minerals & Mining",
+   text:"Which of the following minerals are found in a natural way in the State of Chhattisgarh?\n1. Bauxite\n2. Dolomite\n3. Iron ore\n4. Tin\n\nSelect the correct answer using the code given below:",
+   opts:["1, 2 and 3 only","3 only","2 only","1, 2, 3 and 4"],ans:3},
+
+  {id:16,yr:"2007",topic:"Minerals & Mining",
+   text:"Consider the following statements:\n1. Balaghat is known for its diamond mines.\n2. Majhgawan is known for its manganese deposits.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  {id:17,yr:"2006",topic:"Beach Sands & Minerals",
+   text:"Which of the following substances are found in the beach sands of many parts of Kerala?\n1. Ilmenite\n2. Zircon\n3. Sillimanite\n4. Tungsten\n\nSelect the correct answer using the code given below:",
+   opts:["1, 2, 3 and 4","1, 2 and 3","3 and 4 only","1 and 2 only"],ans:1},
+
+  {id:18,yr:"2004",topic:"Minerals & Mining",
+   text:"Match List-I (Minerals) with List-II (Location):\nA. Coal         →  ?\nB. Copper    →  ?\nC. Manganese → ?\nD. Lignite    →  ?\n\nLocations: 1. Giridih   2. Jayamkondam   3. Alwar   4. Dharwar\n\nSelect: A – B – C – D",
+   opts:["1 – 4 – 3 – 2","2 – 3 – 4 – 1","1 – 3 – 4 – 2","2 – 4 – 3 – 1"],ans:2},
+
+  {id:19,yr:"2001",topic:"Map-Based: Mineral Distribution",
+   text:"[Study the map of India shown below]\n\nThe black marks on the map show the distribution of which mineral?",
+   opts:["Asbestos","Gypsum","Limestone","Mica"],ans:3,
+   mapImg:"https://i.ibb.co/dJ7Y7WXb/Screenshot-2026-03-29-010736.png",
+   mapCap:"India map — Identify the mineral shown by the black distribution marks"},
+
+  {id:20,yr:"1999",topic:"Energy Resources",
+   text:"The Ravva offshore block, with great potential for oil, is located in:",
+   opts:["Krishna-Godavari basin","Cauvery basin","Mahanadi basin","Palar-Pennar basin"],ans:0},
+
+  {id:21,yr:"1999",topic:"Map-Based: Mineral Discovery",
+   text:"[Study the map of India shown below]\n\nIn which one of the following areas marked on the map was there a recent discovery of copper deposits by the Atomic Minerals Division of the Department of Atomic Energy?",
+   opts:["Area 1","Area 2","Area 3","Area 4"],ans:3,
+   mapImg:"https://i.ibb.co/zhcTWVgm/Screenshot-2026-03-29-010747.png",
+   mapCap:"India map — Identify the area (1/2/3/4) where copper deposits were discovered"},
+
+  {id:22,yr:"1998",topic:"Minerals & Mining",
+   text:"Match List-I (Minerals) with List-II (Mining area):\nI. Graphite  →  ?\nII. Lead        →  ?\nIII. Salt          →  ?\nIV. Silver      →  ?\n\nMining areas: A) Bellary   B) Didwana   C) Rampa   D) Zawar\n\nCodes: I – II – III – IV",
+   opts:["I-C, II-D, III-A, IV-B","I-A, II-D, III-B, IV-C","I-C, II-A, III-D, IV-B","I-B, II-C, III-A, IV-D"],ans:1},
+
+  {id:23,yr:"1997",topic:"Minerals & Mining",
+   text:"Match List-I (Minerals) with List-II (Typical areas of occurrence):\nI. Coal          →  ?\nII. Gold          →  ?\nIII. Mica           →  ?\nIV. Manganese →  ?\n\nAreas: A) Bhandara   B) Karanpura   C) Hutti   D) Nellore\n\nCodes: I – II – III – IV",
+   opts:["I-A, II-C, III-B, IV-D","I-B, II-C, III-D, IV-A","I-C, II-D, III-B, IV-A","I-B, II-A, III-D, IV-C"],ans:1},
+
+  {id:24,yr:"1996",topic:"Minerals & Mining",
+   text:"Match List-I (Ores) with List-II (States where they are mined):\nI. Manganese     →  ?\nII. Nickel             →  ?\nIII. Lead-zinc      →  ?\nIV. Asbestos        →  ?\n\nStates: A) Madhya Pradesh   B) Orissa   C) Rajasthan   D) Andhra Pradesh\n\nCodes: I – II – III – IV",
+   opts:["I-A, II-C, III-B, IV-D","I-D, II-C, III-B, IV-A","I-A, II-B, III-C, IV-D","I-D, II-B, III-C, IV-A"],ans:2}
+];
+
+// ════════════════════════════════════════════
+//   STATE
+// ════════════════════════════════════════════
+let S={cur:0,ans:new Array(24).fill(null),skp:new Array(24).fill(false),startTime:null,tLeft:15*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('mineralq_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('📂 Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    } else {
+      localStorage.removeItem('mineralq_v1');
+      S.startTime=Date.now();
+    }
+  } else {
+    S.startTime=Date.now();
+  }
+  show('quiz-screen');
+  buildDots();
+  renderQ();
+  runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// TIMER
+function runTimer(){
+  if(S.tInt) clearInterval(S.tInt);
+  updateClk();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;
+    updateClk();
+    if(S.tLeft%10===0) save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateClk(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=180?'tclock hot':'tclock';
+}
+
+// RENDER Q
+function renderQ(){
+  const i=S.cur, q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qBdg').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('pfill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i])             {sp.textContent='⤭ Skipped';  sp.className='stag st-skp';}
+  else if(S.ans[i]!==null) {sp.textContent='✅ Answered'; sp.className='stag st-ans';}
+  else                      {sp.textContent='○ Unanswered';sp.className='stag st-none';}
+
+  const mb=document.getElementById('qMapBox'),mi=document.getElementById('qMapImg'),mc=document.getElementById('qMapCap');
+  if(q.mapImg){mi.src=q.mapImg;mc.textContent=q.mapCap||'';mb.style.display='flex';}
+  else{mb.style.display='none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="oltr">${L4[idx]}</span><span class="otxt">${o}</span>`;
+    b.onclick=()=>pick(idx); og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updateDots();
+}
+
+function pick(idx){
+  if(S.done)return;
+  S.ans[S.cur]=idx; S.skp[S.cur]=false;
+  renderQ(); save();
+}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){
+  S.skp[S.cur]=true; S.ans[S.cur]=null; save();
+  if(S.cur<Q.length-1) nav(1); else renderQ();
+}
+
+// DOTS
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`d${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)            d.classList.add('cur');
+    else if(S.skp[i])        d.classList.add('d-skp');
+    else if(S.ans[i]!==null) d.classList.add('d-ans');
+  });
+}
+
+// MODAL
+function showSubmitModal(){
+  const a=S.ans.filter(x=>x!==null).length,sk=S.skp.filter(Boolean).length,u=Q.length-a-sk;
+  document.getElementById('mTxt').textContent=`📊 Answered: ${a}  |  Skipped: ${sk}  |  Unanswered: ${u}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('mOverlay').classList.add('on');
+}
+function closeModal(){document.getElementById('mOverlay').classList.remove('on');}
+
+// SUBMIT
+function submitQuiz(){
+  closeModal(); clearInterval(S.tInt); S.done=true;
+  const usedSec=(15*60)-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null) skipped++;
+    else if(S.ans[i]===q.ans)     correct++;
+    else                            wrong++;
+  });
+  const attempted=correct+wrong, pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgT=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Outstanding';gc='#22c993';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#4f8ef7';}
+  else if(pct>=60){grade='🥈 Good';gc='#c084fc';}
+  else if(pct>=45){grade='🥉 Average';gc='#f5c842';}
+  else{grade='📚 Keep Revising';gc='#f76f8e';}
+
+  const arc=document.getElementById('rfill');
+  arc.style.stroke=gc;
+  arc.style.strokeDashoffset=314.16*(1-pct/100);
+
+  document.getElementById('rNum').textContent=correct;
+  document.getElementById('rDen').textContent='/ '+Q.length;
+  const gp=document.getElementById('gPill');
+  gp.textContent=grade; gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('gPct').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  document.getElementById('rTitle').textContent=pct>=75?'🎉 Excellent Performance!':pct>=50?'👍 Good Attempt!':'📚 More Practice Needed';
+  document.getElementById('rSub').textContent=pct>=75?'Strong command over India\'s Mineral & Resource Geography!':pct>=50?'Review insights below and focus on weak areas.':'Systematic revision of NCERT Geography & mineral maps is recommended.';
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTm').textContent=fmtT(usedSec);
+  document.getElementById('stAv').textContent=avgT+'s';
+
+  buildInsights(pct,acc,skipped,attempted,correct,wrong);
+  renderReview('all');
+  localStorage.removeItem('mineralq_v1');
+  show('results-screen');
+  window.scrollTo(0,0);
+}
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+// INSIGHTS
+function buildInsights(pct,acc,skipped,attempted,correct,wrong){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)      lines.push('🌟 Near-perfect! You have excellent mastery of India\'s mineral and resource geography.');
+  else if(pct>=75) lines.push('💪 Very solid! A few focused revisions will push you to the top band.');
+  else if(pct>=50) lines.push('📈 Decent foundation. Focus on match-the-column questions and mineral locations.');
+  else             lines.push('📖 Start with NCERT Class 12 India — People and Economy, Chapter on Mineral & Energy Resources.');
+
+  if(attempted>0&&acc<55&&attempted>6)
+    lines.push(`🎯 Accuracy: ${acc}% — high error rate among attempted. Use elimination method before guessing in UPSC.`);
+  if(skipped>6)
+    lines.push(`⤭ ${skipped} questions skipped. For Prelims, practise educated guessing using process of elimination.`);
+
+  // Map Q analysis
+  const mapQs=[18,20]; // 0-indexed Q19, Q21
+  const mapWrong=mapQs.filter(i=>!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==Q[i].ans);
+  if(mapWrong.length) lines.push('🗺️ Map-based questions (Q19/Q21) need attention. Practice mineral distribution maps of India regularly.');
+
+  // Topic advice
+  if(topErr['Soil Types'])
+    lines.push('🌍 Revise Soil Types: Red soil (ferric oxide), Black/Regur soil (volcanic), Laterite soil (leached, rich in iron/aluminium), Alluvial soil. Red soil ≠ fertile.');
+  if(topErr['Rare Earths & Minerals'])
+    lines.push('☢️ Revise: Monazite (thorium + rare earths, found in Kerala, Odisha beaches — NOT entire coastline). Only govt bodies handle monazite in India.');
+  if(topErr['Energy Resources'])
+    lines.push('🛢️ Revise: Shale gas basins (Cambay, Cauvery, K-G Basin), Coalbed methane vs shale gas distinction, offshore oil blocks.');
+  if(topErr['Coal & Energy'])
+    lines.push('🪨 Revise: Gondwana formations → 90%+ of India\'s coal. Coking coal (for steel) must be imported. Lignite ≠ bituminous coal.');
+  if(topErr['Minerals & Mining'])
+    lines.push('⛏️ Revise: Key mineral locations — Kodarma (mica), Singhbhum (copper), Balaghat (manganese NOT diamond), Majhgawan (diamonds).');
+  if(topErr['Beach Sands & Minerals'])
+    lines.push('🏖️ Revise: Kerala beach sand minerals — Ilmenite, Zircon, Sillimanite, Monazite, Rutile. Tungsten is NOT found in beach sands.');
+  if(topErr['Soil Erosion'])
+    lines.push('🌱 Terrace cultivation PREVENTS erosion (not causes it). Deforestation and tropical climate are key drivers.');
+
+  ranked.slice(0,4).forEach(([t,c])=>{
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong answer${c>1?'s':''}. Make this your next revision priority.`);
+  });
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins"><span>${l}</span></div>`).join('');
+  if(ranked.length){
+    ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wch">${t}</span>`).join('')}</div>`;
+  }
+}
+
+// REVIEW
+let _tab='all';
+function setTab(f,btn){
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); _tab=f; renderReview(f);
+}
+function renderReview(f){
+  const rl=document.getElementById('revList'); let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)  return;
+    if(f==='wrong'&&!isWr)    return;
+    if(f==='skipped'&&!isSk)  return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✅ Correct':isWr?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSk?'Not answered / Skipped':`${L4[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L4[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.mapImg?`<img class="rv-map" src="${q.mapImg}" alt="Map" loading="lazy">`:'';
+    html+=`<div class="rcard ${rc}">
+      <div class="rtop">
+        <span class="rqn">Q${i+1}</span>
+        <span class="ryr">${q.yr}</span>
+        <span class="rbdg ${rc}">${lbl}</span>
+        <span class="rtopic">${q.topic}</span>
+      </div>
+      <div class="rqt">${q.text}</div>
+      ${mapHtml}
+      <div class="rrow"><span class="rlbl">Your Answer:</span><span class="rval ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rrow"><span class="rlbl">Correct Answer:</span><span class="rval good">${caTxt}</span></div>
+    </div>`;
+  });
+  if(!html) html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+// SAVE / RESTART
+function save(){
+  localStorage.setItem('mineralq_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  }));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be lost.')) return;
+  clearInterval(S.tInt);
+  localStorage.removeItem('mineralq_v1');
+  S={cur:0,ans:new Array(24).fill(null),skp:new Array(24).fill(false),startTime:null,tLeft:15*60,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>

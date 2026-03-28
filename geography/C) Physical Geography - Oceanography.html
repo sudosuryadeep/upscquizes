@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OceanIQ – Hydrosphere & Ocean Geography Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ocean:#0a1628;
+  --deep:#0d2240;
+  --mid:#0f3460;
+  --wave:#1a5276;
+  --foam:rgba(255,255,255,0.07);
+  --gbord:rgba(255,255,255,0.1);
+  --teal:#00b4d8;
+  --teal-l:#90e0ef;
+  --gold:#f4a261;
+  --grn:#2dc653;
+  --red:#e63946;
+  --yel:#f4d35e;
+  --txt:#e8f4f8;
+  --txt2:#7fb3c8;
+  --dim:#3d6b82;
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--ocean);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Animated ocean background */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(0,180,216,.15) 0%,transparent 45%),
+    radial-gradient(ellipse at 85% 70%, rgba(26,82,118,.25) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(13,34,64,.9) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+/* Wave SVG footer effect */
+.wave-bg{
+  position:fixed;bottom:0;left:0;width:100%;height:200px;
+  background:linear-gradient(to top,rgba(0,180,216,.06),transparent);
+  pointer-events:none;z-index:0;
+}
+
+.screen{display:none;position:relative;z-index:1}
+.screen.active{display:flex}
+
+/* ── START SCREEN ── */
+#start-screen{
+  min-height:100vh;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+}
+.globe-icon{
+  width:100px;height:100px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg,var(--teal),#0077b6,var(--teal),#023e8a,var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;margin:0 auto 1.5rem;
+  box-shadow:0 0 0 3px rgba(0,180,216,.3),0 0 50px rgba(0,180,216,.4);
+  animation:pulse 3s ease-in-out infinite;
+  position:relative;
+}
+.globe-icon::after{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px dashed rgba(0,180,216,.4);animation:spin 12s linear infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(0,180,216,.3),0 0 50px rgba(0,180,216,.4)}50%{box-shadow:0 0 0 6px rgba(0,180,216,.2),0 0 80px rgba(0,180,216,.6)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.start-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,6vw,4rem);font-weight:900;
+  background:linear-gradient(135deg,#90e0ef,#00b4d8,#0077b6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.3rem;letter-spacing:-.02em;
+}
+.start-sub{color:var(--txt2);font-size:.95rem;margin-bottom:2.5rem;letter-spacing:.08em;text-transform:uppercase}
+
+.info-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;
+  max-width:560px;width:100%;margin:0 auto 2rem;
+}
+@media(max-width:500px){.info-grid{grid-template-columns:repeat(2,1fr)}}
+.info-card{
+  background:var(--foam);border:1px solid var(--gbord);border-radius:16px;
+  padding:1.1rem;backdrop-filter:blur(12px);transition:transform .2s,border-color .2s;
+}
+.info-card:hover{transform:translateY(-4px);border-color:rgba(0,180,216,.4)}
+.info-card .ic{font-size:1.5rem;margin-bottom:.4rem}
+.info-card .lbl{font-size:.68rem;color:var(--txt2);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:.06em}
+.info-card .val{font-size:1.1rem;font-weight:700;color:var(--teal)}
+
+.topic-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.t-pill{
+  font-size:.72rem;font-weight:600;padding:.3rem .85rem;border-radius:50px;
+  border:1px solid rgba(0,180,216,.25);background:rgba(0,180,216,.08);
+  color:var(--teal-l);transition:all .2s;cursor:default;
+}
+.t-pill:hover{background:rgba(0,180,216,.18);border-color:rgba(0,180,216,.5)}
+
+.btn-start{
+  background:linear-gradient(135deg,#0077b6,var(--teal));
+  color:#fff;border:none;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.05rem;
+  padding:1rem 2.8rem;cursor:pointer;
+  box-shadow:0 6px 30px rgba(0,119,182,.4);
+  transition:all .25s;letter-spacing:.02em;
+}
+.btn-start:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,180,216,.5)}
+.btn-start:active{transform:translateY(0)}
+
+/* ── QUIZ SCREEN ── */
+#quiz-screen{min-height:100vh;flex-direction:column;padding:1rem}
+.quiz-wrap{max-width:900px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.8rem}
+
+.quiz-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.2rem;
+  background:var(--foam);border:1px solid var(--gbord);border-radius:14px;
+  backdrop-filter:blur(12px);
+}
+.q-counter{font-size:.85rem;font-weight:600;color:var(--txt2)}
+.q-counter span{color:var(--teal);font-weight:800;font-size:1rem}
+.timer-pill{
+  display:flex;align-items:center;gap:.4rem;
+  background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.25);
+  border-radius:50px;padding:.35rem .95rem;
+  font-weight:700;font-size:.9rem;color:var(--teal);
+  transition:all .3s;font-variant-numeric:tabular-nums;
+}
+.timer-pill.warn{
+  background:rgba(230,57,70,.15);border-color:rgba(230,57,70,.4);
+  color:var(--red);animation:blink .85s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+
+.prog-wrap{height:4px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.prog-fill{
+  height:100%;
+  background:linear-gradient(90deg,#0077b6,var(--teal),#90e0ef);
+  border-radius:10px;transition:width .4s ease;
+  box-shadow:0 0 12px rgba(0,180,216,.6);
+}
+
+/* Question card */
+.q-card{
+  background:linear-gradient(135deg,rgba(13,34,64,.9),rgba(10,22,40,.95));
+  border:1px solid rgba(0,180,216,.18);border-radius:22px;
+  padding:1.8rem;backdrop-filter:blur(18px);flex:1;
+  box-shadow:0 8px 40px rgba(0,0,0,.4);
+}
+.q-meta-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.q-num-badge{
+  background:linear-gradient(135deg,#0077b6,var(--teal));
+  color:#fff;font-size:.72rem;font-weight:800;
+  padding:.28rem .8rem;border-radius:50px;letter-spacing:.04em;
+}
+.q-year-pill{
+  font-size:.7rem;color:var(--gold);background:rgba(244,162,97,.1);
+  padding:.25rem .7rem;border-radius:50px;border:1px solid rgba(244,162,97,.3);font-weight:600;
+}
+.q-topic-tag{
+  font-size:.68rem;color:var(--teal-l);background:rgba(0,180,216,.08);
+  padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(0,180,216,.2);
+}
+.q-status-pill{font-size:.68rem;font-weight:700;padding:.22rem .8rem;border-radius:50px;margin-left:auto}
+.q-status-pill.none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gbord)}
+.q-status-pill.ans{background:rgba(45,198,83,.15);color:var(--grn);border:1px solid rgba(45,198,83,.35)}
+.q-status-pill.skp{background:rgba(244,211,94,.12);color:var(--yel);border:1px solid rgba(244,211,94,.3)}
+
+.q-text{
+  font-size:.95rem;font-weight:400;line-height:1.8;color:var(--txt);
+  margin-bottom:1.4rem;white-space:pre-wrap;
+}
+
+/* Map container for Q18 */
+.map-container{
+  background:rgba(0,0,0,.3);border:1px solid rgba(0,180,216,.2);
+  border-radius:14px;padding:1rem;margin-bottom:1.2rem;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+}
+.map-label{font-size:.72rem;color:var(--txt2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.3rem}
+
+.opts{display:flex;flex-direction:column;gap:.65rem}
+.opt-btn{
+  display:flex;align-items:flex-start;gap:.85rem;padding:.9rem 1rem;
+  background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:13px;cursor:pointer;transition:all .22s;
+  text-align:left;color:var(--txt);
+  font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:400;line-height:1.55;width:100%;
+}
+.opt-btn:hover:not(.sel):not(:disabled){
+  background:rgba(0,180,216,.1);border-color:rgba(0,180,216,.4);
+  transform:translateX(6px);
+}
+.opt-letter{
+  min-width:28px;height:28px;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.25);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.76rem;font-weight:800;color:var(--teal);transition:all .22s;flex-shrink:0;
+}
+.opt-btn.sel{background:rgba(0,119,182,.2);border-color:var(--teal)}
+.opt-btn.sel .opt-letter{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+.q-nav{display:flex;gap:.6rem;margin-top:1.3rem;justify-content:space-between;flex-wrap:wrap}
+.nav-l,.nav-r{display:flex;gap:.6rem}
+
+/* Buttons */
+.btn{padding:.7rem 1.6rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .22s;letter-spacing:.02em}
+.btn-secondary{background:var(--foam);border:1px solid var(--gbord);color:var(--txt);backdrop-filter:blur(10px)}
+.btn-secondary:hover{background:rgba(255,255,255,.1)}
+.btn-secondary:disabled{opacity:.3;cursor:not-allowed}
+.btn-skip{background:rgba(244,211,94,.1);border:1px solid rgba(244,211,94,.3);color:var(--yel)}
+.btn-skip:hover{background:rgba(244,211,94,.2)}
+.btn-next{background:linear-gradient(135deg,#0077b6,var(--teal));color:#fff;box-shadow:0 3px 15px rgba(0,119,182,.3)}
+.btn-next:hover{box-shadow:0 6px 25px rgba(0,180,216,.5);transform:translateY(-2px)}
+.btn-submit{background:linear-gradient(135deg,#2dc653,#1a9e3f);color:#fff;box-shadow:0 3px 15px rgba(45,198,83,.3)}
+.btn-submit:hover{box-shadow:0 6px 25px rgba(45,198,83,.5);transform:translateY(-2px)}
+.btn-danger{background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.3);color:var(--red)}
+.btn-danger:hover{background:rgba(230,57,70,.25)}
+
+/* Q-dot map */
+.q-map{display:flex;flex-wrap:wrap;gap:.35rem;max-width:900px;width:100%;margin:0 auto}
+.q-dot{
+  width:28px;height:28px;border-radius:8px;border:none;
+  font-size:.65rem;font-weight:700;cursor:pointer;
+  transition:all .18s;background:rgba(255,255,255,.05);color:var(--txt2);
+}
+.q-dot:hover{background:rgba(0,180,216,.25);color:var(--teal)}
+.q-dot.cur{background:linear-gradient(135deg,#0077b6,var(--teal));color:#fff;box-shadow:0 2px 12px rgba(0,180,216,.5)}
+.q-dot.ans-dot{background:rgba(45,198,83,.2);color:var(--grn);border:1px solid rgba(45,198,83,.4)}
+.q-dot.skp-dot{background:rgba(244,211,94,.15);color:var(--yel);border:1px solid rgba(244,211,94,.35)}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:linear-gradient(135deg,#0d2240,#0a1628);border:1px solid rgba(0,180,216,.3);border-radius:24px;padding:2.2rem;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.7)}
+.modal-ic{font-size:3rem;margin-bottom:1rem}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:.7rem;color:var(--teal-l)}
+.modal p{color:var(--txt2);font-size:.85rem;margin-bottom:1.5rem;line-height:1.7;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.8rem;justify-content:center}
+
+/* ── RESULTS ── */
+#results-screen{min-height:100vh;flex-direction:column;padding:1.5rem 1rem;align-items:center}
+.res-wrap{max-width:900px;width:100%}
+.res-header{text-align:center;margin-bottom:2rem;padding-top:1rem}
+.res-header h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;background:linear-gradient(135deg,#90e0ef,var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-header p{color:var(--txt2);font-size:.9rem;margin-top:.4rem}
+
+.score-hero{
+  background:linear-gradient(135deg,rgba(0,119,182,.15),rgba(0,180,216,.08));
+  border:1px solid rgba(0,180,216,.2);border-radius:26px;
+  padding:2.5rem;text-align:center;margin-bottom:1.5rem;
+  position:relative;overflow:hidden;
+}
+.score-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,216,.1),transparent 70%)}
+.score-circle{
+  width:140px;height:140px;border-radius:50%;
+  background:linear-gradient(135deg,#0077b6,var(--teal));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;position:relative;z-index:1;
+  box-shadow:0 0 0 4px rgba(0,180,216,.2),0 0 60px rgba(0,180,216,.35);
+}
+.score-circle::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px dashed rgba(0,180,216,.3);animation:spin 8s linear infinite}
+.score-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:#fff;line-height:1}
+.score-denom{font-size:.8rem;color:rgba(255,255,255,.65)}
+.grade-badge{display:inline-block;padding:.4rem 1.4rem;border-radius:50px;font-weight:700;font-size:1rem;margin-bottom:.5rem;position:relative;z-index:1}
+.pct-txt{color:var(--txt2);font-size:.85rem;position:relative;z-index:1}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.85rem;margin-bottom:1.5rem}
+.stat-card{
+  background:var(--foam);border:1px solid var(--gbord);border-radius:16px;
+  padding:1.2rem;text-align:center;backdrop-filter:blur(10px);transition:transform .2s;
+}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-ic{font-size:1.5rem;margin-bottom:.4rem}
+.stat-val{font-size:1.4rem;font-weight:800;margin-bottom:.15rem;font-variant-numeric:tabular-nums}
+.stat-lbl{font-size:.68rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em}
+
+.insights-card{
+  background:linear-gradient(135deg,rgba(0,180,216,.07),rgba(0,119,182,.05));
+  border:1px solid rgba(0,180,216,.25);border-radius:20px;padding:1.5rem;margin-bottom:1.5rem;
+}
+.insights-card h3{font-size:.9rem;font-weight:700;margin-bottom:1rem;color:var(--teal-l);display:flex;align-items:center;gap:.5rem;letter-spacing:.02em}
+.insight-item{display:flex;gap:.6rem;margin-bottom:.6rem;font-size:.83rem;color:var(--txt2);line-height:1.6}
+.weak-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.8rem}
+.w-tag{background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.3);color:#f8b4b4;font-size:.7rem;font-weight:600;padding:.25rem .75rem;border-radius:50px}
+
+.tab-bar{display:flex;gap:.35rem;margin-bottom:1rem;background:var(--foam);border:1px solid var(--gbord);border-radius:12px;padding:.3rem;backdrop-filter:blur(10px)}
+.tab-btn{flex:1;padding:.5rem;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--txt2)}
+.tab-btn.on{background:linear-gradient(135deg,#0077b6,var(--teal));color:#fff}
+
+.rev-item{
+  background:var(--foam);border:1px solid var(--gbord);border-radius:17px;
+  padding:1.2rem;margin-bottom:.9rem;backdrop-filter:blur(10px);
+  border-left:3px solid transparent;transition:all .2s;
+}
+.rev-item:hover{transform:translateX(4px)}
+.rev-item.correct{border-left-color:var(--grn)}
+.rev-item.wrong{border-left-color:var(--red)}
+.rev-item.skipped{border-left-color:var(--yel)}
+.rev-meta{display:flex;align-items:center;gap:.45rem;margin-bottom:.7rem;flex-wrap:wrap}
+.rev-qnum{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.rev-sbadge{font-size:.67rem;font-weight:700;padding:.2rem .65rem;border-radius:50px}
+.rev-sbadge.correct{background:rgba(45,198,83,.15);color:var(--grn)}
+.rev-sbadge.wrong{background:rgba(230,57,70,.15);color:var(--red)}
+.rev-sbadge.skipped{background:rgba(244,211,94,.12);color:var(--yel)}
+.rev-topic{margin-left:auto;font-size:.67rem;color:var(--teal-l);background:rgba(0,180,216,.08);padding:.2rem .6rem;border-radius:50px;border:1px solid rgba(0,180,216,.2)}
+.rev-qtext{font-size:.82rem;color:var(--txt2);margin-bottom:.8rem;line-height:1.65;white-space:pre-wrap}
+.rev-ans-row{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.3rem;align-items:flex-start}
+.rev-ans-row .lbl{font-weight:700;min-width:115px;color:var(--dim);flex-shrink:0}
+.rev-ans-row .val{color:var(--txt)}
+.rev-ans-row .val.c{color:var(--grn)}
+.rev-ans-row .val.w{color:var(--red)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(0,180,216,.4);border-radius:10px}
+
+@media(max-width:600px){
+  .q-nav{flex-direction:column}
+  .nav-l,.nav-r{justify-content:center}
+  .q-card{padding:1.2rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .modal-btns{flex-direction:column}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.q-card,.score-hero,.stat-card,.rev-item,.insights-card{animation:fadeUp .35s ease}
+</style>
+</head>
+<body>
+<div class="wave-bg"></div>
+
+<!-- ══════════ START SCREEN ══════════ -->
+<div id="start-screen" class="screen active">
+  <div class="globe-icon">🌊</div>
+  <h1 class="start-title">OceanIQ</h1>
+  <p class="start-sub">Hydrosphere · Ocean Currents · Tides · UPSC PYQ</p>
+
+  <div class="info-grid">
+    <div class="info-card"><div class="ic">📝</div><div class="lbl">Questions</div><div class="val">19</div></div>
+    <div class="info-card"><div class="ic">⏱️</div><div class="lbl">Time</div><div class="val">20 Min</div></div>
+    <div class="info-card"><div class="ic">🎯</div><div class="lbl">Type</div><div class="val">MCQ</div></div>
+    <div class="info-card"><div class="ic">📚</div><div class="lbl">Source</div><div class="val">UPSC PYQ</div></div>
+  </div>
+
+  <div class="topic-row">
+    <span class="t-pill">🌊 Ocean Currents</span>
+    <span class="t-pill">🌡️ Temperature</span>
+    <span class="t-pill">💧 Freshwater</span>
+    <span class="t-pill">🌙 Tides</span>
+    <span class="t-pill">🗺️ Seabed</span>
+    <span class="t-pill">🌧️ Monsoon</span>
+    <span class="t-pill">🏜️ Deserts</span>
+  </div>
+
+  <button class="btn-start" onclick="startQuiz()">🚀 Start Quiz</button>
+  <p style="color:var(--txt2);font-size:.75rem;margin-top:1rem;letter-spacing:.04em">Progress auto-saved · Years: 2000–2023</p>
+</div>
+
+<!-- ══════════ QUIZ SCREEN ══════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="q-counter">Q <span id="qCur">1</span> / <span id="qTot">19</span></div>
+      <div class="timer-pill" id="timerEl">⏱ 20:00</div>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-meta-row">
+        <span class="q-num-badge" id="qBadge">Q1</span>
+        <span class="q-year-pill" id="qYear">2023</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status-pill none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div id="mapArea"></div><!-- Map for Q18 -->
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-l">
+          <button class="btn btn-secondary" id="btnPrev" onclick="navigate(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQuestion()">⤭ Skip</button>
+        </div>
+        <div class="nav-r">
+          <button class="btn btn-next" id="btnNext" onclick="navigate(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSubmit" style="display:none" onclick="showSubmitModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-map" id="qMap"></div>
+  </div>
+</div>
+
+<!-- ══════════ RESULTS SCREEN ══════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-wrap">
+    <div class="res-header">
+      <h2 id="resTitle">🎉 Quiz Complete!</h2>
+      <p id="resSub"></p>
+    </div>
+    <div class="score-hero">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-denom">/ 19</div>
+      </div>
+      <div class="grade-badge" id="gradeBadge">—</div>
+      <div class="pct-txt" id="pctTxt"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-ic">✅</div><div class="stat-val" id="stCorrect" style="color:var(--grn)">0</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-card"><div class="stat-ic">❌</div><div class="stat-val" id="stWrong" style="color:var(--red)">0</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-card"><div class="stat-ic">⤭</div><div class="stat-val" id="stSkipped" style="color:var(--yel)">0</div><div class="stat-lbl">Skipped</div></div>
+      <div class="stat-card"><div class="stat-ic">🎯</div><div class="stat-val" id="stAcc" style="color:var(--teal)">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-card"><div class="stat-ic">⏱️</div><div class="stat-val" id="stTime" style="color:var(--gold)">0:00</div><div class="stat-lbl">Time Taken</div></div>
+      <div class="stat-card"><div class="stat-ic">📊</div><div class="stat-val" id="stAvg" style="color:var(--teal-l)">0s</div><div class="stat-lbl">Avg / Q</div></div>
+    </div>
+    <div class="insights-card">
+      <h3>🧠 Smart Insights & Weak Area Analysis</h3>
+      <div id="insightsList"></div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn on" onclick="switchTab('all',this)">All (19)</button>
+      <button class="tab-btn" onclick="switchTab('correct',this)">✅ Correct</button>
+      <button class="tab-btn" onclick="switchTab('wrong',this)">❌ Wrong</button>
+      <button class="tab-btn" onclick="switchTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="reviewList"></div>
+    <div style="text-align:center;margin:2rem 0;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-danger" onclick="restartQuiz()">🔄 Restart</button>
+      <button class="btn btn-next" onclick="scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="overlay" id="submitModal">
+  <div class="modal">
+    <div class="modal-ic">🌊</div>
+    <h3>Submit Quiz?</h3>
+    <p id="modalSummary"></p>
+    <div class="modal-btns">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  QUIZ DATA – 19 UPSC PYQ Questions
+// ══════════════════════════════════════════════
+const Q = [
+  {id:1,yr:"2023",topic:"Ocean Temperature",
+   text:"Consider the following statements:\n\nStatement-I: The temperature contrast between continents and oceans is greater during summer than in winter.\n\nStatement-II: The specific heat of water is more than that of land surface.\n\nWhich one of the following is correct?",
+   opts:[
+     "Both Statement-I and Statement-II are correct and Statement-II is the correct explanation for Statement-I",
+     "Both Statement-I and Statement-II are correct and Statement-II is not the correct explanation for Statement-I",
+     "Statement-I is correct but Statement-II is incorrect",
+     "Statement-I is incorrect but Statement-II is correct"
+   ],ans:0},
+
+  {id:2,yr:"2021",topic:"Freshwater Distribution",
+   text:"With reference to the water on planet Earth, consider the following statements:\n\n1. The amount of water in rivers and lakes is more than the amount of groundwater.\n2. The amount of water in polar ice caps and glaciers is more than the amount of groundwater.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+
+  {id:3,yr:"2021",topic:"Seabed Resources",
+   text:"Consider the following statements:\n\n1. The Global Ocean Commission grants licences for seabed exploration and mining in international waters.\n2. India has received licences for seabed mineral exploration in international waters.\n3. 'Rare earth minerals' are present on the seafloor in international waters.\n\nWhich of the statements given above are correct?",
+   opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:1},
+
+  {id:4,yr:"2021",topic:"Ocean Currents",
+   text:"Consider the following statements:\n\n1. In the tropical zone, the western sections of the oceans are warmer than the eastern sections owing to the influence of trade winds.\n2. In the temperate zone, westerlies make the eastern sections of oceans warmer than the western sections.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:2},
+
+  {id:5,yr:"2020",topic:"Ocean Mean Temperature",
+   text:"With reference to Ocean Mean Temperature (OMT), which of the following statements is/are correct?\n\n1. OMT is measured up to a depth of 26°C isotherm which is 129 meters in the south-western Indian Ocean during January–March.\n2. OMT collected during January–March can be used in assessing whether the amount of rainfall in monsoon will be less or more than a certain long-term mean.\n\nSelect the correct answer using the code given below:",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+
+  {id:6,yr:"2015",topic:"Tides",
+   text:"Tides occur in oceans and seas due to which of the following?\n\n1. Gravitational Force of the Sun\n2. Gravitational Force of the Moon\n3. Gravitational Force of the Earth\n\nSelect the correct answer using the code given below:",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:3},
+
+  {id:7,yr:"2015",topic:"Ocean Currents",
+   text:"What explains the eastward flow of the equatorial counter-current?",
+   opts:[
+     "The Earth's rotation on its axis",
+     "Convergence of the two equatorial currents",
+     "Difference in salinity of water",
+     "Occurrence of the belt of calm near equator"
+   ],ans:3},
+
+  {id:8,yr:"2013",topic:"Continental Temperature",
+   text:"The annual range of temperature in the interior of the continents is high as compared to coastal areas. What is/are the reason/reasons?\n\n1. Thermal difference between land and water\n2. Variation in altitude between continents and oceans\n3. Presence of strong winds in the interior\n4. Heavy rains in the interior as compared to coasts\n\nSelect the correct answer using the codes given below:",
+   opts:["1 only","1 and 2 only","2 and 3 only","1, 2, 3 and 4"],ans:0},
+
+  {id:9,yr:"2013",topic:"Fishing Grounds",
+   text:"The most important fishing grounds of the world are found in the regions where?",
+   opts:[
+     "Warm and cold atmospheric currents meet",
+     "Rivers drain out large amounts of freshwater into the sea",
+     "Warm and cold oceanic currents meet",
+     "Continental shelf is undulating"
+   ],ans:2},
+
+  {id:10,yr:"2012",topic:"Ocean Currents",
+   text:"Consider the following factors:\n\n1. Rotation of the Earth\n2. Air pressure and wind\n3. Density of ocean water\n4. Revolution of the Earth\n\nWhich of the above factors influence the ocean currents?",
+   opts:["1 and 2 only","1, 2 and 3","1 and 4 only","2, 3 and 4"],ans:1},
+
+  {id:11,yr:"2011",topic:"Desert Formation",
+   text:"What could be the main reason/reasons for the formation of the African and Eurasian desert belt?\n\n1. It is located in the sub-tropical high pressure cells.\n2. It is under the influence of warm ocean currents.\n\nWhich of the statements given above is/are correct in this context?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0},
+
+  {id:12,yr:"2010",topic:"Freshwater Distribution",
+   text:"Consider the following statements:\n\n1. On planet Earth, the fresh water available for use amounts to about less than 1% of the total water found.\n2. Of the total fresh water found on planet Earth, 95% is bound up in polar ice caps and glaciers.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:3},
+
+  {id:13,yr:"2007",topic:"Ocean Temperature",
+   text:"Consider the following statements:\n\n1. The annual range of temperature is greater in the Pacific Ocean than that in the Atlantic Ocean.\n2. The annual range of temperature is greater in the Northern Hemisphere than that in the Southern Hemisphere.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+
+  {id:14,yr:"2004",topic:"Tides",
+   text:"Which one of the following statements is correct?",
+   opts:[
+     "Gulfs with narrow fronts and wider rears experience high tides",
+     "Tidal currents take place when a gulf is connected with the open sea by a narrow channel",
+     "Tidal bore occurs when a tide enters the narrow and shallow estuary of a river",
+     "The tidal nature of the mouth of the river Hooghly is of crucial importance to Kolkata as a port"
+   ],ans:2},
+
+  {id:15,yr:"2002",topic:"Ocean Currents",
+   text:"Consider the following statements:\n\n1. Ocean currents are the slow surface movement of water in the ocean.\n2. Ocean currents assist in maintaining the Earth's heat balance.\n3. Ocean currents are set in motion primarily by prevailing winds.\n4. Ocean currents are affected by the configuration of the ocean.\n\nWhich of these statements are correct?",
+   opts:["1 and 2","2, 3 and 4","1, 3 and 4","1, 2, 3 and 4"],ans:3},
+
+  {id:16,yr:"2001",topic:"Tides",
+   text:"Assertion (A): During the Neap Tides, the high tide is lower and the low tide is higher than usual.\n\nReason (R): The Neap Tide, unlike the Spring Tide, occurs on the New Moon instead of on the Full Moon.\n\nSelect the correct option:",
+   opts:[
+     "Both A and R are true and R is the correct explanation of A",
+     "Both A and R are true but R is NOT a correct explanation of A",
+     "A is true but R is false",
+     "A is false but R is true"
+   ],ans:2},
+
+  {id:17,yr:"2000",topic:"Tides & Navigation",
+   text:"Consider the following statements:\n\nI.   Tides are of great help in navigation and fishing.\nII.  High tide enables big ships to enter or leave the harbour safely.\nIII. Tide prevents siltation in the harbours.\nIV.  Kandla and Diamond Harbour are tidal ports.\n\nWhich of these statements are correct?",
+   opts:["I and IV","II, III and IV","I, II and III","I, II, III and IV"],ans:3},
+
+  {id:18,yr:"1999",topic:"Ocean Currents Map",
+   text:"In the given map below (showing southern Africa and surrounding waters), which one of the following pairs of ocean currents is shown?\n\n[The map shows arrows off the southwestern coast of Africa flowing northward, and arrows off the southeastern coast flowing southward.]",
+   opts:[
+     "Benguela and Falkland",
+     "Canary and Humboldt",
+     "Agulhas and Guinea",
+     "Benguela and Guinea"
+   ],ans:3,hasMap:true},
+
+  {id:19,yr:"1997",topic:"Indian Ocean Currents",
+   text:"Which one of the following factors is responsible for the change in the regular direction of the ocean currents in the Indian Ocean?",
+   opts:[
+     "Indian Ocean is 'half an ocean'",
+     "Indian Ocean has monsoon drift",
+     "Indian Ocean is a land-locked ocean",
+     "Indian Ocean has greater variation in salinity"
+   ],ans:1}
+];
+
+// ══════════════════════════════════════════════
+//  MAP SVG for Q18
+// ══════════════════════════════════════════════
+function getMapSVG(){
+  return `
+  <div class="map-container">
+    <div class="map-label">📍 Reference Map — Southern African Ocean Currents</div>
+    <svg viewBox="0 0 320 300" width="100%" style="max-width:320px;border-radius:10px;background:#0a1f3d"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Ocean background -->
+      <rect width="320" height="300" fill="#0a1f3d"/>
+
+      <!-- Subtle grid lines -->
+      <g stroke="rgba(0,180,216,0.07)" stroke-width="0.5">
+        <line x1="0" y1="75"  x2="320" y2="75"/>
+        <line x1="0" y1="150" x2="320" y2="150"/>
+        <line x1="0" y1="225" x2="320" y2="225"/>
+        <line x1="80"  y1="0" x2="80"  y2="300"/>
+        <line x1="160" y1="0" x2="160" y2="300"/>
+        <line x1="240" y1="0" x2="240" y2="300"/>
+      </g>
+
+      <!-- Africa continent shape (simplified Southern Africa) -->
+      <path d="M120,10 L190,10 L220,30 L235,60 L240,90 L238,120
+               L235,148 L228,168 L218,185 L210,200
+               L200,215 L192,230 L186,245 L183,265
+               L180,278 L177,265 L174,245 L169,230
+               L160,215 L150,200 L140,185 L132,168
+               L125,148 L120,120 L118,90 L120,60
+               L132,30 Z"
+            fill="#2d5a27" stroke="#3d7a37" stroke-width="1.5"/>
+
+      <!-- Country label -->
+      <text x="179" y="130" text-anchor="middle" fill="#8fbc6a" font-size="9" font-family="DM Sans,sans-serif" font-weight="700">AFRICA</text>
+      <text x="179" y="142" text-anchor="middle" fill="#8fbc6a" font-size="7" font-family="DM Sans,sans-serif">(Southern)</text>
+
+      <!-- Cape of Good Hope label -->
+      <text x="179" y="292" text-anchor="middle" fill="rgba(0,180,216,0.6)" font-size="6.5" font-family="DM Sans,sans-serif">Cape of Good Hope</text>
+
+      <!-- ══ BENGUELA CURRENT (west coast, cold, northward) ══ -->
+      <!-- Arrow 1 - southern -->
+      <g transform="translate(95,250)">
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#4fc3f7" stroke-width="1.2"/>
+        <polygon points="0,-10 -5,0 5,0" fill="#4fc3f7" opacity="0.9"/>
+      </g>
+      <!-- Arrow 2 -->
+      <g transform="translate(90,215)">
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#4fc3f7" stroke-width="1.2"/>
+        <polygon points="0,-10 -5,0 5,0" fill="#4fc3f7" opacity="0.85"/>
+      </g>
+      <!-- Arrow 3 -->
+      <g transform="translate(88,180)">
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#4fc3f7" stroke-width="1.2"/>
+        <polygon points="0,-10 -5,0 5,0" fill="#4fc3f7" opacity="0.8"/>
+      </g>
+      <!-- Arrow 4 -->
+      <g transform="translate(85,145)">
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#4fc3f7" stroke-width="1.2"/>
+        <polygon points="0,-10 -5,0 5,0" fill="#4fc3f7" opacity="0.75"/>
+      </g>
+      <!-- Benguela current path line -->
+      <path d="M92,265 Q88,220 85,155" fill="none" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+      <!-- BENGUELA label -->
+      <text x="60" y="200" fill="#4fc3f7" font-size="8" font-family="DM Sans,sans-serif" font-weight="700" transform="rotate(-90,60,200)">BENGUELA (Cold)</text>
+
+      <!-- ══ AGULHAS CURRENT (east coast, warm, southward) ══
+           Actually in map context for answer: arrows on east = Guinea/Agulhas
+           The correct answer is Benguela (west) and Guinea (shown in map on eastern side going south to cape)
+           But map shows arrows near southwestern tip going south = could be Agulhas / Guinea context
+           We show eastern arrows going southward (warm, orange) = second current -->
+      <!-- Arrow 1 - northern east -->
+      <g transform="translate(258,100)">
+        <polygon points="0,10 -5,0 5,0" fill="#ff8c42" opacity="0.9"/>
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#ff8c42" stroke-width="1.2"/>
+      </g>
+      <!-- Arrow 2 -->
+      <g transform="translate(262,135)">
+        <polygon points="0,10 -5,0 5,0" fill="#ff8c42" opacity="0.85"/>
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#ff8c42" stroke-width="1.2"/>
+      </g>
+      <!-- Arrow 3 -->
+      <g transform="translate(260,170)">
+        <polygon points="0,10 -5,0 5,0" fill="#ff8c42" opacity="0.8"/>
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#ff8c42" stroke-width="1.2"/>
+      </g>
+      <!-- Arrow 4 near cape -->
+      <g transform="translate(255,205)">
+        <polygon points="0,10 -5,0 5,0" fill="#ff8c42" opacity="0.75"/>
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#ff8c42" stroke-width="1.2"/>
+      </g>
+      <!-- East current path line -->
+      <path d="M258,90 Q262,155 255,220" fill="none" stroke="#ff8c42" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>
+
+      <!-- Second current label -->
+      <text x="295" y="155" fill="#ff8c42" font-size="8" font-family="DM Sans,sans-serif" font-weight="700" transform="rotate(90,295,155)">EAST CURRENT (Warm)</text>
+
+      <!-- Legend box -->
+      <rect x="4" y="4" width="130" height="56" rx="6" fill="rgba(0,0,0,0.6)" stroke="rgba(0,180,216,0.2)" stroke-width="0.8"/>
+      <text x="12" y="16" fill="rgba(255,255,255,0.7)" font-size="6.5" font-family="DM Sans,sans-serif" font-weight="700">LEGEND</text>
+      <!-- Cold -->
+      <line x1="12" y1="26" x2="35" y2="26" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="4,2"/>
+      <polygon points="35,23 35,29 40,26" fill="#4fc3f7"/>
+      <text x="44" y="29" fill="#4fc3f7" font-size="7" font-family="DM Sans,sans-serif">Cold Current (N)</text>
+      <!-- Warm -->
+      <line x1="12" y1="42" x2="35" y2="42" stroke="#ff8c42" stroke-width="2" stroke-dasharray="4,2"/>
+      <polygon points="35,39 35,45 40,42" fill="#ff8c42"/>
+      <text x="44" y="45" fill="#ff8c42" font-size="7" font-family="DM Sans,sans-serif">Warm Current (S)</text>
+
+      <!-- Atlantic Ocean label -->
+      <text x="50" y="120" fill="rgba(0,180,216,0.35)" font-size="8" font-family="DM Sans,sans-serif" font-style="italic">Atlantic</text>
+      <text x="50" y="130" fill="rgba(0,180,216,0.35)" font-size="8" font-family="DM Sans,sans-serif" font-style="italic">Ocean</text>
+
+      <!-- Indian Ocean label -->
+      <text x="275" y="60" fill="rgba(255,140,66,0.35)" font-size="7" font-family="DM Sans,sans-serif" font-style="italic" text-anchor="middle">Indian</text>
+      <text x="275" y="70" fill="rgba(255,140,66,0.35)" font-size="7" font-family="DM Sans,sans-serif" font-style="italic" text-anchor="middle">Ocean</text>
+
+      <!-- Compass rose -->
+      <g transform="translate(290,270)">
+        <text x="0" y="-12" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="6" font-weight="700">N</text>
+        <text x="0" y="18" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="6">S</text>
+        <text x="-14" y="4" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="6">W</text>
+        <text x="14" y="4" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="6">E</text>
+        <circle cx="0" cy="0" r="9" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.7"/>
+        <polygon points="0,-8 -2.5,0 0,3 2.5,0" fill="rgba(255,255,255,0.7)"/>
+      </g>
+    </svg>
+    <div style="font-size:.7rem;color:var(--txt2);text-align:center;max-width:320px;line-height:1.5;margin-top:.3rem">
+      ⬆ Cold current (blue) = west coast flowing northward &nbsp;|&nbsp; ⬇ Warm current (orange) = east coast flowing southward
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════
+//  QUIZ STATE
+// ══════════════════════════════════════════════
+let S = {
+  cur:0,
+  answers:new Array(19).fill(null),
+  skipped:new Array(19).fill(false),
+  startTime:null,timerInt:null,timeLeft:20*60,submitted:false
+};
+const L=['A','B','C','D'];
+
+function startQuiz(){
+  const saved=localStorage.getItem('oceaniq_v1');
+  if(saved){
+    const d=JSON.parse(saved);
+    if(!d.submitted && confirm('📂 Continue your previous session?')){
+      S={...S,...d,timerInt:null};
+    } else {
+      localStorage.removeItem('oceaniq_v1');
+      S.startTime=Date.now();
+    }
+  } else {
+    S.startTime=Date.now();
+  }
+  showScreen('quiz-screen');
+  buildMap();
+  renderQ();
+  startTimer();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// Timer
+function startTimer(){
+  if(S.timerInt) clearInterval(S.timerInt);
+  updateTimer();
+  S.timerInt=setInterval(()=>{
+    if(S.submitted){clearInterval(S.timerInt);return;}
+    S.timeLeft--;
+    updateTimer();
+    if(S.timeLeft%15===0) save();
+    if(S.timeLeft<=0){clearInterval(S.timerInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimer(){
+  const m=Math.floor(S.timeLeft/60),s=S.timeLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.timeLeft<=300?'timer-pill warn':'timer-pill';
+}
+const pad=n=>String(n).padStart(2,'0');
+
+// Render question
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYear').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('progFill').style.width=((i+1)/Q.length*100)+'%';
+
+  // Status
+  const sp=document.getElementById('qStatus');
+  if(S.skipped[i])              {sp.textContent='⤭ Skipped';sp.className='q-status-pill skp';}
+  else if(S.answers[i]!==null) {sp.textContent='✅ Answered';sp.className='q-status-pill ans';}
+  else                          {sp.textContent='○ Unanswered';sp.className='q-status-pill none';}
+
+  // Map area
+  document.getElementById('mapArea').innerHTML=q.hasMap ? getMapSVG() : '';
+
+  // Options
+  const og=document.getElementById('optsGrid');
+  og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn'+(S.answers[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-letter">${L[idx]}</span><span>${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  // Nav
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'block';
+  document.getElementById('btnSubmit').style.display=last?'block':'none';
+  updateMap();
+}
+
+function pick(idx){
+  if(S.submitted)return;
+  S.answers[S.cur]=idx;
+  S.skipped[S.cur]=false;
+  renderQ();save();
+}
+function navigate(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQuestion(){
+  S.skipped[S.cur]=true;S.answers[S.cur]=null;save();
+  if(S.cur<Q.length-1) navigate(1); else renderQ();
+}
+
+// Q-dot map
+function buildMap(){
+  const mp=document.getElementById('qMap');mp.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='q-dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};mp.appendChild(d);
+  });
+}
+function updateMap(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='q-dot';
+    if(i===S.cur) d.classList.add('cur');
+    else if(S.skipped[i]) d.classList.add('skp-dot');
+    else if(S.answers[i]!==null) d.classList.add('ans-dot');
+  });
+}
+
+// Modal
+function showSubmitModal(){
+  const ans=S.answers.filter(a=>a!==null).length;
+  const skp=S.skipped.filter(Boolean).length;
+  const una=Q.length-ans-skp;
+  document.getElementById('modalSummary').textContent=
+    `Answered: ${ans}  |  Skipped: ${skp}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('submitModal').classList.add('on');
+}
+function closeModal(){document.getElementById('submitModal').classList.remove('on');}
+
+// Submit
+function submitQuiz(){
+  closeModal();clearInterval(S.timerInt);S.submitted=true;
+  const usedSec=(20*60)-S.timeLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skipped[i]||S.answers[i]===null) skipped++;
+    else if(S.answers[i]===q.ans) correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted>0?Math.round(correct/attempted*100):0;
+  const avgTime=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Excellent';gc='#2dc653';}
+  else if(pct>=75){grade='🥇 Very Good';gc='#00b4d8';}
+  else if(pct>=60){grade='🥈 Good';gc='#7c3aed';}
+  else if(pct>=45){grade='🥉 Average';gc='#f4a261';}
+  else{grade='📚 Needs Work';gc='#e63946';}
+
+  document.getElementById('scoreNum').textContent=correct;
+  const gb=document.getElementById('gradeBadge');
+  gb.textContent=grade;gb.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctTxt').textContent=pct+'% Score';
+  document.getElementById('stCorrect').textContent=correct;
+  document.getElementById('stWrong').textContent=wrong;
+  document.getElementById('stSkipped').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtTime(usedSec);
+  document.getElementById('stAvg').textContent=avgTime+'s';
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🌊 Outstanding!';document.getElementById('resSub').textContent='Excellent command over ocean geography concepts.';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Effort!';document.getElementById('resSub').textContent='Review the highlighted weak areas and try again.';}
+  else{document.getElementById('resTitle').textContent='📚 Keep Practicing!';document.getElementById('resSub').textContent='Focus on ocean currents, tides, and freshwater distribution.';}
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('oceaniq_v1');
+  showScreen('results-screen');
+}
+function fmtTime(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topicWrong={};
+  Q.forEach((q,i)=>{
+    if(!S.skipped[i]&&S.answers[i]!==null&&S.answers[i]!==q.ans)
+      topicWrong[q.topic]=(topicWrong[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicWrong).sort((a,b)=>b[1]-a[1]);
+  const ins=[];
+
+  if(pct>=90) ins.push('🌟 Near-perfect! You have strong mastery of hydrosphere and ocean geography concepts.');
+  else if(pct>=75) ins.push('💪 Strong performance. A focused revision will take you to excellence.');
+  else if(pct>=50) ins.push('📈 Good base. Systematic revision of marked wrong answers will boost your score significantly.');
+  else ins.push('📖 Focus on fundamentals — Ocean Currents, Tides, and Freshwater Distribution are high-yield UPSC topics.');
+
+  if(acc<50&&attempted>6) ins.push(`🎯 Accuracy is ${acc}% — avoid guessing. Attempt only when you have at least partial knowledge.`);
+  if(skipped>5) ins.push(`⤭ ${skipped} questions skipped. Practice elimination techniques — educated guesses can score in UPSC Prelims.`);
+
+  if(topicWrong['Ocean Currents']) ins.push('🌊 Revise: Gyre systems, Trade wind drift, Westerlies effect, equatorial counter-currents.');
+  if(topicWrong['Tides']||topicWrong['Tides & Navigation']) ins.push('🌙 Revise: Spring vs Neap tides, tidal bore, gravitational forces (Moon + Sun), tidal ports of India.');
+  if(topicWrong['Freshwater Distribution']) ins.push('💧 Revise: ~97% ocean, ~2.1% ice/glaciers, ~0.6% groundwater — rivers & lakes are <0.01%.');
+  if(topicWrong['Ocean Mean Temperature']) ins.push('🌡️ OMT is used to predict Indian monsoon rainfall — key link between ocean heat and climate.');
+  if(topicWrong['Indian Ocean Currents']) ins.push('🌏 Indian Ocean is unique — monsoon reverses current direction seasonally. A key PYQ theme.');
+  if(topicWrong['Ocean Currents Map']) ins.push('🗺️ Benguela = cold, west Africa, northward. Agulhas = warm, east Africa, southward. Remember these pairs!');
+  if(topicWrong['Desert Formation']) ins.push('🏜️ African/Eurasian deserts = sub-tropical high pressure cells (descending dry air) — NOT warm currents.');
+
+  ranked.slice(0,3).forEach(([t,c])=>{
+    ins.push(`❌ Weak area — "${t}": ${c} wrong. Prioritise this in revision.`);
+  });
+
+  const il=document.getElementById('insightsList');
+  il.innerHTML=ins.map(s=>`<div class="insight-item"><span>${s}</span></div>`).join('');
+  if(ranked.length) il.innerHTML+=`<div class="weak-tags">${ranked.map(([t])=>`<span class="w-tag">${t}</span>`).join('')}</div>`;
+}
+
+// Review
+function switchTab(filter,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(filter);
+}
+function renderReview(filter){
+  const rl=document.getElementById('reviewList');
+  let html='',count=0;
+  Q.forEach((q,i)=>{
+    const ua=S.answers[i];
+    const isSkp=S.skipped[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(filter==='correct'&&!isOk) return;
+    if(filter==='wrong'&&!isWrong) return;
+    if(filter==='skipped'&&!isSkp) return;
+    count++;
+    const sc=isOk?'correct':isWrong?'wrong':'skipped';
+    const st=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-item ${sc}">
+      <div class="rev-meta">
+        <span class="rev-qnum">Q${i+1}</span>
+        <span class="q-year-pill">${q.yr}</span>
+        <span class="rev-sbadge ${sc}">${st}</span>
+        <span class="rev-topic">${q.topic}</span>
+      </div>
+      <div class="rev-qtext">${q.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div>
+        <div class="rev-ans-row"><span class="lbl">Your Answer:</span><span class="val ${isSkp?'':isOk?'c':'w'}">${uaTxt}</span></div>
+        <div class="rev-ans-row"><span class="lbl">Correct Answer:</span><span class="val c">${caTxt}</span></div>
+      </div>
+    </div>`;
+  });
+  if(!count) html='<p style="color:var(--txt2);text-align:center;padding:2.5rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('oceaniq_v1',JSON.stringify({
+    cur:S.cur,answers:S.answers,skipped:S.skipped,
+    startTime:S.startTime,timeLeft:S.timeLeft,submitted:S.submitted
+  }));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart quiz? All progress will be lost.')) return;
+  clearInterval(S.timerInt);localStorage.removeItem('oceaniq_v1');
+  S={cur:0,answers:new Array(19).fill(null),skipped:new Array(19).fill(false),startTime:null,timerInt:null,timeLeft:20*60,submitted:false};
+  showScreen('start-screen');
+}
+</script>
+</body>
+</html>

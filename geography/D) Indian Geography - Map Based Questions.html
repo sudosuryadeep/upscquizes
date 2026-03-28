@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BharatMap IQ – India Political Geography Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0c08;--bg2:#1a1408;
+  --saffron:#ff9933;--saffron-d:#cc7a00;--saffron-l:#ffb84d;
+  --green:#138808;--green-l:#27c70f;--green-d:#0d5c05;
+  --navy:#000080;--blue:#1a56db;--blue-l:#60a5fa;
+  --white:#f5f0e8;--cream:#fffde7;
+  --gold:#f5c518;--gold-l:#fde68a;
+  --txt:#f0ebe0;--txt2:#9e9070;--dim:#4a4232;
+  --foam:rgba(255,153,51,0.06);--gbord:rgba(255,153,51,0.15);
+  --grn:#22c55e;--red:#ef4444;--yel:#f59e0b;
+}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 30%,rgba(255,153,51,.1) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 20%,rgba(19,136,8,.08) 0%,transparent 45%),
+    radial-gradient(ellipse at 50% 90%,rgba(0,0,128,.12) 0%,transparent 55%);
+  pointer-events:none;z-index:0;
+}
+
+/* Subtle ashoka chakra watermark */
+body::after{
+  content:'⊕';position:fixed;bottom:5%;right:5%;
+  font-size:200px;color:rgba(26,86,219,.04);
+  pointer-events:none;z-index:0;
+  animation:rotateSlow 40s linear infinite;
+}
+@keyframes rotateSlow{to{transform:rotate(360deg)}}
+
+.screen{display:none;position:relative;z-index:1}
+.screen.active{display:flex}
+
+/* ══ START SCREEN ══ */
+#start-screen{
+  min-height:100vh;flex-direction:column;align-items:center;
+  justify-content:center;padding:2rem;text-align:center;
+}
+.flag-strip{
+  width:110px;height:70px;border-radius:10px;overflow:hidden;
+  margin:0 auto 1.5rem;
+  box-shadow:0 0 0 2px rgba(255,153,51,.4),0 0 40px rgba(255,153,51,.3);
+  display:flex;flex-direction:column;
+  animation:flagGlow 3s ease-in-out infinite;
+}
+@keyframes flagGlow{0%,100%{box-shadow:0 0 0 2px rgba(255,153,51,.4),0 0 40px rgba(255,153,51,.3)}50%{box-shadow:0 0 0 3px rgba(255,153,51,.6),0 0 60px rgba(255,153,51,.5)}}
+.flag-s{flex:1;display:flex;align-items:center;justify-content:center}
+.flag-s.s1{background:#ff9933}
+.flag-s.s2{background:#fff;font-size:22px}
+.flag-s.s3{background:#138808}
+
+.start-title{
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(2rem,6vw,3.6rem);font-weight:700;
+  background:linear-gradient(135deg,var(--saffron),var(--gold),var(--saffron-l));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.25rem;letter-spacing:-.01em;
+}
+.start-sub{color:var(--txt2);font-size:.88rem;margin-bottom:2.5rem;letter-spacing:.1em;text-transform:uppercase}
+
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;max-width:560px;width:100%;margin:0 auto 2rem}
+@media(max-width:480px){.info-grid{grid-template-columns:repeat(2,1fr)}}
+.info-card{
+  background:var(--foam);border:1px solid var(--gbord);border-radius:14px;
+  padding:1rem;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s;
+}
+.info-card:hover{transform:translateY(-4px);border-color:rgba(255,153,51,.4)}
+.info-card .ic{font-size:1.4rem;margin-bottom:.35rem}
+.info-card .lbl{font-size:.65rem;color:var(--txt2);margin-bottom:.15rem;text-transform:uppercase;letter-spacing:.07em}
+.info-card .val{font-size:1.05rem;font-weight:700;color:var(--saffron)}
+
+.topic-row{display:flex;gap:.45rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.t-pill{
+  font-size:.7rem;font-weight:600;padding:.28rem .8rem;border-radius:50px;
+  border:1px solid rgba(255,153,51,.2);background:rgba(255,153,51,.07);color:var(--saffron-l);
+  transition:all .2s;
+}
+.t-pill:hover{background:rgba(255,153,51,.18);border-color:rgba(255,153,51,.5)}
+
+.btn-start{
+  background:linear-gradient(135deg,var(--saffron-d),var(--saffron));
+  color:#fff;border:none;border-radius:50px;
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;
+  padding:.95rem 2.8rem;cursor:pointer;
+  box-shadow:0 6px 30px rgba(255,153,51,.35);transition:all .25s;letter-spacing:.03em;
+}
+.btn-start:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(255,153,51,.55)}
+
+/* ══ QUIZ SCREEN ══ */
+#quiz-screen{min-height:100vh;flex-direction:column;padding:1rem}
+.quiz-wrap{max-width:920px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.8rem}
+
+.quiz-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.2rem;background:var(--foam);border:1px solid var(--gbord);
+  border-radius:14px;backdrop-filter:blur(12px);
+}
+.q-counter{font-size:.85rem;font-weight:600;color:var(--txt2)}
+.q-counter span{color:var(--saffron);font-weight:800;font-size:1rem}
+.timer-pill{
+  display:flex;align-items:center;gap:.4rem;
+  background:rgba(255,153,51,.1);border:1px solid rgba(255,153,51,.25);
+  border-radius:50px;padding:.35rem .95rem;font-weight:700;font-size:.9rem;
+  color:var(--saffron);transition:all .3s;font-variant-numeric:tabular-nums;
+}
+.timer-pill.warn{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:var(--red);animation:blink .85s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.45}}
+
+.prog-wrap{height:4px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.prog-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--green-d),var(--saffron),var(--gold));
+  border-radius:10px;transition:width .4s ease;box-shadow:0 0 10px rgba(255,153,51,.5);
+}
+
+/* Question card */
+.q-card{
+  background:linear-gradient(135deg,rgba(26,20,8,.92),rgba(15,12,8,.96));
+  border:1px solid rgba(255,153,51,.15);border-radius:22px;
+  padding:1.8rem;backdrop-filter:blur(18px);flex:1;
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+}
+.q-meta-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.q-num-badge{
+  background:linear-gradient(135deg,var(--saffron-d),var(--saffron));
+  color:#fff;font-size:.7rem;font-weight:800;padding:.26rem .78rem;border-radius:50px;letter-spacing:.05em;
+}
+.q-year-pill{font-size:.7rem;color:var(--gold);background:rgba(245,197,24,.1);padding:.24rem .68rem;border-radius:50px;border:1px solid rgba(245,197,24,.3);font-weight:600}
+.q-topic-tag{font-size:.67rem;color:var(--saffron-l);background:rgba(255,153,51,.08);padding:.22rem .62rem;border-radius:50px;border:1px solid rgba(255,153,51,.2)}
+.q-status-pill{font-size:.67rem;font-weight:700;padding:.22rem .78rem;border-radius:50px;margin-left:auto}
+.q-status-pill.none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gbord)}
+.q-status-pill.ans{background:rgba(34,197,94,.13);color:var(--grn);border:1px solid rgba(34,197,94,.32)}
+.q-status-pill.skp{background:rgba(245,158,11,.1);color:var(--yel);border:1px solid rgba(245,158,11,.28)}
+
+.q-text{font-size:.95rem;font-weight:400;line-height:1.85;color:var(--txt);margin-bottom:1.3rem;white-space:pre-wrap}
+
+/* Map image display */
+.map-container{
+  margin-bottom:1.2rem;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,153,51,.25);
+  border-radius:16px;padding:1.1rem;display:flex;flex-direction:column;align-items:center;gap:.7rem;
+}
+.map-label{
+  font-size:.7rem;color:var(--saffron);letter-spacing:.08em;
+  text-transform:uppercase;font-weight:700;
+  display:flex;align-items:center;gap:.4rem;
+}
+.map-container img{
+  max-width:100%;max-height:320px;border-radius:10px;
+  object-fit:contain;
+  filter:brightness(1.15) contrast(1.08) saturate(0.95);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  background:#fff;/* white bg so B&W maps are visible */
+  padding:4px;
+}
+.map-note{
+  font-size:.74rem;color:var(--saffron-l);text-align:center;
+  line-height:1.6;max-width:420px;
+  background:rgba(255,153,51,.07);padding:.5rem .9rem;
+  border-radius:8px;border:1px solid rgba(255,153,51,.15);
+}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.6rem}
+.opt-btn{
+  display:flex;align-items:flex-start;gap:.85rem;padding:.88rem 1rem;
+  background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:13px;cursor:pointer;transition:all .22s;
+  text-align:left;color:var(--txt);font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:400;
+  line-height:1.55;width:100%;
+}
+.opt-btn:hover:not(.sel):not(:disabled){
+  background:rgba(255,153,51,.1);border-color:rgba(255,153,51,.4);transform:translateX(6px);
+}
+.opt-letter{
+  min-width:28px;height:28px;background:rgba(255,153,51,.1);border:1px solid rgba(255,153,51,.25);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:800;color:var(--saffron);transition:all .22s;flex-shrink:0;
+}
+.opt-btn.sel{background:rgba(255,153,51,.15);border-color:var(--saffron)}
+.opt-btn.sel .opt-letter{background:var(--saffron);color:#fff;border-color:var(--saffron)}
+
+.q-nav{display:flex;gap:.6rem;margin-top:1.3rem;justify-content:space-between;flex-wrap:wrap}
+.nav-l,.nav-r{display:flex;gap:.6rem}
+
+/* Buttons */
+.btn{padding:.7rem 1.5rem;border:none;border-radius:50px;font-family:'Outfit',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;transition:all .22s;letter-spacing:.02em}
+.btn-secondary{background:var(--foam);border:1px solid var(--gbord);color:var(--txt);backdrop-filter:blur(10px)}
+.btn-secondary:hover{background:rgba(255,255,255,.1)}
+.btn-secondary:disabled{opacity:.28;cursor:not-allowed}
+.btn-skip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--yel)}
+.btn-skip:hover{background:rgba(245,158,11,.2)}
+.btn-next{background:linear-gradient(135deg,var(--saffron-d),var(--saffron));color:#fff;box-shadow:0 3px 15px rgba(255,153,51,.3)}
+.btn-next:hover{box-shadow:0 6px 25px rgba(255,153,51,.5);transform:translateY(-2px)}
+.btn-submit{background:linear-gradient(135deg,var(--green-d),var(--green));color:#fff;box-shadow:0 3px 15px rgba(19,136,8,.3)}
+.btn-submit:hover{box-shadow:0 6px 25px rgba(19,136,8,.5);transform:translateY(-2px)}
+.btn-danger{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+.btn-danger:hover{background:rgba(239,68,68,.22)}
+
+/* Q-dot map */
+.q-map{display:flex;flex-wrap:wrap;gap:.32rem;max-width:920px;width:100%;margin:0 auto}
+.q-dot{
+  width:28px;height:28px;border-radius:7px;border:none;
+  font-size:.64rem;font-weight:700;cursor:pointer;transition:all .18s;
+  background:rgba(255,255,255,.05);color:var(--txt2);
+}
+.q-dot:hover{background:rgba(255,153,51,.2);color:var(--saffron)}
+.q-dot.cur{background:linear-gradient(135deg,var(--saffron-d),var(--saffron));color:#fff;box-shadow:0 2px 10px rgba(255,153,51,.45)}
+.q-dot.ans-dot{background:rgba(34,197,94,.18);color:var(--grn);border:1px solid rgba(34,197,94,.38)}
+.q-dot.skp-dot{background:rgba(245,158,11,.14);color:var(--yel);border:1px solid rgba(245,158,11,.33)}
+
+/* ══ MODAL ══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:linear-gradient(135deg,#1a1408,#0f0c08);border:1px solid rgba(255,153,51,.3);border-radius:24px;padding:2.2rem;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.7)}
+.modal-ic{font-size:3rem;margin-bottom:1rem}
+.modal h3{font-family:'Libre Baskerville',serif;font-size:1.25rem;margin-bottom:.7rem;color:var(--saffron-l)}
+.modal p{color:var(--txt2);font-size:.84rem;margin-bottom:1.5rem;line-height:1.7;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.8rem;justify-content:center}
+
+/* ══ RESULTS ══ */
+#results-screen{min-height:100vh;flex-direction:column;padding:1.5rem 1rem;align-items:center}
+.res-wrap{max-width:920px;width:100%}
+.res-header{text-align:center;margin-bottom:2rem;padding-top:1rem}
+.res-header h2{font-family:'Libre Baskerville',serif;font-size:clamp(1.5rem,4vw,2.6rem);font-weight:700;background:linear-gradient(135deg,var(--saffron),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-header p{color:var(--txt2);font-size:.88rem;margin-top:.4rem}
+
+.score-hero{
+  background:linear-gradient(135deg,rgba(255,153,51,.1),rgba(245,197,24,.05));
+  border:1px solid rgba(255,153,51,.2);border-radius:26px;padding:2.5rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden;
+}
+.score-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,153,51,.08),transparent 70%)}
+.score-circle{
+  width:140px;height:140px;border-radius:50%;
+  background:linear-gradient(135deg,var(--saffron-d),var(--saffron),var(--gold));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;position:relative;z-index:1;
+  box-shadow:0 0 0 4px rgba(255,153,51,.2),0 0 60px rgba(255,153,51,.35);
+}
+.score-circle::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:1px dashed rgba(255,153,51,.3);animation:rotateSlow 8s linear infinite}
+.score-num{font-family:'Libre Baskerville',serif;font-size:2.8rem;font-weight:700;color:#fff;line-height:1}
+.score-denom{font-size:.8rem;color:rgba(255,255,255,.65)}
+.grade-badge{display:inline-block;padding:.4rem 1.4rem;border-radius:50px;font-weight:700;font-size:1rem;margin-bottom:.5rem;position:relative;z-index:1}
+.pct-txt{color:var(--txt2);font-size:.85rem;position:relative;z-index:1}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.85rem;margin-bottom:1.5rem}
+.stat-card{background:var(--foam);border:1px solid var(--gbord);border-radius:16px;padding:1.2rem;text-align:center;backdrop-filter:blur(10px);transition:transform .2s}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-ic{font-size:1.5rem;margin-bottom:.4rem}
+.stat-val{font-size:1.4rem;font-weight:800;margin-bottom:.15rem;font-variant-numeric:tabular-nums}
+.stat-lbl{font-size:.67rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em}
+
+.insights-card{background:linear-gradient(135deg,rgba(255,153,51,.07),rgba(245,197,24,.04));border:1px solid rgba(255,153,51,.22);border-radius:20px;padding:1.5rem;margin-bottom:1.5rem}
+.insights-card h3{font-size:.9rem;font-weight:700;margin-bottom:1rem;color:var(--saffron-l);display:flex;align-items:center;gap:.5rem}
+.insight-item{display:flex;gap:.6rem;margin-bottom:.6rem;font-size:.82rem;color:var(--txt2);line-height:1.6}
+.weak-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.8rem}
+.w-tag{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5;font-size:.7rem;font-weight:600;padding:.25rem .75rem;border-radius:50px}
+
+.tab-bar{display:flex;gap:.35rem;margin-bottom:1rem;background:var(--foam);border:1px solid var(--gbord);border-radius:12px;padding:.3rem;backdrop-filter:blur(10px)}
+.tab-btn{flex:1;padding:.5rem;border:none;border-radius:9px;font-family:'Outfit',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--txt2)}
+.tab-btn.on{background:linear-gradient(135deg,var(--saffron-d),var(--saffron));color:#fff}
+
+.rev-item{background:var(--foam);border:1px solid var(--gbord);border-radius:17px;padding:1.2rem;margin-bottom:.9rem;backdrop-filter:blur(10px);border-left:3px solid transparent;transition:all .2s}
+.rev-item:hover{transform:translateX(4px)}
+.rev-item.correct{border-left-color:var(--grn)}
+.rev-item.wrong{border-left-color:var(--red)}
+.rev-item.skipped{border-left-color:var(--yel)}
+.rev-meta{display:flex;align-items:center;gap:.45rem;margin-bottom:.7rem;flex-wrap:wrap}
+.rev-qnum{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.rev-sbadge{font-size:.67rem;font-weight:700;padding:.2rem .65rem;border-radius:50px}
+.rev-sbadge.correct{background:rgba(34,197,94,.15);color:var(--grn)}
+.rev-sbadge.wrong{background:rgba(239,68,68,.15);color:var(--red)}
+.rev-sbadge.skipped{background:rgba(245,158,11,.12);color:var(--yel)}
+.rev-topic{margin-left:auto;font-size:.67rem;color:var(--saffron-l);background:rgba(255,153,51,.08);padding:.2rem .6rem;border-radius:50px;border:1px solid rgba(255,153,51,.2)}
+.rev-qtext{font-size:.82rem;color:var(--txt2);margin-bottom:.8rem;line-height:1.65;white-space:pre-wrap}
+.rev-img{max-width:200px;border-radius:8px;margin-bottom:.7rem;filter:brightness(1.05)}
+.rev-ans-row{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.3rem;align-items:flex-start}
+.rev-ans-row .lbl{font-weight:700;min-width:120px;color:var(--dim);flex-shrink:0}
+.rev-ans-row .val{color:var(--txt)}
+.rev-ans-row .val.c{color:var(--grn)}
+.rev-ans-row .val.w{color:var(--red)}
+
+/* Explanation box */
+.rev-explanation{
+  margin-top:.7rem;padding:.8rem 1rem;
+  background:rgba(255,153,51,.06);border:1px solid rgba(255,153,51,.15);
+  border-radius:10px;font-size:.8rem;color:var(--saffron-l);line-height:1.6;
+}
+.rev-explanation strong{color:var(--gold)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(255,153,51,.4);border-radius:10px}
+
+@media(max-width:600px){
+  .q-nav{flex-direction:column}.nav-l,.nav-r{justify-content:center}
+  .q-card{padding:1.2rem}.stats-grid{grid-template-columns:repeat(2,1fr)}
+  .modal-btns{flex-direction:column}.tab-btn{font-size:.65rem;padding:.42rem}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.q-card,.score-hero,.stat-card,.rev-item,.insights-card{animation:fadeUp .35s ease}
+</style>
+</head>
+<body>
+
+<!-- ══════════ START ══════════ -->
+<div id="start-screen" class="screen active">
+  <div class="flag-strip">
+    <div class="flag-s s1"></div>
+    <div class="flag-s s2">☸</div>
+    <div class="flag-s s3"></div>
+  </div>
+  <h1 class="start-title">BharatMap IQ</h1>
+  <p class="start-sub">India Political Geography · Borders · UPSC PYQ</p>
+
+  <div class="info-grid">
+    <div class="info-card"><div class="ic">📝</div><div class="lbl">Questions</div><div class="val">19</div></div>
+    <div class="info-card"><div class="ic">⏱️</div><div class="lbl">Time</div><div class="val">20 Min</div></div>
+    <div class="info-card"><div class="ic">🎯</div><div class="lbl">Type</div><div class="val">MCQ</div></div>
+    <div class="info-card"><div class="ic">📚</div><div class="lbl">Source</div><div class="val">UPSC PYQ</div></div>
+  </div>
+
+  <div class="topic-row">
+    <span class="t-pill">🗺️ States & Borders</span>
+    <span class="t-pill">📍 Lat/Long</span>
+    <span class="t-pill">🏝️ Islands</span>
+    <span class="t-pill">🌊 Coastline</span>
+    <span class="t-pill">🏔️ Himalayas</span>
+    <span class="t-pill">🌐 Map Reading</span>
+    <span class="t-pill">🛣️ Routes</span>
+  </div>
+
+  <button class="btn-start" onclick="startQuiz()">🚀 Start Quiz</button>
+  <p style="color:var(--txt2);font-size:.75rem;margin-top:1rem;letter-spacing:.04em">Progress auto-saved · Years: 1996–2018</p>
+</div>
+
+<!-- ══════════ QUIZ SCREEN ══════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="q-counter">Q <span id="qCur">1</span> / <span id="qTot">19</span></div>
+      <div class="timer-pill" id="timerEl">⏱ 20:00</div>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-meta-row">
+        <span class="q-num-badge" id="qBadge">Q1</span>
+        <span class="q-year-pill" id="qYear">2018</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status-pill none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div id="mapArea"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-l">
+          <button class="btn btn-secondary" id="btnPrev" onclick="navigate(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQuestion()">⤭ Skip</button>
+        </div>
+        <div class="nav-r">
+          <button class="btn btn-next" id="btnNext" onclick="navigate(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSubmit" style="display:none" onclick="showSubmitModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-map" id="qMap"></div>
+  </div>
+</div>
+
+<!-- ══════════ RESULTS ══════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-wrap">
+    <div class="res-header">
+      <h2 id="resTitle">🎉 Quiz Complete!</h2>
+      <p id="resSub"></p>
+    </div>
+    <div class="score-hero">
+      <div class="score-circle">
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-denom">/ 19</div>
+      </div>
+      <div class="grade-badge" id="gradeBadge">—</div>
+      <div class="pct-txt" id="pctTxt"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-ic">✅</div><div class="stat-val" id="stCorrect" style="color:var(--grn)">0</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-card"><div class="stat-ic">❌</div><div class="stat-val" id="stWrong" style="color:var(--red)">0</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-card"><div class="stat-ic">⤭</div><div class="stat-val" id="stSkipped" style="color:var(--yel)">0</div><div class="stat-lbl">Skipped</div></div>
+      <div class="stat-card"><div class="stat-ic">🎯</div><div class="stat-val" id="stAcc" style="color:var(--saffron)">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-card"><div class="stat-ic">⏱️</div><div class="stat-val" id="stTime" style="color:var(--gold)">0:00</div><div class="stat-lbl">Time Taken</div></div>
+      <div class="stat-card"><div class="stat-ic">📊</div><div class="stat-val" id="stAvg" style="color:var(--saffron-l)">0s</div><div class="stat-lbl">Avg / Q</div></div>
+    </div>
+    <div class="insights-card">
+      <h3>🧠 Smart Insights & Weak Area Analysis</h3>
+      <div id="insightsList"></div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn on" onclick="switchTab('all',this)">All (19)</button>
+      <button class="tab-btn" onclick="switchTab('correct',this)">✅ Correct</button>
+      <button class="tab-btn" onclick="switchTab('wrong',this)">❌ Wrong</button>
+      <button class="tab-btn" onclick="switchTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="reviewList"></div>
+    <div style="text-align:center;margin:2rem 0;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-danger" onclick="restartQuiz()">🔄 Restart</button>
+      <button class="btn btn-next" onclick="scrollTo(0,0)">⬆ Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="overlay" id="submitModal">
+  <div class="modal">
+    <div class="modal-ic">🗺️</div>
+    <h3>Submit Quiz?</h3>
+    <p id="modalSummary"></p>
+    <div class="modal-btns">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// QUIZ DATA — 19 UPSC PYQ India Geography Qs
+// ══════════════════════════════════════════════
+const Q = [
+  {
+    id:1,yr:"2018",topic:"Longitude & Cities",
+    text:"Among the following cities, which one lies on a longitude closest to that of Delhi?",
+    opts:["Bengaluru","Hyderabad","Nagpur","Pune"],
+    ans:0,
+    explanation:"Delhi is at approximately 77°E longitude. Bengaluru (~77.6°E) is closest to Delhi's longitude. Hyderabad is ~78.5°E, Nagpur is ~79°E, and Pune is ~73.8°E."
+  },
+  {
+    id:2,yr:"2017",topic:"State Routes",
+    text:"If you travel by road from Kohima to Kottayam, what is the minimum number of States within India through which you can travel, including the origin and the destination?",
+    opts:["6","7","8","9"],
+    ans:1,
+    explanation:"Kohima (Nagaland) → Assam → West Bengal → Odisha → Andhra Pradesh → Tamil Nadu → Kerala (Kottayam). That is 7 states minimum: Nagaland, Assam, West Bengal, Odisha, Andhra Pradesh, Tamil Nadu, Kerala."
+  },
+  {
+    id:3,yr:"2017",topic:"Geographical Features",
+    text:"Consider the following statements:\n\n1. In India, the Himalayas are spread over five States only.\n2. Western Ghats are spread over five States only.\n3. Pulicat Lake is spread over two States only.\n\nWhich of the statements given above is/are correct?",
+    opts:["1 and 2 only","3 only","2 and 3 only","1 and 3 only"],
+    ans:1,
+    explanation:"Statement 1 is WRONG — Himalayas span more than 5 states (J&K, Ladakh, HP, Uttarakhand, Sikkim, Arunachal Pradesh, etc.). Statement 2 is WRONG — Western Ghats span 6 states (Gujarat, Maharashtra, Goa, Karnataka, Tamil Nadu, Kerala). Statement 3 is CORRECT — Pulicat Lake lies between Andhra Pradesh and Tamil Nadu. So only Statement 3 is correct."
+  },
+  {
+    id:4,yr:"2017",topic:"Islands & Proximity",
+    text:"Which of the following is geographically closest to Great Nicobar?",
+    opts:["Sumatra","Borneo","Java","Sri Lanka"],
+    ans:0,
+    explanation:"Great Nicobar is the southernmost island of India's Andaman & Nicobar group. It is only about 150 km from Sumatra (Indonesia), making Sumatra the closest landmass to Great Nicobar."
+  },
+  {
+    id:5,yr:"2015",topic:"Easternmost & Westernmost States",
+    text:"Which of the following pairs of States of India indicates the easternmost and westernmost State?",
+    opts:["Assam and Rajasthan","Arunachal Pradesh and Rajasthan","Assam and Gujarat","Arunachal Pradesh and Gujarat"],
+    ans:3,
+    explanation:"Arunachal Pradesh is India's easternmost state (extends to ~97°E), and Gujarat is India's westernmost state (extends to ~68°E). Note: Rajasthan has the westernmost point of habitation, but Gujarat extends further west overall."
+  },
+  {
+    id:6,yr:"2014",topic:"Island Channels",
+    text:"Which one of the following pairs of islands is separated from each other by the 'Ten Degree Channel'?",
+    opts:["Andaman and Nicobar","Nicobar and Sumatra","Maldives and Lakshadweep","Sumatra and Java"],
+    ans:0,
+    explanation:"The Ten Degree Channel is a channel in the Indian Ocean that separates the Andaman Islands (to the north) from the Nicobar Islands (to the south). It lies at approximately 10°N latitude. The Eight Degree Channel separates Lakshadweep from the Maldives."
+  },
+  {
+    id:7,yr:"2010",topic:"Latitude Parallels",
+    text:"The latitudes that pass through Sikkim also pass through:",
+    opts:["Rajasthan","Punjab","Himachal Pradesh","Jammu & Kashmir"],
+    ans:0,
+    explanation:"Sikkim lies between approximately 27°N and 28.5°N latitude. Rajasthan also lies in this latitude range. Punjab is further north (~29°–32°N), HP is ~30°–33°N, and J&K is even further north."
+  },
+  {
+    id:8,yr:"2008",topic:"Coastline",
+    text:"In India, how many States share the coastline?",
+    opts:["7","8","9","10"],
+    ans:2,
+    explanation:"9 States share India's coastline: Gujarat, Maharashtra, Goa, Karnataka, Kerala, Tamil Nadu, Andhra Pradesh, Odisha, and West Bengal. (Union Territories like Puducherry, D&D, Lakshadweep, Andaman & Nicobar also have coastline but are UTs, not states.)"
+  },
+  {
+    id:9,yr:"2007",topic:"City Locations",
+    text:"Which one among the following major Indian cities is most eastward located?",
+    opts:["Hyderabad","Bhopal","Lucknow","Bengaluru (Bangalore)"],
+    ans:2,
+    explanation:"Lucknow is located at approximately 80.9°E, which is the most eastward among the given options. Hyderabad is ~78.5°E, Bhopal is ~77.4°E, and Bengaluru is ~77.6°E."
+  },
+  {
+    id:10,yr:"2007",topic:"State Boundaries",
+    text:"Out of the four southern States — Andhra Pradesh, Karnataka, Kerala and Tamil Nadu — which shares boundaries with the maximum number of Indian States?",
+    opts:["Andhra Pradesh only","Karnataka only","Each of Andhra Pradesh and Karnataka","Each of Tamil Nadu and Kerala"],
+    ans:2,
+    explanation:"Both Andhra Pradesh and Karnataka share boundaries with the maximum number of states. Andhra Pradesh borders: Odisha, Chhattisgarh, Telangana, Karnataka, Tamil Nadu (5 states). Karnataka borders: Goa, Maharashtra, Telangana, Andhra Pradesh, Tamil Nadu, Kerala (6 states). Karnataka actually borders the most, but the answer per official key is option C."
+  },
+  {
+    id:11,yr:"2006",topic:"International Borders",
+    text:"Consider the following statements:\n\n1. Assam shares a border with Bhutan and Bangladesh.\n2. West Bengal shares a border with Bhutan and Nepal.\n3. Mizoram shares a border with Bangladesh and Myanmar.\n\nWhich of the statements given above are correct?",
+    opts:["1, 2 and 3","1 and 2 only","2 and 3 only","1 and 3 only"],
+    ans:0,
+    explanation:"All three are correct. (1) Assam borders both Bhutan (north) and Bangladesh (south/west). (2) West Bengal borders Bhutan (north-east) and Nepal (north). (3) Mizoram borders Bangladesh (west) and Myanmar (east). So all statements 1, 2 and 3 are correct."
+  },
+  {
+    id:12,yr:"2005",topic:"Uttar Pradesh Borders",
+    text:"Which of the following States border Uttar Pradesh?\n\n1. Punjab\n2. Rajasthan\n3. Chhattisgarh\n4. Jharkhand\n\nSelect the correct answer using the code given below:",
+    opts:["1, 2, 3 and 4","2, 3 and 4","1 and 4","1 and 3"],
+    ans:1,
+    explanation:"UP borders: Uttarakhand, Himachal Pradesh (very small), Haryana, Delhi, Rajasthan, Madhya Pradesh, Chhattisgarh, Jharkhand, Bihar, and Nepal. Punjab does NOT border UP (it borders Haryana which borders UP). Jharkhand does share a small border with UP. So 2 (Rajasthan), 3 (Chhattisgarh), 4 (Jharkhand) are correct."
+  },
+  {
+    id:13,yr:"2003",topic:"Longitude & Latitude Facts",
+    text:"Consider the following statements:\n\n1. Longitude of Jabalpur's location is between those of Indore and Bhopal.\n2. Latitude of Aurangabad's location is between those of Vadodara and Pune.\n3. Bangalore is situated more southward than Chennai.\n\nWhich of these statements is/are correct?",
+    opts:["1 and 3","2 only","2 and 3","1, 2 and 3"],
+    ans:2,
+    explanation:"Statement 1 is WRONG — Jabalpur (~79.9°E) is east of both Indore (~75.8°E) and Bhopal (~77.4°E), not between them. Statement 2 is CORRECT — Aurangabad (~75.3°N, 19.9°N) lies between Vadodara (~22.3°N) and Pune (~18.5°N). Statement 3 is CORRECT — Bengaluru is at ~12.9°N, Chennai is at ~13.1°N, so Bengaluru is more southward."
+  },
+  {
+    id:14,yr:"2003",topic:"Tropic of Cancer",
+    text:"Among the following cities, which one is nearest to the Tropic of Cancer?",
+    opts:["Delhi","Kolkata","Jodhpur","Nagpur"],
+    ans:1,
+    explanation:"The Tropic of Cancer passes through India at 23.5°N. Kolkata is at ~22.6°N, which is closest to 23.5°N. Delhi is ~28.7°N, Jodhpur is ~26.3°N, and Nagpur is ~21.2°N. Kolkata is only about 0.9° away from the Tropic of Cancer."
+  },
+  {
+    id:15,yr:"2002",topic:"Indian Ocean Islands Map",
+    text:"In the map given below, four islands of the Indian Ocean region i.e.:\nA) Seychelles\nB) Chagos\nC) Mauritius\nD) Socotra\nare marked as 1, 2, 3 and 4.\n\nMatch them and select the correct answer from the codes given below:",
+    opts:["A-1, B-3, C-4, D-2","A-3, B-1, C-2, D-4","A-1, B-3, C-2, D-4","A-3, B-1, C-4, D-2"],
+    ans:2,
+    hasMap:true,
+    mapImg:"https://i.ibb.co/Rk7g7gCk/Screenshot-2026-03-29-004339.png",
+    mapNote:"Dekho map mein: 1 = Seychelles (A), 2 = Socotra (D), 3 = Chagos (B), 4 = Mauritius (C)",
+    explanation:"Map mein: Position 1 (NE of Madagascar, near India side) = Seychelles (A); Position 2 (off Horn of Africa) = Socotra (D); Position 3 (central Indian Ocean) = Chagos (B); Position 4 (SE of Madagascar) = Mauritius (C). So A=1, B=3, C=2, D=4 → Option C."
+  },
+  {
+    id:16,yr:"2001",topic:"Union Territory Map",
+    text:"The given map is the Union Territory of:",
+    opts:["Chandigarh","Daman and Diu","Dadra and Nagar Haveli","Pondicherry"],
+    ans:3,
+    hasMap:true,
+    mapImg:"https://i.ibb.co/nMyw3KmT/Screenshot-2026-03-29-004405.png",
+    mapNote:"Map mein dekho — UT ke kai alag-alag tukde (enclaves) hain jo ek doosre se door hain. Yahi key clue hai.",
+    explanation:"Map mein multiple scattered non-contiguous parts dikhte hain — yeh Pondicherry (Puducherry) ki pehchaan hai, jo 4 alag enclaves mein hai: Puducherry (TN coast), Karaikal, Mahé (Kerala), Yanam (AP). Daman & Diu ke 2 parts hain lekin Pondicherry 4 alag jagahon mein hai."
+  },
+  {
+    id:17,yr:"1999",topic:"J&K Map Reading",
+    text:"In the rough outline map of a part of Jammu and Kashmir shown in the figure, places marked A, B, C and D represent respectively:",
+    opts:[
+      "Anantnag, Baramula, Srinagar and Kargil",
+      "Baramula, Srinagar, Kargil and Anantnag",
+      "Baramula, Srinagar, Anantnag and Kargil",
+      "Srinagar, Baramula, Kargil and Anantnag"
+    ],
+    ans:2,
+    hasMap:true,
+    mapImg:"https://i.ibb.co/XkYxf4c9/Screenshot-2026-03-29-004442.png",
+    mapNote:"Map mein: A = west side (LoC ke paas), B = center of valley, C = B ke south mein, D = east side (Ladakh ki taraf).",
+    explanation:"J&K map mein: A (sabse west) = Baramula; B (valley ka center) = Srinagar; C (Srinagar ke south mein) = Anantnag; D (sabse east, Ladakh ki taraf) = Kargil. Answer: Baramula, Srinagar, Anantnag, Kargil."
+  },
+  {
+    id:18,yr:"1996",topic:"Historical Boundary Lines",
+    text:"Consider the map given below:\n\nThe dotted (broken) line in the map is the:",
+    opts:[
+      "Durand Line",
+      "MacMahon Line",
+      "Line of demarcation between India and Pakistan suggested by the Boundary Commission (1947)",
+      "Route followed by the Younghusband Expedition"
+    ],
+    ans:0,
+    hasMap:true,
+    mapImg:"https://i.ibb.co/Z3FhLP6/Screenshot-2026-03-29-004454.png",
+    mapNote:"Map mein Afghanistan, Punjab, Baluchistan, Rajputana dikhaya gaya hai. Dotted line NW frontier area mein hai.",
+    explanation:"Durand Line (1893) — Sir Henry Mortimer Durand ne British India aur Afghanistan ke beech draw kiya tha. Yeh Punjab, Baluchistan, NWFP se guzarti hai. Map exactly yahi NW frontier dikha raha hai. MacMahon Line northeast mein China border ke paas hai — alag jagah."
+  },
+  {
+    id:19,yr:"1996",topic:"Indian Waterways",
+    text:"The Palk Bay lies between:",
+    opts:[
+      "Gulf of Kachchh and Gulf of Khambhat",
+      "Gulf of Mannar and Bay of Bengal",
+      "Lakshadweep and Maldive Islands",
+      "Andaman and Nicobar Islands"
+    ],
+    ans:1,
+    explanation:"Palk Bay (also called Palk Strait area) lies between the Gulf of Mannar (to the south) and the Bay of Bengal (to the north). It is located between the southeastern coast of India (Tamil Nadu) and the northwestern coast of Sri Lanka. The Palk Strait separates India from Sri Lanka."
+  }
+];
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let S={cur:0,answers:new Array(19).fill(null),skipped:new Array(19).fill(false),startTime:null,timerInt:null,timeLeft:20*60,submitted:false};
+const L=['A','B','C','D'];
+
+function startQuiz(){
+  const saved=localStorage.getItem('bharatmap_v1');
+  if(saved){
+    const d=JSON.parse(saved);
+    if(!d.submitted&&confirm('📂 Continue your previous session?')){
+      S={...S,...d,timerInt:null};
+    }else{localStorage.removeItem('bharatmap_v1');S.startTime=Date.now();}
+  }else{S.startTime=Date.now();}
+  showScreen('quiz-screen');buildMap();renderQ();startTimer();
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');window.scrollTo(0,0);
+}
+
+// Timer
+function startTimer(){
+  if(S.timerInt)clearInterval(S.timerInt);
+  updateTimer();
+  S.timerInt=setInterval(()=>{
+    if(S.submitted){clearInterval(S.timerInt);return;}
+    S.timeLeft--;updateTimer();
+    if(S.timeLeft%15===0)save();
+    if(S.timeLeft<=0){clearInterval(S.timerInt);alert('⏰ Time up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimer(){
+  const m=Math.floor(S.timeLeft/60),s=S.timeLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.timeLeft<=300?'timer-pill warn':'timer-pill';
+}
+const pad=n=>String(n).padStart(2,'0');
+
+// Render Q
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYear').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('progFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStatus');
+  if(S.skipped[i]){sp.textContent='⤭ Skipped';sp.className='q-status-pill skp';}
+  else if(S.answers[i]!==null){sp.textContent='✅ Answered';sp.className='q-status-pill ans';}
+  else{sp.textContent='○ Unanswered';sp.className='q-status-pill none';}
+
+  // Map area
+  const ma=document.getElementById('mapArea');
+  if(q.hasMap&&q.mapImg){
+    ma.innerHTML=`
+      <div class="map-container">
+        <div class="map-label">🗺️ Reference Map — Question ${i+1} (Year: ${q.yr})</div>
+        <img src="${q.mapImg}" alt="Map for Q${i+1}"
+          onload="this.style.opacity='1'"
+          onerror="this.outerHTML='<div style=\'color:var(--red);font-size:.8rem;padding:.5rem\'>⚠️ Map image could not load. Please check internet connection.</div>'"
+          style="opacity:0;transition:opacity .4s"
+        />
+        ${q.mapNote?`<div class="map-note">💡 Hint: ${q.mapNote}</div>`:''}
+      </div>`;
+  }else{ma.innerHTML='';}
+
+  // Options
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn'+(S.answers[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-letter">${L[idx]}</span><span>${o}</span>`;
+    b.onclick=()=>pick(idx);og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'block';
+  document.getElementById('btnSubmit').style.display=last?'block':'none';
+  updateMap();
+}
+
+function pick(idx){if(S.submitted)return;S.answers[S.cur]=idx;S.skipped[S.cur]=false;renderQ();save();}
+function navigate(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQuestion(){S.skipped[S.cur]=true;S.answers[S.cur]=null;save();if(S.cur<Q.length-1)navigate(1);else renderQ();}
+
+// Q-dot map
+function buildMap(){
+  const mp=document.getElementById('qMap');mp.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='q-dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};mp.appendChild(d);
+  });
+}
+function updateMap(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='q-dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skipped[i])d.classList.add('skp-dot');
+    else if(S.answers[i]!==null)d.classList.add('ans-dot');
+  });
+}
+
+// Modal
+function showSubmitModal(){
+  const ans=S.answers.filter(a=>a!==null).length;
+  const skp=S.skipped.filter(Boolean).length;
+  const una=Q.length-ans-skp;
+  document.getElementById('modalSummary').textContent=`Answered: ${ans}  |  Skipped: ${skp}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('submitModal').classList.add('on');
+}
+function closeModal(){document.getElementById('submitModal').classList.remove('on');}
+
+// Submit
+function submitQuiz(){
+  closeModal();clearInterval(S.timerInt);S.submitted=true;
+  const usedSec=(20*60)-S.timeLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skipped[i]||S.answers[i]===null)skipped++;
+    else if(S.answers[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted>0?Math.round(correct/attempted*100):0;
+  const avgTime=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Excellent';gc='#22c55e';}
+  else if(pct>=75){grade='🥇 Very Good';gc='#ff9933';}
+  else if(pct>=60){grade='🥈 Good';gc='#f5c518';}
+  else if(pct>=45){grade='🥉 Average';gc='#60a5fa';}
+  else{grade='📚 Needs Work';gc='#ef4444';}
+
+  document.getElementById('scoreNum').textContent=correct;
+  const gb=document.getElementById('gradeBadge');
+  gb.textContent=grade;gb.style.cssText=`background:${gc}20;color:${gc};border:1px solid ${gc}44`;
+  document.getElementById('pctTxt').textContent=pct+'% Score';
+  document.getElementById('stCorrect').textContent=correct;
+  document.getElementById('stWrong').textContent=wrong;
+  document.getElementById('stSkipped').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtTime(usedSec);
+  document.getElementById('stAvg').textContent=avgTime+'s';
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🇮🇳 Outstanding Performance!';document.getElementById('resSub').textContent='Excellent command over India\'s political geography!';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Effort!';document.getElementById('resSub').textContent='Review the weak areas highlighted below and revise your atlas.';}
+  else{document.getElementById('resTitle').textContent='📚 Keep Revising!';document.getElementById('resSub').textContent='Focus on state borders, lat/long, and island geography.';}
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('bharatmap_v1');
+  showScreen('results-screen');
+}
+function fmtTime(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+// Insights
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topicWrong={};
+  Q.forEach((q,i)=>{
+    if(!S.skipped[i]&&S.answers[i]!==null&&S.answers[i]!==q.ans)
+      topicWrong[q.topic]=(topicWrong[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicWrong).sort((a,b)=>b[1]-a[1]);
+  const ins=[];
+
+  if(pct>=90)ins.push('🌟 Near-perfect! You have strong mastery of India\'s political geography — crucial for UPSC Prelims GS1.');
+  else if(pct>=75)ins.push('💪 Strong performance! Targeted revision of weak topics will push you into the excellence bracket.');
+  else if(pct>=50)ins.push('📈 Good base. Systematic NCERT revision and atlas study will significantly boost your score.');
+  else ins.push('📖 Focus on NCERT Class 11 India Physical Geography and an updated political atlas of India.');
+
+  if(acc<50&&attempted>7)ins.push(`🎯 Accuracy is only ${acc}%. Avoid random guessing — mark questions you are uncertain about.`);
+  if(skipped>5)ins.push(`⤭ ${skipped} questions skipped. Practice elimination techniques; many geography questions can be narrowed down by logic.`);
+
+  if(topicWrong['State Routes'])ins.push('🛣️ Revise: State boundaries along major routes — Kohima to Kottayam passes through 7 states. Practice tracing routes on map.');
+  if(topicWrong['Longitude & Cities']||topicWrong['City Locations'])ins.push('📍 Revise: Major Indian city coordinates — Delhi 77°E, Bengaluru 77.6°E, Kolkata 88.4°E. Use NCERT maps.');
+  if(topicWrong['International Borders'])ins.push('🌐 Revise: Which Indian states border which countries — Bangladesh, Bhutan, Nepal, Myanmar, China, Pakistan.');
+  if(topicWrong['Island Channels'])ins.push('🏝️ Revise: Ten Degree Channel (Andaman–Nicobar), Eight Degree Channel (Lakshadweep–Maldives), Nine Degree Channel.');
+  if(topicWrong['Tropic of Cancer'])ins.push('♋ Tropic of Cancer (23.5°N) passes through: Gujarat, Rajasthan, MP, Chhattisgarh, Jharkhand, WB, Tripura, Mizoram.');
+  if(topicWrong['J&K Map Reading'])ins.push('🗺️ Revise: J&K geography — Baramula (NW), Srinagar (center), Anantnag (S of Srinagar), Kargil (E towards Ladakh).');
+  if(topicWrong['Historical Boundary Lines'])ins.push('📜 Revise: Durand Line (India-Afghanistan, 1893), McMahon Line (India-China, 1914), Radcliffe Line (India-Pakistan, 1947).');
+  if(topicWrong['Indian Ocean Islands Map'])ins.push('🏝️ Revise: Indian Ocean islands — Seychelles, Chagos, Mauritius, Socotra positions relative to Africa and India.');
+  if(topicWrong['Coastline'])ins.push('🌊 9 states share India\'s coastline: Gujarat, Maharashtra, Goa, Karnataka, Kerala, TN, AP, Odisha, West Bengal.');
+
+  ranked.slice(0,3).forEach(([t,c])=>{
+    ins.push(`❌ Weak area — "${t}": ${c} wrong answer${c>1?'s':''}. Prioritise this in atlas revision.`);
+  });
+
+  const il=document.getElementById('insightsList');
+  il.innerHTML=ins.map(s=>`<div class="insight-item"><span>${s}</span></div>`).join('');
+  if(ranked.length)il.innerHTML+=`<div class="weak-tags">${ranked.map(([t])=>`<span class="w-tag">${t}</span>`).join('')}</div>`;
+}
+
+// Review
+function switchTab(filter,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(filter);
+}
+function renderReview(filter){
+  const rl=document.getElementById('reviewList');
+  let html='',count=0;
+  Q.forEach((q,i)=>{
+    const ua=S.answers[i];
+    const isSkp=S.skipped[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(filter==='correct'&&!isOk)return;
+    if(filter==='wrong'&&!isWrong)return;
+    if(filter==='skipped'&&!isSkp)return;
+    count++;
+    const sc=isOk?'correct':isWrong?'wrong':'skipped';
+    const st=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.hasMap&&q.mapImg?`<img class="rev-img" src="${q.mapImg}" alt="Map Q${i+1}" style="opacity:0;transition:opacity .4s" onload="this.style.opacity='1'" onerror="this.style.display='none'"/>`:'';
+    html+=`<div class="rev-item ${sc}">
+      <div class="rev-meta">
+        <span class="rev-qnum">Q${i+1}</span>
+        <span class="q-year-pill">${q.yr}</span>
+        <span class="rev-sbadge ${sc}">${st}</span>
+        <span class="rev-topic">${q.topic}</span>
+      </div>
+      ${mapHtml}
+      <div class="rev-qtext">${q.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div>
+        <div class="rev-ans-row"><span class="lbl">Your Answer:</span><span class="val ${isSkp?'':isOk?'c':'w'}">${uaTxt}</span></div>
+        <div class="rev-ans-row"><span class="lbl">Correct Answer:</span><span class="val c">${caTxt}</span></div>
+      </div>
+      ${q.explanation?`<div class="rev-explanation"><strong>📖 Explanation:</strong> ${q.explanation}</div>`:''}
+    </div>`;
+  });
+  if(!count)html='<p style="color:var(--txt2);text-align:center;padding:2.5rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+// Save / Restart
+function save(){
+  localStorage.setItem('bharatmap_v1',JSON.stringify({
+    cur:S.cur,answers:S.answers,skipped:S.skipped,
+    startTime:S.startTime,timeLeft:S.timeLeft,submitted:S.submitted
+  }));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart quiz? All progress will be lost.'))return;
+  clearInterval(S.timerInt);localStorage.removeItem('bharatmap_v1');
+  S={cur:0,answers:new Array(19).fill(null),skipped:new Array(19).fill(false),startTime:null,timerInt:null,timeLeft:20*60,submitted:false};
+  showScreen('start-screen');
+}
+</script>
+</body>
+</html>

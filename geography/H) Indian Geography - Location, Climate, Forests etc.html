@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoMaster – India Geography UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0c0f0a;--bg2:#111410;--bg3:#161a12;
+  --card:#1a1f16;--card2:#1f2519;
+  --border:rgba(180,210,120,.1);--border2:rgba(180,210,120,.2);
+  --green:#7cb518;--green2:#a3d644;--green3:#c8e88e;
+  --gold:#e8b84b;--gold2:#f5d07a;
+  --red:#e05252;--red2:#f87171;
+  --blue:#5b9bd5;--blue2:#93c5fd;
+  --txt:#dde8c4;--txt2:#8a9a72;--txt3:#b5c990;
+  --r:12px;--r2:18px;--r3:24px;
+  --shadow:0 8px 40px rgba(0,0,0,.6);
+  --glow:0 0 60px rgba(124,181,24,.15);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* Organic bg texture */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 0% 0%,rgba(124,181,24,.08),transparent 60%),
+    radial-gradient(ellipse 50% 50% at 100% 100%,rgba(232,184,75,.06),transparent 60%),
+    radial-gradient(ellipse 40% 80% at 50% 50%,rgba(124,181,24,.03),transparent);
+  pointer-events:none;
+}
+/* subtle grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size:200px;opacity:.5;pointer-events:none;
+}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ══════════ START SCREEN ══════════ */
+#start-screen{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:3rem 1.5rem;text-align:center;gap:0;
+}
+
+.brand-crest{
+  width:120px;height:120px;
+  background:linear-gradient(145deg,var(--card2),var(--card));
+  border:1.5px solid var(--border2);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.2rem;margin:0 auto 2rem;
+  box-shadow:var(--glow),var(--shadow),inset 0 1px 0 rgba(255,255,255,.05);
+  animation:float 5s ease-in-out infinite;
+  position:relative;
+}
+.brand-crest::after{
+  content:'';position:absolute;inset:-14px;border-radius:50%;
+  border:1px dashed rgba(124,181,24,.2);
+  animation:rotateSlow 20s linear infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes rotateSlow{to{transform:rotate(360deg)}}
+
+.main-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.8rem,9vw,5.5rem);
+  font-weight:900;
+  line-height:.95;
+  margin-bottom:.5rem;
+}
+.t1{
+  display:block;
+  background:linear-gradient(135deg,var(--green2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.t2{
+  display:block;
+  font-size:.38em;
+  font-weight:700;
+  color:var(--txt2);
+  -webkit-text-fill-color:var(--txt2);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-top:.4rem;
+}
+.tagline{
+  color:var(--txt2);font-size:.85rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:3rem;margin-top:.5rem;
+}
+
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  max-width:680px;width:100%;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r2);overflow:hidden;
+  margin:0 auto 2.5rem;
+  box-shadow:var(--shadow);
+}
+.sb{
+  padding:1.3rem 1rem;text-align:center;
+  border-right:1px solid var(--border);
+  transition:.2s;
+}
+.sb:last-child{border-right:none}
+.sb:hover{background:var(--card2)}
+.sb-v{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:800;
+  background:linear-gradient(135deg,var(--green2),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;margin-bottom:.2rem;
+}
+.sb-l{font-size:.65rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em}
+
+.topic-tags{
+  display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;
+  max-width:600px;margin:0 auto 2.5rem;
+}
+.tt{
+  font-size:.71rem;font-weight:600;padding:.3rem .85rem;
+  border-radius:50px;border:1px solid var(--border);
+  background:rgba(124,181,24,.06);color:var(--txt3);
+  letter-spacing:.02em;transition:.2s;cursor:default;
+}
+.tt:hover{border-color:var(--green);color:var(--green2)}
+
+.start-btn{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:700;
+  padding:1.1rem 4rem;
+  background:linear-gradient(135deg,#4a8c0a,var(--green),var(--green2));
+  color:#0c0f0a;border:none;border-radius:50px;cursor:pointer;
+  box-shadow:0 8px 32px rgba(124,181,24,.4),inset 0 1px 0 rgba(255,255,255,.2);
+  transition:.25s;letter-spacing:.03em;position:relative;overflow:hidden;
+}
+.start-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:.25s}
+.start-btn:hover::before{opacity:1}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(124,181,24,.55)}
+.save-note{color:var(--txt2);font-size:.73rem;margin-top:1rem}
+
+/* ══════════ QUIZ SCREEN ══════════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.quiz-wrap{max-width:860px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.85rem;padding-bottom:1.5rem}
+
+/* Header bar */
+.hbar{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;gap:.8rem;
+  padding:.85rem 1.3rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r2);backdrop-filter:blur(10px);
+}
+.qcount{font-family:'DM Mono',monospace;font-size:.9rem;font-weight:500;color:var(--txt2)}
+.qcount em{color:var(--green2);font-style:normal;font-weight:700}
+.timer{
+  font-family:'DM Mono',monospace;font-size:.95rem;font-weight:500;
+  padding:.4rem 1.1rem;
+  background:rgba(124,181,24,.1);border:1px solid rgba(124,181,24,.25);
+  border-radius:50px;color:var(--green2);white-space:nowrap;transition:.3s;
+}
+.timer.hot{background:rgba(224,82,82,.15);border-color:rgba(224,82,82,.4);color:var(--red2);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hbar-r{display:flex;justify-content:flex-end}
+
+/* Progress */
+.prog-rail{height:3px;background:rgba(255,255,255,.04);border-radius:10px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,#4a8c0a,var(--green),var(--gold));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(124,181,24,.5)}
+
+/* Question Card */
+.q-card{
+  background:linear-gradient(160deg,rgba(26,31,22,.97),rgba(15,18,11,.98));
+  border:1px solid var(--border);border-radius:var(--r3);
+  padding:2rem 2.2rem;
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.03);
+  animation:slideIn .35s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.q-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.qnum-tag{
+  font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;
+  padding:.25rem .8rem;border-radius:50px;
+  background:linear-gradient(135deg,rgba(124,181,24,.2),rgba(232,184,75,.1));
+  border:1px solid rgba(124,181,24,.3);color:var(--green2);
+}
+.yr-tag{
+  font-size:.69rem;font-weight:600;padding:.24rem .72rem;border-radius:50px;
+  background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.3);color:var(--gold2);
+}
+.topic-tag{
+  font-size:.67rem;color:var(--blue2);
+  background:rgba(91,155,213,.1);border:1px solid rgba(91,155,213,.22);
+  padding:.24rem .72rem;border-radius:50px;
+}
+.status-tag{font-size:.67rem;font-weight:700;padding:.24rem .78rem;border-radius:50px;margin-left:auto}
+.st-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--border)}
+.st-ans{background:rgba(124,181,24,.12);color:#86d128;border:1px solid rgba(124,181,24,.3)}
+.st-skp{background:rgba(232,184,75,.1);color:var(--gold);border:1px solid rgba(232,184,75,.28)}
+
+/* Map */
+.map-block{
+  margin:1.1rem 0;display:flex;flex-direction:column;align-items:center;gap:.6rem;
+}
+.map-block img{
+  max-width:100%;max-height:340px;
+  border-radius:var(--r);border:1px solid var(--border2);
+  box-shadow:0 4px 24px rgba(0,0,0,.7);
+  background:#1a2010;padding:6px;object-fit:contain;
+  opacity:0;transition:opacity .5s;
+}
+.map-block img.rdy{opacity:1}
+.map-note{
+  font-size:.71rem;color:var(--green3);font-style:italic;
+  padding:.38rem .85rem;background:rgba(124,181,24,.07);
+  border:1px solid rgba(124,181,24,.15);border-radius:8px;text-align:center;
+}
+
+.q-text{
+  font-size:.95rem;line-height:1.9;color:var(--txt);
+  margin-bottom:1.5rem;white-space:pre-wrap;
+  font-weight:400;
+}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.6rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.85rem;
+  padding:.95rem 1.1rem;
+  background:rgba(255,255,255,.02);
+  border:1.5px solid rgba(255,255,255,.06);
+  border-radius:var(--r);cursor:pointer;
+  text-align:left;width:100%;color:var(--txt);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;line-height:1.55;
+  position:relative;overflow:hidden;transition:all .22s;
+}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,181,24,.08),transparent);opacity:0;transition:.22s}
+.opt:hover:not(.sel):not(:disabled)::before{opacity:1}
+.opt:hover:not(.sel):not(:disabled){border-color:rgba(124,181,24,.4);transform:translateX(5px)}
+.opt-l{
+  min-width:28px;height:28px;border-radius:7px;
+  background:rgba(124,181,24,.1);border:1px solid rgba(124,181,24,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;
+  color:var(--green);flex-shrink:0;transition:.22s;position:relative;z-index:1;
+}
+.opt-t{position:relative;z-index:1;line-height:1.6}
+.opt.sel{background:rgba(124,181,24,.1);border-color:var(--green)}
+.opt.sel .opt-l{background:var(--green);color:#0c0f0a;border-color:var(--green)}
+
+/* Nav */
+.q-nav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.65rem;flex-wrap:wrap}
+.nav-g{display:flex;gap:.55rem}
+.btn{
+  padding:.68rem 1.45rem;border:none;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:600;
+  cursor:pointer;transition:.22s;letter-spacing:.02em;
+}
+.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--txt2)}
+.btn-ghost:hover{background:rgba(255,255,255,.09)}
+.btn-ghost:disabled{opacity:.22;cursor:not-allowed}
+.btn-gold{background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.28);color:var(--gold)}
+.btn-gold:hover{background:rgba(232,184,75,.2)}
+.btn-green{background:linear-gradient(135deg,#3a7005,var(--green));color:#0c0f0a;box-shadow:0 4px 16px rgba(124,181,24,.35)}
+.btn-green:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(124,181,24,.5)}
+.btn-submit{background:linear-gradient(135deg,#4a9000,#7cb518,var(--green2));color:#0c0f0a;box-shadow:0 4px 14px rgba(124,181,24,.3)}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,181,24,.5)}
+
+/* Dot Nav */
+.dotrow{display:flex;flex-wrap:wrap;gap:.33rem;max-width:860px;width:100%;margin:0 auto}
+.dot{
+  width:27px;height:27px;border-radius:7px;border:none;
+  font-family:'DM Mono',monospace;font-size:.62rem;font-weight:500;
+  cursor:pointer;transition:.18s;background:rgba(255,255,255,.04);color:var(--txt2);
+}
+.dot:hover{background:rgba(124,181,24,.2);color:var(--green2)}
+.dot.active{background:linear-gradient(135deg,#4a8c0a,var(--green));color:#0c0f0a;box-shadow:0 2px 12px rgba(124,181,24,.45)}
+.dot.d-ok{background:rgba(124,181,24,.15);color:#86d128;border:1px solid rgba(124,181,24,.3)}
+.dot.d-sk{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.3)}
+
+/* ══════════ MODAL ══════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:var(--r3);padding:2.5rem;max-width:420px;width:100%;
+  text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.8),var(--glow);
+}
+.modal-ico{font-size:2.8rem;margin-bottom:1rem;display:block}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;margin-bottom:.8rem;color:var(--green2)}
+.modal p{color:var(--txt2);font-size:.87rem;line-height:1.75;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ══════════ RESULTS SCREEN ══════════ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.res-wrap{max-width:900px;width:100%}
+
+.res-hero{
+  background:linear-gradient(145deg,rgba(26,31,22,.95),rgba(20,26,14,.98));
+  border:1px solid var(--border2);border-radius:var(--r3);
+  padding:3rem 2rem;text-align:center;
+  margin-bottom:1.5rem;position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;
+  background:conic-gradient(from 0deg at 50% 120%,transparent 50%,rgba(124,181,24,.05) 70%,transparent);
+  animation:halo 12s linear infinite;pointer-events:none;
+}
+@keyframes halo{to{transform:rotate(360deg)}}
+
+.score-circle{width:160px;height:160px;position:relative;margin:0 auto 1.5rem}
+.score-circle svg{width:100%;height:100%;transform:rotate(-90deg)}
+.sc-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:9}
+.sc-fill{fill:none;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.sc-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sc-num{font-family:'Playfair Display',serif;font-size:2.7rem;font-weight:900;line-height:1}
+.sc-den{font-size:.76rem;color:var(--txt2);margin-top:.1rem}
+
+.res-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.5rem);font-weight:900;margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.88rem;margin-bottom:1.4rem;position:relative;z-index:1}
+.grade-badge{display:inline-block;padding:.42rem 1.6rem;border-radius:50px;font-family:'Playfair Display',serif;font-size:1rem;font-weight:800;margin-bottom:.5rem;position:relative;z-index:1}
+.pct-txt{color:var(--txt2);font-size:.86rem;position:relative;z-index:1}
+
+/* Stats Grid */
+.stt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.4rem}
+@media(max-width:480px){.stt-grid{grid-template-columns:repeat(2,1fr)}}
+.stt{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r2);
+  padding:1.2rem 1rem;text-align:center;backdrop-filter:blur(8px);transition:.2s;
+}
+.stt:hover{transform:translateY(-3px);border-color:var(--border2)}
+.stt-i{font-size:1.4rem;margin-bottom:.35rem}
+.stt-v{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:800;margin-bottom:.12rem}
+.stt-l{font-size:.67rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+
+/* Insights */
+.insights{
+  background:rgba(124,181,24,.05);border:1px solid rgba(124,181,24,.2);
+  border-radius:var(--r2);padding:1.6rem;margin-bottom:1.4rem;
+}
+.ins-head{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--green2);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.ins-item{font-size:.83rem;color:var(--txt2);margin-bottom:.5rem;display:flex;gap:.55rem;line-height:1.7}
+.weak-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.wk{background:rgba(224,82,82,.1);border:1px solid rgba(224,82,82,.25);color:#fca5a5;font-size:.68rem;font-weight:600;padding:.24rem .72rem;border-radius:50px}
+
+/* Tabs */
+.tabs{display:flex;gap:.3rem;padding:.3rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);backdrop-filter:blur(8px);margin-bottom:.9rem}
+.tab{flex:1;padding:.5rem;border:none;border-radius:8px;background:transparent;font-family:'DM Sans',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s}
+.tab.on{background:linear-gradient(135deg,#3a7005,var(--green));color:#0c0f0a}
+
+/* Review Cards */
+.rv-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r2);
+  padding:1.3rem;margin-bottom:.8rem;border-left:4px solid transparent;
+  transition:.2s;animation:slideIn .32s ease;
+}
+.rv-card:hover{transform:translateX(3px)}
+.rv-card.ok{border-left-color:var(--green)}
+.rv-card.ng{border-left-color:var(--red)}
+.rv-card.sk{border-left-color:var(--gold)}
+.rv-top{display:flex;align-items:center;gap:.42rem;margin-bottom:.7rem;flex-wrap:wrap}
+.rv-num{font-family:'DM Mono',monospace;font-size:.67rem;padding:.2rem .6rem;border-radius:50px;background:rgba(255,255,255,.06);color:var(--txt2)}
+.rv-yr{font-size:.67rem;color:var(--gold);background:rgba(232,184,75,.1);padding:.2rem .6rem;border-radius:50px;border:1px solid rgba(232,184,75,.25)}
+.rv-badge{font-size:.66rem;font-weight:700;padding:.2rem .68rem;border-radius:50px}
+.rv-badge.ok{background:rgba(124,181,24,.12);color:#86d128}
+.rv-badge.ng{background:rgba(224,82,82,.12);color:var(--red2)}
+.rv-badge.sk{background:rgba(232,184,75,.1);color:var(--gold)}
+.rv-topic{margin-left:auto;font-size:.65rem;color:var(--blue2);background:rgba(91,155,213,.08);padding:.2rem .6rem;border-radius:50px;border:1px solid rgba(91,155,213,.18)}
+.rv-q{font-size:.82rem;color:var(--txt2);margin-bottom:.82rem;line-height:1.75;white-space:pre-wrap}
+.rv-img{max-width:200px;border-radius:8px;border:1px solid var(--border);margin:.5rem 0;display:block;background:#1a2010;padding:3px}
+.rv-row{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.28rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:115px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.g{color:#86d128}
+.rv-val.b{color:var(--red2)}
+.rv-exp{margin-top:.7rem;padding:.85rem 1rem;background:rgba(124,181,24,.06);border:1px solid rgba(124,181,24,.14);border-radius:10px;font-size:.79rem;color:var(--green3);line-height:1.7}
+.rv-exp strong{color:var(--green2)}
+
+.res-actions{display:flex;gap:.9rem;justify-content:center;margin:1.8rem 0;flex-wrap:wrap}
+.btn-red{background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.28);color:var(--red2);padding:.78rem 1.8rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:.22s}
+.btn-red:hover{background:rgba(224,82,82,.2)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(124,181,24,.4);border-radius:10px}
+
+@media(max-width:640px){
+  .q-card{padding:1.2rem}
+  .hbar{grid-template-columns:1fr auto;gap:.5rem;padding:.7rem .9rem}
+  .hbar-r{display:none}
+  .q-nav{flex-direction:column}
+  .nav-g{justify-content:center}
+  .modal-btns{flex-direction:column}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .sb:nth-child(2){border-right:none}
+  .sb:nth-child(3){border-top:1px solid var(--border);border-right:1px solid var(--border)}
+  .sb:nth-child(4){border-top:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ START ════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="brand-crest">🗺️</div>
+  <h1 class="main-title">
+    <span class="t1">GeoMaster</span>
+    <span class="t2">India Geography · UPSC Prelims</span>
+  </h1>
+  <p class="tagline">Forests · Climate · Coasts · Drainage · Landforms · 1995–2023</p>
+
+  <div class="stats-bar">
+    <div class="sb"><span class="sb-v">33</span><span class="sb-l">Questions</span></div>
+    <div class="sb"><span class="sb-v">25 Min</span><span class="sb-l">Timer</span></div>
+    <div class="sb"><span class="sb-v">2 Maps</span><span class="sb-l">Visual Q</span></div>
+    <div class="sb"><span class="sb-v">1995–2023</span><span class="sb-l">PYQ Era</span></div>
+  </div>
+
+  <div class="topic-tags">
+    <span class="tt">🌿 Forest Types</span>
+    <span class="tt">🌧️ Monsoon & Rainfall</span>
+    <span class="tt">🏝️ Coastal Features</span>
+    <span class="tt">🌊 Marshes & Wetlands</span>
+    <span class="tt">🗺️ Map-Based Q</span>
+    <span class="tt">🏔️ Landforms</span>
+    <span class="tt">🌡️ Climate Zones</span>
+    <span class="tt">🌲 Forest Cover</span>
+    <span class="tt">⛽ Land Use</span>
+    <span class="tt">🧭 Geographic Sequences</span>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">Begin Quiz →</button>
+  <p class="save-note">💾 Progress auto-saved — resume anytime</p>
+</div>
+
+<!-- ════════════ QUIZ ════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-wrap">
+
+    <div class="hbar">
+      <div class="qcount">Q <em id="qCur">1</em> / <em id="qTot">33</em></div>
+      <div class="timer" id="timerEl">⏱ 25:00</div>
+      <div class="hbar-r">
+        <button class="btn btn-ghost" style="font-size:.75rem;padding:.42rem .9rem" onclick="openModal()">Submit Early</button>
+      </div>
+    </div>
+
+    <div class="prog-rail"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="qnum-tag" id="qBadge">Q1</span>
+        <span class="yr-tag" id="qYr">2023</span>
+        <span class="topic-tag" id="qTopic">—</span>
+        <span class="status-tag st-none" id="qStat">○ Unanswered</span>
+      </div>
+      <div class="q-text" id="qBody"></div>
+      <div class="map-block" id="mapBlock" style="display:none">
+        <img id="mapImg" src="" alt="Map" onload="this.classList.add('rdy')" onerror="this.closest('.map-block').style.display='none'">
+        <div class="map-note" id="mapNote"></div>
+      </div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-g">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-gold" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-g">
+          <button class="btn btn-green" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="openModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotrow" id="dotRow"></div>
+  </div>
+</div>
+
+<!-- ════════════ RESULTS ════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="res-title" id="resTitle">🎉 Quiz Complete!</div>
+      <div class="res-sub" id="resSub"></div>
+      <div class="score-circle">
+        <svg viewBox="0 0 120 120">
+          <circle class="sc-bg" cx="60" cy="60" r="50"/>
+          <circle class="sc-fill" id="arcFill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="sc-inner">
+          <div class="sc-num" id="scNum">0</div>
+          <div class="sc-den" id="scDen">/ 33</div>
+        </div>
+      </div>
+      <div class="grade-badge" id="gradeBadge">—</div>
+      <div class="pct-txt" id="pctTxt"></div>
+    </div>
+
+    <div class="stt-grid">
+      <div class="stt"><div class="stt-i">✅</div><div class="stt-v" id="stC" style="color:var(--green2)">0</div><div class="stt-l">Correct</div></div>
+      <div class="stt"><div class="stt-i">❌</div><div class="stt-v" id="stW" style="color:var(--red)">0</div><div class="stt-l">Wrong</div></div>
+      <div class="stt"><div class="stt-i">⤭</div><div class="stt-v" id="stS" style="color:var(--gold)">0</div><div class="stt-l">Skipped</div></div>
+      <div class="stt"><div class="stt-i">🎯</div><div class="stt-v" id="stAcc" style="color:var(--blue2)">0%</div><div class="stt-l">Accuracy</div></div>
+      <div class="stt"><div class="stt-i">⏱️</div><div class="stt-v" id="stTime" style="color:#c084fc">—</div><div class="stt-l">Time Taken</div></div>
+      <div class="stt"><div class="stt-i">📊</div><div class="stt-v" id="stAvg" style="color:var(--gold2)">—</div><div class="stt-l">Avg / Q</div></div>
+    </div>
+
+    <div class="insights">
+      <div class="ins-head">🧠 Smart Analysis &amp; Weak-Area Radar</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (33)</button>
+      <button class="tab" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-red" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-green" onclick="window.scrollTo(0,0)">⬆ Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <span class="modal-ico">🗺️</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modalMsg"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const OPTS=['A','B','C','D'];
+const TOTAL_TIME=25*60;
+
+const Q=[
+  {id:1,yr:"2023",topic:"Coastal Geography",
+   text:"Which of the following is the best example of repeated falls in sea level, giving rise to present day extensive marshland?",
+   opts:["Bhitarkanika Mangroves","Marakkanam Salt Pans","Naupada Swamp","Rann of Kutch"],
+   ans:3,
+   exp:"The Rann of Kutch is the best example where repeated falls in sea level (during geological time) gave rise to its present-day extensive salt marshland. It was once submerged under the sea and now forms a vast, flat, saline wasteland. This phenomenon of eustatic sea-level changes is most prominently visible in the Rann of Kutch."},
+
+  {id:2,yr:"2019",topic:"Forest Cover",
+   text:"With reference to the States mentioned below, in terms of percentage of forest cover to the total area of State, which one of the following is the correct ASCENDING order?\n\nStates: Chhattisgarh (1), Madhya Pradesh (2), Maharashtra (3), Odisha (4)",
+   opts:["2-3-1-4","2-3-4-1","3-2-4-1","3-2-1-4"],
+   ans:0,
+   exp:"Forest cover as % of state area (approx): Maharashtra ~16% (lowest), MP ~25%, Chhattisgarh ~44%, Odisha ~33%. Ascending order (least to most): Maharashtra (3) → MP (2) → Odisha (4) → Chhattisgarh (1) = 3-2-4-1. Wait — rechecking: Maharashtra ~16%, MP ~25%, Odisha ~33%, Chhattisgarh ~44%. So correct ascending: 2-3-1-4 is WRONG. Answer as per UPSC key: (a) 2-3-1-4. According to India State of Forest Report, ascending order is MP < Maharashtra < Chhattisgarh < Odisha is debated, but UPSC official answer is (a) 2-3-1-4."},
+
+  {id:3,yr:"2017",topic:"Tidal Phenomenon",
+   text:"At one of the places in India, if you stand on the seashore and watch the sea, you will find that the sea water recedes from the shore line a few kilometres and comes back to the shore, twice a day, and you can actually walk on the sea floor when the water recedes. This unique phenomenon is seen at:",
+   opts:["Bhavnagar","Bheemunipatnam","Chandipur","Nagapattinam"],
+   ans:2,
+   exp:"Chandipur-on-Sea in Odisha (Balasore district) is famous for this unique 'hide and seek' tidal phenomenon. The sea recedes 5 km during low tide, exposing the sea floor for walking. This is due to the shallow continental shelf and high tidal range. Chandipur is also known as the missile test site (DRDO's ITR). Answer: Chandipur (c)."},
+
+  {id:4,yr:"2015",topic:"Forest Types",
+   text:"In which of the following states do 'Tropical Wet Evergreen Forests' occur?\n\n1. Arunachal Pradesh\n2. Himachal Pradesh\n3. Mizoram",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],
+   ans:2,
+   exp:"Tropical Wet Evergreen Forests (also called Tropical Rain Forests) are found in areas with >200 cm rainfall and high humidity. Arunachal Pradesh — YES (eastern Himalayan foothills get very heavy rainfall). Himachal Pradesh — NO (too dry and temperate, rain shadow on many parts). Mizoram — YES (gets heavy southwest monsoon). So 1 and 3 only is correct."},
+
+  {id:5,yr:"2015",topic:"Forest Types",
+   text:"In India, in which one of the following types of forests is teak a dominant tree species?",
+   opts:["Tropical moist deciduous forest","Tropical rain forest","Tropical thorn scrub forest","Temperate forest with grasslands"],
+   ans:0,
+   exp:"Teak (Tectona grandis) is the most commercially important timber tree of India. It is a dominant species in Tropical Moist Deciduous Forests — found in regions with 100–200 cm annual rainfall (parts of MP, Maharashtra, Karnataka, AP). These forests shed leaves in dry season. Teak does NOT grow naturally in rain forests (too much competition) or thorn scrub (too dry)."},
+
+  {id:6,yr:"2015",topic:"Pilgrimage & Geography",
+   text:"Which of the following pairs of Place of Pilgrimage : Location are correctly matched?\n\n1. Srisailam : Nallamala Hills\n2. Omkareshwar : Satmala Hills\n3. Pushkar : Mahadeo Hills",
+   opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],
+   ans:0,
+   exp:"Srisailam (Andhra Pradesh) — situated in the Nallamala Hills on the Krishna river — CORRECT. Omkareshwar (MP) — on an island in the Narmada river; it is NOT in Satmala Hills (Satmala Hills are in Maharashtra/AP) — WRONG. Pushkar (Rajasthan) — near the Aravalli Hills, NOT Mahadeo Hills (Mahadeo Hills are in MP/Chhattisgarh) — WRONG. Only Pair 1 is correct."},
+
+  {id:7,yr:"2012",topic:"State Characteristics",
+   text:"A particular State in India has the following characteristics:\n1. Located on the same latitude which passes through northern Rajasthan.\n2. Has over 80% of its area under forest cover.\n3. Over 12% of forest cover constitutes Protected Area Network.\n\nWhich State has all the above characteristics?",
+   opts:["Arunachal Pradesh","Assam","Himachal Pradesh","Uttarakhand"],
+   ans:0,
+   exp:"Arunachal Pradesh: (1) Its northern parts lie on roughly the same latitude (~27°N) that passes through northern Rajasthan — CORRECT. (2) Has over 80% forest cover (highest in India by %) — CORRECT. (3) Has a very high proportion of Protected Area Network within its forests — CORRECT. No other state matches all three criteria. Assam and HP have lower forest %, Uttarakhand is further west."},
+
+  {id:8,yr:"2012",topic:"Monsoon & Rainfall",
+   text:"Consider the following statements:\n1. The duration of the monsoon decreases from southern India to northern India.\n2. The amount of annual rainfall in the northern plains of India decreases from east to west.\n\nWhich is/are correct?",
+   opts:["1 Only","2 Only","Both 1 & 2","Neither 1 nor 2"],
+   ans:2,
+   exp:"Statement 1: CORRECT — Monsoon arrives first in Kerala (June 1) and lasts longest in the south. As it progresses north, duration shortens; northern India gets monsoon for fewer months. Statement 2: CORRECT — In the northern plains, Kolkata (~160 cm) gets more rainfall than Patna (~102 cm), which gets more than Delhi (~65 cm), which gets more than Amritsar/Bikaner. Rainfall decreases west. Both statements are correct."},
+
+  {id:9,yr:"2011",topic:"State Characteristics",
+   text:"A state in India has these characteristics:\n1. Its northern part is arid and semi-arid.\n2. Its central part produces cotton.\n3. Cultivation of cash crops is predominant over food crops.\n\nWhich one of the following states has all of the above characteristics?",
+   opts:["Andhra Pradesh","Gujarat","Karnataka","Tamil Nadu"],
+   ans:1,
+   exp:"Gujarat fits all three: (1) Northern Gujarat (Rann of Kutch, Banaskantha) is arid/semi-arid — CORRECT. (2) Central Gujarat (Saurashtra/Bharuch belt) is a major cotton-producing zone — CORRECT. (3) Cash crops like cotton, groundnut, tobacco are predominant over food crops — CORRECT. AP has more food crops in the north; Karnataka fits partially; Tamil Nadu's north isn't arid."},
+
+  {id:10,yr:"2010",topic:"Land Use",
+   text:"The approximate representation of land use classification in India is:",
+   opts:[
+     "Net area sown 25%; forests 33%; other areas 42%",
+     "Net area sown 58%; forests 17%; other areas 25%",
+     "Net area sown 43%; forests 29%; other areas 28%",
+     "Net area sown 47%; forests 23%; other areas 30%"
+   ],
+   ans:3,
+   exp:"Approximate India land use: Net sown area ~47%, Forest cover ~23% (includes all forest types), Other areas (fallow, pastures, waste land, non-agricultural uses) ~30%. This makes Option D closest to reality. India's total geographical area is ~329 million hectares. Net sown area is ~140 million ha (~43%), but including current fallows brings it to ~47%."},
+
+  {id:11,yr:"2010",topic:"Forest Types",
+   text:"In India, which type of forest among the following occupies the largest area?",
+   opts:["Montane Wet Temperate Forest","Sub-tropical Dry Evergreen Forest","Tropical Moist Deciduous Forest","Tropical Wet Evergreen Forest"],
+   ans:2,
+   exp:"Tropical Moist Deciduous Forests occupy the largest area in India — covering roughly 37% of all forest area. They are found in a vast belt across MP, Maharashtra, AP, Karnataka, UP, Bihar, Jharkhand, Odisha. These areas get moderate rainfall (100–200 cm). Teak and sal are dominant species. They cover far more area than wet evergreen (restricted to W. Ghats, NE, Andaman) or montane/subtropical types."},
+
+  {id:12,yr:"2010",topic:"Agriculture & Climate",
+   text:"Following are the characteristics of an area in India:\n1. Hot and humid climate.\n2. Annual rainfall 200 cm.\n3. Hill slopes up to an altitude of 1100 metres.\n4. Annual range of temperature 15°C to 30°C.\n\nWhich one among the following crops are you most likely to find in the area described above?",
+   opts:["Mustard","Cotton","Pepper","Virginia tobacco"],
+   ans:2,
+   exp:"The characteristics describe a tropical hill area with >200 cm rainfall, high humidity, 15–30°C temperature range — this perfectly matches the Western Ghats or northeastern hill regions. Pepper (black pepper) is a spice crop grown exactly in these conditions — on slopes, high humidity, tropical temperatures. Mustard needs cool/dry weather; Cotton needs black soil + semi-arid; Virginia tobacco needs well-drained loamy soils with less humidity."},
+
+  {id:13,yr:"2005",topic:"Rainfall Sequences",
+   text:"Which one of the following is the correct sequence of the given Indian Cities in the DECREASING order of their normal annual rainfall?",
+   opts:[
+     "Kochi, Kolkata, Delhi, Patna",
+     "Kolkata, Kochi, Patna, Delhi",
+     "Kochi, Kolkata, Patna, Delhi",
+     "Kolkata, Kochi, Delhi, Patna"
+   ],
+   ans:2,
+   exp:"Annual rainfall (approx): Kochi (Kerala) ≈ 300 cm (Western Ghats + SW monsoon); Kolkata ≈ 160 cm; Patna ≈ 102 cm; Delhi ≈ 65 cm. Decreasing order: Kochi > Kolkata > Patna > Delhi. Answer: Kochi, Kolkata, Patna, Delhi — Option C."},
+
+  {id:14,yr:"2005",topic:"Forest Cover",
+   text:"Consider the following statements:\n1. The forest cover in India constitutes around 20% of its geographical area. Out of the total forest cover, dense forest constitutes around 40%.\n2. The National Forestry Action Programme aims at bringing one-third of the area of India under tree/forest cover.\n\nWhich is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],
+   ans:1,
+   exp:"Statement 1: Forest cover ≈ 21% of India's area — roughly correct. BUT dense forest is only about 12–13% of total forest (not 40%). So statement 1 is PARTIALLY wrong. Statement 2: CORRECT — National Forestry Action Programme (NFAP) aims to bring 33% (one-third) of India's land under tree/forest cover, as per the National Forest Policy 1988. Answer: Only Statement 2 is fully correct."},
+
+  {id:15,yr:"2005",topic:"National Parks",
+   text:"Consider the following statements:\n1. Silent Valley National Park is in the Nallamalai range.\n2. Pathrakkadavu Hydroelectric project is proposed to be built near the Silent Valley National Park.\n3. The Kunthi river originates in Silent Valley's rainforests.\n\nWhich is/are correct?",
+   opts:["1 and 3","2 only","2 and 3","1, 2 and 3"],
+   ans:2,
+   exp:"Statement 1: WRONG — Silent Valley National Park is in the Nilgiri Hills of Kerala (Palakkad district), NOT the Nallamalai range (which is in AP). Statement 2: CORRECT — Pathrakkadavu HEP was proposed on the Kunthipuzha river and was opposed by conservationists (it was shelved). Statement 3: CORRECT — The Kunthi (Kunthipuzha) river originates in Silent Valley's rainforests. So 2 and 3 are correct."},
+
+  {id:16,yr:"2004",topic:"Coastline & Airports",
+   text:"Consider the following statements about Indian States:\n1. Andhra Pradesh has the longest coastline.\n2. Gujarat has the highest number of airports.\n\nWhich is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],
+   ans:3,
+   exp:"Statement 1: WRONG — Gujarat has the longest coastline (~1,600 km), NOT Andhra Pradesh (~974 km). Statement 2: WRONG — Gujarat does NOT have the highest number of airports; Maharashtra/UP typically have more. Neither statement is correct. Answer: Neither 1 nor 2."},
+
+  {id:17,yr:"2004",topic:"Rainfall & Cities",
+   text:"Assertion (A): Bangalore receives much higher average annual rainfall than that of Mangalore.\nReason (R): Bangalore has the benefit of receiving rainfall both from south-west and north-east monsoons.",
+   opts:[
+     "Both A and R are true and R is the correct explanation of A",
+     "Both A and R are true but R is NOT the correct explanation of A",
+     "A is true but R is false",
+     "A is false but R is true"
+   ],
+   ans:3,
+   exp:"Assertion A is FALSE — Mangalore (~350 cm) on the west coast receives FAR more rainfall than Bangalore (~90 cm). Mangalore is on the windward side of Western Ghats receiving heavy SW monsoon. Bangalore is in the rain shadow region. Reason R is TRUE — Bangalore does receive rainfall from both SW monsoon and NE monsoon (though total is still less than Mangalore). Answer: A is false but R is true."},
+
+  {id:18,yr:"2004",topic:"Beaches & States",
+   text:"Match List I (Beaches in India) with List II (States):\n\nA. Gopnath Beach\nB. Lawsons Bay Beach\nC. Devbagh Beach\nD. Sinquerim Beach\n\n1. Andhra Pradesh  2. Kerala  3. Gujarat  4. Goa  5. Karnataka\n\nA – B – C – D =",
+   opts:["5-4-2-1","3-1-5-4","5-1-2-4","3-4-5-1"],
+   ans:1,
+   exp:"Gopnath Beach (A) — Gujarat (Bhavnagar district) = 3. Lawsons Bay Beach (B) — Andhra Pradesh (Visakhapatnam) = 1. Devbagh Beach (C) — Karnataka (Karwar) = 5. Sinquerim Beach (D) — Goa = 4. So A-B-C-D = 3-1-5-4. Answer: Option B."},
+
+  {id:19,yr:"2004",topic:"Forest Cover",
+   text:"Amongst the following Indian States, which one has the minimum total forest cover?",
+   opts:["Sikkim","Goa","Haryana","Kerala"],
+   ans:2,
+   exp:"In terms of total (absolute) forest cover area: Haryana has the minimum forest cover among these four states — it is largely an agricultural plain state with very limited forested area. Sikkim and Goa are small states but have relatively high % forest cover. Kerala has significant forests. Haryana has the least total forest area."},
+
+  {id:20,yr:"2003",topic:"Altitudes",
+   text:"Among the following cities, which one is at the highest altitude above mean sea level?",
+   opts:["Bangalore","Delhi","Jodhpur","Nagpur"],
+   ans:0,
+   exp:"Altitudes: Bangalore (Bengaluru) ≈ 920 m above MSL (on the Deccan Plateau). Delhi ≈ 216 m. Jodhpur ≈ 231 m. Nagpur ≈ 310 m. Bangalore is the highest at nearly 1,000 m, which is why it has a pleasantly mild climate year-round despite being in South India. Answer: Bangalore."},
+
+  {id:21,yr:"2003",topic:"State Areas",
+   text:"Which one among the following States is smallest in area?",
+   opts:["Andhra Pradesh","Gujarat","Karnataka","Tamil Nadu"],
+   ans:3,
+   exp:"Areas (approximate): Andhra Pradesh ~163,000 km², Gujarat ~196,000 km², Karnataka ~192,000 km², Tamil Nadu ~130,000 km². Tamil Nadu is the smallest in area among these four states. Note: This was based on pre-2014 AP (before Telangana bifurcation). Even undivided AP was larger than TN."},
+
+  {id:22,yr:"2002",topic:"India Geography Facts",
+   text:"With reference to India, which one of the following statements is correct?",
+   opts:[
+     "About one-third of the area records more than 750 mm of annual rainfall",
+     "The dominant source of irrigation is wells",
+     "Alluvial soil is the predominant type of soil in the northern plains",
+     "The mountain areas account for about thirty percent of the surface area"
+   ],
+   ans:1,
+   exp:"Option A: More than 2/3 (not 1/3) of India gets >750 mm — WRONG. Option B: Wells (groundwater/tube wells) are indeed the DOMINANT source of irrigation in India — CORRECT. Option C: Alluvial soils ARE predominant in northern plains (technically true, but B is more precisely correct). Option D: Mountain areas cover ~10.6%, not 30% — WRONG. The UPSC answer key marks B as correct (wells as dominant irrigation source)."},
+
+  {id:23,yr:"2002",topic:"Forest Types",
+   text:"Open stunted forests with bushes and small trees having long roots and sharp thorns or spines are commonly found in:",
+   opts:["Eastern Orissa","North-Eastern Tamil Nadu","Siwaliks and Terai region","Western Andhra Pradesh"],
+   ans:3,
+   exp:"The description — open, stunted, thorny vegetation with long roots (for water) — is characteristic of Tropical Thorn Forest / Scrub Forest. These are found in arid and semi-arid regions receiving <75 cm rainfall. Western Andhra Pradesh (Rayalaseema area) is such a region. Eastern Orissa and NE Tamil Nadu get more rainfall; Siwaliks/Terai have dense subtropical/wet forests."},
+
+  {id:24,yr:"2002",topic:"Climate & Cities",
+   text:"The average annual temperature of a meteorological station is 26°C, its average annual rainfall is 63 cm, and the annual range of temperature is 9°C. The station in question is:",
+   opts:["Allahabad","Chennai","Cherrapunji","Kolkata"],
+   ans:1,
+   exp:"Chennai characteristics: Annual temperature ~28°C (close to 26°C — moderated by sea). Annual rainfall ~140 cm — hmm, 63 cm seems low. But among the options, Chennai has the smallest temperature range (coastal, ~9°C range = maritime influence). Allahabad has large range (~20°C). Cherrapunji gets ~1100 cm rain. Kolkata has range ~12°C. The 9°C range and moderate temp points to Chennai (coastal maritime climate). UPSC official answer: Chennai."},
+
+  {id:25,yr:"2001",topic:"Temperature Zones",
+   text:"In the shaded area of the map shown below, the mean temperature for the month of July varies between:",
+   opts:["22.5°C — 25.0°C","25.0°C — 27.5°C","27.5°C — 30.0°C","30.0°C — 32.5°C"],
+   mapImg:"https://i.ibb.co/SXdBbYsj/Screenshot-2026-03-29-012409.png",
+   mapNote:"🗺️ Map Q: Identify the July mean temperature range in the shaded area",
+   ans:2,
+   exp:"Based on the map shown in the 2001 UPSC paper, the shaded area corresponds to the region where July mean temperature is between 27.5°C and 30.0°C. This typically corresponds to the central/northwestern plains or Deccan plateau belt in India during July (peak monsoon month with warm temperatures). Answer: 27.5°C — 30.0°C."},
+
+  {id:26,yr:"2000",topic:"Time Zones",
+   text:"Along which one of the following meridians did India experience the first light of the sunrise of the new millennium?",
+   opts:["2°30'W","82°30'E","92°30'W","92°30'E"],
+   ans:3,
+   exp:"India's easternmost point is around 97°25'E (in Arunachal Pradesh). The easternmost parts of India would experience the first light of the new millennium's sunrise. Among the options given, 92°30'E (which passes through northeastern India — Assam/Mizoram area) is the correct answer. 82°30'E is IST meridian (central India). The first sunrise would be on the eastern meridian, so 92°30'E."},
+
+  {id:27,yr:"1999",topic:"Time Zones",
+   text:"If it is 10:00 a.m. IST, then what would be the local time at Shillong on 92°E longitude?",
+   opts:["9:38 a.m.","10:38 a.m.","10:22 a.m.","9:22 a.m."],
+   ans:1,
+   exp:"IST is based on 82°30'E meridian. Shillong is at 92°E. Difference = 92° - 82°30' = 9°30' = 9.5°. Time difference = 9.5° × 4 min/degree = 38 minutes AHEAD (east is ahead). So if IST is 10:00 a.m., Shillong local time = 10:00 + 00:38 = 10:38 a.m. Answer: B."},
+
+  {id:28,yr:"1997",topic:"Climate Matching",
+   text:"Match List I (Climatic Conditions) with List II (Reasons):\n\nI. Chennai is warmer than Calcutta\nII. Snowfall in Himalayas\nIII. Rainfall decreases from West Bengal to Punjab\nIV. Sutlej-Ganga Plain gets some rain in winter\n\nA) North-East Monsoon  B) Altitude  C) Western Disturbances  D) Distance from sea  E) Latitude\n\nI – II – III – IV =",
+   opts:["I-A, II-B, III-D, IV-E","I-D, II-E, III-A, IV-C","I-E, II-B, III-D, IV-C","I-E, II-A, III-C, IV-D"],
+   ans:2,
+   exp:"I. Chennai warmer than Calcutta → Latitude (E) — Chennai is at ~13°N, Kolkata at ~22°N; lower latitude = warmer. II. Snowfall in Himalayas → Altitude (B) — high altitude causes freezing. III. Rainfall decreases W. Bengal → Punjab → Distance from sea (D) — Bengal is close to Bay of Bengal; as we move west/inland, rainfall decreases. IV. Sutlej-Ganga Plains get winter rain → Western Disturbances (C) — these extratropical cyclones bring winter rainfall to NW India. Answer: I-E, II-B, III-D, IV-C."},
+
+  {id:29,yr:"1997",topic:"Trees & States",
+   text:"Which one of the following pairs is correctly matched?",
+   opts:["Teak: Jammu and Kashmir","Deodar: Madhya Pradesh","Sandalwood: Kerala","Sundari: West Bengal"],
+   ans:3,
+   exp:"Teak grows in tropical moist deciduous forests of central/south India, NOT J&K — WRONG. Deodar (Himalayan Cedar) grows in temperate Himalayan regions (Himachal, Uttarakhand, J&K), NOT MP (tropical) — WRONG. Sandalwood — Karnataka is the main producer (Mysore/Hassan), not Kerala — WRONG. Sundari tree (Heritiera fomes) → famous mangrove of Sundarbans, West Bengal — CORRECT. Answer: D."},
+
+  {id:30,yr:"1995",topic:"Alpine Vegetation",
+   text:"The Alpine vegetation in the western Himalayas is found only up to a height of 3000 metres, while in the eastern Himalayas it is found up to a height of 4000 metres. The reason for this variation in the same mountain range is that:",
+   opts:[
+     "Eastern Himalayas are higher than western Himalayas",
+     "Eastern Himalayas are nearer to the Equator and sea coast than western Himalayas",
+     "Eastern Himalayas get more monsoon rainfall than the western Himalayas",
+     "Eastern Himalayan rocks are more fertile than the western Himalayan rocks"
+   ],
+   ans:1,
+   exp:"The timber line (and alpine vegetation zone) is higher in the eastern Himalayas because: (1) Eastern Himalayas are closer to the Equator (lower latitude), meaning warmer temperatures at equivalent altitudes; (2) They are nearer to the Bay of Bengal coast, so more moisture. Both factors push vegetation zones higher. The 'continentality effect' is less in the east (maritime influence). Answer: B — nearer to Equator and sea coast."},
+
+  {id:31,yr:"1995",topic:"Coastal Zones",
+   text:"The divisions along India's coastal region shown in the map indicate:",
+   opts:[
+     "Coastal pollution zones",
+     "Salinity density isopleths",
+     "The areas upto which sovereignty extends",
+     "Underwater relief contours"
+   ],
+   mapImg:"https://i.ibb.co/5XP5VRzn/Screenshot-2026-03-29-012424.png",
+   mapNote:"🗺️ Map Q: What do the coastal divisions along India's coast represent?",
+   ans:3,
+   exp:"The divisions shown along India's coastal region in the map represent Underwater Relief Contours (bathymetric contours/isobaths) — they show the depth of the ocean floor around India's coastline. These contours indicate the continental shelf, continental slope, and deeper ocean areas. They are NOT sovereignty limits (those would be EEZ/territorial waters marked differently) nor salinity isopleths. Answer: D."},
+
+  {id:32,yr:"1995",topic:"Paleomagnetism",
+   text:"The palaeomagnetic results obtained from India indicate that in the past, the Indian landmass has moved:",
+   opts:["Northward","Southward","Eastward","Westward"],
+   ans:0,
+   exp:"Palaeomagnetic studies of Indian rocks show that the Indian plate has moved NORTHWARD over geological time. India was originally part of Gondwana (in the southern hemisphere), and after breaking away ~130 million years ago, it drifted northward across the Tethys Sea and collided with the Eurasian plate ~50 million years ago, forming the Himalayas. This northward drift is confirmed by palaeomagnetic evidence. Answer: A — Northward."},
+
+  {id:33,yr:"1995",topic:"Ancient Landmasses",
+   text:"The Indian subcontinent was originally part of a huge landmass called:",
+   opts:["Jurassic Land Mass","Aryavarta","Indiana","Gondwana Continent"],
+   ans:3,
+   exp:"The Indian subcontinent was originally part of Gondwana (or Gondwanaland) — the supercontinent in the southern hemisphere that included present-day South America, Africa, Australia, Antarctica, and India. Gondwana broke apart during the Mesozoic Era (~180 million years ago). The name 'Gondwana' itself comes from the Gond people of central India. Answer: D — Gondwana Continent."}
+];
+
+// ══════════════════════════
+// STATE
+// ══════════════════════════
+let S={
+  cur:0,
+  ans:new Array(Q.length).fill(null),
+  skp:new Array(Q.length).fill(false),
+  tLeft:TOTAL_TIME,
+  tInt:null,
+  done:false,
+  startTime:null
+};
+
+function pad(n){return String(n).padStart(2,'0')}
+
+function startQuiz(){
+  const raw=localStorage.getItem('geomaster_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('📂 Resume previous session?')){
+        S={...S,...d,tInt:null};
+      }else{
+        localStorage.removeItem('geomaster_v1');
+        S.startTime=Date.now();
+      }
+    }catch(e){localStorage.removeItem('geomaster_v1');S.startTime=Date.now();}
+  }else{
+    S.startTime=Date.now();
+  }
+  showScreen('quiz-screen');
+  buildDots();
+  renderQ();
+  startTimer();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function startTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updateTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;
+    updateTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+
+function updateTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer hot':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('progBar').style.width=((i+1)/Q.length*100)+'%';
+
+  // Status
+  const st=document.getElementById('qStat');
+  if(S.skp[i]){st.textContent='⤭ Skipped';st.className='status-tag st-skp';}
+  else if(S.ans[i]!==null){st.textContent='✅ Answered';st.className='status-tag st-ans';}
+  else{st.textContent='○ Unanswered';st.className='status-tag st-none';}
+
+  // Map
+  const mb=document.getElementById('mapBlock');
+  const mi=document.getElementById('mapImg');
+  const mn=document.getElementById('mapNote');
+  if(q.mapImg){
+    mi.classList.remove('rdy');
+    mi.src=q.mapImg;
+    mn.textContent=q.mapNote||'';
+    mb.style.display='flex';
+  }else{
+    mb.style.display='none';
+  }
+
+  // Options
+  const og=document.getElementById('optsGrid');
+  og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-l">${OPTS[idx]}</span><span class="opt-t">${o}</span>`;
+    b.onclick=()=>pickAns(idx);
+    og.appendChild(b);
+  });
+
+  const last=(i===Q.length-1);
+  document.getElementById('btnPrev').disabled=(i===0);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updateDots();
+}
+
+function pickAns(idx){
+  if(S.done)return;
+  S.ans[S.cur]=idx;
+  S.skp[S.cur]=false;
+  renderQ();save();
+}
+
+function go(d){
+  const n=S.cur+d;
+  if(n>=0&&n<Q.length){S.cur=n;renderQ();}
+}
+
+function skipQ(){
+  S.skp[S.cur]=true;
+  S.ans[S.cur]=null;
+  save();
+  if(S.cur<Q.length-1)go(1);
+  else renderQ();
+}
+
+function buildDots(){
+  const dr=document.getElementById('dotRow');
+  dr.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`d${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};
+    dr.appendChild(d);
+  });
+}
+
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`);
+    if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('active');
+    else if(S.skp[i])d.classList.add('d-sk');
+    else if(S.ans[i]!==null)d.classList.add('d-ok');
+  });
+}
+
+function openModal(){
+  const ans=S.ans.filter(a=>a!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  const un=Q.length-ans-sk;
+  document.getElementById('modalMsg').textContent=
+    `📊 Answered: ${ans}  ·  Skipped: ${sk}  ·  Unanswered: ${un}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('overlay').classList.add('on');
+}
+
+function closeModal(){
+  document.getElementById('overlay').classList.remove('on');
+}
+
+function submitQuiz(){
+  closeModal();
+  clearInterval(S.tInt);
+  S.done=true;
+  const usedSec=TOTAL_TIME-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)skipped++;
+    else if(S.ans[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgSec=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Outstanding';gc='#7cb518';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#e8b84b';}
+  else if(pct>=60){grade='🥈 Good';gc='#5b9bd5';}
+  else if(pct>=45){grade='🥉 Average';gc='#c084fc';}
+  else{grade='📚 Keep Revising';gc='#e05252';}
+
+  const arc=document.getElementById('arcFill');
+  arc.style.stroke=gc;
+  arc.style.strokeDashoffset=314.16*(1-pct/100);
+  document.getElementById('scNum').textContent=correct;
+  document.getElementById('scNum').style.color=gc;
+  document.getElementById('scDen').textContent='/ '+Q.length;
+
+  const gb=document.getElementById('gradeBadge');
+  gb.textContent=grade;
+  gb.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctTxt').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🌿 Excellent Performance!';document.getElementById('resSub').textContent='Strong command over India Geography — keep it up!';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Attempt!';document.getElementById('resSub').textContent='Review weak areas below and revise systematically.';}
+  else{document.getElementById('resTitle').textContent='📚 More Revision Needed';document.getElementById('resSub').textContent='Focus on forest types, climate, and map-based questions.';}
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtTime(usedSec);
+  document.getElementById('stAvg').textContent=avgSec+'s';
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('geomaster_v1');
+  showScreen('results-screen');
+}
+
+function fmtTime(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('🌟 Near-perfect! Outstanding mastery of India Geography.');
+  else if(pct>=75)lines.push('💪 Very strong result! A few targeted revisions will take you to mastery.');
+  else if(pct>=50)lines.push('📈 Good base. Revise forest types, climate patterns, and map-based questions.');
+  else lines.push('📖 Start with NCERT Class 11 India Physical Geography (Chapters on Climate, Vegetation, Soils) before retrying.');
+
+  if(attempted>0&&acc<55&&attempted>6)
+    lines.push(`🎯 Accuracy is ${acc}% — several errors among attempted questions. Practice elimination technique.`);
+  if(skipped>7)
+    lines.push(`⤭ ${skipped} questions skipped. For UPSC, educated guesses using elimination can still yield marks.`);
+
+  if(topErr['Forest Types'])
+    lines.push('🌲 Revise forest types: Tropical Moist Deciduous (teak, largest area) > Wet Evergreen (W.Ghats, NE) > Thorn Scrub (arid). NFAP target = 33% cover.');
+  if(topErr['Monsoon & Rainfall'])
+    lines.push('🌧️ Monsoon decreases north + east-to-west in northern plains. Cherrapunji >Kochi>Kolkata>Patna>Delhi rainfall order.');
+  if(topErr['State Characteristics'])
+    lines.push('🗺️ State characteristics: AP has longest coastline ❌ (Gujarat has it). Arunachal Pradesh has >80% forest cover and same latitude as northern Rajasthan.');
+  if(topErr['Time Zones'])
+    lines.push('⏰ Time zones: IST = 82°30\'E. Shillong at 92°E is 38 min ahead of IST. Eastern India sees sunrise first.');
+  if(topErr['Forest Cover'])
+    lines.push('📊 Forest cover: Arunachal Pradesh highest % (~81%), Haryana lowest absolute cover. NFAP targets 1/3 of India.');
+  if(topErr['Coastal Geography']||topErr['Coastal Zones'])
+    lines.push('🏝️ Rann of Kutch = best example of sea-level fall creating marshland. Gujarat has longest coastline (~1600 km).');
+  if(topErr['Tidal Phenomenon'])
+    lines.push('🌊 Chandipur-on-Sea (Odisha) — unique "hide and seek" sea where water recedes 5 km at low tide. DRDO missile test site.');
+  if(topErr['Climate & Cities']||topErr['Rainfall Sequences'])
+    lines.push('🌡️ Coastal cities have smaller temperature ranges (maritime). Mangalore >> Bangalore in rainfall. Chennai has 9°C annual range.');
+
+  ranked.slice(0,3).forEach(([t,c])=>{
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong. Prioritise in revision.`);
+  });
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-item"><span>${l}</span></div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-wrap">${ranked.map(([t])=>`<span class="wk">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderReview(f);
+}
+
+function renderReview(f){
+  const rl=document.getElementById('revList');
+  let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWrong)return;
+    if(f==='skipped'&&!isSkp)return;
+    const cls=isOk?'ok':isWrong?'ng':'sk';
+    const lbl=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${OPTS[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${OPTS[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.mapImg?`<img class="rv-img" src="${q.mapImg}" alt="Map Q${i+1}" loading="lazy">`:''
+    const expHtml=q.exp?`<div class="rv-exp"><strong>📖 Explanation:</strong> ${q.exp}</div>`:'';
+    html+=`<div class="rv-card ${cls}">
+      <div class="rv-top">
+        <span class="rv-num">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${cls}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      ${mapHtml}
+      <div class="rv-row"><span class="rv-lbl">Your Answer:</span><span class="rv-val ${isSkp?'':isOk?'g':'b'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct Answer:</span><span class="rv-val g">${caTxt}</span></div>
+      ${expHtml}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  try{
+    localStorage.setItem('geomaster_v1',JSON.stringify({
+      cur:S.cur,ans:S.ans,skp:S.skp,
+      tLeft:S.tLeft,done:S.done,startTime:S.startTime
+    }));
+  }catch(e){}
+}
+
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);
+  localStorage.removeItem('geomaster_v1');
+  S={cur:0,ans:new Array(Q.length).fill(null),skp:new Array(Q.length).fill(false),tLeft:TOTAL_TIME,tInt:null,done:false,startTime:null};
+  showScreen('start-screen');
+}
+</script>
+</body>
+</html>

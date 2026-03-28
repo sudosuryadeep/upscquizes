@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India Mountain Quest – UPSC Geography Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ════ RESET & ROOT ════ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0d0d1a;--ink2:#131325;--ink3:#1b1b38;
+  --g1:rgba(255,255,255,.045);--gb:rgba(255,255,255,.08);
+  --accent:#6366f1;--acc2:#8b5cf6;--acc3:#06b6d4;
+  --lime:#a3e635;--rose:#f43f5e;--amber:#fbbf24;--emerald:#10b981;
+  --txt:#e2e8f0;--txt2:#7c8494;--txt3:#a0aec0;
+  --r:16px;--r2:24px;--r3:32px;
+  --shadow:0 8px 32px rgba(0,0,0,.45);
+  --glow:0 0 30px rgba(99,102,241,.35);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--ink);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+
+/* ══ BG MESH ══ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 20%,rgba(99,102,241,.12),transparent),
+    radial-gradient(ellipse 60% 40% at 90% 70%,rgba(139,92,246,.1),transparent),
+    radial-gradient(ellipse 50% 60% at 50% 100%,rgba(6,182,212,.07),transparent);
+  pointer-events:none
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:50px 50px;pointer-events:none
+}
+
+/* ══ SCREENS ══ */
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ══════════════ START SCREEN ══════════════ */
+#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+
+.brand-mark{width:110px;height:110px;background:conic-gradient(from 0deg,var(--accent),var(--acc2),var(--acc3),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 2rem;animation:rotatePulse 4s linear infinite;box-shadow:var(--glow),0 0 60px rgba(99,102,241,.2)}
+@keyframes rotatePulse{0%{filter:brightness(1) hue-rotate(0deg)}50%{filter:brightness(1.2) hue-rotate(20deg)}100%{filter:brightness(1) hue-rotate(0deg)}}
+
+.main-title{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,7vw,4.5rem);font-weight:800;line-height:1.05;margin-bottom:.6rem}
+.main-title .t1{display:block;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.main-title .t2{display:block;background:linear-gradient(135deg,#38bdf8,#a3e635);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.main-sub{color:var(--txt2);font-size:.95rem;margin-bottom:2.5rem;letter-spacing:.04em;text-transform:uppercase}
+
+.meta-strip{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2.5rem;max-width:700px;width:100%;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;align-items:center;padding:1.2rem 2rem;border:1px solid var(--gb);background:var(--g1);backdrop-filter:blur(12px);flex:1;min-width:120px}
+.meta-item:first-child{border-radius:var(--r2) 0 0 var(--r2)}
+.meta-item:last-child{border-radius:0 var(--r2) var(--r2) 0}
+.meta-item + .meta-item{border-left:none}
+.meta-ic{font-size:1.5rem;margin-bottom:.3rem}
+.meta-v{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.meta-l{font-size:.7rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em}
+
+.topic-cloud{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;max-width:650px;margin:0 auto 2.5rem}
+.t-chip{font-size:.72rem;font-weight:600;padding:.32rem .85rem;border-radius:50px;border:1px solid var(--gb);background:var(--g1);color:var(--txt3);letter-spacing:.03em;backdrop-filter:blur(8px);transition:.2s}
+.t-chip:hover{border-color:var(--accent);color:var(--accent)}
+
+.start-cta{padding:1.1rem 3.2rem;background:linear-gradient(135deg,var(--accent),var(--acc2));color:#fff;border:none;border-radius:50px;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;cursor:pointer;letter-spacing:.04em;box-shadow:0 6px 28px rgba(99,102,241,.45);transition:.25s;position:relative;overflow:hidden}
+.start-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:.25s}
+.start-cta:hover::before{opacity:1}
+.start-cta:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(99,102,241,.6)}
+.start-cta:active{transform:translateY(0)}
+
+.save-note{color:var(--txt2);font-size:.75rem;margin-top:1.2rem;opacity:.7}
+
+/* ══════════════ QUIZ SCREEN ══════════════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.quiz-shell{max-width:860px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:1rem;padding-bottom:1rem}
+
+/* Top Bar */
+.top-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:.85rem 1.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px)}
+.qprog{display:flex;align-items:center;gap:.5rem}
+.qprog-nums{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--txt)}
+.qprog-nums em{color:var(--accent);font-style:normal}
+.timer-box{display:flex;align-items:center;gap:.45rem;padding:.42rem 1.1rem;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:50px;font-family:'Syne',sans-serif;font-size:.96rem;font-weight:700;color:#818cf8;transition:.3s;white-space:nowrap}
+.timer-box.danger{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4);color:#fb7185;animation:blinkTimer .85s infinite}
+@keyframes blinkTimer{0%,100%{opacity:1}50%{opacity:.45}}
+.top-bar-right{display:flex;justify-content:flex-end}
+
+/* Progress bar */
+.pbar-rail{height:4px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--acc3));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(99,102,241,.6)}
+
+/* Question Card */
+.q-card{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:2rem 2.2rem;backdrop-filter:blur(18px);flex:1;animation:cardIn .38s cubic-bezier(.4,0,.2,1)}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+
+.q-top-row{display:flex;align-items:center;gap:.55rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.q-num-badge{background:linear-gradient(135deg,var(--accent),var(--acc2));color:#fff;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;padding:.3rem .85rem;border-radius:50px}
+.q-year-tag{font-size:.72rem;color:var(--txt2);background:rgba(255,255,255,.06);padding:.3rem .75rem;border-radius:50px;border:1px solid var(--gb)}
+.q-topic-tag{font-size:.7rem;color:var(--acc3);background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);padding:.3rem .75rem;border-radius:50px}
+.q-status-tag{margin-left:auto;font-size:.7rem;font-weight:700;padding:.3rem .8rem;border-radius:50px}
+.qst-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+.qst-ans{background:rgba(16,185,129,.14);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.qst-skp{background:rgba(251,191,36,.12);color:var(--amber);border:1px solid rgba(251,191,36,.3)}
+
+/* Map image in question */
+.q-map-img{width:100%;max-width:340px;border-radius:var(--r);border:1px solid var(--gb);margin:1rem 0;display:block;background:rgba(255,255,255,.05);box-shadow:var(--shadow)}
+.q-map-wrap{display:flex;justify-content:center;margin:1rem 0}
+.map-caption{font-size:.72rem;color:var(--txt2);text-align:center;margin-top:.4rem;font-style:italic}
+
+.q-body{font-size:.95rem;font-weight:400;line-height:1.8;color:var(--txt);margin-bottom:1.6rem;white-space:pre-wrap}
+.q-body strong{color:var(--accent)}
+
+/* Options */
+.opts-grid{display:flex;flex-direction:column;gap:.7rem}
+.opt{display:flex;align-items:flex-start;gap:.9rem;padding:1rem 1.15rem;background:rgba(255,255,255,.02);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--r);cursor:pointer;transition:all .22s;text-align:left;width:100%;color:var(--txt);font-family:'Space Grotesk',sans-serif;font-size:.875rem;font-weight:400;line-height:1.55;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,.1),transparent);opacity:0;transition:.22s}
+.opt:hover:not(.picked):not(:disabled)::before{opacity:1}
+.opt:hover:not(.picked):not(:disabled){border-color:rgba(99,102,241,.45);transform:translateX(6px)}
+.opt-ltr{min-width:30px;height:30px;background:rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;flex-shrink:0;transition:.22s;position:relative;z-index:1}
+.opt-txt{position:relative;z-index:1}
+.opt.picked{background:rgba(99,102,241,.14);border-color:var(--accent)}
+.opt.picked .opt-ltr{background:var(--accent);color:#fff}
+
+/* Bottom Nav */
+.q-nav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.7rem;flex-wrap:wrap}
+.nav-cluster{display:flex;gap:.6rem}
+.btn{padding:.75rem 1.55rem;border:none;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .22s;letter-spacing:.02em}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-ghost:disabled{opacity:.3;cursor:not-allowed}
+.btn-amber{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);color:var(--amber)}
+.btn-amber:hover{background:rgba(251,191,36,.22)}
+.btn-main{background:linear-gradient(135deg,var(--accent),var(--acc2));color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.35)}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(99,102,241,.55)}
+.btn-grn{background:linear-gradient(135deg,#059669,#10b981);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3)}
+.btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.5)}
+
+/* Question Navigator dots */
+.q-nav-map{display:flex;flex-wrap:wrap;gap:.38rem;max-width:860px;width:100%;margin:0 auto}
+.qdot{width:28px;height:28px;border-radius:8px;border:none;font-size:.65rem;font-weight:700;cursor:pointer;transition:.18s;background:rgba(255,255,255,.05);color:var(--txt2)}
+.qdot:hover{background:rgba(99,102,241,.25);color:#818cf8}
+.qdot.cur{background:linear-gradient(135deg,var(--accent),var(--acc2));color:#fff;box-shadow:0 2px 12px rgba(99,102,241,.55)}
+.qdot.d-ans{background:rgba(16,185,129,.18);color:#34d399;border:1px solid rgba(16,185,129,.35)}
+.qdot.d-skp{background:rgba(251,191,36,.18);color:var(--amber);border:1px solid rgba(251,191,36,.35)}
+
+/* ══ OVERLAY / MODAL ══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#161630;border:1px solid rgba(99,102,241,.4);border-radius:var(--r3);padding:2.5rem;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7),var(--glow)}
+.modal-emoji{font-size:3.2rem;margin-bottom:1.2rem;display:block}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.8rem}
+.modal p{color:var(--txt2);font-size:.88rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ══════════════ RESULTS SCREEN ══════════════ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.res-shell{max-width:900px;width:100%}
+
+/* Hero */
+.res-hero-wrap{position:relative;margin-bottom:1.5rem}
+.res-hero{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);overflow:hidden;position:relative}
+.res-hero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 110%,transparent 60%,rgba(99,102,241,.06) 80%,transparent);animation:heroSpin 12s linear infinite}
+@keyframes heroSpin{to{transform:rotate(360deg)}}
+
+.score-ring{width:160px;height:160px;position:relative;margin:0 auto 1.5rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;line-height:1}
+.ring-den{font-size:.8rem;color:var(--txt2)}
+
+.grade-pill{display:inline-block;padding:.45rem 1.5rem;border-radius:50px;font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:.6rem;position:relative;z-index:1}
+.pct-line{color:var(--txt2);font-size:.9rem;position:relative;z-index:1}
+.res-main-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4vw,2.2rem);font-weight:800;margin-bottom:.4rem;position:relative;z-index:1}
+.res-main-sub{color:var(--txt2);font-size:.88rem;position:relative;z-index:1;margin-bottom:1.5rem}
+
+/* Stats Grid */
+.stats-6{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.5rem}
+@media(max-width:480px){.stats-6{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.3rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
+.sc:hover{transform:translateY(-3px);border-color:rgba(99,102,241,.3)}
+.sc-ic{font-size:1.5rem;margin-bottom:.4rem}
+.sc-v{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.15rem}
+.sc-l{font-size:.7rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+
+/* Insights */
+.insights-panel{background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(6,182,212,.06));border:1px solid rgba(99,102,241,.25);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.5rem}
+.panel-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:#818cf8;margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem}
+.ins-line{font-size:.84rem;color:var(--txt3);margin-bottom:.6rem;display:flex;gap:.6rem;line-height:1.6;padding-left:.1rem}
+.weak-chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
+.wc{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.28);color:#fda4af;font-size:.7rem;font-weight:600;padding:.28rem .8rem;border-radius:50px}
+
+/* Tabs */
+.tab-row{display:flex;gap:.35rem;padding:.32rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);backdrop-filter:blur(10px);margin-bottom:1rem}
+.tbtn{flex:1;padding:.52rem;border:none;border-radius:10px;background:transparent;font-family:'Space Grotesk',sans-serif;font-size:.77rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s}
+.tbtn.on{background:linear-gradient(135deg,var(--accent),var(--acc2));color:#fff}
+
+/* Review items */
+.rev-card{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.4rem;margin-bottom:.9rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cardIn .35s ease}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--emerald)}
+.rev-card.rw{border-left-color:var(--rose)}
+.rev-card.rs{border-left-color:var(--amber)}
+.rev-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.75rem;flex-wrap:wrap}
+.rv-num{font-size:.7rem;font-weight:700;padding:.22rem .65rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.rv-yr{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.05);padding:.22rem .65rem;border-radius:50px;border:1px solid var(--gb)}
+.rv-badge{font-size:.68rem;font-weight:700;padding:.22rem .7rem;border-radius:50px}
+.rv-badge.rc{background:rgba(16,185,129,.16);color:#34d399}
+.rv-badge.rw{background:rgba(244,63,94,.16);color:#fb7185}
+.rv-badge.rs{background:rgba(251,191,36,.14);color:var(--amber)}
+.rv-topic{margin-left:auto;font-size:.68rem;color:var(--acc3);background:rgba(6,182,212,.1);padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(6,182,212,.2)}
+.rv-q{font-size:.84rem;color:var(--txt3);margin-bottom:.9rem;line-height:1.65;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.8rem;margin-bottom:.35rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:115px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#fb7185}
+
+/* Review map image */
+.rv-map-img{max-width:220px;border-radius:var(--r);border:1px solid var(--gb);margin:.7rem 0;display:block}
+
+/* Bottom CTA */
+.res-ctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-outline-rose{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:.22s}
+.btn-outline-rose:hover{background:rgba(244,63,94,.22)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(99,102,241,.5);border-radius:10px}
+
+/* Responsive */
+@media(max-width:640px){
+  .q-card{padding:1.3rem}
+  .top-bar{grid-template-columns:1fr auto;padding:.7rem 1rem}
+  .top-bar-right{display:none}
+  .q-nav{flex-direction:column;gap:.5rem}
+  .nav-cluster{justify-content:center}
+  .modal-row{flex-direction:column}
+  .rv-topic{display:none}
+  .meta-strip{flex-direction:column;border-radius:var(--r2)}
+  .meta-item{border-radius:0 !important;border-left:1px solid var(--gb)!important}
+  .meta-item:first-child{border-radius:var(--r2) var(--r2) 0 0 !important}
+  .meta-item:last-child{border-radius:0 0 var(--r2) var(--r2)!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ START ════════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="brand-mark">🏔️</div>
+  <h1 class="main-title">
+    <span class="t1">India Mountain</span>
+    <span class="t2">Quest</span>
+  </h1>
+  <p class="main-sub">UPSC Prelims · Physical Geography · Hills &amp; Ranges</p>
+
+  <div class="meta-strip">
+    <div class="meta-item"><span class="meta-ic">📋</span><span class="meta-v">24</span><span class="meta-l">Questions</span></div>
+    <div class="meta-item"><span class="meta-ic">⏱️</span><span class="meta-v">15 Min</span><span class="meta-l">Timer</span></div>
+    <div class="meta-item"><span class="meta-ic">🗺️</span><span class="meta-v">2 Maps</span><span class="meta-l">Visual Q</span></div>
+    <div class="meta-item"><span class="meta-ic">📅</span><span class="meta-v">1995–2023</span><span class="meta-l">PYQ Era</span></div>
+  </div>
+
+  <div class="topic-cloud">
+    <span class="t-chip">🏔️ Himalayan Ranges</span>
+    <span class="t-chip">🌄 Western Ghats</span>
+    <span class="t-chip">🗻 Peninsular Hills</span>
+    <span class="t-chip">❄️ Glaciers & Passes</span>
+    <span class="t-chip">🌋 Volcanoes</span>
+    <span class="t-chip">🗺️ Map-based Q</span>
+    <span class="t-chip">🪨 Geological Age</span>
+    <span class="t-chip">🏝️ Island Peaks</span>
+  </div>
+
+  <button class="start-cta" onclick="startQuiz()">🚀 Begin Quiz</button>
+  <p class="save-note">💾 Progress auto-saved · Resume anytime</p>
+</div>
+
+<!-- ════════════════ QUIZ ════════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-shell">
+
+    <div class="top-bar">
+      <div class="qprog">
+        <span class="qprog-nums">Q <em id="qCur">1</em> / <em id="qTot">24</em></span>
+      </div>
+      <div class="timer-box" id="timerEl">⏱ 15:00</div>
+      <div class="top-bar-right">
+        <button class="btn btn-ghost" style="font-size:.78rem;padding:.5rem 1rem" onclick="showSubmitConfirm()">Submit Early</button>
+      </div>
+    </div>
+
+    <div class="pbar-rail"><div class="pbar-fill" id="pbarFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="q-num-badge" id="qBadge">Q1</span>
+        <span class="q-year-tag" id="qYr">2023</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status-tag qst-none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-body" id="qBody"></div>
+      <!-- map image slot -->
+      <div class="q-map-wrap" id="qMapWrap" style="display:none">
+        <div>
+          <img class="q-map-img" id="qMapImg" src="" alt="Map for this question" loading="lazy">
+          <div class="map-caption" id="qMapCaption"></div>
+        </div>
+      </div>
+      <div class="opts-grid" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-cluster">
+          <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
+          <button class="btn btn-amber" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-cluster">
+          <button class="btn btn-main" id="btnNext" onclick="nav(1)">Next →</button>
+          <button class="btn btn-grn" id="btnSubmit" style="display:none" onclick="showSubmitConfirm()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-nav-map" id="dotMap"></div>
+
+  </div>
+</div>
+
+<!-- ════════════════ RESULTS ════════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-shell">
+
+    <div class="res-hero">
+      <div class="res-main-title" id="resTitle">🎉 Quiz Complete!</div>
+      <div class="res-main-sub" id="resSub"></div>
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-num" id="ringNum">0</div>
+          <div class="ring-den" id="ringDen">/ 24</div>
+        </div>
+      </div>
+      <div class="grade-pill" id="gradePill">—</div>
+      <div class="pct-line" id="pctLine"></div>
+    </div>
+
+    <div class="stats-6">
+      <div class="sc"><div class="sc-ic">✅</div><div class="sc-v" id="stC" style="color:var(--emerald)">0</div><div class="sc-l">Correct</div></div>
+      <div class="sc"><div class="sc-ic">❌</div><div class="sc-v" id="stW" style="color:var(--rose)">0</div><div class="sc-l">Wrong</div></div>
+      <div class="sc"><div class="sc-ic">⤭</div><div class="sc-v" id="stS" style="color:var(--amber)">0</div><div class="sc-l">Skipped</div></div>
+      <div class="sc"><div class="sc-ic">🎯</div><div class="sc-v" id="stAcc" style="color:#38bdf8">0%</div><div class="sc-l">Accuracy</div></div>
+      <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v" id="stTime" style="color:#c084fc">—</div><div class="sc-l">Time Taken</div></div>
+      <div class="sc"><div class="sc-ic">📊</div><div class="sc-v" id="stAvg" style="color:var(--lime)">—</div><div class="sc-l">Avg / Q</div></div>
+    </div>
+
+    <div class="insights-panel">
+      <div class="panel-title">🧠 Smart Analysis &amp; Weak-Area Radar</div>
+      <div id="insightBody"></div>
+    </div>
+
+    <div class="tab-row">
+      <button class="tbtn on" onclick="setTab('all',this)">All (24)</button>
+      <button class="tbtn" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tbtn" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tbtn" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-ctas">
+      <button class="btn-outline-rose" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-main" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SUBMIT MODAL ════ -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <span class="modal-emoji">📋</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-grn" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  QUESTION DATA  — 24 UPSC PYQs
+// ══════════════════════════════════════════════
+const L4=['A','B','C','D'];
+
+const Q=[
+  {id:1,yr:"2023",topic:"Peninsular Hills",
+   text:"Consider the following statements:\n1. Amarkantak Hills are at the confluence of Vindhya and Sahyadri Ranges.\n2. Biligirirangan Hills constitute the easternmost part of Satpura Range.\n3. Seshachalam Hills constitute the southernmost part of Western Ghats.\n\nHow many of the above statements are correct?",
+   opts:["Only one","Only two","All three","None"],ans:3},
+
+  {id:2,yr:"2022",topic:"Himalayan Peaks",
+   text:"Consider the following pairs:\n         Peak                  ↔   Mountains\n1. Namcha Barwa    ↔   Garhwal Himalaya\n2. Nanda Devi         ↔   Kumaon Himalaya\n3. Nokrek                 ↔   Sikkim Himalaya\n\nWhich of the pairs given above is/are correctly matched?",
+   opts:["1 and 2","2 only","1 and 3","3 only"],ans:1},
+
+  {id:3,yr:"2020",topic:"Glaciers",
+   text:"Siachen Glacier is situated to the:",
+   opts:["East of Aksai Chin","East of Leh","North of Gilgit","North of Nubra Valley"],ans:3},
+
+  {id:4,yr:"2018",topic:"Volcanoes & Islands",
+   text:"Consider the following statements:\n1. The Barren Island volcano is an active volcano located in the Indian territory.\n2. Barren Island lies about 140 km east of Great Nicobar.\n3. The last time the Barren Island volcano erupted was in 1991 and it has remained inactive since then.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 and 3 only","3 only","1 and 3"],ans:0},
+
+  {id:5,yr:"2016",topic:"Western Ghats",
+   text:"'Gadgil Committee Report' and 'Kasturirangan Committee Report', sometimes seen in the news, are related to:",
+   opts:["Constitutional reforms","Ganga Action Plan","Linking of rivers","Protection of Western Ghats"],ans:3},
+
+  {id:6,yr:"2014",topic:"Peninsular Hills",
+   text:"Consider the following pairs of Hills and their Region:\n1. Cardamom Hills  →  Coromandel Coast\n2. Kaimur Hills        →  Konkan Coast\n3. Mahadeo Hills    →  Central India\n4. Mikir Hills            →  North-East India\n\nWhich of the above pairs are correctly matched?",
+   opts:["1 and 2","2 and 3","3 and 4","2 and 4"],ans:2},
+
+  {id:7,yr:"2012",topic:"Himalayan Geomorphology",
+   text:"When you travel in the Himalayas, you will see the following:\n1. Deep gorges\n2. U-turn river courses\n3. Parallel mountain ranges\n4. Steep gradients causing land sliding\n\nWhich of the above can be said to be the evidences for Himalayas being young fold mountains?",
+   opts:["1 & 2 only","1, 2 & 4 only","3 & 4 only","1, 2, 3 & 4"],ans:3},
+
+  {id:8,yr:"2010",topic:"Himalayan Significance",
+   text:"If there were no Himalayan ranges, what would have been the most likely geographical impact on India?\n1. Much of the country would experience cold waves from Siberia.\n2. Indo-Gangetic plain would be devoid of such extensive alluvial soils.\n3. The pattern of monsoon would be different from what it is at present.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","1 and 3 only","2 and 3 only","1, 2 and 3"],ans:3},
+
+  {id:9,yr:"2008",topic:"Peninsular Hills",
+   text:"Which of the following hills are found where the Eastern Ghats and the Western Ghats meet?",
+   opts:["Anaimalai Hills","Cardamom Hills","Nilgiri Hills","Shevoroy Hills"],ans:2},
+
+  {id:10,yr:"2007",topic:"Peninsular Hills",
+   text:"In which State is the Guru Shikhar Peak located?",
+   opts:["Rajasthan","Gujarat","Madhya Pradesh","Maharashtra"],ans:0},
+
+  {id:11,yr:"2007",topic:"Peninsular Hills",
+   text:"Where are the Shevaroy Hills located?",
+   opts:["Andhra Pradesh","Karnataka","Kerala","Tamil Nadu"],ans:3},
+
+  {id:12,yr:"2007",topic:"Mountain Passes",
+   text:"Which one of the following Himalayan passes was reopened around the middle of the year 2006 to facilitate trade between India and China?",
+   opts:["Chang La","Jara La","Nathu La","Shipki La"],ans:2},
+
+  {id:13,yr:"2006",topic:"Himalayan Valleys",
+   text:"Match List-I (Valley) with List-II (State):\nA. Markha Valley\nB. Dzukou Valley\nC. Sangla Valley\nD. Yumthang Valley\n\n1. Sikkim   2. Himachal Pradesh   3. Jammu & Kashmir   4. Nagaland\n\nA – B – C – D",
+   opts:["2 – 4 – 3 – 1","3 – 1 – 2 – 4","2 – 1 – 3 – 4","3 – 4 – 2 – 1"],ans:3},
+
+  {id:14,yr:"2005",topic:"Western Ghats",
+   text:"Which of the following statements is NOT correct?",
+   opts:["The Western Ghats are relatively higher in their northern region","The Anai Mudi is the highest peak in the Western Ghats","Tapi river lies to the south of Satpura","The Narmada and the Tapi river valleys are said to be old rift valleys"],ans:0},
+
+  {id:15,yr:"2005",topic:"Peninsular Hills",
+   text:"Which one of the following is the correct sequence of the given hills starting from the north and going towards the south?",
+   opts:["Nallamalai Hills → Nilgiri Hills → Javadi Hills → Anaimalai Hills","Anaimalai Hills → Javadi Hills → Nilgiri Hills → Nallamalai Hills","Nallamalai Hills → Javadi Hills → Nilgiri Hills → Anaimalai Hills","Anaimalai Hills → Nilgiri Hills → Javadi Hills → Nallamalai Hills"],ans:2},
+
+  {id:16,yr:"2004",topic:"Central Indian Ranges",
+   text:"Consider the following:\n1. Mahadeo Hills\n2. Sahyadri Parvat\n3. Satpura Range\n\nWhat is the correct sequence of the above from the north to the south?",
+   opts:["1 – 2 – 3","2 – 1 – 3","1 – 3 – 2","2 – 3 – 1"],ans:2},
+
+  {id:17,yr:"2003",topic:"Himalayan Peaks",
+   text:"Nanda Devi peak forms a part of:",
+   opts:["Assam Himalayas","Kumaon Himalayas","Nepal Himalayas","Punjab Himalayas"],ans:1},
+
+  {id:18,yr:"2001",topic:"Geological Age",
+   text:"The approximate age of the Aravalli range is:",
+   opts:["370 million years","470 million years","570 million years","670 million years"],ans:3},
+
+  {id:19,yr:"1997",topic:"Geological Age",
+   text:"Match List-I with List-II (Geological era of formation):\nI.  Deccan Traps            →   ?\nII. Western Ghats           →   ?\nIII. Aravalli                      →   ?\nIV. Narmada-Tapi alluvial deposits  →  ?\n\nOptions for era:\nA) Late Cenozoic   B) Pre-Cambrian   C) Cretaceous-Eocene   D) Cambrian   E) Pleistocene",
+   opts:["I-C, II-E, III-A, IV-D","I-C, II-A, III-B, IV-E","I-B, II-A, III-C, IV-D","I-A, II-D, III-B, IV-E"],ans:1},
+
+  {id:20,yr:"1997",topic:"Map-Based: Physical Regions",
+   text:"[Study the map of India shown below]\n\nThe places marked A, B, C and D in the map are respectively:",
+   opts:[
+     "Rift valley region, Chattisgarh plain, Rain shadow region, Chotanagpur plateau",
+     "Chattisgarh plain, Chotanagpur plateau, Rift valley region, Rain shadow region",
+     "Rift valley region, Chattisgarh plain, Chotanagpur plateau, Rain shadow region",
+     "Chattisgarh plain, Rain shadow region, Chotanagpur plateau, Rift valley region"
+   ],ans:2,
+   mapImg:"https://i.ibb.co/8kRwhhb/Screenshot-2026-03-29-005255.png",
+   mapCaption:"India map — Identify regions A, B, C and D"},
+
+  {id:21,yr:"1996",topic:"Island Peaks",
+   text:"'Saddle Peak', the highest peak of the Andaman and Nicobar Islands, is located in:",
+   opts:["Great Nicobar","Middle Andaman","Little Andaman","North Andaman"],ans:3},
+
+  {id:22,yr:"1995",topic:"Peninsular Ranges",
+   text:"Which one of the following mountain ranges is spread over only one State in India?",
+   opts:["Aravalli","Satpura","Ajanta","Sahyadri"],ans:2},
+
+  {id:23,yr:"1995",topic:"Himalayan Extension",
+   text:"Arakan Yoma is the extension of the Himalayas located in:",
+   opts:["Baluchistan","Myanmar","Nepal","Kashmir"],ans:1},
+
+  {id:24,yr:"1995",topic:"Map-Based: J&K Ranges",
+   text:"[Study the map of Jammu & Kashmir shown below]\n\nThe mountain ranges marked 1, 2, 3 and 4 in the map are respectively:",
+   opts:[
+     "Ladakh, Zanskar, Karakoram and Pir Panjal",
+     "Karakoram, Ladakh, Zanskar and Pir Panjal",
+     "Karakoram, Zanskar, Pir Panjal and Ladakh",
+     "Ladakh, Pir Panjal, Karakoram and Zanskar"
+   ],ans:1,
+   mapImg:"https://i.ibb.co/r2rLvJvC/Screenshot-2026-03-29-005311.png",
+   mapCaption:"J&K map — Identify mountain ranges 1, 2, 3 and 4"}
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let S={
+  cur:0,
+  ans:new Array(24).fill(null),
+  skp:new Array(24).fill(false),
+  startTime:null,
+  tLeft:15*60,
+  tInt:null,
+  done:false
+};
+
+const pad=n=>String(n).padStart(2,'0');
+
+// ══ START ══
+function startQuiz(){
+  const raw=localStorage.getItem('mountq_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('📂 Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    } else {
+      localStorage.removeItem('mountq_v1');
+      S.startTime=Date.now();
+    }
+  } else {
+    S.startTime=Date.now();
+  }
+  show('quiz-screen');
+  buildDots();
+  renderQ();
+  runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ══ TIMER ══
+function runTimer(){
+  if(S.tInt) clearInterval(S.tInt);
+  updateTimerUI();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;
+    updateTimerUI();
+    if(S.tLeft%10===0) save();
+    if(S.tLeft<=0){
+      clearInterval(S.tInt);
+      alert('⏰ Time is up! Auto-submitting…');
+      submitQuiz();
+    }
+  },1000);
+}
+function updateTimerUI(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=180?'timer-box danger':'timer-box';
+}
+
+// ══ RENDER QUESTION ══
+function renderQ(){
+  const i=S.cur, q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pbarFill').style.width=((i+1)/Q.length*100)+'%';
+
+  // Status
+  const sp=document.getElementById('qStatus');
+  if(S.skp[i])                  {sp.textContent='⤭ Skipped';  sp.className='q-status-tag qst-skp';}
+  else if(S.ans[i]!==null)      {sp.textContent='✅ Answered'; sp.className='q-status-tag qst-ans';}
+  else                           {sp.textContent='○ Unanswered';sp.className='q-status-tag qst-none';}
+
+  // Map image
+  const mw=document.getElementById('qMapWrap'),mi=document.getElementById('qMapImg'),mc=document.getElementById('qMapCaption');
+  if(q.mapImg){
+    mi.src=q.mapImg; mc.textContent=q.mapCaption||''; mw.style.display='flex';
+  } else {
+    mw.style.display='none';
+  }
+
+  // Options
+  const og=document.getElementById('optsGrid'); og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' picked':'');
+    b.innerHTML=`<span class="opt-ltr">${L4[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  // Nav buttons
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSubmit').style.display=last?'inline-block':'none';
+
+  updateDots();
+}
+
+function pick(idx){
+  if(S.done)return;
+  S.ans[S.cur]=idx;
+  S.skp[S.cur]=false;
+  renderQ(); save();
+}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){
+  S.skp[S.cur]=true; S.ans[S.cur]=null; save();
+  if(S.cur<Q.length-1) nav(1); else renderQ();
+}
+
+// ══ DOTS ══
+function buildDots(){
+  const dm=document.getElementById('dotMap'); dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='qdot'; d.textContent=i+1; d.id=`qd${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();}; dm.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`qd${i}`); if(!d)return;
+    d.className='qdot';
+    if(i===S.cur)          d.classList.add('cur');
+    else if(S.skp[i])      d.classList.add('d-skp');
+    else if(S.ans[i]!==null) d.classList.add('d-ans');
+  });
+}
+
+// ══ MODAL ══
+function showSubmitConfirm(){
+  const answered=S.ans.filter(a=>a!==null).length;
+  const skipped=S.skp.filter(Boolean).length;
+  const una=Q.length-answered-skipped;
+  document.getElementById('modalTxt').textContent=
+    `📊 Answered: ${answered}  |  Skipped: ${skipped}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modalOverlay').classList.add('on');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('on');}
+
+// ══ SUBMIT ══
+function submitQuiz(){
+  closeModal();
+  clearInterval(S.tInt);
+  S.done=true;
+
+  const usedSec=(15*60)-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null) skipped++;
+    else if(S.ans[i]===q.ans)     correct++;
+    else                            wrong++;
+  });
+
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgT=Math.round(usedSec/Q.length);
+
+  // Grade
+  let grade,gc,ringColor;
+  if(pct>=90){grade='🏆 Outstanding';gc='#10b981';ringColor='url(#gGrn)';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#3b82f6';ringColor='url(#gBlue)';}
+  else if(pct>=60){grade='🥈 Good';gc='#8b5cf6';ringColor='url(#gPurp)';}
+  else if(pct>=45){grade='🥉 Average';gc='#f59e0b';ringColor='url(#gAmb)';}
+  else{grade='📚 Keep Revising';gc='#f43f5e';ringColor='url(#gRose)';}
+
+  // Score ring animation
+  const arc=document.getElementById('ringArc');
+  const circumference=314.16;
+  arc.style.stroke=gc;
+  arc.style.strokeDashoffset=circumference*(1-pct/100);
+
+  // Fill UI
+  document.getElementById('ringNum').textContent=correct;
+  document.getElementById('ringDen').textContent='/ '+Q.length;
+  const gp=document.getElementById('gradePill');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctLine').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  if(pct>=75){
+    document.getElementById('resTitle').textContent='🎉 Excellent Performance!';
+    document.getElementById('resSub').textContent='Strong grip on Indian physical geography — keep it up!';
+  }else if(pct>=50){
+    document.getElementById('resTitle').textContent='👍 Good Attempt!';
+    document.getElementById('resSub').textContent='Review the insights below and focus on weak areas.';
+  }else{
+    document.getElementById('resTitle').textContent='📚 More Practice Needed';
+    document.getElementById('resSub').textContent='Focus on the highlighted weak areas. Systematic revision will help.';
+  }
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(usedSec);
+  document.getElementById('stAvg').textContent=avgT+'s';
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted,usedSec);
+  renderReview('all');
+  localStorage.removeItem('mountq_v1');
+  show('results-screen');
+  window.scrollTo(0,0);
+}
+
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+// ══ INSIGHTS ══
+function buildInsights(correct,wrong,skipped,pct,acc,attempted,usedSec){
+  const topicErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topicErr[q.topic]=(topicErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicErr).sort((a,b)=>b[1]-a[1]);
+
+  const lines=[];
+
+  // Performance summary
+  if(pct>=90)     lines.push('🌟 Near-perfect! You have strong mastery over Indian Mountain Geography.');
+  else if(pct>=75) lines.push('💪 Very solid performance. A few more focused revisions will perfect your score.');
+  else if(pct>=50) lines.push('📈 Decent base. Revise topic-wise and attempt more map-based questions.');
+  else             lines.push('📖 Start with NCERT Geography (Class 9 & 11 India Physical Geography chapters) before retrying.');
+
+  // Accuracy note
+  if(attempted>0&&acc<55&&attempted>6)
+    lines.push(`🎯 Accuracy: ${acc}% — many wrong among attempted. Practise elimination method; avoid random guessing.`);
+
+  // Skipped
+  if(skipped>6) lines.push(`⤭ ${skipped} questions skipped. For UPSC, practise educated guessing — elimination can help you score even without certainty.`);
+
+  // Map questions
+  const mapWrong=[19,23].filter(i=>!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==Q[i].ans);
+  if(mapWrong.length) lines.push('🗺️ You struggled with map-based questions (Q20 / Q24). Practice locating mountain ranges on blank India maps regularly.');
+
+  // Topic-specific advice
+  if(topicErr['Himalayan Peaks']||topicErr['Himalayan Geomorphology'])
+    lines.push('🏔️ Revise: Sub-divisions of Himalayas (Shiwalik, Lesser, Greater), key peaks and their divisions.');
+  if(topicErr['Peninsular Hills'])
+    lines.push('🌄 Revise: North-South sequence of Peninsular hills — Aravalli, Vindhya, Satpura, Eastern & Western Ghats.');
+  if(topicErr['Mountain Passes'])
+    lines.push('🛤️ Revise: Important passes — Nathu La (Sikkim), Shipki La (HP), Rohtang, Zoji La, Chang La.');
+  if(topicErr['Glaciers'])
+    lines.push('❄️ Revise: Siachen (north of Nubra Valley), Gangotri, Zemu — location and bordering countries.');
+  if(topicErr['Geological Age'])
+    lines.push('🪨 Revise: Aravallis (~670 Ma, Pre-Cambrian), Deccan Traps (Cretaceous-Eocene), Western Ghats (Late Cenozoic).');
+  if(topicErr['Western Ghats'])
+    lines.push('🌿 Revise: Western Ghats — Anai Mudi peak, biodiversity hotspot committees, north-south height variation.');
+  if(topicErr['Volcanoes & Islands'])
+    lines.push('🌋 Barren Island (only active volcano in India) & Narcondam — locations in Andaman Sea. Revise island geography.');
+
+  // Top weak topics
+  ranked.slice(0,4).forEach(([t,c])=>{
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong answer${c>1?'s':''}. Prioritise this in your next revision session.`);
+  });
+
+  const ib=document.getElementById('insightBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line"><span>${l}</span></div>`).join('');
+  if(ranked.length){
+    ib.innerHTML+=`<div class="weak-chips">${ranked.map(([t])=>`<span class="wc">${t}</span>`).join('')}</div>`;
+  }
+}
+
+// ══ REVIEW ══
+let _tab='all';
+function setTab(f,btn){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  _tab=f;
+  renderReview(f);
+}
+function renderReview(f){
+  const rl=document.getElementById('revList'); let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)  return;
+    if(f==='wrong'&&!isWrong) return;
+    if(f==='skipped'&&!isSkp) return;
+    const rc=isOk?'rc':isWrong?'rw':'rs';
+    const lbl=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L4[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L4[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.mapImg?`<img class="rv-map-img" src="${q.mapImg}" alt="Map" loading="lazy">`:'';
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-num">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text}</div>
+      ${mapHtml}
+      <div class="rv-row"><span class="rv-lbl">Your Answer:</span><span class="rv-val ${isSkp?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct Answer:</span><span class="rv-val good">${caTxt}</span></div>
+    </div>`;
+  });
+  if(!html) html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+// ══ PERSIST ══
+function save(){
+  localStorage.setItem('mountq_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  }));
+}
+
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be erased.')) return;
+  clearInterval(S.tInt);
+  localStorage.removeItem('mountq_v1');
+  S={cur:0,ans:new Array(24).fill(null),skp:new Array(24).fill(false),startTime:null,tLeft:15*60,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>
