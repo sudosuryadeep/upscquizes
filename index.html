@@ -1459,6 +1459,20 @@ const quizData = [
 }
 ];
 
+ // LOCK EVERYTHING EXCEPT GEOGRAPHY
+function applyLock() {
+  quizData.forEach(q => {
+    if (q.subject !== "geography") {
+      q.coming = true;
+    }
+  });
+}
+
+// INIT
+applyLock();
+renderSections();
+  
+
 // ═══════════════════════════════════════════════════════
 //  BUILD UI
 // ═══════════════════════════════════════════════════════
