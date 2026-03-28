@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC Quiz Hub — PYQ Practice Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#08090f;--bg2:#0d0f1a;--bg3:#121422;
+  --g1:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);--gb2:rgba(255,255,255,.12);
+  /* Subject colors */
+  --geo:#00d4aa;   --geo-g:rgba(0,212,170,.12);
+  --his:#f59e0b;   --his-g:rgba(245,158,11,.12);
+  --pol:#818cf8;   --pol-g:rgba(129,140,248,.12);
+  --eco:#34d399;   --eco-g:rgba(52,211,153,.12);
+  --sci:#f472b6;   --sci-g:rgba(244,114,182,.12);
+  --txt:#f0f2f8;--txt2:#7c84a0;--txt3:#4a5068;
+  --mono:'JetBrains Mono',monospace;
+  --display:'Bebas Neue',sans-serif;
+  --body:'Outfit',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+
+/* Background layers */
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 15%, rgba(0,212,170,.07),transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(129,140,248,.06),transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(245,158,11,.04),transparent 55%);
+  pointer-events:none}
+
+/* Grid lines */
+body::after{content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:56px 56px;pointer-events:none}
+
+/* Noise */
+.noise{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 1.5rem}
+
+/* ═══════════ NAV ═══════════ */
+nav{position:sticky;top:0;z-index:100;background:rgba(8,9,15,.85);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--gb)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;max-width:1200px;margin:0 auto}
+.nav-logo{font-family:var(--display);font-size:1.6rem;letter-spacing:.04em;color:var(--txt);display:flex;align-items:center;gap:.5rem}
+.nav-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--geo);box-shadow:0 0 10px var(--geo);display:inline-block}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-pill{font-family:var(--mono);font-size:.7rem;padding:.32rem .9rem;border-radius:50px;
+  border:1px solid var(--gb);background:var(--g1);color:var(--txt2);transition:.2s}
+.nav-pill:hover{border-color:var(--geo);color:var(--geo)}
+.total-badge{font-family:var(--mono);font-size:.7rem;color:var(--txt2);
+  background:var(--g1);border:1px solid var(--gb);padding:.3rem .8rem;border-radius:50px}
+.total-badge em{color:var(--geo);font-style:normal;font-weight:600}
+
+/* ═══════════ HERO ═══════════ */
+.hero{padding:5rem 0 3.5rem;text-align:center;position:relative}
+.hero-eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--geo);margin-bottom:1.2rem;opacity:.85}
+.hero-title{font-family:var(--display);font-size:clamp(4rem,10vw,8rem);letter-spacing:.02em;
+  line-height:.9;margin-bottom:1.2rem;color:var(--txt)}
+.hero-title .line2{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.25)}
+.hero-sub{font-size:1rem;color:var(--txt2);max-width:500px;margin:0 auto 2.5rem;line-height:1.7}
+
+/* Stats row */
+.hero-stats{display:flex;justify-content:center;gap:2.5rem;margin-bottom:3rem;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-num{font-family:var(--display);font-size:2.5rem;letter-spacing:.03em;line-height:1;margin-bottom:.2rem}
+.hstat-lbl{font-family:var(--mono);font-size:.65rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.1em}
+
+/* Search */
+.search-wrap{position:relative;max-width:480px;margin:0 auto 1rem}
+.search-wrap input{width:100%;padding:.85rem 1.2rem .85rem 3rem;
+  background:rgba(255,255,255,.04);border:1px solid var(--gb);border-radius:50px;
+  font-family:var(--mono);font-size:.85rem;color:var(--txt);outline:none;transition:.25s}
+.search-wrap input:focus{border-color:var(--geo);background:rgba(0,212,170,.05);box-shadow:0 0 0 4px rgba(0,212,170,.08)}
+.search-wrap input::placeholder{color:var(--txt3)}
+.search-icon{position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:.9rem;pointer-events:none}
+
+/* ═══════════ SUBJECT FILTERS ═══════════ */
+.filters{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.filter-btn{font-family:var(--mono);font-size:.72rem;font-weight:600;padding:.4rem 1rem;
+  border-radius:50px;border:1px solid var(--gb);background:var(--g1);
+  color:var(--txt2);cursor:pointer;transition:.2s;letter-spacing:.04em}
+.filter-btn:hover,.filter-btn.on{border-color:var(--geo);color:var(--geo);background:rgba(0,212,170,.08)}
+.filter-btn[data-sub="history"].on{border-color:var(--his);color:var(--his);background:var(--his-g)}
+.filter-btn[data-sub="polity"].on{border-color:var(--pol);color:var(--pol);background:var(--pol-g)}
+.filter-btn[data-sub="economy"].on{border-color:var(--eco);color:var(--eco);background:var(--eco-g)}
+.filter-btn[data-sub="science"].on{border-color:var(--sci);color:var(--sci);background:var(--sci-g)}
+.filter-btn[data-sub="geography"].on{border-color:var(--geo);color:var(--geo);background:var(--geo-g)}
+
+/* ═══════════ SUBJECT SECTIONS ═══════════ */
+.section{margin-bottom:3.5rem}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid var(--gb)}
+.section-icon{font-size:1.5rem}
+.section-title{font-family:var(--display);font-size:1.8rem;letter-spacing:.04em}
+.section-count{font-family:var(--mono);font-size:.72rem;padding:.28rem .8rem;border-radius:50px;border:1px solid;margin-left:auto}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,currentColor,transparent);opacity:.2}
+
+/* Subject color accents */
+[data-subject="geography"] .section-title{color:var(--geo)}
+[data-subject="geography"] .section-count{color:var(--geo);border-color:rgba(0,212,170,.3);background:var(--geo-g)}
+[data-subject="history"] .section-title{color:var(--his)}
+[data-subject="history"] .section-count{color:var(--his);border-color:rgba(245,158,11,.3);background:var(--his-g)}
+[data-subject="polity"] .section-title{color:var(--pol)}
+[data-subject="polity"] .section-count{color:var(--pol);border-color:rgba(129,140,248,.3);background:var(--pol-g)}
+[data-subject="economy"] .section-title{color:var(--eco)}
+[data-subject="economy"] .section-count{color:var(--eco);border-color:rgba(52,211,153,.3);background:var(--eco-g)}
+[data-subject="science"] .section-title{color:var(--sci)}
+[data-subject="science"] .section-count{color:var(--sci);border-color:rgba(244,114,182,.3);background:var(--sci-g)}
+
+/* ═══════════ QUIZ CARDS ═══════════ */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+
+.quiz-card{
+  background:var(--g1);border:1px solid var(--gb);border-radius:20px;
+  padding:1.4rem;cursor:pointer;transition:all .25s;
+  position:relative;overflow:hidden;text-decoration:none;display:block;
+  animation:fadeUp .4s ease both;
+}
+.quiz-card::before{content:'';position:absolute;inset:0;opacity:0;transition:.25s;border-radius:20px}
+.quiz-card:hover{transform:translateY(-5px);border-color:var(--card-color,var(--geo));box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.quiz-card:hover::before{opacity:1}
+
+/* Card top row */
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.card-emoji{font-size:2rem;line-height:1}
+.card-difficulty{font-family:var(--mono);font-size:.62rem;font-weight:600;padding:.22rem .65rem;border-radius:50px}
+.diff-easy{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+.diff-med{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.diff-hard{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+
+.card-title{font-family:var(--display);font-size:1.3rem;letter-spacing:.03em;margin-bottom:.4rem;line-height:1.1}
+.card-sub{font-size:.8rem;color:var(--txt2);line-height:1.5;margin-bottom:1.1rem}
+
+/* Card meta */
+.card-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.cmeta{font-family:var(--mono);font-size:.63rem;padding:.2rem .6rem;border-radius:5px;
+  background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+
+/* Card footer */
+.card-footer{display:flex;align-items:center;justify-content:space-between}
+.card-tags{display:flex;gap:.35rem;flex-wrap:wrap}
+.ctag{font-family:var(--mono);font-size:.6rem;color:var(--txt3)}
+.card-cta{font-family:var(--mono);font-size:.72rem;font-weight:600;
+  padding:.4rem 1rem;border-radius:50px;border:1px solid;
+  transition:.2s;display:flex;align-items:center;gap:.4rem}
+.card-cta .arr{transition:transform .2s}
+.quiz-card:hover .card-cta .arr{transform:translateX(3px)}
+
+/* Shimmer line at bottom of card */
+.card-shimmer{position:absolute;bottom:0;left:0;right:0;height:2px;opacity:0;transition:.25s}
+.quiz-card:hover .card-shimmer{opacity:1}
+
+/* ═══════════ EMPTY STATE ═══════════ */
+.empty{text-align:center;padding:3rem;color:var(--txt2)}
+.empty-ic{font-size:3rem;margin-bottom:1rem}
+.empty p{font-family:var(--mono);font-size:.82rem}
+
+/* ═══════════ COMING SOON CARD ═══════════ */
+.quiz-card.coming{opacity:.45;cursor:not-allowed}
+.quiz-card.coming:hover{transform:none;box-shadow:none}
+.coming-badge{font-family:var(--mono);font-size:.6rem;padding:.18rem .55rem;
+  border-radius:4px;background:rgba(255,255,255,.06);color:var(--txt3);border:1px solid var(--gb)}
+
+/* ═══════════ FOOTER ═══════════ */
+footer{border-top:1px solid var(--gb);padding:2rem 1.5rem;text-align:center;
+  font-family:var(--mono);font-size:.72rem;color:var(--txt3);position:relative;z-index:1}
+footer em{color:var(--geo);font-style:normal}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.quiz-card:nth-child(1){animation-delay:.05s}
+.quiz-card:nth-child(2){animation-delay:.1s}
+.quiz-card:nth-child(3){animation-delay:.15s}
+.quiz-card:nth-child(4){animation-delay:.2s}
+.quiz-card:nth-child(5){animation-delay:.25s}
+.quiz-card:nth-child(6){animation-delay:.3s}
+
+@media(max-width:640px){
+  .hero-title{font-size:3.5rem}
+  .cards-grid{grid-template-columns:1fr}
+  .hero-stats{gap:1.5rem}
+  .nav-logo{font-size:1.3rem}
+}
+
+/* Progress bars inside cards (optional) */
+.card-progress{height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;margin-top:.8rem}
+.card-prog-fill{height:100%;border-radius:10px;transition:width .6s ease}
+.card-prog-label{font-family:var(--mono);font-size:.6rem;color:var(--txt3);margin-top:.3rem}
+
+/* Tooltip */
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:#1a1d2e;border:1px solid var(--gb);border-radius:8px;padding:.4rem .7rem;
+  font-family:var(--mono);font-size:.65rem;color:var(--txt);white-space:nowrap;z-index:999;
+  box-shadow:0 4px 20px rgba(0,0,0,.5)}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo"><span class="dot"></span> UPSC Quiz Hub</div>
+    <div class="nav-right">
+      <span class="total-badge">Total: <em id="totalCount">0</em> quizzes</span>
+      <span class="nav-pill">🌐 GitHub Pages</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-eyebrow">Civil Services Examination · PYQ Practice</div>
+    <h1 class="hero-title">
+      UPSC<br><span class="line2">QUIZ HUB</span>
+    </h1>
+    <p class="hero-sub">All your UPSC Prelims PYQ quizzes in one place — subject-wise organized, topic-wise filtered, exam-ready.</p>
+
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num" style="color:var(--geo)" id="geoCount">0</div><div class="hstat-lbl">Geography</div></div>
+      <div class="hstat"><div class="hstat-num" style="color:var(--his)" id="hisCount">0</div><div class="hstat-lbl">History</div></div>
+      <div class="hstat"><div class="hstat-num" style="color:var(--pol)" id="polCount">0</div><div class="hstat-lbl">Polity</div></div>
+      <div class="hstat"><div class="hstat-num" style="color:var(--eco)" id="ecoCount">0</div><div class="hstat-lbl">Economy</div></div>
+      <div class="hstat"><div class="hstat-num" style="color:var(--sci)" id="sciCount">0</div><div class="hstat-lbl">Sci & Tech</div></div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="search quizzes... e.g. rivers, agriculture" oninput="filterCards()">
+    </div>
+  </div>
+
+  <!-- ═══ FILTERS ═══ -->
+  <div class="filters">
+    <button class="filter-btn on" data-sub="all" onclick="setFilter('all',this)">🌐 All</button>
+    <button class="filter-btn" data-sub="geography" onclick="setFilter('geography',this)">🌍 Geography</button>
+    <button class="filter-btn" data-sub="history" onclick="setFilter('history',this)">📜 History</button>
+    <button class="filter-btn" data-sub="polity" onclick="setFilter('polity',this)">⚖️ Polity</button>
+    <button class="filter-btn" data-sub="economy" onclick="setFilter('economy',this)">📊 Economy</button>
+    <button class="filter-btn" data-sub="science" onclick="setFilter('science',this)">🔬 Sci & Tech</button>
+  </div>
+
+  <!-- ═══ QUIZ SECTIONS ═══ -->
+  <div id="allSections"></div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>Built for <em>UPSC 2025-26</em> preparation · All questions sourced from official PYQ papers · Hosted on GitHub Pages</div>
+  <div style="margin-top:.4rem;color:var(--txt3)">Add new quiz files anytime by updating the <em>quizData</em> array in index.html</div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  QUIZ DATA — Add your quiz files here
+//  Just update the path to match your GitHub folder structure
+// ═══════════════════════════════════════════════════════
+const quizData = [
+  // ──── GEOGRAPHY ────
+  {
+    subject: "geography",
+    title: "AtmoSphere",
+    subtitle: "Physical Geography & Climatology",
+    emoji: "🌤️",
+    questions: 62,
+    minutes: 40,
+    years: "1995–2023",
+    difficulty: "med",
+    path: "geography/AtmoGeo_Quiz_62Q.html",
+    tags: ["Atmosphere","Clouds","Cyclones","Climate Zones","Biomes"],
+    color: "var(--geo)"
+  },
+  {
+    subject: "geography",
+    title: "RiverIQ",
+    subtitle: "India Rivers, Lakes & Wetlands",
+    emoji: "🌊",
+    questions: 44,
+    minutes: 30,
+    years: "1996–2023",
+    difficulty: "hard",
+    path: "geography/RiverIQ_Quiz_44Q.html",
+    tags: ["Rivers","Lakes","Tributaries","Wetlands","Dams"],
+    color: "var(--geo)"
+  },
+  {
+    subject: "geography",
+    title: "KrishiIQ",
+    subtitle: "Indian Agriculture & Farming",
+    emoji: "🌾",
+    questions: 43,
+    minutes: 30,
+    years: "1995–2023",
+    difficulty: "med",
+    path: "geography/AgriIndia_Quiz_43Q.html",
+    tags: ["Kharif","Rabi","Oilseeds","Pulses","Soil"],
+    color: "var(--geo)"
+  },
+  // ──── HISTORY (Coming Soon — add your files here) ────
+  {
+    subject: "history",
+    title: "Ancient India",
+    subtitle: "Indus Valley to Gupta Period",
+    emoji: "🏛️",
+    questions: 50,
+    minutes: 35,
+    years: "2000–2023",
+    difficulty: "med",
+    path: "history/AncientIndia_Quiz.html",
+    tags: ["Indus Valley","Maurya","Gupta","Buddhism"],
+    color: "var(--his)",
+    coming: true
+  },
+  {
+    subject: "history",
+    title: "Medieval India",
+    subtitle: "Delhi Sultanate to Mughal Era",
+    emoji: "🕌",
+    questions: 45,
+    minutes: 30,
+    years: "2000–2023",
+    difficulty: "hard",
+    path: "history/MedievalIndia_Quiz.html",
+    tags: ["Delhi Sultanate","Mughals","Vijayanagara","Bhakti"],
+    color: "var(--his)",
+    coming: true
+  },
+  {
+    subject: "history",
+    title: "Modern India",
+    subtitle: "British Rule to Independence",
+    emoji: "🇮🇳",
+    questions: 60,
+    minutes: 40,
+    years: "1995–2023",
+    difficulty: "hard",
+    path: "history/ModernIndia_Quiz.html",
+    tags: ["1857","Congress","Gandhi","Independence"],
+    color: "var(--his)",
+    coming: true
+  },
+  // ──── POLITY (Coming Soon) ────
+  {
+    subject: "polity",
+    title: "Constitution of India",
+    subtitle: "Fundamental Rights, DPSP & Beyond",
+    emoji: "⚖️",
+    questions: 55,
+    minutes: 35,
+    years: "1995–2023",
+    difficulty: "med",
+    path: "polity/Constitution_Quiz.html",
+    tags: ["FR","DPSP","Preamble","Amendments"],
+    color: "var(--pol)",
+    coming: true
+  },
+  {
+    subject: "polity",
+    title: "Parliament & Judiciary",
+    subtitle: "Legislature, Executive & Courts",
+    emoji: "🏛️",
+    questions: 40,
+    minutes: 28,
+    years: "2000–2023",
+    difficulty: "hard",
+    path: "polity/Parliament_Quiz.html",
+    tags: ["Lok Sabha","Rajya Sabha","Supreme Court","CAG"],
+    color: "var(--pol)",
+    coming: true
+  },
+  // ──── ECONOMY (Coming Soon) ────
+  {
+    subject: "economy",
+    title: "Indian Economy Basics",
+    subtitle: "GDP, Inflation, Banking & Trade",
+    emoji: "📊",
+    questions: 50,
+    minutes: 35,
+    years: "2000–2023",
+    difficulty: "med",
+    path: "economy/EconBasics_Quiz.html",
+    tags: ["GDP","RBI","Inflation","Budget"],
+    color: "var(--eco)",
+    coming: true
+  },
+  // ──── SCIENCE & TECH (Coming Soon) ────
+  {
+    subject: "science",
+    title: "Science & Technology",
+    subtitle: "Space, Biotech & Defence",
+    emoji: "🚀",
+    questions: 45,
+    minutes: 30,
+    years: "2005–2023",
+    difficulty: "hard",
+    path: "science/SciTech_Quiz.html",
+    tags: ["ISRO","Biotech","AI","Defence"],
+    color: "var(--sci)",
+    coming: true
+  }
+];
+
+// ═══════════════════════════════════════════════════════
+//  BUILD UI
+// ═══════════════════════════════════════════════════════
+let activeFilter = 'all';
+let searchTerm = '';
+
+const subjectConfig = {
+  geography: { label: 'Geography',   icon: '🌍', color: 'var(--geo)', varName: '--geo' },
+  history:   { label: 'History',     icon: '📜', color: 'var(--his)', varName: '--his' },
+  polity:    { label: 'Polity',      icon: '⚖️', color: 'var(--pol)', varName: '--pol' },
+  economy:   { label: 'Economy',     icon: '📊', color: 'var(--eco)', varName: '--eco' },
+  science:   { label: 'Sci & Tech',  icon: '🔬', color: 'var(--sci)', varName: '--sci' }
+};
+
+function setFilter(sub, btn) {
+  activeFilter = sub;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderSections();
+}
+
+function filterCards() {
+  searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  renderSections();
+}
+
+function getFilteredData() {
+  return quizData.filter(q => {
+    const matchesSub = activeFilter === 'all' || q.subject === activeFilter;
+    const matchesSearch = !searchTerm ||
+      q.title.toLowerCase().includes(searchTerm) ||
+      q.subtitle.toLowerCase().includes(searchTerm) ||
+      q.tags.some(t => t.toLowerCase().includes(searchTerm)) ||
+      q.subject.includes(searchTerm);
+    return matchesSub && matchesSearch;
+  });
+}
+
+function getDiffLabel(d) {
+  if (d === 'easy') return '<span class="card-difficulty diff-easy">Easy</span>';
+  if (d === 'hard') return '<span class="card-difficulty diff-hard">Hard</span>';
+  return '<span class="card-difficulty diff-med">Medium</span>';
+}
+
+function buildCard(q) {
+  const isLive = !q.coming;
+  const href = isLive ? q.path : '#';
+  const onclick = isLive ? '' : `onclick="return false" title="Coming Soon"`;
+  const comingBadge = q.coming ? '<span class="coming-badge">🔒 Coming Soon</span>' : '';
+
+  // Progress from localStorage
+  let progHTML = '';
+  if (isLive) {
+    const key = q.path.split('/').pop().replace('.html', '_progress');
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      const d = JSON.parse(saved);
+      const pct = Math.round((d.answered || 0) / q.questions * 100);
+      const col = pct >= 100 ? '#4ade80' : q.color;
+      progHTML = `<div class="card-progress"><div class="card-prog-fill" style="width:${pct}%;background:${col}"></div></div>
+                  <div class="card-prog-label">Last session: ${pct}% completed</div>`;
+    }
+  }
+
+  return `
+  <a href="${href}" ${onclick} class="quiz-card${q.coming ? ' coming' : ''}" 
+     style="--card-color:${q.color}"
+     onmouseenter="this.querySelector('.card-shimmer').style.background='linear-gradient(90deg,transparent,${q.color},transparent)'"
+     onmouseleave="this.querySelector('.card-shimmer').style.background='none'">
+    
+    <div style="position:absolute;inset:0;border-radius:20px;background:radial-gradient(circle at 80% 20%,${q.color}08,transparent 60%);opacity:0;transition:.3s" class="card-hover-bg"></div>
+    
+    <div class="card-top">
+      <span class="card-emoji">${q.emoji}</span>
+      <div style="display:flex;gap:.4rem;align-items:center">
+        ${comingBadge}
+        ${getDiffLabel(q.difficulty)}
+      </div>
+    </div>
+    
+    <div class="card-title" style="color:${q.color}">${q.title}</div>
+    <div class="card-sub">${q.subtitle}</div>
+    
+    <div class="card-meta">
+      <span class="cmeta">📝 ${q.questions} Qs</span>
+      <span class="cmeta">⏱ ${q.minutes} min</span>
+      <span class="cmeta">📅 ${q.years}</span>
+    </div>
+    
+    <div class="card-footer">
+      <div class="card-tags">
+        ${q.tags.slice(0,3).map(t => `<span class="ctag">#${t}</span>`).join('')}
+      </div>
+      <div class="card-cta" style="color:${q.color};border-color:${q.color}44;background:${q.color}10">
+        ${isLive ? 'Start' : 'Soon'} <span class="arr">${isLive ? '→' : '🔒'}</span>
+      </div>
+    </div>
+    
+    ${progHTML}
+    <div class="card-shimmer"></div>
+  </a>`;
+}
+
+function renderSections() {
+  const filtered = getFilteredData();
+  const container = document.getElementById('allSections');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty"><div class="empty-ic">🔍</div><p>No quizzes found for "${searchTerm}"</p></div>`;
+    return;
+  }
+
+  // Group by subject
+  const grouped = {};
+  filtered.forEach(q => {
+    if (!grouped[q.subject]) grouped[q.subject] = [];
+    grouped[q.subject].push(q);
+  });
+
+  let html = '';
+  const subjectOrder = ['geography','history','polity','economy','science'];
+  
+  subjectOrder.forEach(sub => {
+    if (!grouped[sub]) return;
+    const cfg = subjectConfig[sub];
+    const items = grouped[sub];
+    const liveCount = items.filter(x => !x.coming).length;
+    
+    html += `
+    <div class="section" data-subject="${sub}">
+      <div class="section-header">
+        <span class="section-icon">${cfg.icon}</span>
+        <h2 class="section-title">${cfg.label}</h2>
+        <div class="section-line" style="color:${cfg.color}"></div>
+        <span class="section-count">${liveCount} live · ${items.length} total</span>
+      </div>
+      <div class="cards-grid">
+        ${items.map(q => buildCard(q)).join('')}
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  updateCounts();
+}
+
+function updateCounts() {
+  const live = quizData.filter(q => !q.coming);
+  document.getElementById('totalCount').textContent = live.length;
+
+  const bySubject = { geography:0, history:0, polity:0, economy:0, science:0 };
+  live.forEach(q => { if(bySubject[q.subject]!==undefined) bySubject[q.subject]++; });
+  document.getElementById('geoCount').textContent = bySubject.geography;
+  document.getElementById('hisCount').textContent = bySubject.history;
+  document.getElementById('polCount').textContent = bySubject.polity;
+  document.getElementById('ecoCount').textContent = bySubject.economy;
+  document.getElementById('sciCount').textContent = bySubject.science;
+}
+
+// Init
+renderSections();
+
+// Card hover bg effect
+document.addEventListener('mouseover', e => {
+  const card = e.target.closest('.quiz-card');
+  if (card) {
+    const bg = card.querySelector('.card-hover-bg');
+    if (bg) bg.style.opacity = '1';
+  }
+});
+document.addEventListener('mouseout', e => {
+  const card = e.target.closest('.quiz-card');
+  if (card) {
+    const bg = card.querySelector('.card-hover-bg');
+    if (bg) bg.style.opacity = '0';
+  }
+});
+</script>
+</body>
+</html>
