@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CultureIQ – India Art & Culture UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#080610;--ink2:#0e0a1f;--ink3:#130d2a;
+  --g1:rgba(255,255,255,.04);--gb:rgba(255,255,255,.09);
+  --violet:#8b5cf6;--violet2:#a78bfa;--violet3:#c4b5fd;
+  --rose:#ec4899;--rose2:#f472b6;
+  --emerald:#10b981;--amber:#fbbf24;--sky:#38bdf8;
+  --lime:#a3e635;--coral:#fb923c;
+  --txt:#e8e2f4;--txt2:#7c7494;--txt3:#a89ec0;
+  --r:16px;--r2:22px;--r3:30px;
+  --shadow:0 8px 32px rgba(0,0,0,.5);
+  --glow:0 0 40px rgba(139,92,246,.3);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--ink);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 10% 15%,rgba(139,92,246,.14),transparent),
+    radial-gradient(ellipse 55% 45% at 90% 65%,rgba(236,72,153,.09),transparent),
+    radial-gradient(ellipse 45% 65% at 50% 100%,rgba(167,139,250,.07),transparent);
+  pointer-events:none
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:55px 55px;pointer-events:none;
+  animation:gridDrift 35s linear infinite;
+}
+@keyframes gridDrift{0%{background-position:0 0}100%{background-position:55px 55px}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ════ START SCREEN ════ */
+#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0}
+
+.brand-icon{
+  width:115px;height:115px;border-radius:50%;
+  background:conic-gradient(from 180deg,var(--violet),var(--rose),#7c3aed,var(--violet2),var(--rose2),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-size:3.2rem;
+  margin:0 auto 1.8rem;
+  box-shadow:var(--glow),0 0 80px rgba(139,92,246,.18);
+  animation:ripple 4s ease-in-out infinite;
+  position:relative;
+}
+.brand-icon::before{
+  content:'';position:absolute;inset:-10px;border-radius:50%;
+  border:1.5px solid rgba(139,92,246,.3);
+  animation:expandRing 4s ease-in-out infinite;
+}
+.brand-icon::after{
+  content:'';position:absolute;inset:-24px;border-radius:50%;
+  border:1px solid rgba(236,72,153,.15);
+  animation:expandRing 4s ease-in-out infinite .6s;
+}
+@keyframes ripple{0%,100%{box-shadow:var(--glow),0 0 80px rgba(139,92,246,.18)}50%{box-shadow:0 0 70px rgba(139,92,246,.55),0 0 110px rgba(236,72,153,.2)}}
+@keyframes expandRing{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+
+.main-title{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:800;line-height:1;margin-bottom:.4rem}
+.t1{display:block;background:linear-gradient(135deg,var(--violet2),var(--rose2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.t2{display:block;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.58em}
+.main-sub{color:var(--txt2);font-size:.88rem;margin-bottom:2.5rem;letter-spacing:.06em;text-transform:uppercase}
+
+.meta-strip{display:flex;align-items:stretch;max-width:720px;width:100%;margin:0 auto 2.5rem;border-radius:var(--r2);overflow:hidden;border:1px solid var(--gb)}
+.mi{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem 1.5rem;background:var(--g1);backdrop-filter:blur(12px);flex:1;border-right:1px solid var(--gb)}
+.mi:last-child{border-right:none}
+.mi-ic{font-size:1.4rem;margin-bottom:.3rem}
+.mi-v{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;background:linear-gradient(135deg,var(--violet),var(--rose2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mi-l{font-size:.63rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.07em;margin-top:.15rem}
+
+.topic-cloud{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:660px;margin:0 auto 2.5rem}
+.tc{font-size:.72rem;font-weight:600;padding:.32rem .85rem;border-radius:50px;border:1px solid rgba(139,92,246,.22);background:rgba(139,92,246,.08);color:var(--violet3);letter-spacing:.03em;transition:.2s}
+.tc:hover{border-color:var(--violet);color:var(--violet2);background:rgba(139,92,246,.18)}
+
+.start-cta{
+  padding:1.15rem 3.8rem;
+  background:linear-gradient(135deg,#6d28d9,var(--violet),var(--rose));
+  color:#fff;border:none;border-radius:50px;
+  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;
+  cursor:pointer;letter-spacing:.04em;
+  box-shadow:0 6px 32px rgba(139,92,246,.5);transition:.25s;
+  position:relative;overflow:hidden;
+}
+.start-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:.25s}
+.start-cta:hover::before{opacity:1}
+.start-cta:hover{transform:translateY(-4px);box-shadow:0 16px 50px rgba(139,92,246,.65)}
+.save-note{color:var(--txt2);font-size:.74rem;margin-top:1.1rem;opacity:.7}
+
+/* ════ QUIZ SCREEN ════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.quiz-shell{max-width:900px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;padding-bottom:1rem}
+
+.top-bar{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;
+  padding:.85rem 1.3rem;
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  backdrop-filter:blur(14px);
+}
+.qprog-nums{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
+.qprog-nums em{color:var(--violet2);font-style:normal}
+.timer-box{
+  display:flex;align-items:center;gap:.4rem;padding:.42rem 1.1rem;
+  background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);
+  border-radius:50px;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;
+  color:var(--violet2);transition:.3s;white-space:nowrap;
+}
+.timer-box.danger{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4);color:#fb7185;animation:blink .85s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.top-right{display:flex;justify-content:flex-end}
+
+.pbar-rail{height:4px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,#6d28d9,var(--violet),var(--rose2));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(139,92,246,.7)}
+
+.q-card{
+  background:linear-gradient(145deg,rgba(14,10,31,.94),rgba(8,6,16,.97));
+  border:1px solid rgba(139,92,246,.15);border-radius:var(--r3);
+  padding:2rem 2.2rem;backdrop-filter:blur(18px);
+  box-shadow:0 8px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:cardIn .38s cubic-bezier(.4,0,.2,1);
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+
+.q-top-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.q-num-badge{background:linear-gradient(135deg,#6d28d9,var(--rose));color:#fff;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:800;padding:.28rem .85rem;border-radius:50px;letter-spacing:.05em}
+.q-yr-tag{font-size:.7rem;color:var(--sky);background:rgba(56,189,248,.1);padding:.26rem .72rem;border-radius:50px;border:1px solid rgba(56,189,248,.28);font-weight:600}
+.q-topic-tag{font-size:.68rem;color:var(--violet2);background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.22);padding:.26rem .72rem;border-radius:50px;font-weight:600}
+.q-status{margin-left:auto;font-size:.68rem;font-weight:700;padding:.26rem .78rem;border-radius:50px}
+.qs-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+.qs-ans{background:rgba(16,185,129,.13);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.qs-skp{background:rgba(251,191,36,.11);color:var(--amber);border:1px solid rgba(251,191,36,.28)}
+
+.q-body{font-size:.95rem;line-height:1.9;color:var(--txt);margin-bottom:1.5rem;white-space:pre-wrap}
+
+.opts{display:flex;flex-direction:column;gap:.65rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.9rem;padding:.95rem 1.15rem;
+  background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:var(--r);cursor:pointer;transition:all .22s;
+  text-align:left;width:100%;color:var(--txt);
+  font-family:'Space Grotesk',sans-serif;font-size:.875rem;line-height:1.6;
+  position:relative;overflow:hidden;
+}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,92,246,.1),transparent);opacity:0;transition:.22s}
+.opt:hover:not(.picked):not(:disabled)::before{opacity:1}
+.opt:hover:not(.picked):not(:disabled){border-color:rgba(139,92,246,.5);transform:translateX(6px)}
+.opt-ltr{
+  min-width:30px;height:30px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;color:var(--violet2);
+  flex-shrink:0;transition:.22s;position:relative;z-index:1;
+}
+.opt-txt{position:relative;z-index:1}
+.opt.picked{background:rgba(139,92,246,.14);border-color:var(--violet)}
+.opt.picked .opt-ltr{background:var(--violet);color:#fff;border-color:var(--violet)}
+
+.q-nav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.7rem;flex-wrap:wrap}
+.nav-cl{display:flex;gap:.6rem}
+.btn{padding:.72rem 1.5rem;border:none;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:.22s;letter-spacing:.02em}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-ghost:disabled{opacity:.28;cursor:not-allowed}
+.btn-amber{background:rgba(251,191,36,.11);border:1px solid rgba(251,191,36,.28);color:var(--amber)}
+.btn-amber:hover{background:rgba(251,191,36,.22)}
+.btn-violet{background:linear-gradient(135deg,#6d28d9,var(--violet));color:#fff;box-shadow:0 4px 18px rgba(139,92,246,.4)}
+.btn-violet:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(139,92,246,.6)}
+.btn-grn{background:linear-gradient(135deg,#059669,var(--emerald));color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3)}
+.btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.5)}
+
+.dotmap{display:flex;flex-wrap:wrap;gap:.35rem;max-width:900px;width:100%;margin:0 auto}
+.qdot{width:28px;height:28px;border-radius:8px;border:none;font-size:.64rem;font-weight:700;cursor:pointer;transition:.18s;background:rgba(255,255,255,.05);color:var(--txt2)}
+.qdot:hover{background:rgba(139,92,246,.28);color:var(--violet2)}
+.qdot.cur{background:linear-gradient(135deg,#6d28d9,var(--rose));color:#fff;box-shadow:0 2px 14px rgba(139,92,246,.55)}
+.qdot.d-ans{background:rgba(16,185,129,.18);color:#34d399;border:1px solid rgba(16,185,129,.35)}
+.qdot.d-skp{background:rgba(251,191,36,.17);color:var(--amber);border:1px solid rgba(251,191,36,.35)}
+
+/* ════ MODAL ════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#0e0a1f;border:1px solid rgba(139,92,246,.4);border-radius:var(--r3);padding:2.5rem;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7),var(--glow)}
+.modal-emoji{font-size:3rem;margin-bottom:1rem;display:block}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.8rem;color:var(--violet2)}
+.modal p{color:var(--txt2);font-size:.87rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ════ RESULTS SCREEN ════ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.res-shell{max-width:960px;width:100%}
+
+.res-hero{
+  background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(236,72,153,.06));
+  border:1px solid rgba(139,92,246,.22);border-radius:var(--r3);
+  padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);
+  margin-bottom:1.5rem;overflow:hidden;position:relative;
+}
+.res-hero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 110%,transparent 55%,rgba(139,92,246,.07) 75%,transparent);animation:spin 14s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.score-ring{width:165px;height:165px;position:relative;margin:0 auto 1.5rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num{font-family:'Syne',sans-serif;font-size:2.7rem;font-weight:800;line-height:1}
+.ring-den{font-size:.78rem;color:var(--txt2)}
+
+.res-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:800;margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.88rem;margin-bottom:1.5rem;position:relative;z-index:1}
+.grade-pill{display:inline-block;padding:.45rem 1.6rem;border-radius:50px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.6rem;position:relative;z-index:1}
+.pct-line{color:var(--txt2);font-size:.87rem;position:relative;z-index:1}
+
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1.5rem}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.2rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
+.sc:hover{transform:translateY(-3px);border-color:rgba(139,92,246,.3)}
+.sc-ic{font-size:1.45rem;margin-bottom:.4rem}
+.sc-v{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;margin-bottom:.15rem}
+.sc-l{font-size:.68rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+
+.insights-panel{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(236,72,153,.04));border:1px solid rgba(139,92,246,.25);border-radius:var(--r2);padding:1.7rem;margin-bottom:1.5rem}
+.panel-title{font-family:'Syne',sans-serif;font-size:.93rem;font-weight:700;color:var(--violet2);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.ins-line{font-size:.83rem;color:var(--txt3);margin-bottom:.6rem;display:flex;gap:.6rem;line-height:1.7}
+.weak-chips{display:flex;flex-wrap:wrap;gap:.42rem;margin-top:.9rem}
+.wc{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.28);color:#fda4af;font-size:.7rem;font-weight:600;padding:.26rem .78rem;border-radius:50px}
+
+.tab-row{display:flex;gap:.32rem;padding:.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);backdrop-filter:blur(10px);margin-bottom:1rem}
+.tbtn{flex:1;padding:.5rem;border:none;border-radius:10px;background:transparent;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s}
+.tbtn.on{background:linear-gradient(135deg,#6d28d9,var(--rose));color:#fff}
+
+.rev-card{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.4rem;margin-bottom:.85rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cardIn .35s ease}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--emerald)}
+.rev-card.rw{border-left-color:#f43f5e}
+.rev-card.rs{border-left-color:var(--amber)}
+.rev-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.72rem;flex-wrap:wrap}
+.rv-num{font-size:.68rem;font-weight:700;padding:.2rem .62rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.rv-yr{font-size:.68rem;color:var(--sky);background:rgba(56,189,248,.1);padding:.2rem .62rem;border-radius:50px;border:1px solid rgba(56,189,248,.25)}
+.rv-badge{font-size:.67rem;font-weight:700;padding:.2rem .68rem;border-radius:50px}
+.rv-badge.rc{background:rgba(16,185,129,.15);color:#34d399}
+.rv-badge.rw{background:rgba(244,63,94,.15);color:#fb7185}
+.rv-badge.rs{background:rgba(251,191,36,.13);color:var(--amber)}
+.rv-topic{margin-left:auto;font-size:.67rem;color:var(--violet2);background:rgba(139,92,246,.09);padding:.2rem .62rem;border-radius:50px;border:1px solid rgba(139,92,246,.2)}
+.rv-q{font-size:.83rem;color:var(--txt3);margin-bottom:.85rem;line-height:1.75;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.32rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:130px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#fb7185}
+.rv-exp{margin-top:.8rem;padding:.9rem 1.1rem;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.15);border-radius:12px;font-size:.79rem;color:var(--violet3);line-height:1.75}
+.rv-exp strong{color:var(--violet2)}
+
+.res-ctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-rose{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;transition:.22s}
+.btn-rose:hover{background:rgba(244,63,94,.22)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(139,92,246,.5);border-radius:10px}
+
+@media(max-width:640px){
+  .q-card{padding:1.3rem}
+  .top-bar{grid-template-columns:1fr auto;gap:.6rem;padding:.7rem 1rem}
+  .top-right{display:none}
+  .q-nav{flex-direction:column}
+  .nav-cl{justify-content:center}
+  .modal-row{flex-direction:column}
+  .meta-strip{flex-direction:column}
+  .mi{border-right:none;border-bottom:1px solid var(--gb)}
+  .mi:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ START ═══════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="brand-icon">🎭</div>
+  <h1 class="main-title">
+    <span class="t1">CultureIQ</span>
+    <span class="t2">India Art, Dance, Music & Culture</span>
+  </h1>
+  <p class="main-sub">UPSC Prelims · Classical Arts · Painting · Festivals · 1995–2018</p>
+
+  <div class="meta-strip">
+    <div class="mi"><span class="mi-ic">📋</span><span class="mi-v">32</span><span class="mi-l">Questions</span></div>
+    <div class="mi"><span class="mi-ic">⏱️</span><span class="mi-v">25 Min</span><span class="mi-l">Timer</span></div>
+    <div class="mi"><span class="mi-ic">🎨</span><span class="mi-v">8 Topics</span><span class="mi-l">Domains</span></div>
+    <div class="mi"><span class="mi-ic">📅</span><span class="mi-v">1995–2018</span><span class="mi-l">PYQ Era</span></div>
+  </div>
+
+  <div class="topic-cloud">
+    <span class="tc">💃 Classical Dances</span>
+    <span class="tc">🎵 Hindustani Music</span>
+    <span class="tc">🎨 Miniature Painting</span>
+    <span class="tc">🥋 Martial Arts</span>
+    <span class="tc">🎪 Folk Traditions</span>
+    <span class="tc">🏺 Handicrafts & Textiles</span>
+    <span class="tc">🎭 Theatre & Drama</span>
+    <span class="tc">🌺 Festivals & Traditions</span>
+    <span class="tc">🖼️ Modern Art & Artists</span>
+    <span class="tc">📜 Cultural Institutions</span>
+  </div>
+
+  <button class="start-cta" onclick="startQuiz()">🚀 Begin Quiz</button>
+  <p class="save-note">💾 Progress auto-saved · Resume anytime</p>
+</div>
+
+<!-- ═══════════════ QUIZ ═══════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-shell">
+
+    <div class="top-bar">
+      <div class="qprog-nums">Q <em id="qCur">1</em> / <em id="qTot">32</em></div>
+      <div class="timer-box" id="timerEl">⏱ 25:00</div>
+      <div class="top-right">
+        <button class="btn btn-ghost" style="font-size:.77rem;padding:.48rem .95rem" onclick="showModal()">Submit Early</button>
+      </div>
+    </div>
+
+    <div class="pbar-rail"><div class="pbar-fill" id="pbarFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="q-num-badge" id="qBadge">Q1</span>
+        <span class="q-yr-tag" id="qYr">2018</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status qs-none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-body" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-cl">
+          <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
+          <button class="btn btn-amber" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-cl">
+          <button class="btn btn-violet" id="btnNext" onclick="nav(1)">Next →</button>
+          <button class="btn btn-grn" id="btnSubmit" style="display:none" onclick="showModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotmap" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-shell">
+    <div class="res-hero">
+      <div class="res-title" id="resTitle">🎉 Quiz Complete!</div>
+      <div class="res-sub" id="resSub"></div>
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-num" id="ringNum">0</div>
+          <div class="ring-den" id="ringDen">/ 32</div>
+        </div>
+      </div>
+      <div class="grade-pill" id="gradePill">—</div>
+      <div class="pct-line" id="pctLine"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sc"><div class="sc-ic">✅</div><div class="sc-v" id="stC" style="color:var(--emerald)">0</div><div class="sc-l">Correct</div></div>
+      <div class="sc"><div class="sc-ic">❌</div><div class="sc-v" id="stW" style="color:#f43f5e">0</div><div class="sc-l">Wrong</div></div>
+      <div class="sc"><div class="sc-ic">⤭</div><div class="sc-v" id="stS" style="color:var(--amber)">0</div><div class="sc-l">Skipped</div></div>
+      <div class="sc"><div class="sc-ic">🎯</div><div class="sc-v" id="stAcc" style="color:var(--violet2)">0%</div><div class="sc-l">Accuracy</div></div>
+      <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v" id="stTime" style="color:var(--rose2)">—</div><div class="sc-l">Time Taken</div></div>
+      <div class="sc"><div class="sc-ic">📊</div><div class="sc-v" id="stAvg" style="color:var(--lime)">—</div><div class="sc-l">Avg / Q</div></div>
+    </div>
+
+    <div class="insights-panel">
+      <div class="panel-title">🧠 Deep Analysis &amp; Weak-Area Radar</div>
+      <div id="insightBody"></div>
+    </div>
+
+    <div class="tab-row">
+      <button class="tbtn on" onclick="setTab('all',this)">All (32)</button>
+      <button class="tbtn" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tbtn" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tbtn" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-ctas">
+      <button class="btn-rose" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-violet" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <span class="modal-emoji">🎭</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-grn" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L4=['A','B','C','D'];
+const TOTAL_TIME = 25 * 60;
+
+const Q = [
+  {
+    id:1, yr:"2018", topic:"Festivals & Traditions",
+    text:"Consider the following pairs:\n   Tradition                      →   State\n1. Chapchar Kut Festival   →   Mizoram\n2. Khongjom Parba ballad  →   Manipur\n3. Thang-Ta dance              →   Sikkim\n\nWhich of the pairs given above is/are correct?",
+    opts:["1 only","1 and 2","1, 2 and 3","2 and 3"],
+    ans:1,
+    exp:"Pair 1 — Chapchar Kut: CORRECT. It is Mizoram's most popular festival, celebrated in spring after completion of the difficult work of jungle-clearing for jhum cultivation. It features traditional Mizo dance (Cheraw/bamboo dance).\n\nPair 2 — Khongjom Parba: CORRECT. It is a ballad form from Manipur commemorating the Battle of Khongjom (1891) — the last stand of the Meitei warriors against the British. It is sung by traditional bards.\n\nPair 3 — Thang-Ta: WRONG. Thang-Ta is the traditional martial art/dance of MANIPUR, not Sikkim. 'Thang' means sword and 'Ta' means spear. It is a UNESCO-recognized art. Sikkim has traditions like Cham dance.\n\nAnswer: 1 and 2 only (Option B)."
+  },
+  {
+    id:2, yr:"2018", topic:"Miniature Painting",
+    text:"The well-known painting 'Bani Thani' belongs to which school of painting?",
+    opts:["Bundi School","Jaipur School","Kangra School","Kishangarh School"],
+    ans:3,
+    exp:"'Bani Thani' belongs to the KISHANGARH School of Rajput painting (Rajasthan). It was painted by artist Nihal Chand around 1750 CE under the patronage of Raja Sawant Singh of Kishangarh.\n\nBani Thani was a singer and poet in the court of Kishangarh and was the beloved of Raja Sawant Singh. She is depicted with characteristic stylized features: arched eyebrows, lotus-shaped eyes, a sharp pointed nose, and a long graceful neck — often compared to the Mona Lisa of India.\n\nThe painting epitomizes the Kishangarh school's hallmarks: highly stylized facial features, Krishna-Radha devotional themes, and lush natural backgrounds. Bani Thani was portrayed as Radha.\n\nThe painting was featured on an Indian postage stamp in 1973."
+  },
+  {
+    id:3, yr:"2018", topic:"Music & Composers",
+    text:"With reference to cultural history of India, consider the following statements:\n1. Most of the Tyagaraja Kritis are devotional songs in praise of Lord Krishna.\n2. Annamacharya and Tyagaraja are contemporaries.\n3. Annamacharya Kirtanas are devotional songs in praise of Lord Venkateswara.\n\nWhich of the statements given above are correct?",
+    opts:["1 and 3 only","3 only","Both 1 and 3","Neither 1 nor 3"],
+    ans:1,
+    exp:"Statement 1 — WRONG: Tyagaraja's kritis (compositions) are primarily devotional songs in praise of LORD RAMA, not Krishna. Tyagaraja (1767–1847) was a great Telugu-language saint-composer of Carnatic music, a devoted Rama bhakta. His famous compositions include 'Endaro Mahanubhavulu' and the Pancharatna Kritis.\n\nStatement 2 — WRONG: They were NOT contemporaries. Annamacharya (Annamayya) lived from 1408–1503 CE, while Tyagaraja lived from 1767–1847 CE — they were separated by about 300 years. Annamacharya is considered the pitamaha (grandfather) of Telugu music.\n\nStatement 3 — CORRECT: Annamacharya (Annamayya) composed about 32,000 sankeertanas (devotional songs) dedicated to LORD VENKATESWARA (Vishnu) of Tirumala. He is called the 'Pada Kavita Pitamaha' of Telugu literature.\n\nOnly Statement 3 is correct — Answer: B."
+  },
+  {
+    id:4, yr:"2018", topic:"Handicrafts & Textiles",
+    text:"Consider the following pairs:\n   Craft                        →   Heritage of\n1. Puthukkuli Shawls    →   Tamil Nadu\n2. Sujni Embroidery      →   Maharashtra\n3. Uppada Jamdani Saris → Karnataka\n\nWhich of the pairs given above is/are correct?",
+    opts:["1 only","1 and 2","3 only","2 and 3"],
+    ans:0,
+    exp:"Pair 1 — Puthukkuli Shawls: CORRECT. These are traditional woollen/cotton shawls from Tamil Nadu, particularly from Coimbatore district. They are given as gifts during auspicious occasions like marriages and temple festivals. They have a GI (Geographical Indication) tag.\n\nPair 2 — Sujni Embroidery: WRONG. Sujni is a traditional embroidery/quilting art from BIHAR (especially Muzaffarpur, Bhojpur, and Sitamarhi districts), NOT Maharashtra. It is characterized by chain-stitch embroidery on recycled old saris. It has been revived by NGOs and carries social messages.\n\nPair 3 — Uppada Jamdani Saris: WRONG. Uppada Jamdani Saris are from ANDHRA PRADESH (Uppada village, East Godavari district), NOT Karnataka. These silk saris are known for their lightweight texture and traditional Jamdani weave. They have a GI tag from Andhra Pradesh.\n\nOnly Pair 1 is correct — Answer: A."
+  },
+  {
+    id:5, yr:"2017", topic:"Classical Dance",
+    text:"With reference to Manipuri Sankirtana, consider the following statements:\n1. It is a song and dance performance.\n2. Cymbals are the only musical instruments used in the performance.\n3. It is performed to narrate the life and deeds of Lord Krishna.\n\nWhich of the statements given above is/are correct?",
+    opts:["1, 2 and 3","1 and 3 only","2 and 3 only","1 only"],
+    ans:1,
+    exp:"Manipuri Sankirtana is a UNESCO Intangible Cultural Heritage (inscribed 2013) from Manipur.\n\nStatement 1 — CORRECT: It is indeed a combination of song (kirtan/devotional singing) and dance. It involves male performers dancing and singing simultaneously.\n\nStatement 2 — WRONG: Cymbals are NOT the only instrument. The primary accompanying instruments are: Pung (barrel drum / Manipuri drum), which is the central instrument — drummers perform athletic acrobatic movements; Kartal (cymbals) are also used but cymbals alone is incorrect. Pung is central to Sankirtana.\n\nStatement 3 — CORRECT: Manipuri Sankirtana is performed to narrate the life, deeds, and love story of Lord Krishna and Radha. It has its roots in Vaishnavism introduced to Manipur in the 18th century by King Bhagyachandra.\n\nOnly statements 1 and 3 are correct — Answer: B."
+  },
+  {
+    id:6, yr:"2015", topic:"Painting Traditions",
+    text:"Kalamkari painting refers to:",
+    opts:[
+      "A hand-painted cotton textile in South India",
+      "A handmade drawing on bamboo handicrafts in North-East India",
+      "A block-painted woollen cloth in Western Himalayan region of India",
+      "A hand-painted decorative silk cloth in North-Western India"
+    ],
+    ans:0,
+    exp:"Kalamkari (from 'kalam' = pen, 'kari' = work) is a traditional HAND-PAINTED or block-printed COTTON TEXTILE art from South India — specifically from Andhra Pradesh.\n\nTwo styles exist:\n1. Srikalahasti Style (Andhra Pradesh): Purely hand-drawn using a bamboo pen dipped in fermented jaggery/iron water; depicts mythological narratives, temple art.\n2. Machilipatnam (Masulipatnam) Style (Andhra Pradesh): Uses wooden blocks for printing; influenced by Persian motifs due to Golconda Sultanate patronage.\n\nKey features: Natural dyes (indigo, turmeric, pomegranate rind), intricate floral/mythological designs, GI tag holder. Kalamkari sarees and wall hangings are internationally acclaimed. The Srikalahasti style has UNESCO recognition on intangible heritage lists.\n\nAnswer: A — hand-painted cotton textile in South India."
+  },
+  {
+    id:7, yr:"2014", topic:"Classical Dance",
+    text:"With reference to the famous Sattriya dance, consider the following statements:\n1. Sattriya is a combination of music, dance and drama.\n2. It is a centuries-old living tradition of Vaishnavites of Assam.\n3. It is based on classical Ragas and Talas of devotional songs composed by Tulsidas, Kabir and Mirabai.\n\nWhich of the statements given above is/are correct?",
+    opts:["1 only","1 and 2 only","2 and 3 only","1, 2 and 3"],
+    ans:1,
+    exp:"Sattriya is one of India's 8 classical dances, recognized by Sangeet Natak Akademi in 2000. It originates from Assam.\n\nStatement 1 — CORRECT: Sattriya is a complete theatrical art that integrates music (borgeet — devotional compositions), dance, and drama. It is a holistic performance art.\n\nStatement 2 — CORRECT: It is a living tradition of the Vaishnava satras (monasteries) of Assam, established by the great saint-reformer Srimanta Shankardev (15th–16th century) and his disciple Madhavdev. It has been practiced for over 500 years.\n\nStatement 3 — WRONG: Sattriya is based on the devotional songs (borgeets) composed by SHANKARDEV and MADHAVDEV — Assamese Vaishnava saints — NOT by Tulsidas, Kabir, or Mirabai, who belong to the North Indian Bhakti tradition (Hindi belt). Sattriya's music uses its own Assamese ragas and talas.\n\nOnly 1 and 2 are correct — Answer: B."
+  },
+  {
+    id:8, yr:"2014", topic:"Martial Arts",
+    text:"With reference to India's culture and tradition, what is 'Kalaripayattu'?",
+    opts:[
+      "It is an ancient Bhakti cult of Shaivism still prevalent in some parts of South India.",
+      "It is an ancient style bronze and brasswork still found in southern part of Coromandel area.",
+      "It is an ancient form of dance-drama and a living tradition in the northern part of Malabar.",
+      "It is an ancient martial art and a living tradition in some parts of South India."
+    ],
+    ans:3,
+    exp:"Kalaripayattu (also spelled Kalarippayattu) is an ancient MARTIAL ART originating from KERALA (South India). It is considered one of the oldest martial arts in the world, with references dating back to the 3rd century BCE.\n\n'Kalari' means training ground/gymnasium and 'payattu' means practice/exercise. Key features:\n• Combines physical training, weaponry, healing (marma therapy), and meditation.\n• Uses weapons like urumi (flexible sword), kattara, spear, shield, and staff.\n• Involves strikes to marma points (vital pressure points).\n• Two main styles: Northern style (Kerala, focusing on weapons from start) and Southern style (focus on empty-hand combat first).\n• Has influenced many Southeast Asian martial arts and classical dance forms including Bharatanatyam and Kathakali.\n• UNESCO has recognized it as an intangible cultural heritage.\n\nAnswer: D — ancient martial art."
+  },
+  {
+    id:9, yr:"2014", topic:"Classical Dance",
+    text:"Consider the following pairs:\n1. Garba          →   Gujarat\n2. Mohiniattam  →   Odisha\n3. Yakshagana   →   Karnataka\n\nWhich of the pairs given above is/are correctly matched?",
+    opts:["1 only","2 and 3 only","1 and 3 only","1, 2 and 3"],
+    ans:2,
+    exp:"Pair 1 — Garba & Gujarat: CORRECT. Garba is a folk dance and now classical dance tradition of Gujarat, performed during Navratri festival in honor of Goddess Durga/Amba. It is one of Gujarat's most iconic cultural traditions.\n\nPair 2 — Mohiniattam & Odisha: WRONG. Mohiniattam is a classical dance from KERALA, not Odisha. Its name comes from 'Mohini' (the female avatar of Vishnu). It is characterized by graceful, flowing feminine movements (lasya). The classical dance of Odisha is ODISSI.\n\nPair 3 — Yakshagana & Karnataka: CORRECT. Yakshagana is a traditional theatre form combining dance, music, dialogue, costume, and make-up from coastal Karnataka (especially Uttara Kannada, Udupi, Dakshina Kannada districts). It is performed overnight, depicting stories from Ramayana, Mahabharata and Puranas.\n\nPairs 1 and 3 are correct — Answer: C."
+  },
+  {
+    id:10, yr:"2014", topic:"Handicrafts & Textiles",
+    text:"Consider the following towns of India:\n1. Bhadrachalam\n2. Chanderi\n3. Kancheepuram\n4. Karnal\n\nWhich of the above are famous for the production of traditional sarees/fabric?",
+    opts:["1 and 2 only","2 and 3 only","1, 2 and 3 only","1, 3 and 4"],
+    ans:1,
+    exp:"Bhadrachalam (Telangana): Famous as a pilgrimage town (Lord Rama temple), NOT particularly known for sarees/fabric production — WRONG.\n\nChanderi (Madhya Pradesh): CORRECT — Famous for the exquisite Chanderi fabric (Chanderi sarees and dress material). Chanderi weaves blend silk and cotton, known for their sheer texture, lightweight feel, and traditional motifs like coins (ashrafi), floral patterns, and peacock designs. Has a GI tag.\n\nKancheepuram (Tamil Nadu): CORRECT — Famous for Kanjivaram (Kancheepuram) silk sarees, considered the 'queen of sarees'. Known for their heavy silk fabric, contrasting borders, and rich zari work using gold/silver threads. GI tag holder. Temple city of Tamil Nadu.\n\nKarnal (Haryana): Known for agriculture, cattle-breeding, dairy (National Dairy Research Institute), and leather goods — NOT famous for sarees/fabric — WRONG.\n\nOnly 2 (Chanderi) and 3 (Kancheepuram) are correct — Answer: B."
+  },
+  {
+    id:11, yr:"2013", topic:"Classical Dance",
+    text:"In the context of cultural history of India, a pose in dance and dramatics called 'Tribhanga' has been a favourite of Indian artists from ancient times till today. Which one of the following statements best describes this pose?",
+    opts:[
+      "One leg is bent and the body is slightly but oppositely curved at waist and neck",
+      "Facial expressions, hand gestures and make-up are combined to symbolize certain epic or historic characters",
+      "Movements of body, face and hands are used to express oneself or to tell a story",
+      "A little smile, slightly curved waist and certain hand gestures are emphasized to express feelings of love or eroticism"
+    ],
+    ans:0,
+    exp:"Tribhanga (Sanskrit: 'three bends' or 'triple bent form') is a standing posture used extensively in Indian classical dance, sculpture, and painting.\n\n'Tri' = three, 'Bhanga' = bend/break. The body is bent in THREE opposite directions:\n1. At the KNEE/FOOT (one leg bent, weight shifted)\n2. At the WAIST/HIP (body curves opposite to the leg)\n3. At the NECK/HEAD (head tilts in opposite direction to the waist)\n\nThis creates an S-shaped or serpentine curve (similar to contrapposto in Western sculpture). Famous examples:\n• Lord Krishna is almost always depicted in Tribhanga pose, especially with his flute.\n• Buddhist and Jain sculptures across India use this pose.\n• In Odissi dance, Tribhanga is the foundational standing posture.\n• The Nataraja image uses elements of Tribhanga.\n\nThe other options describe: B = Abhinaya/Navarasas; C = Angika abhinaya; D = Shringar rasa expression.\n\nAnswer: A."
+  },
+  {
+    id:12, yr:"2012", topic:"Hindustani Music",
+    text:"With reference to Dhrupad, one of the major traditions of India that has been kept alive for centuries, which of the following statements are correct?\n1. Dhrupad originated and developed in the Rajput Kingdom period.\n2. Dhrupad is primarily a devotional and spiritual music.\n3. Dhrupad Alap uses Sanskrit syllables from Mantras.\n\nSelect the correct answer using the codes below:",
+    opts:["1 and 2 only","2 and 3 only","1, 2 and 3","None is correct"],
+    ans:1,
+    exp:"Dhrupad is the oldest surviving form of Hindustani classical music, with roots going back to the Samaveda and ancient temple music.\n\nStatement 1 — WRONG: Dhrupad did NOT originate in the Rajput Kingdom period primarily. It evolved from the ancient 'Prabandha' form of music and reached its peak during the MUGHAL period, particularly under AKBAR's court where the legendary Tansen and Swami Haridas were the great Dhrupad masters. While Rajput courts also patronized it, its origin is attributed to temple music traditions and Narada's musical traditions.\n\nStatement 2 — CORRECT: Dhrupad is primarily a DEVOTIONAL and SPIRITUAL form of music. The word 'Dhrupad' comes from 'Dhruva' (fixed/firm) + 'Pada' (verse/word). It was originally sung in praise of God in temples and royal courts for spiritual elevation.\n\nStatement 3 — CORRECT: The Alap (the unmetered opening exploration) in Dhrupad uses SANSKRIT syllables called 'Nom-Tom' which are derived from Sanskrit Vedic mantras — Om, Ananta, Danta, etc. Unlike Khayal's alap which uses 'aa', Dhrupad alap distinctively uses these Sanskrit-derived syllables.\n\nStatements 2 and 3 are correct — Answer: B."
+  },
+  {
+    id:13, yr:"2012", topic:"Classical Dance",
+    text:"How do you distinguish between Kuchipudi and Bharatanatyam dances?\n1. Dancers occasionally speaking dialogues is found in Kuchipudi dance but not in Bharatanatyam.\n2. Dancing on the brass plate by keeping the feet on its edges is a feature of Bharatanatyam but Kuchipudi dance does not have such a form of movements.\n\nWhich of the statements given above is/are correct?",
+    opts:["Only 1","Only 2","Both 1 and 2","Neither 1 nor 2"],
+    ans:0,
+    exp:"Kuchipudi is a classical dance-drama from Andhra Pradesh, while Bharatanatyam is from Tamil Nadu. Both use the same technical grammar (Natya Shastra) but differ in style and tradition.\n\nStatement 1 — CORRECT: Speaking dialogues (saahityam) is a UNIQUE feature of KUCHIPUDI that does not exist in Bharatanatyam. Kuchipudi evolved from a dance-drama (Yakshagana-style) tradition where performers played characters and spoke dialogue. This theatrical element of spoken text is distinctive to Kuchipudi.\n\nStatement 2 — WRONG: Dancing on the RIM of a brass plate (tarangam) is a feature of KUCHIPUDI, NOT Bharatanatyam. In the Tarangam item of Kuchipudi, the dancer balances a pot of water on their head, stands on the rim of a brass plate, and dances — a spectacular display of skill. Bharatanatyam does NOT have this tradition.\n\nOnly statement 1 is correct — Answer: A."
+  },
+  {
+    id:14, yr:"2009", topic:"Hindustani Music",
+    text:"The brothers Umakant and Ramakant Gundecha are:",
+    opts:["Dhrupad vocalists","Kathak dancers","Sarod Maestros","Tabla players"],
+    ans:0,
+    exp:"Umakant Gundecha and Ramakant Gundecha are celebrated DHRUPAD vocalists from India. They are brothers and form one of the most acclaimed Dhrupad duos in Hindustani classical music.\n\nThey were trained under the legendary Dhrupad maestro Zia Fariduddin Dagar of the Dagar gharana — the most prominent Dhrupad tradition. They have been instrumental in popularizing Dhrupad both in India and internationally, teaching at Dhrupad Sansthan (Bhopal) which they co-founded.\n\nDhrupad is the oldest form of Hindustani classical music. Key figures in Dhrupad history: Tansen (Mughal era), the Dagar brothers (20th century revival), Gundecha brothers (contemporary era). Their rich bass voices and adherence to the ancient Dagar style have earned them global recognition.\n\nAnswer: A — Dhrupad vocalists."
+  },
+  {
+    id:15, yr:"2009", topic:"Modern Art",
+    text:"Consider the following famous names:\n1. Amrita Sher-Gil\n2. Bikash Bhattacharjee\n3. N. S. Bendre\n4. Subodh Gupta\n\nWho of the above is/are well-known as artist(s)?",
+    opts:["1 only","1 and 4 only","2, 3 and 4 only","1, 2, 3 and 4"],
+    ans:3,
+    exp:"ALL FOUR are renowned Indian visual artists:\n\n1. Amrita Sher-Gil (1913–1941): Pioneer of modern Indian art. Half-Hungarian, half-Indian. Trained in Paris (influenced by Post-Impressionism). Famous for her paintings depicting Indian village life, tribal women, and melancholic subjects. 'Group of Three Girls', 'Bride's Toilet'. Considered the 'Frida Kahlo of India'.\n\n2. Bikash Bhattacharjee (1940–2006): Prominent Bengal School painter known for his hyperrealistic, dream-like, often disturbing paintings of children, dolls, and urban alienation. Known for 'Doll Series' and 'Pujarini'.\n\n3. N. S. Bendre (Narayan Shridhar Bendre, 1910–1992): Celebrated Indian painter known for landscapes and figures. Associated with the Progressive Artists Group. Used Post-Impressionist and Expressionist styles. Padma Vibhushan recipient.\n\n4. Subodh Gupta (born 1964): Contemporary international artist famous for using everyday Indian objects (stainless steel thalis, dabbas, bicycles) in large-scale sculptural installations. Works internationally.\n\nAll four are artists — Answer: D."
+  },
+  {
+    id:16, yr:"2009", topic:"Cultural Institutions",
+    text:"Consider the following statements:\n1. The National School of Drama was set up by Sangeet Natak Akademi in 1959.\n2. The highest honour conferred by the Sahitya Akademi on a writer is by electing him its Fellow.\n\nWhich of the statements given above is/are correct?",
+    opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],
+    ans:2,
+    exp:"Statement 1 — CORRECT: The National School of Drama (NSD), New Delhi, was indeed established by the SANGEET NATAK AKADEMI in 1959. NSD became an autonomous institution under the Ministry of Culture in 1975. It is Asia's foremost theatre training institution.\n\nStatement 2 — CORRECT: The Sahitya Akademi Fellowship (Mahasadasya) IS the highest honour conferred by Sahitya Akademi. It is awarded to 'immortals of literature' — only eminent writers of extraordinary distinction. The Sahitya Akademi Award is the regular annual literary award, while Fellowship is the higher lifetime honour. Recipients include Rabindranath Tagore, S. Radhakrishnan, Amrita Pritam, etc. Not more than 21 living Fellows at any time.\n\nBoth statements are correct — Answer: C."
+  },
+  {
+    id:17, yr:"2009", topic:"Cultural Personalities",
+    text:"Match List-I (Famous Person) with List-II (Well-known for):\n\nA. Mandakini Amte        1. Theatre direction\nB. Neelam Mansingh Chowdhry  2. Social Service\nC. Romila Thapar            3. Dance\nD. Vanashree Rao            4. History writing\n\nA – B – C – D",
+    opts:["2 – 1 – 4 – 3","2 – 4 – 1 – 3","3 – 1 – 4 – 2","3 – 4 – 1 – 2"],
+    ans:0,
+    exp:"A. Mandakini Amte: Daughter-in-law of the legendary Baba Amte. Known for SOCIAL SERVICE — worked at Anandwan (Warora, Maharashtra), a community founded by Baba Amte for rehabilitation of leprosy patients. A = 2.\n\nB. Neelam Mansingh Chowdhry: Renowned THEATRE DIRECTOR from Chandigarh (Punjab). Known for her innovative productions drawing from Punjabi folk traditions and contemporary themes. Sangeet Natak Akademi Award winner. B = 1.\n\nC. Romila Thapar: India's most eminent historian — professor emerita at JNU. Known for her works on ancient Indian HISTORY: 'A History of India', 'Asoka and the Decline of the Mauryas', 'Early India'. C = 4.\n\nD. Vanashree Rao: Celebrated Bharatanatyam dancer and choreographer. Known for DANCE. D = 3.\n\nA-2, B-1, C-4, D-3 — Answer: A."
+  },
+  {
+    id:18, yr:"2009", topic:"Festivals & Traditions",
+    text:"Consider the following pairs:\n   Tradition                              →   State\n1. Gatka, a traditional martial art  →   Kerala\n2. Madhubani, a traditional painting →   Bihar\n3. Singhey Khababs Sindhu Darshan Festival → Jammu & Kashmir\n\nWhich of the pairs given above are correctly matched?",
+    opts:["1 and 2 only","3 only","2 and 3 only","1, 2 and 3"],
+    ans:2,
+    exp:"Pair 1 — Gatka & Kerala: WRONG. Gatka is the traditional SIKH martial art form of PUNJAB, not Kerala. It originated as a system of combat using wooden sticks (gatka sticks) and is performed during Sikh festivals especially Hola Mohalla. Punjab's Sikh warriors historically used Gatka in battle. Kerala's martial art is Kalaripayattu.\n\nPair 2 — Madhubani & Bihar: CORRECT. Madhubani (Mithila) painting is a folk art tradition from the Mithila region of BIHAR (and Nepal border areas like Madhubani district). It uses natural pigments to create vivid geometrical patterns, floral motifs, and scenes from Hindu mythology. GI tagged, UNESCO recognized.\n\nPair 3 — Singhey Khababs Sindhu Darshan Festival & J&K: CORRECT. Singhey Khababs is a traditional food festival and Sindhu Darshan festival is held at Leh (Ladakh/J&K) on the banks of the Sindhu (Indus) river, celebrating the river's cultural significance and India's composite culture.\n\nPairs 2 and 3 are correct — Answer: C."
+  },
+  {
+    id:19, yr:"2009", topic:"Cultural Personalities",
+    text:"Match List-I (Famous Person) with List-II (Well-known as):\n\nA. Amrita Sher-Gil       1. Dancer\nB. Bhimsen Joshi        2. Painter\nC. Rukmini Devi Arundale  3. Poet\nD. Suryakant Tripathi Nirala  4. Singer\n\nA – B – C – D",
+    opts:["2 – 1 – 4 – 3","2 – 4 – 1 – 3","3 – 1 – 4 – 2","3 – 4 – 1 – 2"],
+    ans:1,
+    exp:"A. Amrita Sher-Gil (1913–1941): Pioneer modern Indian PAINTER. Half-Indian, half-Hungarian. Trained in Paris. Considered one of India's greatest modern artists. 'Group of Three Girls', 'Bride's Toilet'. A = 2.\n\nB. Pandit Bhimsen Joshi (1922–2011): Legendary Hindustani classical SINGER (vocalist). Exponent of Kirana gharana. Known for ragas like Bhairavi, Miyan ki Malhar, and bhajans. Bharat Ratna awardee (2008). B = 4.\n\nC. Rukmini Devi Arundale (1904–1986): Legendary DANCER who revived and systemized BHARATANATYAM. Founder of Kalakshetra Foundation (Chennai, 1936) — a premier institution for classical dance and music. Padma Bhushan recipient. She is credited with bringing Bharatanatyam from temple precincts to the concert stage. C = 1.\n\nD. Suryakant Tripathi 'Nirala' (1896–1961): Major Hindi POET of the Chhayavadi movement. One of the four pillars of Hindi poetry (with Prasad, Pant, Mahadevi Verma). Known for revolutionary poems, free verse, and social consciousness. D = 3.\n\nA-2, B-4, C-1, D-3 — Answer: B."
+  },
+  {
+    id:20, yr:"2008", topic:"Classical Dance",
+    text:"Bimbavati Devi is a well-known dancer of which type of dance?",
+    opts:["Manipuri","Bharatanatyam","Kuchipudi","Odissi"],
+    ans:0,
+    exp:"Bimbavati Devi is a renowned MANIPURI classical dancer. She is the granddaughter of the legendary Guru Bipin Singh who was instrumental in reviving and systematizing Manipuri classical dance. She is considered one of the finest practitioners of Manipuri dance in the contemporary era.\n\nManipur classical dance characteristics:\n• Originated in Manipur (Northeast India)\n• Based on Vaishnava traditions — themes of Radha-Krishna\n• Ras Lila is the central dance form\n• Characterized by rounded, fluid, gentle movements (no sharp angles unlike Bharatanatyam)\n• Costume: barrel-shaped skirt (potloi), veil, and traditional jewelry\n• UNESCO Intangible Cultural Heritage (Manipuri Sankirtana)\n• Major forms: Ras Lila, Sankirtana, Nata Sankirtana\n\nOther noted Manipuri dancers: Guru Bipin Singh, Jhaveri Sisters, Darshana Jhaveri.\n\nAnswer: A — Manipuri."
+  },
+  {
+    id:21, yr:"2007", topic:"Cultural Personalities",
+    text:"Match List-I (Person) with List-II (Known as):\n\nA. Bhajan Sopori           1. Bharatanatyam dancer\nB. Birju Maharaj           2. Exponent of Santoor\nC. Priyadarsini Govind    3. Mridangam maestro\nD. T. V. Gopalakrishnan  4. Kathak dancer\n\nA – B – C – D",
+    opts:["2 – 1 – 4 – 3","3 – 1 – 4 – 2","2 – 4 – 1 – 3","3 – 4 – 1 – 2"],
+    ans:2,
+    exp:"A. Bhajan Sopori (1948–2022): Legendary SANTOOR maestro from Kashmir. Considered the greatest living exponent of the Sufiana style of Santoor (Kashmir). Padma Shri and Padma Bhushan recipient. A = 2.\n\nB. Pandit Birju Maharaj (1938–2022): Doyen of KATHAK dance — perhaps the most celebrated Kathak dancer/guru of the 20th century. Representative of the Lucknow Kalka-Bindadin gharana. Padma Vibhushan. National Film Award for choreography. B = 4.\n\nC. Priyadarsini Govind: Renowned BHARATANATYAM dancer from Chennai. Trained under legendary gurus. Sangeet Natak Akademi Award winner. She has worked to document and revive rare Bharatanatyam repertoire. C = 1.\n\nD. T. V. Gopalakrishnan (T.V.G.): Master MRIDANGAM player — one of the foremost mridangam vidwans of Carnatic music. Padma Bhushan recipient. Also known as a vocalist. D = 3.\n\nA-2, B-4, C-1, D-3 — Answer: C."
+  },
+  {
+    id:22, yr:"2006", topic:"Handicrafts & Textiles",
+    text:"Match the Centres of Handicrafts (List-I) with their States (List-II):\n\nA. Mon       1. Arunachal Pradesh\nB. Nalbari   2. Assam\nC. Pasighat  3. Meghalaya\nD. Tura       4. Nagaland\n\nA – B – C – D",
+    opts:["4 – 2 – 1 – 3","4 – 3 – 2 – 1","1 – 3 – 4 – 2","1 – 2 – 4 – 3"],
+    ans:0,
+    exp:"A. Mon: A district in NAGALAND — known as the land of Konyak Nagas (headhunters). Famous for traditional Naga handicrafts including bamboo work, wood carvings, and warrior artifacts. A = 4.\n\nB. Nalbari: A district in ASSAM. Known for Assamese traditional weaving (mekhela chador), gamosa, and traditional crafts. Assam is famous for Muga silk, Eri silk, and Pat silk weaving. B = 2.\n\nC. Pasighat: Headquarters of East Siang district in ARUNACHAL PRADESH. Known for traditional Adi tribal crafts, bamboo and cane work, woven textiles, and beadwork. C = 1.\n\nD. Tura: Headquarters of West Garo Hills district in MEGHALAYA. Known for Garo tribal traditional crafts, woven fabrics, bamboo and cane work. D = 3.\n\nA-4, B-2, C-1, D-3 — Answer: A."
+  },
+  {
+    id:23, yr:"2006", topic:"Hindustani Music",
+    text:"Who among the following is a Hindustani classical singer?",
+    opts:["Geeta Chandran","Leela Samson","Gangubai Hangal","Swapnasundari"],
+    ans:2,
+    exp:"Gangubai Hangal (1913–2009): One of the greatest HINDUSTANI CLASSICAL VOCALISTS of the 20th century. She was an exponent of the Kirana Gharana (same as Pandit Bhimsen Joshi's gharana). Known for her deep, powerful voice, she dominated the North Karnataka-Hubli music scene. Bharat Ratna (2009), Padma Vibhushan, Sangeet Natak Akademi award recipient. A Kannada-speaking artist who sang in Hindi/Urdu-inflected classical tradition.\n\nThe others are classical DANCERS:\n• Geeta Chandran: Bharatanatyam dancer (Delhi-based, trained under Kalakshetra tradition).\n• Leela Samson: Bharatanatyam dancer, former chairperson of CBFC and Sangeet Natak Akademi. Trained at Kalakshetra under Rukmini Devi Arundale.\n• Swapnasundari: Exponent of Veenapani — a reconstructed classical dance form from Andhra. Also a scholar of classical Indian dance.\n\nAnswer: C — Gangubai Hangal (Hindustani singer)."
+  },
+  {
+    id:24, yr:"2006", topic:"Cultural Awards",
+    text:"Who among the following was presented with the Sangeet Natak Akademi Ratna Award, 2005 for lifetime achievement in dance?",
+    opts:["Chandralekha","Tanjavur Balasaraswati","Uma Sharma","Yamini Krishnamurthy"],
+    ans:0,
+    exp:"Chandralekha (1928–2006) was awarded the Sangeet Natak Akademi Fellowship (Akademi Ratna), the highest honour, for 2005 for her lifetime contribution to dance.\n\nChandralekha was a revolutionary choreographer and dancer from Chennai who broke conventional Bharatanatyam molds. She combined Bharatanatyam with yoga, Kalaripayattu, and martial arts to create groundbreaking contemporary Indian dance. Her works 'Angika', 'Lilavati', 'Prana', and 'Sharira' are celebrated globally. She saw the body as a primary medium of expression.\n\nThe others:\n• T. Balasaraswati: Legendary Devadasi tradition Bharatanatyam dancer who received many awards but she passed away in 1984.\n• Uma Sharma: Kathak dancer, disciple of Lachhu Maharaj.\n• Yamini Krishnamurthy: Doyen of Bharatanatyam and Kuchipudi, Padma Vibhushan.\n\nAnswer: A — Chandralekha."
+  },
+  {
+    id:25, yr:"2004", topic:"Hindustani Music",
+    text:"Who among the following is well known as an exponent of flute?",
+    opts:["Debu Choudhuri","Madhup Mudgal","Ronu Mazumdar","Shafaat Ahmad"],
+    ans:2,
+    exp:"Ronu Mazumdar is one of India's foremost FLUTE players (bansuri). He plays the North Indian bamboo flute (bansuri) and is known for his mastery across classical, folk, and fusion styles. He has collaborated with musicians worldwide and contributed to film music. He received the Sangeet Natak Akademi Award.\n\nThe other musicians:\n• Debu Choudhuri: Distinguished SITAR player and musicologist. Former principal of Delhi College of Music. Sangeet Natak Akademi and Padma Bhushan awardee.\n• Madhup Mudgal: Prominent VOCALIST of Hindustani classical music. Exponent of the Gwalior gharana tradition. Known for bhajans and classical compositions.\n• Shafaat Ahmad: Renowned TABLA player. Known for his work in Hindustani classical music and has collaborated with many great musicians.\n\nAnswer: C — Ronu Mazumdar (flute)."
+  },
+  {
+    id:26, yr:"2000", topic:"Hindustani Music",
+    text:"The Raga which is sung early in the morning is:",
+    opts:["Todi","Darbari","Bhopali","Bhimpalasi"],
+    ans:0,
+    exp:"In Hindustani classical music, every raga has a prescribed time of day (vela/prahar) when it sounds most beautiful and is traditionally performed. This is based on ancient theories of sound resonance with natural time cycles.\n\nRAGA TODI (or Miyan ki Todi): This is a MORNING raga, performed during the second prahar of morning (roughly 6–9 AM). It evokes a serious, meditative, and slightly melancholic mood. It belongs to the Todi thaat.\n\nRaga Darbari Kanada: Late NIGHT raga (Kaafi thaat), performed between midnight and 3 AM. Created by Tansen.\n\nRaga Bhopali (Bhoopali): EVENING raga (Kalyan thaat), performed at sunset. Pentatonic, peaceful, auspicious mood.\n\nRaga Bhimpalasi: AFTERNOON raga, performed between 3–6 PM (fourth prahar). Melancholic, passionate mood.\n\nRemember: MORNING ragas — Bhairav, Todi, Lalit, Ahir Bhairav; NIGHT ragas — Yaman, Darbari; EVENING — Bhopali, Yaman.\n\nAnswer: A — Todi (early morning)."
+  },
+  {
+    id:27, yr:"2000", topic:"Theatre & Drama",
+    text:"Consider the following statements regarding the Chakiarkoothu form of dance:\nI.   It is performed by the Chakiar caste.\nII.  It cannot be traditionally witnessed by the higher caste Hindus.\nIII. Mizhavu is the accompanying instrument.\nIV. Its theatre form is called Koothambalam.\n\nWhich of these statements are correct?",
+    opts:["I, III and IV","I, II and III","II, III and IV","I, II and IV"],
+    ans:0,
+    exp:"Chakiarkoothu is a solo theatrical performance art from KERALA, performed in temples.\n\nStatement I — CORRECT: It IS traditionally performed by the CHAKIAR community (a Kerala temple caste). The art is hereditary and passed down within this community.\n\nStatement II — WRONG: Traditionally, Chakiarkoothu could be witnessed by ONLY the higher caste Hindus INSIDE the Koothambalam (temple theatre). It was FORBIDDEN for lower castes and non-Hindus, not the other way around. The performer could mock and satirize even royalty — the audience could not respond.\n\nStatement III — CORRECT: The MIZHAVU (a large copper pot drum covered with skin) is the primary percussion instrument accompanying Chakiarkoothu. The Nambiar caste plays Mizhavu.\n\nStatement IV — CORRECT: The theatre (playhouse) attached to temples where Chakiarkoothu is performed is called KOOTHAMBALAM. These are special architectural structures within temple complexes designed acoustically for this art.\n\nStatements I, III and IV are correct — Answer: A."
+  },
+  {
+    id:28, yr:"1999", topic:"Modern Art",
+    text:"The paintings of Abanindranath Tagore are classified as:",
+    opts:["Realistic","Socialistic","Revivalistic","Impressionistic"],
+    ans:2,
+    exp:"Abanindranath Tagore (1871–1951), nephew of Rabindranath Tagore, is the founding father of the REVIVALISTIC (Bengal School of Art) movement in Indian painting.\n\nHis work is classified as REVIVALISTIC because:\n• He consciously rejected Western Realism (promoted by colonial British art schools) and worked to REVIVE traditional Indian aesthetics.\n• He drew inspiration from Ajanta cave paintings, Mughal miniatures, Japanese wash technique (Nihonga), and Rajput painting.\n• He founded the Bengal School of Art, also called the Indian Society of Oriental Art.\n• His famous works: 'Bharat Mata' (1905 — depicting Mother India), 'Arabian Nights' series, 'Abanindranath's Krishna Lila'.\n• 'Bharat Mata' showed India as a four-armed goddess — the iconic nationalist symbol.\n• His style used soft washes, muted tones, and spiritual symbolism — a deliberate departure from European realism.\n\nOther Bengal School artists: Nandalal Bose, Jamini Roy (later diverged), Gaganendranath Tagore.\n\nAnswer: C — Revivalistic."
+  },
+  {
+    id:29, yr:"1999", topic:"Festivals & Traditions",
+    text:"Which one of the following pairs of folk-dance forms and states is NOT correctly matched?",
+    opts:["Korku: Maharashtra","Jhummar: Haryana","Thali: Himachal Pradesh","Mukna: Manipur"],
+    ans:0,
+    exp:"The question asks which pair is INCORRECTLY matched:\n\nOption A — Korku & Maharashtra: The Korku are a tribal community living in Madhya Pradesh and Maharashtra. While the Korku tribe exists in both states, their dance/art forms are more associated with MADHYA PRADESH (Betul, Hoshangabad). However, this option is marked as the incorrectly matched one in the official answer key.\n\nJhummar & Haryana: CORRECT — Jhummar (also spelled Jhumar) is a folk dance from Punjab and Haryana, performed during harvest celebrations. Correct match.\n\nThali & Himachal Pradesh: CORRECT — Thali/Thaali is a folk dance from Himachal Pradesh.\n\nMukna & Manipur: CORRECT — Mukna is the traditional wrestling sport/martial tradition of Manipur, associated with Meitei culture. Also has dance elements in performances.\n\nAnswer: A — Korku being mapped specifically to Maharashtra is the mismatched pair."
+  },
+  {
+    id:30, yr:"1997", topic:"Classical Dance",
+    text:"Which one of the following dances involves solo performance?",
+    opts:["Bharatanatyam","Kuchipudi","Mohiniattam","Odissi"],
+    ans:2,
+    exp:"MOHINIATTAM is traditionally a SOLO dance performance by a single female dancer.\n\nThe word Mohiniattam comes from 'Mohini' (the enchantress — Vishnu's female avatar who lured the asuras) + 'Attam' (dance). It is a classical dance from KERALA.\n\nCharacteristics: Performed exclusively by women; graceful, swaying, gentle movements (lasya quality); white and gold costume (settu mundu); themes of love and devotion to Vishnu/Krishna; uses Sopana Sangeetham (Kerala's temple music).\n\nThe other dances:\n• Bharatanatyam: Can be performed solo OR in groups. Originally a solo temple dance but now common in group productions.\n• Kuchipudi: Originally a group dance-drama (performed by all-male troupes in villages), though solo recitals are now common.\n• Odissi: Can be solo or group. The sabha nritya tradition involves solo recitals.\n\nMohiniattam is definitively categorized as a solo female dance — Answer: C."
+  },
+  {
+    id:31, yr:"1996", topic:"Theatre & Drama",
+    text:"Which one of the following pairs is correctly matched?",
+    opts:["Naqqual – Bihar","Tamasha – Odisha","Ankia Nat – Assam","Baha – Punjab"],
+    ans:2,
+    exp:"Option A — Naqqual & Bihar: WRONG. Naqqual (Nautanki-style folk drama) is associated with UTTAR PRADESH, not Bihar.\n\nOption B — Tamasha & Odisha: WRONG. Tamasha is the traditional folk theatre of MAHARASHTRA — a blend of music, comedy, and dance with social/political commentary. Odisha's folk theatre is Jatra.\n\nOption C — Ankia Nat & Assam: CORRECT. Ankia Nat is the one-act religious play form created by the saint-reformer Srimanta SHANKARDEV (15th–16th century) for Assam. These plays depict scenes from the life of Lord Vishnu/Krishna and are performed in satras (Vaishnava monasteries). Ankia Nat is the predecessor of Sattriya dance-drama. This is CORRECTLY matched.\n\nOption D — Baha & Punjab: WRONG. Baha is the spring/harvest festival of the SANTHAL tribal community in Jharkhand, Bengal, and Odisha — not Punjab. Punjab has festivals like Lohri, Baisakhi.\n\nAnswer: C — Ankia Nat & Assam."
+  },
+  {
+    id:32, yr:"1995", topic:"Miniature Painting",
+    text:"The Mughal School of Painting formed the spinal column of the various schools of Indian miniature art. Which one of the following painting styles was NOT affected by Mughal painting?",
+    opts:["Pahari","Rajasthani","Kangra","Kalighat"],
+    ans:3,
+    exp:"The KALIGHAT painting style was NOT significantly affected by Mughal painting.\n\nKalighat painting emerged in 19th century KOLKATA (Calcutta) near the Kalighat Kali temple. It was created by local patuas (scroll painters called 'pata chitra' artists) who migrated to Calcutta and adapted their folk art to meet urban demand. Key features:\n• Simple, bold outlines with flat washes of color\n• Themes: Hindu deities (especially Kali, Krishna), social satire, babu culture\n• Influenced by European lithography and printing techniques — NOT by the Mughal court style\n• Has a distinct folk/urban aesthetic totally separate from Mughal refinement\n\nThe schools influenced by Mughal painting:\n• Pahari (Himachal hills): Heavily influenced by late Mughal style before developing its own identity.\n• Rajasthani: Various Rajput courts absorbed Mughal elements after Akbar's contact with Rajput kingdoms.\n• Kangra: Emerged partly from Mughal influence, later developed its own lyrical romantic style.\n\nAnswer: D — Kalighat (purely folk/urban, not influenced by Mughal aesthetic)."
+  }
+];
+
+let S={cur:0,ans:new Array(Q.length).fill(null),skp:new Array(Q.length).fill(false),startTime:null,tLeft:TOTAL_TIME,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('cultureiq_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('📂 Resume your previous session?')){
+        S={...S,...d,tInt:null};
+      }else{localStorage.removeItem('cultureiq_v1');S.startTime=Date.now();}
+    }catch(e){localStorage.removeItem('cultureiq_v1');S.startTime=Date.now();}
+  }else{S.startTime=Date.now();}
+  show('quiz-screen');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updateTimerUI();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updateTimerUI();
+    if(S.tLeft%15===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimerUI(){
+  const m=Math.floor(S.tLeft/60),sec=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(sec)}`;
+  el.className=S.tLeft<=180?'timer-box danger':'timer-box';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pbarFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStatus');
+  if(S.skp[i])             {sp.textContent='⤭ Skipped';   sp.className='q-status qs-skp';}
+  else if(S.ans[i]!==null) {sp.textContent='✅ Answered';  sp.className='q-status qs-ans';}
+  else                      {sp.textContent='○ Unanswered'; sp.className='q-status qs-none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' picked':'');
+    b.innerHTML=`<span class="opt-ltr">${L4[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSubmit').style.display=last?'inline-block':'none';
+  updateDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)nav(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='qdot';d.textContent=i+1;d.id=`qd${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`qd${i}`);if(!d)return;
+    d.className='qdot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showModal(){
+  const answered=S.ans.filter(a=>a!==null).length;
+  const skipped=S.skp.filter(Boolean).length;
+  const una=Q.length-answered-skipped;
+  document.getElementById('modalTxt').textContent=
+    `📊 Answered: ${answered}  |  Skipped: ${skipped}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modalOverlay').classList.add('on');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('on');}
+
+function submitQuiz(){
+  closeModal();clearInterval(S.tInt);S.done=true;
+  const usedSec=TOTAL_TIME-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)skipped++;
+    else if(S.ans[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgT=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Outstanding';gc='#10b981';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#8b5cf6';}
+  else if(pct>=60){grade='🥈 Good';gc='#38bdf8';}
+  else if(pct>=45){grade='🥉 Average';gc='#f59e0b';}
+  else{grade='📚 Keep Revising';gc='#f43f5e';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=gc;
+  arc.style.strokeDashoffset=314.16*(1-pct/100);
+  document.getElementById('ringNum').textContent=correct;
+  document.getElementById('ringDen').textContent='/ '+Q.length;
+
+  const gp=document.getElementById('gradePill');
+  gp.textContent=grade;gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctLine').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🎭 Brilliant Performance!';document.getElementById('resSub').textContent='Exceptional command over India\'s classical arts and cultural heritage!';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Attempt!';document.getElementById('resSub').textContent='Review weak areas below — art & culture needs mnemonics and visual memory.';}
+  else{document.getElementById('resTitle').textContent='📚 More Revision Needed';document.getElementById('resSub').textContent='Focus on dance forms, painting schools, and music traditions systematically.';}
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(usedSec);
+  document.getElementById('stAvg').textContent=avgT+'s';
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('cultureiq_v1');
+  show('results-screen');
+}
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topicErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topicErr[q.topic]=(topicErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('🌟 Outstanding mastery! You have encyclopedic knowledge of India\'s art, music, and culture — true UPSC-level command.');
+  else if(pct>=75)lines.push('💪 Strong result! Art & Culture is one of the highest-scoring UPSC sections. A few more revisions will make you unbeatable here.');
+  else if(pct>=50)lines.push('📈 Decent base. Art & Culture is vast — structure your revision by domain (dance → music → painting → theatre) for best retention.');
+  else lines.push('📖 Start with NCERT Fine Arts books, Nitin Singhania\'s "Indian Art & Culture", and make flashcards for quick recall of key associations.');
+
+  if(attempted>0&&acc<55&&attempted>8)
+    lines.push(`🎯 Accuracy: ${acc}% — art & culture questions often have deceptive wrong options. Always eliminate options with obvious factual errors first.`);
+  if(skipped>6)
+    lines.push(`⤭ ${skipped} skipped. For UPSC, even partial knowledge helps — use elimination. Most culture questions have 1–2 clearly wrong options.`);
+
+  // Topic-specific advice
+  if(topicErr['Classical Dance']||topicErr['Classical Dance']>0)
+    lines.push('💃 Classical Dances: Memorize the 8 Sangeet Natak Akademi classical dances — Bharatanatyam (TN), Kuchipudi (AP), Odissi (Odisha), Manipuri (Manipur), Kathak (UP/Rajasthan), Mohiniyattam (Kerala), Kathakali (Kerala), Sattriya (Assam). Key trick: SOLO = Mohiniattam. Brass plate dance = Kuchipudi (Tarangam). Dialogues in dance = Kuchipudi.');
+  if(topicErr['Hindustani Music'])
+    lines.push('🎵 Hindustani Music: Raga-time associations — Morning: Bhairav, Todi, Lalit; Afternoon: Bhimpalasi; Evening: Yaman, Bhopali; Night: Darbari, Malkauns. Gharanas: Kirana (Gangubai Hangal, Bhimsen Joshi), Gwalior, Agra, Jaipur. Dhrupad = oldest form, devotional, uses Sanskrit syllables in Alap.');
+  if(topicErr['Miniature Painting'])
+    lines.push('🎨 Painting Schools — Kishangarh: Bani Thani (stylized eyes, elongated features); Bundi/Kota: hunting scenes, animal paintings; Kangra: lyrical, romantic, Pahari hills; Mughal: naturalistic, Persian influence; Rajasthani: vibrant, bold. Kalighat = 19th century Kolkata folk art, NOT influenced by Mughal. Abanindranath Tagore = REVIVALIST (Bengal School).');
+  if(topicErr['Festivals & Traditions'])
+    lines.push('🌺 Traditions: Thang-Ta = Manipur martial art (NOT Sikkim). Gatka = Punjab Sikh martial art (NOT Kerala). Madhubani = Bihar. Chapchar Kut = Mizoram spring festival. Khongjom Parba = Manipur ballad. Ankia Nat = Assam (Shankardev).');
+  if(topicErr['Handicrafts & Textiles'])
+    lines.push('🏺 Textiles: Chanderi = MP (silk-cotton blend); Kanjivaram/Kancheepuram = Tamil Nadu (heavy silk, gold zari); Uppada Jamdani = Andhra Pradesh (NOT Karnataka); Sujni embroidery = Bihar (NOT Maharashtra); Kalamkari = Andhra Pradesh (Srikalahasti + Machilipatnam styles).');
+  if(topicErr['Theatre & Drama'])
+    lines.push('🎭 Theatre: Ankia Nat = Assam one-act play (Shankardev). Tamasha = Maharashtra folk theatre. Nautanki/Naqqal = UP. Chakiarkoothu = Kerala temple art by Chakiar caste; Mizhavu = accompanying drum; Koothambalam = temple theatre; witnessed by UPPER castes (not lower).');
+  if(topicErr['Cultural Personalities'])
+    lines.push('👤 Key personalities: Birju Maharaj = Kathak; Bhajan Sopori = Santoor; Ronu Mazumdar = Flute; Gundecha Brothers = Dhrupad; Rukmini Devi Arundale = Bharatanatyam + Kalakshetra; Gangubai Hangal = Hindustani vocalist; Chandralekha = contemporary dance (Bharatanatyam+Kalaripayattu). Romila Thapar = historian.');
+  if(topicErr['Cultural Institutions'])
+    lines.push('🏛️ Institutions: NSD (National School of Drama) = set up by Sangeet Natak Akademi in 1959; became autonomous in 1975. Sahitya Akademi highest honour = Fellowship (Akademi Ratna). Sangeet Natak Akademi = set up 1952. Lalit Kala Akademi = visual arts. CCRT = cultural resource training.');
+  if(topicErr['Modern Art'])
+    lines.push('🖼️ Modern Art: Bengal School = Revivalist (Abanindranath Tagore, Nandalal Bose, inspired by Ajanta+Mughal+Japanese wash). Amrita Sher-Gil = Post-Impressionist modern art. Bikash Bhattacharjee = hyperrealist (doll series). Subodh Gupta = contemporary installation art (steel utensils).');
+  if(topicErr['Martial Arts'])
+    lines.push('🥋 Martial Arts: Kalaripayattu = Kerala (oldest, involves weapons + marma points + healing). Thang-Ta = Manipur (sword + spear). Gatka = Punjab/Sikh tradition. Silambam = Tamil Nadu (staff fighting). Mardani Khel = Maharashtra. Mukna = Manipur wrestling.');
+
+  ranked.slice(0,4).forEach(([t,c])=>{
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong. Targeted revision of this domain will boost your score significantly.`);
+  });
+
+  const ib=document.getElementById('insightBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line"><span>${l}</span></div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-chips">${ranked.map(([t])=>`<span class="wc">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(f);
+}
+
+function renderReview(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWrong)return;
+    if(f==='skipped'&&!isSkp)return;
+    const rc=isOk?'rc':isWrong?'rw':'rs';
+    const lbl=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L4[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L4[q.ans]}) ${q.opts[q.ans]}`;
+    const expSafe=q.exp.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-num">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rv-row"><span class="rv-lbl">Your Answer:</span><span class="rv-val ${isSkp?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct Answer:</span><span class="rv-val good">${caTxt}</span></div>
+      <div class="rv-exp"><strong>📖 Explanation:</strong> ${expSafe.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  try{
+    localStorage.setItem('cultureiq_v1',JSON.stringify({
+      cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+    }));
+  }catch(e){}
+}
+
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);
+  localStorage.removeItem('cultureiq_v1');
+  S={cur:0,ans:new Array(Q.length).fill(null),skp:new Array(Q.length).fill(false),startTime:null,tLeft:TOTAL_TIME,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>
