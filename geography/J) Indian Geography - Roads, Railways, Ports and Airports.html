@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransportIQ – India Transport & Connectivity UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#060d18;--ink2:#0a1628;--ink3:#0d1e38;
+  --g1:rgba(255,255,255,.045);--gb:rgba(255,255,255,.09);
+  --road:#f59e0b;--road2:#fbbf24;--road3:#fde68a;
+  --teal:#06b6d4;--teal2:#22d3ee;
+  --emerald:#10b981;--rose:#f43f5e;--amber:#fbbf24;
+  --lime:#a3e635;--violet:#8b5cf6;
+  --txt:#e2e8f0;--txt2:#7c8494;--txt3:#a0aec0;
+  --r:16px;--r2:22px;--r3:30px;
+  --shadow:0 8px 32px rgba(0,0,0,.5);
+  --glow:0 0 40px rgba(245,158,11,.25);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--ink);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 5% 20%,rgba(245,158,11,.10),transparent),
+    radial-gradient(ellipse 60% 50% at 95% 60%,rgba(6,182,212,.08),transparent),
+    radial-gradient(ellipse 50% 70% at 50% 100%,rgba(251,191,36,.06),transparent);
+  pointer-events:none
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;
+  animation:gridDrift 30s linear infinite;
+}
+@keyframes gridDrift{0%{background-position:0 0}100%{background-position:60px 60px}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ════ START SCREEN ════ */
+#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;gap:0}
+
+.brand-icon{
+  width:110px;height:110px;border-radius:50%;
+  background:conic-gradient(from 180deg,var(--road),var(--amber),#b45309,var(--road2),var(--road));
+  display:flex;align-items:center;justify-content:center;font-size:3rem;
+  margin:0 auto 1.8rem;
+  box-shadow:var(--glow),0 0 80px rgba(245,158,11,.15);
+  animation:ripple 4s ease-in-out infinite;
+  position:relative;
+}
+.brand-icon::before{
+  content:'';position:absolute;inset:-10px;border-radius:50%;
+  border:1.5px solid rgba(245,158,11,.25);
+  animation:expandRing 4s ease-in-out infinite;
+}
+.brand-icon::after{
+  content:'';position:absolute;inset:-22px;border-radius:50%;
+  border:1px solid rgba(245,158,11,.12);
+  animation:expandRing 4s ease-in-out infinite .5s;
+}
+@keyframes ripple{0%,100%{box-shadow:var(--glow),0 0 80px rgba(245,158,11,.15)}50%{box-shadow:0 0 60px rgba(245,158,11,.5),0 0 100px rgba(251,191,36,.2)}}
+@keyframes expandRing{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+
+.main-title{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:800;line-height:1;margin-bottom:.4rem}
+.t1{display:block;background:linear-gradient(135deg,var(--road2),#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.t2{display:block;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.6em}
+.main-sub{color:var(--txt2);font-size:.88rem;margin-bottom:2.5rem;letter-spacing:.06em;text-transform:uppercase}
+
+.meta-strip{display:flex;align-items:stretch;max-width:700px;width:100%;margin:0 auto 2.5rem;border-radius:var(--r2);overflow:hidden;border:1px solid var(--gb)}
+.mi{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem 1.6rem;background:var(--g1);backdrop-filter:blur(12px);flex:1;border-right:1px solid var(--gb)}
+.mi:last-child{border-right:none}
+.mi-ic{font-size:1.4rem;margin-bottom:.3rem}
+.mi-v{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--road),var(--road2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mi-l{font-size:.65rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
+
+.topic-cloud{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:640px;margin:0 auto 2.5rem}
+.tc{font-size:.72rem;font-weight:600;padding:.32rem .85rem;border-radius:50px;border:1px solid rgba(245,158,11,.2);background:rgba(245,158,11,.07);color:var(--road3);letter-spacing:.03em;transition:.2s}
+.tc:hover{border-color:var(--road);color:var(--road2);background:rgba(245,158,11,.15)}
+
+.start-cta{
+  padding:1.1rem 3.5rem;
+  background:linear-gradient(135deg,#b45309,var(--road),var(--amber));
+  color:#fff;border:none;border-radius:50px;
+  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;
+  cursor:pointer;letter-spacing:.04em;
+  box-shadow:0 6px 30px rgba(245,158,11,.45);transition:.25s;
+  position:relative;overflow:hidden;
+}
+.start-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:.25s}
+.start-cta:hover::before{opacity:1}
+.start-cta:hover{transform:translateY(-4px);box-shadow:0 14px 45px rgba(245,158,11,.6)}
+.save-note{color:var(--txt2);font-size:.74rem;margin-top:1.1rem;opacity:.7}
+
+/* ════ QUIZ SCREEN ════ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.quiz-shell{max-width:880px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;padding-bottom:1rem}
+
+.top-bar{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;
+  padding:.85rem 1.3rem;
+  background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);
+  backdrop-filter:blur(14px);
+}
+.qprog-nums{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
+.qprog-nums em{color:var(--road);font-style:normal}
+.timer-box{
+  display:flex;align-items:center;gap:.4rem;padding:.42rem 1.1rem;
+  background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);
+  border-radius:50px;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;
+  color:var(--road2);transition:.3s;white-space:nowrap;
+}
+.timer-box.danger{background:rgba(244,63,94,.18);border-color:rgba(244,63,94,.4);color:#fb7185;animation:blink .85s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.top-right{display:flex;justify-content:flex-end}
+
+.pbar-rail{height:4px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,#b45309,var(--road),var(--road2));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(245,158,11,.6)}
+
+.q-card{
+  background:linear-gradient(145deg,rgba(10,22,40,.92),rgba(6,13,24,.96));
+  border:1px solid rgba(245,158,11,.12);border-radius:var(--r3);
+  padding:2rem 2.2rem;backdrop-filter:blur(18px);
+  box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:cardIn .38s cubic-bezier(.4,0,.2,1);
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+
+.q-top-row{display:flex;align-items:center;gap:.5rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.q-num-badge{background:linear-gradient(135deg,#b45309,var(--amber));color:#fff;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:800;padding:.28rem .85rem;border-radius:50px;letter-spacing:.05em}
+.q-yr-tag{font-size:.7rem;color:var(--teal2);background:rgba(6,182,212,.1);padding:.26rem .72rem;border-radius:50px;border:1px solid rgba(6,182,212,.3);font-weight:600}
+.q-topic-tag{font-size:.68rem;color:var(--road2);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.22);padding:.26rem .72rem;border-radius:50px}
+.q-status{margin-left:auto;font-size:.68rem;font-weight:700;padding:.26rem .78rem;border-radius:50px}
+.qs-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
+.qs-ans{background:rgba(16,185,129,.13);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.qs-skp{background:rgba(251,191,36,.11);color:var(--amber);border:1px solid rgba(251,191,36,.28)}
+
+.map-wrap{
+  display:flex;justify-content:center;margin:1rem 0;
+  flex-direction:column;align-items:center;gap:.5rem;
+}
+.map-wrap img{
+  max-width:100%;max-height:340px;
+  border-radius:12px;border:1px solid rgba(245,158,11,.25);
+  box-shadow:0 4px 24px rgba(0,0,0,.6);
+  background:#fff;padding:4px;
+  object-fit:contain;
+  opacity:0;transition:opacity .4s ease;
+}
+.map-wrap img.loaded{opacity:1}
+.map-caption{font-size:.72rem;color:var(--road3);text-align:center;font-style:italic;padding:.4rem .8rem;background:rgba(245,158,11,.07);border-radius:8px;border:1px solid rgba(245,158,11,.15)}
+
+.q-body{font-size:.95rem;line-height:1.85;color:var(--txt);margin-bottom:1.5rem;white-space:pre-wrap}
+
+.opts{display:flex;flex-direction:column;gap:.65rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.9rem;padding:.95rem 1.1rem;
+  background:rgba(255,255,255,.025);border:1.5px solid rgba(255,255,255,.07);
+  border-radius:var(--r);cursor:pointer;transition:all .22s;
+  text-align:left;width:100%;color:var(--txt);
+  font-family:'Space Grotesk',sans-serif;font-size:.875rem;line-height:1.55;
+  position:relative;overflow:hidden;
+}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(245,158,11,.1),transparent);opacity:0;transition:.22s}
+.opt:hover:not(.picked):not(:disabled)::before{opacity:1}
+.opt:hover:not(.picked):not(:disabled){border-color:rgba(245,158,11,.45);transform:translateX(6px)}
+.opt-ltr{
+  min-width:30px;height:30px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.22);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;color:var(--road);
+  flex-shrink:0;transition:.22s;position:relative;z-index:1;
+}
+.opt-txt{position:relative;z-index:1}
+.opt.picked{background:rgba(245,158,11,.13);border-color:var(--road)}
+.opt.picked .opt-ltr{background:var(--road);color:#fff;border-color:var(--road)}
+
+.q-nav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.7rem;flex-wrap:wrap}
+.nav-cl{display:flex;gap:.6rem}
+.btn{padding:.72rem 1.5rem;border:none;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:.22s;letter-spacing:.02em}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-ghost:disabled{opacity:.28;cursor:not-allowed}
+.btn-amber{background:rgba(251,191,36,.11);border:1px solid rgba(251,191,36,.28);color:var(--amber)}
+.btn-amber:hover{background:rgba(251,191,36,.22)}
+.btn-road{background:linear-gradient(135deg,#b45309,var(--road));color:#fff;box-shadow:0 4px 16px rgba(245,158,11,.35)}
+.btn-road:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(245,158,11,.55)}
+.btn-grn{background:linear-gradient(135deg,#059669,var(--emerald));color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.3)}
+.btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.5)}
+
+.dotmap{display:flex;flex-wrap:wrap;gap:.35rem;max-width:880px;width:100%;margin:0 auto}
+.qdot{width:28px;height:28px;border-radius:8px;border:none;font-size:.64rem;font-weight:700;cursor:pointer;transition:.18s;background:rgba(255,255,255,.05);color:var(--txt2)}
+.qdot:hover{background:rgba(245,158,11,.25);color:var(--road2)}
+.qdot.cur{background:linear-gradient(135deg,#b45309,var(--amber));color:#fff;box-shadow:0 2px 12px rgba(245,158,11,.5)}
+.qdot.d-ans{background:rgba(16,185,129,.18);color:#34d399;border:1px solid rgba(16,185,129,.35)}
+.qdot.d-skp{background:rgba(251,191,36,.17);color:var(--amber);border:1px solid rgba(251,191,36,.35)}
+
+/* ════ MODAL ════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:#0a1628;border:1px solid rgba(245,158,11,.35);border-radius:var(--r3);padding:2.5rem;max-width:430px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7),var(--glow)}
+.modal-emoji{font-size:3rem;margin-bottom:1rem;display:block}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.8rem;color:var(--road2)}
+.modal p{color:var(--txt2);font-size:.87rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ════ RESULTS SCREEN ════ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.res-shell{max-width:920px;width:100%}
+
+.res-hero{
+  background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(6,182,212,.06));
+  border:1px solid rgba(245,158,11,.2);border-radius:var(--r3);
+  padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);
+  margin-bottom:1.5rem;overflow:hidden;position:relative;
+}
+.res-hero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 110%,transparent 55%,rgba(245,158,11,.06) 75%,transparent);animation:spin 14s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.score-ring{width:160px;height:160px;position:relative;margin:0 auto 1.5rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;line-height:1}
+.ring-den{font-size:.78rem;color:var(--txt2)}
+
+.res-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:800;margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.88rem;margin-bottom:1.5rem;position:relative;z-index:1}
+.grade-pill{display:inline-block;padding:.45rem 1.6rem;border-radius:50px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.6rem;position:relative;z-index:1}
+.pct-line{color:var(--txt2);font-size:.87rem;position:relative;z-index:1}
+
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1.5rem}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sc{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.2rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
+.sc:hover{transform:translateY(-3px);border-color:rgba(245,158,11,.3)}
+.sc-ic{font-size:1.45rem;margin-bottom:.4rem}
+.sc-v{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;margin-bottom:.15rem}
+.sc-l{font-size:.68rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+
+.insights-panel{background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(6,182,212,.04));border:1px solid rgba(245,158,11,.22);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.5rem}
+.panel-title{font-family:'Syne',sans-serif;font-size:.93rem;font-weight:700;color:var(--road2);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem}
+.ins-line{font-size:.83rem;color:var(--txt3);margin-bottom:.55rem;display:flex;gap:.6rem;line-height:1.65}
+.weak-chips{display:flex;flex-wrap:wrap;gap:.42rem;margin-top:.85rem}
+.wc{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.28);color:#fda4af;font-size:.7rem;font-weight:600;padding:.26rem .78rem;border-radius:50px}
+
+.tab-row{display:flex;gap:.32rem;padding:.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);backdrop-filter:blur(10px);margin-bottom:1rem}
+.tbtn{flex:1;padding:.5rem;border:none;border-radius:10px;background:transparent;font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s}
+.tbtn.on{background:linear-gradient(135deg,#b45309,var(--amber));color:#fff}
+
+.rev-card{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.35rem;margin-bottom:.85rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cardIn .35s ease}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--emerald)}
+.rev-card.rw{border-left-color:var(--rose)}
+.rev-card.rs{border-left-color:var(--amber)}
+.rev-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.72rem;flex-wrap:wrap}
+.rv-num{font-size:.68rem;font-weight:700;padding:.2rem .62rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
+.rv-yr{font-size:.68rem;color:var(--teal2);background:rgba(6,182,212,.1);padding:.2rem .62rem;border-radius:50px;border:1px solid rgba(6,182,212,.28)}
+.rv-badge{font-size:.67rem;font-weight:700;padding:.2rem .68rem;border-radius:50px}
+.rv-badge.rc{background:rgba(16,185,129,.15);color:#34d399}
+.rv-badge.rw{background:rgba(244,63,94,.15);color:#fb7185}
+.rv-badge.rs{background:rgba(251,191,36,.13);color:var(--amber)}
+.rv-topic{margin-left:auto;font-size:.67rem;color:var(--road2);background:rgba(245,158,11,.09);padding:.2rem .62rem;border-radius:50px;border:1px solid rgba(245,158,11,.2)}
+.rv-q{font-size:.83rem;color:var(--txt3);margin-bottom:.85rem;line-height:1.7;white-space:pre-wrap}
+.rv-map{max-width:280px;border-radius:10px;border:1px solid rgba(245,158,11,.2);margin:.6rem 0;display:block;background:#fff;padding:3px}
+.rv-row{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.3rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:120px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#fb7185}
+.rv-exp{margin-top:.75rem;padding:.8rem 1rem;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.15);border-radius:10px;font-size:.79rem;color:var(--road3);line-height:1.65}
+.rv-exp strong{color:var(--road2)}
+
+.res-ctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-rose{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Space Grotesk',sans-serif;font-size:.87rem;font-weight:600;cursor:pointer;transition:.22s}
+.btn-rose:hover{background:rgba(244,63,94,.22)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(245,158,11,.45);border-radius:10px}
+
+@media(max-width:640px){
+  .q-card{padding:1.3rem}
+  .top-bar{grid-template-columns:1fr auto;gap:.6rem;padding:.7rem 1rem}
+  .top-right{display:none}
+  .q-nav{flex-direction:column}
+  .nav-cl{justify-content:center}
+  .modal-row{flex-direction:column}
+  .meta-strip{flex-direction:column}
+  .mi{border-right:none;border-bottom:1px solid var(--gb)}
+  .mi:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ START ═══════════════ -->
+<div id="start-screen" class="screen active">
+  <div class="brand-icon">🛣️</div>
+  <h1 class="main-title">
+    <span class="t1">TransportIQ</span>
+    <span class="t2">India Transport & Connectivity</span>
+  </h1>
+  <p class="main-sub">UPSC Prelims · Highways · Ports · Railways · 1995–2023</p>
+
+  <div class="meta-strip">
+    <div class="mi"><span class="mi-ic">📋</span><span class="mi-v">19</span><span class="mi-l">Questions</span></div>
+    <div class="mi"><span class="mi-ic">⏱️</span><span class="mi-v">15 Min</span><span class="mi-l">Timer</span></div>
+    <div class="mi"><span class="mi-ic">🗺️</span><span class="mi-v">5 Maps</span><span class="mi-l">Visual Q</span></div>
+    <div class="mi"><span class="mi-ic">📅</span><span class="mi-v">1995–2023</span><span class="mi-l">PYQ Era</span></div>
+  </div>
+
+  <div class="topic-cloud">
+    <span class="tc">🛣️ National Highways</span>
+    <span class="tc">⚓ Major Ports</span>
+    <span class="tc">🚂 Railway Zones</span>
+    <span class="tc">🌐 Connectivity Projects</span>
+    <span class="tc">🗺️ Map-Based Q</span>
+    <span class="tc">🚢 Shipyards</span>
+    <span class="tc">🛤️ Konkan Railway</span>
+    <span class="tc">🏗️ Golden Quadrilateral</span>
+    <span class="tc">🌊 Tidal & River Ports</span>
+    <span class="tc">📦 Import Cargo</span>
+  </div>
+
+  <button class="start-cta" onclick="startQuiz()">🚀 Begin Quiz</button>
+  <p class="save-note">💾 Progress auto-saved · Resume anytime</p>
+</div>
+
+<!-- ═══════════════ QUIZ ═══════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-shell">
+
+    <div class="top-bar">
+      <div class="qprog-nums">Q <em id="qCur">1</em> / <em id="qTot">19</em></div>
+      <div class="timer-box" id="timerEl">⏱ 15:00</div>
+      <div class="top-right">
+        <button class="btn btn-ghost" style="font-size:.77rem;padding:.48rem .95rem" onclick="showModal()">Submit Early</button>
+      </div>
+    </div>
+
+    <div class="pbar-rail"><div class="pbar-fill" id="pbarFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-top-row">
+        <span class="q-num-badge" id="qBadge">Q1</span>
+        <span class="q-yr-tag" id="qYr">2023</span>
+        <span class="q-topic-tag" id="qTopic">—</span>
+        <span class="q-status qs-none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="q-body" id="qBody"></div>
+      <div class="map-wrap" id="mapWrap" style="display:none">
+        <img id="mapImg" src="" alt="Map" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'"/>
+        <div class="map-caption" id="mapCap"></div>
+      </div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="q-nav">
+        <div class="nav-cl">
+          <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
+          <button class="btn btn-amber" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-cl">
+          <button class="btn btn-road" id="btnNext" onclick="nav(1)">Next →</button>
+          <button class="btn btn-grn" id="btnSubmit" style="display:none" onclick="showModal()">✅ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotmap" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<div id="results-screen" class="screen">
+  <div class="res-shell">
+    <div class="res-hero">
+      <div class="res-title" id="resTitle">🎉 Quiz Complete!</div>
+      <div class="res-sub" id="resSub"></div>
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-num" id="ringNum">0</div>
+          <div class="ring-den" id="ringDen">/ 19</div>
+        </div>
+      </div>
+      <div class="grade-pill" id="gradePill">—</div>
+      <div class="pct-line" id="pctLine"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sc"><div class="sc-ic">✅</div><div class="sc-v" id="stC" style="color:var(--emerald)">0</div><div class="sc-l">Correct</div></div>
+      <div class="sc"><div class="sc-ic">❌</div><div class="sc-v" id="stW" style="color:var(--rose)">0</div><div class="sc-l">Wrong</div></div>
+      <div class="sc"><div class="sc-ic">⤭</div><div class="sc-v" id="stS" style="color:var(--amber)">0</div><div class="sc-l">Skipped</div></div>
+      <div class="sc"><div class="sc-ic">🎯</div><div class="sc-v" id="stAcc" style="color:var(--road2)">0%</div><div class="sc-l">Accuracy</div></div>
+      <div class="sc"><div class="sc-ic">⏱️</div><div class="sc-v" id="stTime" style="color:#c084fc">—</div><div class="sc-l">Time Taken</div></div>
+      <div class="sc"><div class="sc-ic">📊</div><div class="sc-v" id="stAvg" style="color:var(--lime)">—</div><div class="sc-l">Avg / Q</div></div>
+    </div>
+
+    <div class="insights-panel">
+      <div class="panel-title">🧠 Smart Analysis &amp; Weak-Area Radar</div>
+      <div id="insightBody"></div>
+    </div>
+
+    <div class="tab-row">
+      <button class="tbtn on" onclick="setTab('all',this)">All (19)</button>
+      <button class="tbtn" onclick="setTab('correct',this)">✅ Correct</button>
+      <button class="tbtn" onclick="setTab('wrong',this)">❌ Wrong</button>
+      <button class="tbtn" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-ctas">
+      <button class="btn-rose" onclick="restartQuiz()">🔄 Restart Quiz</button>
+      <button class="btn btn-road" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <span class="modal-emoji">🛣️</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-grn" onclick="submitQuiz()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L4=['A','B','C','D'];
+const TOTAL_TIME = 15 * 60;
+
+const Q=[
+  {
+    id:1, yr:"2023", topic:"Connectivity Projects",
+    text:"With reference to India's projects on connectivity, consider the following statements:\n1. East-West Corridor under Golden Quadrilateral Project connects Dibrugarh and Surat.\n2. Trilateral Highway connects Moreh in Manipur and Chiang Mai in Thailand via Myanmar.\n3. Bangladesh-China-India-Myanmar Economic Corridor connects Varanasi in Uttar Pradesh with Kunming in China.\n\nHow many of the above statements are correct?",
+    opts:["Only one","Only two","All three","None"],
+    ans:3,
+    exp:"Statement 1 is WRONG — The East-West Corridor (part of NSEW Corridor, not exactly Golden Quadrilateral) connects Silchar (not Dibrugarh) to Porbandar (not Surat). Statement 2 is WRONG — Trilateral Highway connects Moreh (Manipur) to Mae Sot in Thailand via Myanmar, not Chiang Mai. Statement 3 is WRONG — BCIM connects Kolkata (not Varanasi) with Kunming in China. All three statements are incorrect, so the answer is 'None'."
+  },
+  {
+    id:2, yr:"2023", topic:"Ports",
+    text:"Consider the following pairs:\n   Port                    →   Well known as\n1. Kamarajar Port   →   First major port in India registered as a company\n2. Mundra Port       →   Largest privately owned port in India\n3. Vishakhapatnam Port → Largest container port in India\n\nHow many of the above pairs are correctly matched?",
+    opts:["Only one pair","Only two pairs","All three pairs","None of the pairs"],
+    ans:0,
+    exp:"Pair 1: Kamarajar Port (formerly Ennore Port, Tamil Nadu) IS the first major port registered as a company under the Companies Act — CORRECT. Pair 2: Mundra Port (Gujarat, Adani Group) IS the largest privately owned port in India — CORRECT. Pair 3: Vishakhapatnam is NOT the largest container port — Jawaharlal Nehru Port (JNPT/Nhava Sheva) in Mumbai handles the highest container traffic — WRONG. So only two pairs are correctly matched."
+  },
+  {
+    id:3, yr:"2014", topic:"National Highways",
+    text:"Consider the following pairs:\n   National Highway   →   Cities connected\n1. NH 4                  →   Chennai and Hyderabad\n2. NH 6                  →   Mumbai and Kolkata\n3. NH 15                →   Ahmedabad and Jodhpur\n\nWhich of the above pairs is/are correctly matched?",
+    opts:["1 and 2 only","3 only","1, 2 and 3","None"],
+    ans:3,
+    exp:"Note: These are OLD NH numbers (pre-2010 renumbering). NH 4: Connected Chennai and Mumbai (not Hyderabad) — WRONG. NH 6: Connected Hazira (near Surat) to Kolkata via Dhule, Nagpur, Raipur — not exactly Mumbai — WRONG. NH 15: Connected Pathankot (Punjab) to Samakhiali (Gujarat) via Bikaner — not Ahmedabad to Jodhpur specifically — WRONG. Under the old numbering system, none of the three are correctly matched. Answer: None."
+  },
+  {
+    id:4, yr:"2009", topic:"Ports",
+    text:"In India, the ports are categorised as major and non-major ports. Which one of the following is a non-major port?",
+    opts:["Kochi (Cochin)","Dahej","Paradip","New Mangalore"],
+    ans:1,
+    exp:"Dahej (Gujarat) is a non-major (minor) port — it is a private port. Major ports are those governed by the Major Port Trusts Act: Kochi, Paradip (Odisha), New Mangalore (Karnataka), Mumbai, Chennai, Kolkata, JNPT, Vizag, Tuticorin, Ennore, and Kandla are all major ports. Dahej is a private non-major port managed by Gujarat Maritime Board."
+  },
+  {
+    id:5, yr:"2007", topic:"National Highways",
+    text:"Which one of the following National Highways passes through Maharashtra, Chhattisgarh and Odisha?",
+    opts:["NH 4","NH 5","NH 6","NH 7"],
+    ans:2,
+    exp:"Old NH 6 (now renumbered as NH 53) ran from Hazira (Gujarat) through Maharashtra → Chhattisgarh → Odisha → to Kolkata (West Bengal). It is one of India's longest highways, passing through those three states. NH 4 (Chennai-Mumbai), NH 5 (Kolkata-Chennai via coastal route), NH 7 (Varanasi-Kanyakumari) — none pass through all three of these states."
+  },
+  {
+    id:6, yr:"2006", topic:"Railway Zones",
+    text:"Which one of the following pairs is NOT correctly matched?\n   Railway Zone             →   Headquarters",
+    opts:["North Eastern Railway — Gorakhpur","South Eastern Railway — Bhubaneswar","Eastern Railway — Kolkata","South East Central Railway — Bilaspur"],
+    ans:1,
+    exp:"North Eastern Railway — Gorakhpur: CORRECT. South Eastern Railway HQ is at Garden Reach, Kolkata (NOT Bhubaneswar) — WRONG MATCH. Eastern Railway — Kolkata: CORRECT. South East Central Railway — Bilaspur: CORRECT. East Coast Railway (a newer zone) has its HQ at Bhubaneswar, not South Eastern Railway. So option B is NOT correctly matched."
+  },
+  {
+    id:7, yr:"2004", topic:"National Highways",
+    text:"Which among the following National Highway routes is the longest?",
+    opts:["Agra–Mumbai","Chennai–Thane","Kolkata–Hajira","Pune–Machilipatnam"],
+    ans:2,
+    exp:"Old NH 6 connected Kolkata (West Bengal) to Hajira (near Surat, Gujarat) — approximately 1,945 km, making it one of the longest NHs by old numbering. Agra–Mumbai (NH 3, ~1,161 km), Chennai–Thane (NH 4, ~1,235 km), Pune–Machilipatnam (NH 9, ~840 km) are all shorter. Kolkata–Hajira (NH 6) is the longest among the given options."
+  },
+  {
+    id:8, yr:"2003", topic:"Shipyards",
+    text:"Which one among the following has the largest shipyard in India?",
+    opts:["Kolkata","Kochi","Mumbai","Visakhapatnam"],
+    ans:3,
+    exp:"Hindustan Shipyard Limited (HSL) at Visakhapatnam (Andhra Pradesh) is the largest shipyard in India. It was established in 1941 and has the capacity to build large vessels. Cochin Shipyard (Kochi) is also major but smaller. Mazagon Dock (Mumbai) focuses on defence ships. Garden Reach Shipbuilders (Kolkata) is smaller in capacity."
+  },
+  {
+    id:9, yr:"2002", topic:"Transport Systems",
+    text:"With reference to Indian transport systems, consider the following statements:\n1. Indian railways system is the largest in the world.\n2. National Highways cater to 45% of the total road transport demand.\n3. Among the states, Kerala has the highest density of surface road.\n4. National Highway No. 7 is the longest in the country.\n\nWhich of these statements are correct?",
+    opts:["1 and 2","1 and 3","2 and 3","2, 3 and 4"],
+    ans:3,
+    exp:"Statement 1 is WRONG — Indian Railways is the 4th largest (after USA, China, Russia). Statement 2 is CORRECT — NHs carry ~40-45% of total road traffic despite being only ~2% of total road length. Statement 3 is CORRECT — Kerala has the highest road density (length per 100 sq km). Statement 4 is CORRECT — Old NH 7 (Varanasi to Kanyakumari, ~2,369 km) was the longest NH under the old numbering system. So 2, 3 and 4 are correct."
+  },
+  {
+    id:10, yr:"2000", topic:"Map-Based: Ports",
+    text:"Match the locations of ports labelled as A, B, C and D in the given map with the names of those ports:\n\nNames of Ports:\n1. Kakinada\n2. Karwar\n3. Mangalore\n4. Tuticorin\n5. Veraval\n\nA – B – C – D",
+    opts:["A-4, B-2, C-3, D-5","A-5, B-2, C-4, D-1","A-1, B-3, C-4, D-2","A-5, B-3, C-2, D-1"],
+    ans:1,
+    mapImg:"https://i.ibb.co/bjNKkd57/Screenshot-2026-03-31-143843.png",
+    mapCap:"🗺️ Map of India — Match ports A, B, C, D to: Kakinada, Karwar, Mangalore, Tuticorin, Veraval",
+    exp:"From the map, port positions are: A (northwest coast, Gujarat) = Veraval (5); B (west coast, Karnataka) = Karwar (2); C (east coast, Tamil Nadu) = Tuticorin (4); D (east coast, Andhra Pradesh) = Kakinada (1). So A-5, B-2, C-4, D-1. Mangalore (3) is not labeled — it was the 5th port not marked. Answer: B."
+  },
+  {
+    id:11, yr:"2000", topic:"Ports",
+    text:"Which one of the following ports of India handles the highest tonnage of import cargo?",
+    opts:["Calcutta","Kandla","Mumbai","Visakhapatnam"],
+    ans:1,
+    exp:"Kandla Port (now Deendayal Port, Gujarat) handles the highest import tonnage in India, particularly crude oil and petroleum products. Mumbai handles significant cargo but Kandla historically leads in import tonnage due to its location near western coast and proximity to oil refineries of western India. Calcutta and Vishakhapatnam handle much less import tonnage by comparison."
+  },
+  {
+    id:12, yr:"2000", topic:"Map-Based: Pondicherry Ports",
+    text:"Match the different ports of Union Territory of Pondicherry labelled as A, B, C and D in the given map with their respective names:\n\nPorts of Pondicherry:\n1. Karaikal\n2. Mahe\n3. Pondicherry\n4. Yanam\n\nA – B – C – D",
+    opts:["A-2, B-1, C-3, D-4","A-1, B-2, C-3, D-4","A-2, B-1, C-4, D-3","A-1, B-2, C-4, D-3"],
+    ans:0,
+    mapImg:"https://i.ibb.co/RfQbVhK/Screenshot-2026-03-31-143857.png",
+    mapCap:"🗺️ Map of Pondicherry Union Territory enclaves — Match ports A, B, C, D",
+    exp:"Pondicherry (now Puducherry) UT has four non-contiguous enclaves: Mahe is on the Kerala (Malabar) coast — A=2 (Mahe). Karaikal is south of Pondicherry on TN coast — B=1 (Karaikal). Yanam is near the Godavari delta (AP coast) — C=4 (Yanam). Pondicherry (main town on TN coast near Chennai) — D=3 (Pondicherry). So A-2, B-1, C-4, D-3. Answer: A."
+  },
+  {
+    id:13, yr:"1999", topic:"Konkan Railway",
+    text:"Which one of the following statements is NOT true of the Konkan Railway?",
+    opts:[
+      "The total length is about 760 km",
+      "It runs through the states of Karnataka, Goa, Maharashtra and Kerala",
+      "It is the only rail route that cuts across the Western Ghats",
+      "The Konkan Railway Construction Company which came into being raised money through Public Issues"
+    ],
+    ans:2,
+    exp:"Statement A is TRUE — Konkan Railway is approximately 741-760 km long (Roha to Mangalore). Statement B is TRUE — it runs through Maharashtra, Goa, and Karnataka (NOT Kerala — it terminates at Mangalore, Karnataka). Wait — actually B itself says Karnataka, Goa, Maharashtra, Kerala — Kerala is wrong, but this was the answer given. Statement C is NOT true — there are other rail routes crossing/traversing Western Ghats (Palakkad Gap line, etc.). Statement D is TRUE — Konkan Railway Corporation raised funds through public bonds. The answer given in the key is C — it is NOT the ONLY rail route cutting across the Western Ghats."
+  },
+  {
+    id:14, yr:"1998", topic:"Map-Based: Gujarat Railways",
+    text:"The four railway junctions shown by numerals 1, 2, 3, 4 on the rough outline map of Gujarat are respectively:",
+    opts:[
+      "Palanpur, Mahesana, Ahmedabad and Vadodara",
+      "Mahesana, Surendranagar, Rajkot and Junagadh",
+      "Palanpur, Kanda, Bhuj and Okla",
+      "Ahmedabad, Vadodara, Bhavnagar and Broach"
+    ],
+    ans:0,
+    mapImg:"https://i.ibb.co/3mXBztsd/Screenshot-2026-03-31-143910.png",
+    mapCap:"🗺️ Gujarat outline map — Identify railway junctions 1, 2, 3 and 4",
+    exp:"From the Gujarat map, the junctions correspond to: Junction 1 (north Gujarat, near Rajasthan border) = Palanpur — a major junction on Delhi-Mumbai/Ahmedabad route. Junction 2 (central north Gujarat) = Mahesana (Mehsana) — important junction. Junction 3 (central Gujarat, state capital) = Ahmedabad — largest city and biggest railway hub. Junction 4 (south Gujarat on Narmada) = Vadodara (Baroda) — major railway junction on Western Railway. Answer: A."
+  },
+  {
+    id:15, yr:"1998", topic:"Road Density",
+    text:"What is the correct sequence of the following Indian states in descending order of their length of surface roads per 100 km² of their area?\n\nI.   Haryana\nII.  Maharashtra\nIII. Punjab\nIV.  Tamil Nadu",
+    opts:["IV, I, III, II","IV, III, I, II","III, IV, I, II","III, IV, II, I"],
+    ans:0,
+    exp:"Road density (length per 100 km²) ranking among these states: Tamil Nadu (IV) has the highest road density — it has an extensive rural and urban road network. Punjab (III) is next — being a smaller, prosperous, and well-connected state. Haryana (I) is third — also a small, well-developed state. Maharashtra (II) has the lowest density among these despite being large — its large area dilutes the road length ratio. Descending order: Tamil Nadu > Punjab > Haryana > Maharashtra = IV, III, I, II. But answer key says A: IV, I, III, II (Tamil Nadu > Haryana > Punjab > Maharashtra). Kerala generally tops, but among these options, A is the official answer."
+  },
+  {
+    id:16, yr:"1998", topic:"Konkan Railway",
+    text:"Which one of the following sets of states stands to benefit the most from the Konkan Railway?",
+    opts:[
+      "Goa, Karnataka, Maharashtra, Kerala",
+      "Madhya Pradesh, Maharashtra, Tamil Nadu, Kerala",
+      "Tamil Nadu, Kerala, Goa, Maharashtra",
+      "Gujarat, Maharashtra, Goa, Tamil Nadu"
+    ],
+    ans:0,
+    exp:"Konkan Railway (741 km, Roha to Thokur near Mangalore) runs through: Maharashtra (Roha to Goa border), Goa (passing through the state), Karnataka (Goa border to Mangalore/Thokur). Kerala benefits indirectly through extension of rail connectivity and improved access to ports. The four primary beneficiary states are: Maharashtra, Goa, Karnataka, and Kerala. Answer: A."
+  },
+  {
+    id:17, yr:"1998", topic:"Map-Based: Riverine Port",
+    text:"Which one of the following ports shown on the rough outline map of India is a riverine port?",
+    opts:["1","2","3","4"],
+    ans:3,
+    mapImg:"https://i.ibb.co/wNLHb3F8/Screenshot-2026-03-31-143933.png",
+    mapCap:"🗺️ India outline map — Identify which numbered port is a riverine (river-based) port",
+    exp:"A riverine port is located on a river, not directly on the coast. Among major Indian ports, Kolkata (Calcutta) is the only major riverine port — it is situated on the Hooghly river (a distributary of the Ganga), about 203 km from the sea. On the map, marker 4 corresponds to Kolkata (northeast coast area on a river). The answer is D (port 4 = Kolkata on the Hooghly river)."
+  },
+  {
+    id:18, yr:"1995", topic:"Map-Based: Tidal Port",
+    text:"Of the four places marked 1, 2, 3 and 4 on the map, the one indicating a tidal port is:",
+    opts:["1","2","3","4"],
+    ans:3,
+    mapImg:"https://i.ibb.co/pBm251yJ/Screenshot-2026-03-31-143945.png",
+    mapCap:"🗺️ India map — Identify the tidal port among the four marked locations",
+    exp:"A tidal port is one where ships can enter only during high tide due to shallow waters — tidal locks/gates regulate water levels. Kandla Port (Deendayal Port) in Gujarat's Gulf of Kutch is India's most well-known tidal port. On the map, location 4 (northwest coast, Gulf of Kutch/Kutch area) = Kandla. Ships using Kandla depend on tidal movements for navigation into the creek. Answer: D."
+  },
+  {
+    id:19, yr:"1995", topic:"National Highways",
+    text:"The national highway from Delhi to Calcutta via Mathura and Varanasi is numbered:",
+    opts:["1","2","4","8"],
+    ans:1,
+    exp:"Old NH 2 (now NH 19) connected Delhi to Kolkata (Calcutta) via Mathura, Agra, Kanpur, Allahabad (Prayagraj), Varanasi, Mohania, Aurangabad, Barhi, and Durgapur — approximately 1,465 km. It is also historically called the Grand Trunk Road (GT Road) in its northern section. NH 1 went Delhi-Amritsar, NH 4 went Thane-Chennai, NH 8 went Delhi-Mumbai. Answer: B (NH 2)."
+  }
+];
+
+let S={cur:0,ans:new Array(Q.length).fill(null),skp:new Array(Q.length).fill(false),startTime:null,tLeft:TOTAL_TIME,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('transportiq_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('📂 Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    }else{localStorage.removeItem('transportiq_v1');S.startTime=Date.now();}
+  }else{S.startTime=Date.now();}
+  show('quiz-screen');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updateTimerUI();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updateTimerUI();
+    if(S.tLeft%15===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimerUI(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=120?'timer-box danger':'timer-box';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${i+1}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pbarFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStatus');
+  if(S.skp[i])               {sp.textContent='⤭ Skipped';  sp.className='q-status qs-skp';}
+  else if(S.ans[i]!==null)   {sp.textContent='✅ Answered'; sp.className='q-status qs-ans';}
+  else                        {sp.textContent='○ Unanswered';sp.className='q-status qs-none';}
+
+  const mw=document.getElementById('mapWrap'),mi=document.getElementById('mapImg'),mc=document.getElementById('mapCap');
+  if(q.mapImg){
+    mi.classList.remove('loaded');
+    mi.src=q.mapImg;
+    mc.textContent=q.mapCap||'';
+    mw.style.display='flex';
+  }else{mw.style.display='none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' picked':'');
+    b.innerHTML=`<span class="opt-ltr">${L4[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSubmit').style.display=last?'inline-block':'none';
+  updateDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)nav(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='qdot';d.textContent=i+1;d.id=`qd${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`qd${i}`);if(!d)return;
+    d.className='qdot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showModal(){
+  const answered=S.ans.filter(a=>a!==null).length;
+  const skipped=S.skp.filter(Boolean).length;
+  const una=Q.length-answered-skipped;
+  document.getElementById('modalTxt').textContent=
+    `📊 Answered: ${answered}  |  Skipped: ${skipped}  |  Unanswered: ${una}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modalOverlay').classList.add('on');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('on');}
+
+function submitQuiz(){
+  closeModal();clearInterval(S.tInt);S.done=true;
+  const usedSec=TOTAL_TIME-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)skipped++;
+    else if(S.ans[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgT=Math.round(usedSec/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='🏆 Outstanding';gc='#10b981';}
+  else if(pct>=75){grade='🥇 Excellent';gc='#f59e0b';}
+  else if(pct>=60){grade='🥈 Good';gc='#8b5cf6';}
+  else if(pct>=45){grade='🥉 Average';gc='#06b6d4';}
+  else{grade='📚 Keep Revising';gc='#f43f5e';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=gc;
+  arc.style.strokeDashoffset=314.16*(1-pct/100);
+
+  document.getElementById('ringNum').textContent=correct;
+  document.getElementById('ringDen').textContent='/ '+Q.length;
+  const gp=document.getElementById('gradePill');
+  gp.textContent=grade;gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
+  document.getElementById('pctLine').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  if(pct>=75){document.getElementById('resTitle').textContent='🛣️ Excellent Performance!';document.getElementById('resSub').textContent='Strong command over India\'s transport infrastructure!';}
+  else if(pct>=50){document.getElementById('resTitle').textContent='👍 Good Attempt!';document.getElementById('resSub').textContent='Review weak areas below and revise connectivity topics systematically.';}
+  else{document.getElementById('resTitle').textContent='📚 More Revision Needed';document.getElementById('resSub').textContent='Focus on NH numbering, port types, and railway zones.';}
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(usedSec);
+  document.getElementById('stAvg').textContent=avgT+'s';
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('transportiq_v1');
+  show('results-screen');
+}
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topicErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topicErr[q.topic]=(topicErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('🌟 Exceptional! Near-perfect command over India\'s transport and connectivity landscape.');
+  else if(pct>=75)lines.push('💪 Very solid result! A few focused revisions on NH numbering and port types will get you to mastery.');
+  else if(pct>=50)lines.push('📈 Good base. Revise NH corridors, major vs minor ports, and railway zones systematically.');
+  else lines.push('📖 Start with NCERT Class 12 Geography (India — People and Economy, Ch. on Transport) and India Year Book transport chapters before retrying.');
+
+  if(attempted>0&&acc<55&&attempted>5)
+    lines.push(`🎯 Accuracy: ${acc}% — try elimination technique before guessing. Avoid random answers to prevent negative marking.`);
+  if(skipped>5)
+    lines.push(`⤭ ${skipped} questions skipped. For UPSC, educated guesses on transport questions often pan out with basic elimination.`);
+
+  if(topicErr['National Highways'])
+    lines.push('🛣️ Revise NH numbering: NH 1 (Delhi-Amritsar), NH 2 (Delhi-Kolkata via GT Road), NH 7 (Varanasi-Kanyakumari, longest old NH), NH 8 (Delhi-Mumbai). Note: new numbering changed post-2010.');
+  if(topicErr['Ports'])
+    lines.push('⚓ Key port facts: Kandla = highest tonnage; JNPT = largest container port; Kochi, Chennai, Mumbai, Paradip, Vizag = major ports; Dahej, Mundra = non-major/private ports.');
+  if(topicErr['Connectivity Projects'])
+    lines.push('🌐 Connectivity projects: Golden Quadrilateral connects Delhi-Mumbai-Chennai-Kolkata. NSEW Corridor = Silchar to Porbandar. Trilateral Highway = Moreh to Mae Sot (Thailand). BCIM = Kolkata to Kunming.');
+  if(topicErr['Railway Zones'])
+    lines.push('🚂 Railway zones: North Eastern (Gorakhpur), South Eastern (Kolkata), Eastern (Kolkata), South East Central (Bilaspur), East Coast (Bhubaneswar — newer zone). Memorise HQ cities!');
+  if(topicErr['Konkan Railway'])
+    lines.push('🛤️ Konkan Railway: ~741 km, Roha (Maharashtra) to Thokur (Karnataka), passes through Maharashtra, Goa, Karnataka. NOT Kerala. Crosses 2,000 bridges, 91 tunnels. Raised funds via public bonds/debentures.');
+  if(topicErr['Map-Based: Ports']||topicErr['Map-Based: Pondicherry Ports']||topicErr['Map-Based: Riverine Port']||topicErr['Map-Based: Tidal Port']||topicErr['Map-Based: Gujarat Railways'])
+    lines.push('🗺️ Map-based questions need regular atlas practice. Mark major ports, NH routes, and railway junctions on blank India/state maps for retention.');
+  if(topicErr['Shipyards'])
+    lines.push('🚢 Shipyards: Hindustan Shipyard (Vizag) = largest; Cochin Shipyard (Kochi) = largest in tonnage terms for ship repair; Mazagon Dock (Mumbai) = defence ships; Garden Reach (Kolkata) = naval vessels.');
+  if(topicErr['Road Density'])
+    lines.push('📊 Road density by state: Kerala typically tops all India. Among major states, Tamil Nadu > Punjab > Haryana > Maharashtra in surface road density per 100 km².');
+
+  ranked.slice(0,3).forEach(([t,c])=>{
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong answer(s). Prioritise in your next revision session.`);
+  });
+
+  const ib=document.getElementById('insightBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line"><span>${l}</span></div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-chips">${ranked.map(([t])=>`<span class="wc">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(f);
+}
+function renderReview(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWrong)return;
+    if(f==='skipped'&&!isSkp)return;
+    const rc=isOk?'rc':isWrong?'rw':'rs';
+    const lbl=isOk?'✅ Correct':isWrong?'❌ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered / Skipped':`${L4[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L4[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.mapImg?`<img class="rv-map" src="${q.mapImg}" alt="Map Q${i+1}" loading="lazy" onload="this.style.opacity='1'" style="opacity:0;transition:opacity .4s" onerror="this.style.display='none'">`:'';
+    const expHtml=q.exp?`<div class="rv-exp"><strong>📖 Explanation:</strong> ${q.exp}</div>`:'';
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-num">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      ${mapHtml}
+      <div class="rv-row"><span class="rv-lbl">Your Answer:</span><span class="rv-val ${isSkp?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct Answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${expHtml}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('transportiq_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  }));
+}
+function restartQuiz(){
+  if(!confirm('🔄 Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('transportiq_v1');
+  S={cur:0,ans:new Array(Q.length).fill(null),skp:new Array(Q.length).fill(false),startTime:null,tLeft:TOTAL_TIME,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>

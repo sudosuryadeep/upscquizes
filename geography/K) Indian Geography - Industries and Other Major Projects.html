@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電力 · UPSC Energy & Industry Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0c10;
+  --bg2:#0f1015;
+  --bg3:#13141a;
+  --panel:#161720;
+  --border:#1e2030;
+  --border2:#252840;
+  --accent:#7c9ef5;
+  --accent2:#a78bfa;
+  --accent3:#f472b6;
+  --sakura:#fda4af;
+  --gold:#fcd34d;
+  --green:#6ee7b7;
+  --red:#f87171;
+  --txt:#e8eaf6;
+  --txt2:#8892b0;
+  --txt3:#4a5568;
+  --glow:rgba(124,158,245,.15);
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Subtle anime-style grid bg */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(124,158,245,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,158,245,.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+/* Floating orbs */
+.orb{
+  position:fixed;border-radius:50%;filter:blur(80px);
+  pointer-events:none;z-index:0;animation:orbFloat 12s ease-in-out infinite;
+}
+.orb1{width:400px;height:400px;background:rgba(124,158,245,.06);top:-100px;right:-100px;animation-delay:0s}
+.orb2{width:300px;height:300px;background:rgba(167,139,250,.05);bottom:100px;left:-100px;animation-delay:4s}
+.orb3{width:250px;height:250px;background:rgba(244,114,182,.04);top:50%;left:50%;animation-delay:8s}
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-30px) scale(1.05)}
+}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ═══ START ═══ */
+#start-screen{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;gap:1.5rem;
+}
+
+.kanji-deco{
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:5rem;font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  opacity:.15;position:absolute;top:2rem;left:50%;transform:translateX(-50%);
+  letter-spacing:-.05em;white-space:nowrap;pointer-events:none;
+  animation:kanjiPulse 6s ease-in-out infinite;
+}
+@keyframes kanjiPulse{0%,100%{opacity:.12}50%{opacity:.22}}
+
+.logo-ring{
+  width:80px;height:80px;border-radius:50%;
+  border:1.5px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;position:relative;
+  box-shadow:0 0 30px var(--glow),inset 0 0 20px rgba(124,158,245,.08);
+  animation:logoSpin 20s linear infinite;
+}
+.logo-ring::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px dashed rgba(124,158,245,.2);
+  animation:logoSpin 10s linear infinite reverse;
+}
+@keyframes logoSpin{to{box-shadow:0 0 40px var(--glow),inset 0 0 20px rgba(124,158,245,.1),0 0 0 1px rgba(124,158,245,.1)}}
+
+.title-block{max-width:540px}
+.title-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:.75rem;font-weight:300;letter-spacing:.3em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:.6rem;
+  opacity:.8;
+}
+.title-main{
+  font-size:clamp(1.8rem,5vw,3rem);font-weight:700;line-height:1.1;
+  letter-spacing:-.02em;
+}
+.title-main em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.title-sub{font-size:.82rem;font-weight:300;color:var(--txt2);margin-top:.6rem;letter-spacing:.05em}
+
+/* Stat pills */
+.stat-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+.stat-pill{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.5rem 1.1rem;
+  background:var(--panel);border:1px solid var(--border2);
+  border-radius:50px;font-size:.75rem;font-weight:500;color:var(--txt2);
+  letter-spacing:.03em;
+}
+.stat-pill span{color:var(--accent);font-family:'DM Mono',monospace;font-size:.8rem}
+
+/* Topic tags */
+.tag-wrap{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;max-width:500px}
+.tag{
+  font-size:.68rem;font-weight:500;padding:.28rem .8rem;
+  border-radius:4px;
+  background:rgba(124,158,245,.07);border:1px solid rgba(124,158,245,.15);
+  color:rgba(124,158,245,.75);letter-spacing:.04em;
+}
+
+.cta-btn{
+  position:relative;padding:.95rem 3rem;
+  background:transparent;
+  border:1.5px solid var(--accent);border-radius:6px;
+  color:var(--accent);font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:600;
+  letter-spacing:.08em;cursor:pointer;overflow:hidden;
+  transition:color .3s;
+}
+.cta-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--accent);transform:translateX(-100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:0;
+}
+.cta-btn:hover::before{transform:translateX(0)}
+.cta-btn:hover{color:var(--bg)}
+.cta-btn span{position:relative;z-index:1}
+
+.note-txt{font-size:.7rem;color:var(--txt3);letter-spacing:.05em;font-family:'DM Mono',monospace}
+
+/* ═══ QUIZ ═══ */
+#quiz-screen{flex-direction:column;padding:1rem}
+.quiz-wrap{max-width:820px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.8rem;padding-bottom:1.5rem}
+
+/* Header bar */
+.qheader{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.75rem 1.2rem;
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+}
+.qh-left{display:flex;align-items:center;gap:.8rem}
+.q-count{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--txt2)}
+.q-count strong{color:var(--txt);font-weight:500}
+.progress-line{width:100px;height:2px;background:var(--border2);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.timer{
+  font-family:'DM Mono',monospace;font-size:.85rem;font-weight:500;
+  color:var(--accent);padding:.3rem .7rem;
+  background:rgba(124,158,245,.08);border:1px solid rgba(124,158,245,.2);
+  border-radius:4px;transition:.3s;
+}
+.timer.warn{color:var(--gold);background:rgba(252,211,77,.1);border-color:rgba(252,211,77,.3)}
+.timer.danger{color:var(--red);background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);animation:blink .9s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Q card */
+.qcard{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;
+  animation:slideIn .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 4px 24px rgba(0,0,0,.4);
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.qcard-top{
+  display:flex;align-items:center;gap:.6rem;padding:1rem 1.4rem .75rem;
+  border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.qnum{
+  font-family:'DM Mono',monospace;font-size:.72rem;
+  background:var(--accent);color:var(--bg);
+  padding:.2rem .6rem;border-radius:3px;font-weight:500;letter-spacing:.05em;
+}
+.qtag-yr{
+  font-size:.7rem;color:var(--gold);background:rgba(252,211,77,.08);
+  border:1px solid rgba(252,211,77,.2);padding:.18rem .6rem;border-radius:3px;
+  font-family:'DM Mono',monospace;
+}
+.qtag-topic{
+  font-size:.7rem;color:var(--accent2);background:rgba(167,139,250,.08);
+  border:1px solid rgba(167,139,250,.2);padding:.18rem .6rem;border-radius:3px;
+}
+.qstatus{margin-left:auto;font-size:.68rem;font-weight:600;padding:.2rem .65rem;border-radius:3px;letter-spacing:.04em}
+.qs-none{color:var(--txt3);background:rgba(255,255,255,.04);border:1px solid var(--border)}
+.qs-ans{color:var(--green);background:rgba(110,231,183,.08);border:1px solid rgba(110,231,183,.2)}
+.qs-skp{color:var(--gold);background:rgba(252,211,77,.08);border:1px solid rgba(252,211,77,.2)}
+
+.qbody{padding:1.2rem 1.4rem;font-size:.9rem;line-height:1.9;font-weight:300;white-space:pre-wrap;color:var(--txt)}
+
+/* Map */
+.map-area{
+  margin:.2rem 1.4rem 1rem;
+  border:1px solid var(--border2);border-radius:8px;overflow:hidden;
+  background:#fff;max-width:380px;
+}
+.map-area img{width:100%;height:auto;display:block;opacity:0;transition:opacity .4s}
+.map-area img.vis{opacity:1}
+.map-caption{
+  font-size:.68rem;color:var(--accent);padding:.5rem .8rem;
+  background:rgba(124,158,245,.06);border-top:1px solid var(--border);
+  font-family:'DM Mono',monospace;letter-spacing:.04em;
+}
+
+/* Options */
+.opts-grid{display:flex;flex-direction:column;gap:.5rem;padding:.2rem 1.4rem 1.4rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.9rem;
+  padding:.85rem 1rem;
+  background:transparent;border:1px solid var(--border);border-radius:8px;
+  cursor:pointer;text-align:left;width:100%;
+  color:var(--txt2);font-family:'Outfit',sans-serif;font-size:.845rem;font-weight:300;
+  transition:all .2s;position:relative;overflow:hidden;line-height:1.6;
+}
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,158,245,.06),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.opt:hover:not(.picked):not(:disabled)::before{opacity:1}
+.opt:hover:not(.picked):not(:disabled){border-color:var(--accent2);color:var(--txt);transform:translateX(4px)}
+.opt-key{
+  min-width:26px;height:26px;border-radius:4px;
+  background:var(--bg3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;
+  color:var(--txt3);flex-shrink:0;transition:.2s;z-index:1;
+}
+.opt-txt{z-index:1;position:relative}
+.opt.picked{border-color:var(--accent);background:rgba(124,158,245,.07);color:var(--txt)}
+.opt.picked .opt-key{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* Nav */
+.qnav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.9rem 1.4rem;border-top:1px solid var(--border);flex-wrap:wrap;gap:.6rem;
+}
+.nav-left,.nav-right{display:flex;gap:.5rem}
+.btn{
+  padding:.58rem 1.3rem;border:1px solid var(--border2);border-radius:5px;
+  background:var(--bg3);color:var(--txt2);
+  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:500;
+  cursor:pointer;transition:.2s;letter-spacing:.03em;
+}
+.btn:hover:not(:disabled){background:var(--panel);color:var(--txt);border-color:var(--accent2)}
+.btn:disabled{opacity:.25;cursor:not-allowed}
+.btn-accent{background:rgba(124,158,245,.1);border-color:rgba(124,158,245,.3);color:var(--accent)}
+.btn-accent:hover{background:rgba(124,158,245,.2)!important;color:var(--accent)!important}
+.btn-skip{background:rgba(252,211,77,.06);border-color:rgba(252,211,77,.2);color:var(--gold)}
+.btn-skip:hover{background:rgba(252,211,77,.13)!important;color:var(--gold)!important}
+.btn-submit-final{background:rgba(110,231,183,.1);border-color:rgba(110,231,183,.3);color:var(--green)}
+.btn-submit-final:hover{background:rgba(110,231,183,.2)!important;color:var(--green)!important}
+
+/* Dot nav */
+.dotrow{display:flex;flex-wrap:wrap;gap:.3rem;max-width:820px;width:100%;margin:0 auto}
+.dot{
+  width:26px;height:26px;border-radius:4px;border:1px solid var(--border);
+  background:var(--bg3);color:var(--txt3);
+  font-size:.6rem;font-family:'DM Mono',monospace;font-weight:500;
+  cursor:pointer;transition:.18s;
+  display:flex;align-items:center;justify-content:center;
+}
+.dot:hover{border-color:var(--accent2);color:var(--accent2)}
+.dot.active{background:rgba(124,158,245,.15);border-color:var(--accent);color:var(--accent)}
+.dot.d-ans{background:rgba(110,231,183,.1);border-color:rgba(110,231,183,.3);color:var(--green)}
+.dot.d-skp{background:rgba(252,211,77,.08);border-color:rgba(252,211,77,.2);color:var(--gold)}
+
+/* ═══ MODAL ═══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);z-index:999;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{
+  background:var(--panel);border:1px solid var(--border2);border-radius:var(--r);
+  padding:2.5rem;max-width:400px;width:100%;text-align:center;
+  box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(124,158,245,.08);
+  animation:modalIn .3s cubic-bezier(.4,0,.2,1);
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.modal-icon{font-size:2.5rem;margin-bottom:1rem}
+.modal h3{font-size:1.1rem;font-weight:600;color:var(--txt);margin-bottom:.7rem;letter-spacing:.02em}
+.modal p{font-size:.82rem;color:var(--txt2);line-height:1.8;margin-bottom:1.8rem;font-family:'DM Mono',monospace}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+
+/* ═══ RESULTS ═══ */
+#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
+.res-wrap{max-width:860px;width:100%}
+
+.res-hero{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:2.5rem 2rem;text-align:center;margin-bottom:1rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::after{
+  content:'結果';font-family:'Noto Sans JP',sans-serif;font-size:8rem;font-weight:700;
+  position:absolute;right:-1rem;top:50%;transform:translateY(-50%);
+  color:rgba(124,158,245,.04);pointer-events:none;letter-spacing:-.05em;
+}
+.score-ring{width:140px;height:140px;position:relative;margin:0 auto 1.2rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--border2);stroke-width:8}
+.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num{font-size:2.4rem;font-weight:700;line-height:1;font-family:'DM Mono',monospace}
+.ring-den{font-size:.72rem;color:var(--txt3);font-family:'DM Mono',monospace;margin-top:.1rem}
+
+.res-grade{font-size:.75rem;font-weight:600;padding:.35rem 1.2rem;border-radius:3px;display:inline-block;margin-bottom:.5rem;letter-spacing:.08em}
+.res-title{font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.3rem}
+.res-pct{font-size:.82rem;color:var(--txt2);font-family:'DM Mono',monospace}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1rem}
+@media(max-width:480px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+.sc{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:1rem;text-align:center;transition:.2s;
+}
+.sc:hover{border-color:var(--border2);transform:translateY(-2px)}
+.sc-icon{font-size:1.2rem;margin-bottom:.35rem}
+.sc-val{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:500;margin-bottom:.15rem}
+.sc-lbl{font-size:.63rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.07em}
+
+/* Insights */
+.insights-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.4rem;margin-bottom:1rem;
+}
+.panel-head{font-size:.8rem;font-weight:600;color:var(--accent);margin-bottom:1rem;letter-spacing:.06em;
+  display:flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;text-transform:uppercase;}
+.ins-item{font-size:.81rem;color:var(--txt2);margin-bottom:.6rem;line-height:1.75;font-weight:300;display:flex;gap:.6rem}
+.weak-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.8rem}
+.wchip{font-size:.67rem;color:var(--sakura);background:rgba(253,164,175,.08);border:1px solid rgba(253,164,175,.2);
+  padding:.22rem .7rem;border-radius:3px;font-weight:500;letter-spacing:.03em}
+
+/* Tabs */
+.tabs{display:flex;gap:.3rem;padding:.28rem;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;margin-bottom:.8rem}
+.tab{flex:1;padding:.45rem;border:none;background:transparent;
+  font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:500;cursor:pointer;
+  color:var(--txt3);border-radius:5px;transition:.2s;letter-spacing:.03em}
+.tab.on{background:var(--panel);color:var(--txt);border:1px solid var(--border2)}
+
+/* Review cards */
+.rcard{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.2rem;margin-bottom:.7rem;border-left:3px solid transparent;
+  animation:slideIn .3s ease;transition:.2s;
+}
+.rcard:hover{transform:translateX(3px)}
+.rcard.rc{border-left-color:var(--green)}
+.rcard.rw{border-left-color:var(--red)}
+.rcard.rs{border-left-color:var(--gold)}
+.rtop{display:flex;align-items:center;gap:.4rem;margin-bottom:.65rem;flex-wrap:wrap}
+.r-num{font-size:.67rem;font-family:'DM Mono',monospace;background:var(--bg3);border:1px solid var(--border);color:var(--txt3);padding:.18rem .6rem;border-radius:3px}
+.r-yr{font-size:.67rem;font-family:'DM Mono',monospace;color:var(--gold);background:rgba(252,211,77,.07);border:1px solid rgba(252,211,77,.2);padding:.18rem .6rem;border-radius:3px}
+.r-badge{font-size:.66rem;font-weight:600;padding:.18rem .65rem;border-radius:3px;letter-spacing:.04em}
+.r-badge.rc{color:var(--green);background:rgba(110,231,183,.1);border:1px solid rgba(110,231,183,.25)}
+.r-badge.rw{color:var(--red);background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25)}
+.r-badge.rs{color:var(--gold);background:rgba(252,211,77,.08);border:1px solid rgba(252,211,77,.2)}
+.r-topic{margin-left:auto;font-size:.66rem;color:var(--accent2);background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);padding:.18rem .6rem;border-radius:3px}
+.rq{font-size:.82rem;color:var(--txt2);margin-bottom:.8rem;line-height:1.75;white-space:pre-wrap;font-weight:300}
+.r-map{max-width:200px;border-radius:6px;border:1px solid var(--border);margin:.5rem 0;display:block;background:#fff;padding:2px}
+.rrow{display:flex;gap:.5rem;font-size:.77rem;margin-bottom:.3rem;align-items:flex-start}
+.rlbl{font-weight:500;min-width:110px;color:var(--txt3);flex-shrink:0;font-family:'DM Mono',monospace;font-size:.71rem}
+.rval{color:var(--txt)}
+.rval.good{color:var(--green)}
+.rval.bad{color:var(--red)}
+.rexp{margin-top:.7rem;padding:.75rem .9rem;background:rgba(124,158,245,.06);border:1px solid rgba(124,158,245,.15);
+  border-radius:6px;font-size:.78rem;color:rgba(124,158,245,.8);line-height:1.7;font-weight:300}
+.rexp strong{color:var(--accent)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap}
+.btn-restart{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.22);color:var(--red);
+  padding:.7rem 1.6rem;border-radius:5px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:.2s}
+.btn-restart:hover{background:rgba(248,113,113,.15)}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(124,158,245,.3);border-radius:10px}
+
+@media(max-width:600px){
+  .qcard-top{padding:.8rem 1rem .65rem}
+  .qbody{padding:1rem}
+  .opts-grid{padding:.2rem 1rem 1rem}
+  .qnav{padding:.75rem 1rem}
+  .modal-btns{flex-direction:column}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ═══ START ═══ -->
+<div id="start-screen" class="screen active">
+  <div class="kanji-deco">エネルギー産業</div>
+
+  <div class="logo-ring">⚡</div>
+
+  <div class="title-block">
+    <div class="title-jp">UPSC PRELIMS · PYQ SERIES</div>
+    <h1 class="title-main">Energy &amp; <em>Industry</em><br>Geography</h1>
+    <p class="title-sub">Power Projects · Dams · Steel · Aluminium · 1996–2009</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill">📋 <span>24</span> Questions</div>
+    <div class="stat-pill">⏱ <span>20 Min</span> Timer</div>
+    <div class="stat-pill">🗺 <span>4</span> Map Questions</div>
+    <div class="stat-pill">📅 <span>1996–2009</span> PYQs</div>
+  </div>
+
+  <div class="tag-wrap">
+    <span class="tag">⚡ Hydro Power</span>
+    <span class="tag">💧 Dams & Reservoirs</span>
+    <span class="tag">🏭 Steel Plants</span>
+    <span class="tag">🔩 Aluminium</span>
+    <span class="tag">🗺 Map-Based</span>
+    <span class="tag">🌊 Irrigation Projects</span>
+    <span class="tag">🔥 Thermal Power</span>
+    <span class="tag">💨 Wind Energy</span>
+    <span class="tag">🏗 River Projects</span>
+  </div>
+
+  <button class="cta-btn" onclick="startQuiz()"><span>▶ &nbsp; START QUIZ</span></button>
+  <p class="note-txt">// progress auto-saved · resume anytime</p>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-wrap">
+    <div class="qheader">
+      <div class="qh-left">
+        <div class="q-count">Q <strong id="qCur">1</strong> / <strong id="qTot">24</strong></div>
+        <div class="progress-line"><div class="progress-fill" id="pbar" style="width:4.2%"></div></div>
+      </div>
+      <div class="timer" id="timerEl">20:00</div>
+      <button class="btn btn-accent" style="font-size:.72rem;padding:.38rem .8rem" onclick="showModal()">Submit Early</button>
+    </div>
+
+    <div class="qcard">
+      <div class="qcard-top">
+        <span class="qnum" id="qBadge">Q01</span>
+        <span class="qtag-yr" id="qYr">2009</span>
+        <span class="qtag-topic" id="qTopic">—</span>
+        <span class="qstatus qs-none" id="qStatus">○ Unanswered</span>
+      </div>
+      <div class="qbody" id="qBody"></div>
+      <div id="mapArea" style="display:none" class="map-area">
+        <img id="mapImg" src="" alt="Map" onload="this.classList.add('vis')" onerror="this.closest('.map-area').style.display='none'"/>
+        <div class="map-caption" id="mapCap"></div>
+      </div>
+      <div class="opts-grid" id="optsGrid"></div>
+      <div class="qnav">
+        <div class="nav-left">
+          <button class="btn" id="btnPrev" onclick="nav(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">⤭ Skip</button>
+        </div>
+        <div class="nav-right">
+          <button class="btn btn-accent" id="btnNext" onclick="nav(1)">Next →</button>
+          <button class="btn btn-submit-final" id="btnSubmit" style="display:none" onclick="showModal()">✓ Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotrow" id="dotRow"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results-screen" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle class="ring-fill" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/></svg>
+        <div class="ring-center"><div class="ring-num" id="rNum">0</div><div class="ring-den" id="rDen">/ 24</div></div>
+      </div>
+      <div class="res-grade" id="resGrade">—</div>
+      <div class="res-title" id="resTitle">Quiz Complete</div>
+      <div class="res-pct" id="resPct"></div>
+    </div>
+
+    <div class="stats-row">
+      <div class="sc"><div class="sc-icon">✓</div><div class="sc-val" id="stC" style="color:var(--green)">0</div><div class="sc-lbl">Correct</div></div>
+      <div class="sc"><div class="sc-icon">✗</div><div class="sc-val" id="stW" style="color:var(--red)">0</div><div class="sc-lbl">Wrong</div></div>
+      <div class="sc"><div class="sc-icon">⤭</div><div class="sc-val" id="stS" style="color:var(--gold)">0</div><div class="sc-lbl">Skipped</div></div>
+      <div class="sc"><div class="sc-icon">◎</div><div class="sc-val" id="stAcc" style="color:var(--accent)">0%</div><div class="sc-lbl">Accuracy</div></div>
+      <div class="sc"><div class="sc-icon">⏱</div><div class="sc-val" id="stTime" style="color:var(--accent2)">—</div><div class="sc-lbl">Time</div></div>
+      <div class="sc"><div class="sc-icon">∅</div><div class="sc-val" id="stAvg" style="color:#6ee7b7">—</div><div class="sc-lbl">Avg/Q</div></div>
+    </div>
+
+    <div class="insights-box">
+      <div class="panel-head">// 分析 · Smart Analysis</div>
+      <div id="insightBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (24)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-restart" onclick="restartQuiz()">↺ Restart Quiz</button>
+      <button class="btn btn-accent" onclick="window.scrollTo(0,0)">↑ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-icon">⚡</div>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-submit-final" onclick="submitQuiz()">Confirm Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const KEYS=['A','B','C','D'];
+
+const Q=[
+  {id:1,yr:"2009",topic:"Hydro Power",
+   text:"The Dul Hasti Power Station is based on which one of the following rivers?",
+   opts:["Beas","Chenab","Ravi","Sutlej"],ans:1,
+   exp:"Dul Hasti is a run-of-the-river hydroelectric project located on the Chenab river in Kishtwar district, Jammu & Kashmir. It has an installed capacity of 390 MW."},
+
+  {id:2,yr:"2008",topic:"Irrigation Projects",
+   text:"With which one of the following rivers is the Omkareshwar Project associated?",
+   opts:["Chambal","Narmada","Tapi","Bhima"],ans:1,
+   exp:"The Omkareshwar Dam (also called Mandhata) is built on the Narmada river in Khandwa district, Madhya Pradesh. It is a part of the Narmada Valley Development Project."},
+
+  {id:3,yr:"2008",topic:"Hydro Power",
+   text:"On which one of the following rivers is the Tehri Hydropower Complex located?",
+   opts:["Alaknanda","Bhagirathi","Dhauliganga","Mandakini"],ans:1,
+   exp:"Tehri Dam is built on the Bhagirathi river (near the confluence with Bhilangana) at Tehri, Uttarakhand. It is the tallest dam in India and one of the tallest in the world at 260.5 m."},
+
+  {id:4,yr:"2008",topic:"Irrigation Projects",
+   text:"Which of the following pairs are correctly matched?\n\nIrrigation Project ↔ State\n1. Damanganga  →  Gujarat\n2. Girna              →  Maharashtra\n3. Pamba             →  Kerala\n\nSelect the correct answer:",
+   opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:3,
+   exp:"All three are correctly matched. Damanganga project is in Gujarat; Girna project (on Girna river, a tributary of Godavari/Tapi) is in Maharashtra; Pamba project is in Kerala (Pamba river flows through Kerala). Answer is D — all three."},
+
+  {id:5,yr:"2008",topic:"Hydro Power",
+   text:"Where are Tapovan and Vishnugarh Hydroelectric Projects located?",
+   opts:["Madhya Pradesh","Uttar Pradesh","Uttarakhand","Rajasthan"],ans:2,
+   exp:"Both Tapovan (520 MW, on Dhauliganga river) and Vishnugarh (400 MW, on Alaknanda river) hydroelectric projects are located in Uttarakhand (previously Uttaranchal). They are important hydroelectric projects in the Garhwal Himalayas."},
+
+  {id:6,yr:"2007",topic:"Aluminium Industry",
+   text:"Match List-I (Aluminium Company) with List-II (Location):\n\nA. BALCO      →  1. Hirakud\nB. HINDALCO  →  2. Korba\nC. Indian Aluminium Company  →  3. Koraput\nD. NALCO       →  4. Renukoot\n\nA – B – C – D",
+   opts:["3 – 1 – 4 – 2","2 – 4 – 1 – 3","3 – 4 – 1 – 2","2 – 1 – 4 – 3"],ans:1,
+   exp:"BALCO (Bharat Aluminium Company) is at Korba, Chhattisgarh — A=2. HINDALCO is at Renukoot (Sonbhadra), UP — B=4. Indian Aluminium Company (Indal) was at Hirakud, Odisha — C=1. NALCO (National Aluminium) is at Koraput (Damanjodi), Odisha — D=3. So A-B-C-D = 2-4-1-3."},
+
+  {id:7,yr:"2006",topic:"River Linking",
+   text:"Recently UP and MP governments signed a Memorandum of Understanding for the linking of two rivers as a link project. Which are these two rivers?",
+   opts:["Betwa and Chambal","Betwa and Ken","Chambal and Son","Ken and Narmada"],ans:1,
+   exp:"The Ken-Betwa river interlinking project was approved by both Uttar Pradesh and Madhya Pradesh. The project aims to transfer surplus water from Ken river (in MP) to Betwa river (in UP/MP) via a canal. This was one of the first inter-state river linking projects signed."},
+
+  {id:8,yr:"2005",topic:"Dams & Projects",
+   text:"Gandhi Sagar Dam is a part of which one of the following?",
+   opts:["Chambal Project","Kosi Project","Damodar Valley Project","Bhakra Nangal Project"],ans:0,
+   exp:"Gandhi Sagar Dam is the first and largest of four dams on the Chambal river, built in Mandsaur district, Madhya Pradesh. It is a key component of the Chambal Valley Development Project, which also includes Rana Pratap Sagar, Jawahar Sagar, and Kota Barrage."},
+
+  {id:9,yr:"2005",topic:"Thermal Power",
+   text:"Match items in List I (Power Station) with those in List II (State):\n\nA. Kothagudem  →  1. Andhra Pradesh\nB. Raichur          →  2. Gujarat\nC. Mettur           →  3. Karnataka\nD. Wanakbori    →  4. Tamil Nadu\n\nA – B – C – D",
+   opts:["4 – 2 – 1 – 3","1 – 3 – 4 – 2","4 – 3 – 1 – 2","1 – 2 – 4 – 3"],ans:1,
+   exp:"Kothagudem Thermal Power Station is in Telangana (formerly AP) — A=1. Raichur Thermal Power Station is in Karnataka — B=3. Mettur Thermal Power Station is in Tamil Nadu — C=4. Wanakbori Thermal Power Station is in Gujarat — D=2. So A-B-C-D = 1-3-4-2."},
+
+  {id:10,yr:"2005",topic:"Energy Types",
+   text:"For which one of the following is Satara well-known?",
+   opts:["Thermal power plant","Wind energy plant","Hydro electric plant","Nuclear power plant"],ans:1,
+   exp:"Satara district in Maharashtra is well-known for Wind Energy. It has one of the largest wind energy installations in Maharashtra, particularly in the Chalkewadi area near Satara. The region has excellent wind potential due to its elevated plateau terrain."},
+
+  {id:11,yr:"2005",topic:"Power & Industry",
+   text:"Which pair is NOT correctly matched?\n\nProject ↔ Company",
+   opts:[
+     "Integrated Steel Plant at Jaipur (Orissa) : Steel Authority of India",
+     "Power Plant at Jamnagar (Gujarat) : Essar Power",
+     "Nabinagar Power Plant (Bihar) : Indian Railways",
+     "Kayamkulom Power Plant (Kerala) : National Thermal Power Corporation"
+   ],ans:0,
+   exp:"Jajpur (misprinted as Jaipur in some editions) Steel Plant in Odisha was planned for SAIL. The incorrectly matched option A states 'Jaipur (Orissa)' — the location is actually Jajpur in Odisha, but the association with SAIL is correct. The Essar Power plant at Jamnagar is correct. Nabinagar Power Plant was allotted to Railways. KTPS Kayamkulam is run by NTPC. Option A has the location error."},
+
+  {id:12,yr:"2005",topic:"Steel Industry",
+   text:"Which one of the following statements is NOT correct?",
+   opts:[
+     "Rourkela Steel Plant, the first integrated steel plant in Public sector of India was set up with Soviet Union collaboration.",
+     "Salem Steel Plant is a premier producer of stainless steel in India.",
+     "Maharashtra Electrosmelt Ltd is a subsidiary of the Steel Authority of India Ltd.",
+     "Visakhapatnam Steel Plant is a unit of the Rashtriya Ispat Nigam Ltd."
+   ],ans:0,
+   exp:"Rourkela Steel Plant was set up with WEST GERMAN (not Soviet Union) collaboration. Bhilai Steel Plant was set up with Soviet Union collaboration. Durgapur Steel Plant was set up with British collaboration. So Statement A is the one that is NOT correct."},
+
+  {id:13,yr:"2004",topic:"DVC",
+   text:"Consider the following statements:\n1. Damodar Valley Corporation is the first multipurpose river valley project of independent India.\n2. Damodar Valley Corporation includes thermal and gas power stations.\n\nWhich of the statements given above is/are correct?",
+   opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:0,
+   exp:"Statement 1 is CORRECT — DVC (1948) was the first multipurpose river valley project of independent India, modelled on the Tennessee Valley Authority. Statement 2 is WRONG — DVC primarily has thermal power stations (Bokaro, Chandrapura, Durgapur, Mejia); it does NOT have gas power stations. Only statement 1 is correct."},
+
+  {id:14,yr:"2003",topic:"Thermal Power",
+   text:"The thermal power plant of Bokaro is located in:",
+   opts:["Bihar","Chhattisgarh","Jharkhand","Orissa"],ans:2,
+   exp:"Bokaro Thermal Power Station is located in Bokaro district of Jharkhand. Bokaro was in Bihar before Jharkhand was carved out as a separate state in 2000. The Bokaro Steel City is also located here, run by SAIL. This is a frequently tested fact about state reorganisation."},
+
+  {id:15,yr:"2002",topic:"Aluminium Industry",
+   text:"HINDALCO, an aluminium factory located at Renukut owes its site basically to:",
+   opts:["Proximity of raw materials","Abundant supply of power","Efficient transport network","Proximity to the market"],ans:1,
+   exp:"HINDALCO at Renukoot (Sonbhadra, UP) is located there primarily due to abundant and cheap supply of electricity from the Rihand Dam (Govind Ballabh Pant Sagar) and Obra Thermal Power Plant nearby. Aluminium smelting is highly power-intensive — requiring about 14,000–17,000 kWh per tonne. Power availability is the key locational factor."},
+
+  {id:16,yr:"1999",topic:"Map-Based",
+   text:"In the given map figure, the site of the Tehri Dam has been labelled as:",
+   opts:["A","B","C","D"],ans:2,
+   mapImg:"https://i.ibb.co/prdXhdtn/Screenshot-2026-03-31-144448.png",
+   mapCap:"🗺 Identify the site labelled as Tehri Dam location",
+   exp:"In the standard UPSC map showing Uttarakhand river systems, Tehri Dam on the Bhagirathi river is at position C. The Bhagirathi flows from Gangotri glacier and the dam site near the old Tehri town (now submerged) corresponds to label C on this map."},
+
+  {id:17,yr:"1999",topic:"Dams & Rivers",
+   text:"Match List I (Rivers) with List II (Dams):\n\nI. Cauvery    →  A. Alamatti\nII. Krishna    →  B. Mettur\nIII. Narmada  →  C. Gandhi Sagar\nIV. Chambal  →  D. Sardar Sarovar\n\nSelect the correct answer:",
+   opts:["I-A, II-D, III-B, IV-C","I-B, II-A, III-D, IV-C","I-B, II-A, III-C, IV-D","I-A, II-C, III-D, IV-B"],ans:1,
+   exp:"Cauvery → Mettur Dam (Tamil Nadu) = I-B. Krishna → Alamatti Dam (Karnataka) = II-A. Narmada → Sardar Sarovar (Gujarat) = III-D. Chambal → Gandhi Sagar (MP) = IV-C. Correct: I-B, II-A, III-D, IV-C."},
+
+  {id:18,yr:"1998",topic:"Map-Based",
+   text:"Commercial production of mineral oil has started recently in which one of the areas of India, labelled 1, 2, 3 and 4 in the map below:",
+   opts:["1","2","3","4"],ans:0,
+   mapImg:"https://i.ibb.co/cGPx26K/Screenshot-2026-03-31-144506.png",
+   mapCap:"🗺 Identify area where commercial mineral oil production started (1, 2, 3 or 4)",
+   exp:"Area 1 on the map refers to the Rajasthan oil fields (Barmer/Sanchore basin), where ONGC started commercial oil production. This was a significant discovery in Rajasthan. The answer corresponds to label 1 on the map."},
+
+  {id:19,yr:"1998",topic:"Map-Based",
+   text:"The rough outline map shows centres of cement industry labelled 1, 2, 3 and 4.\n\nMatch these centres with:\nA) Katni\nB) Tirunelveli\nC) Sikka\nD) Churk\n\nSelect the correct answer:",
+   opts:["A-3, B-4, C-2, D-1","A-2, B-4, C-1, D-3","A-1, B-2, C-4, D-3","A-2, B-3, C-1, D-4"],ans:1,
+   mapImg:"https://i.ibb.co/4xwbVkS/Screenshot-2026-03-31-144516.png",
+   mapCap:"🗺 Match cement industry centres 1, 2, 3, 4 with: Katni, Tirunelveli, Sikka, Churk",
+   exp:"From the map: Label 1 is in Gujarat coast = Sikka (C-1). Label 2 is in Madhya Pradesh = Katni (A-2). Label 3 is in Uttar Pradesh = Churk (D-3). Label 4 is in Tamil Nadu south = Tirunelveli (B-4). Answer: A-2, B-4, C-1, D-3."},
+
+  {id:20,yr:"1997",topic:"Dams",
+   text:"The Alamatti Dam is on the river:",
+   opts:["Godavari","Cauvery","Krishna","Mahanadi"],ans:2,
+   exp:"Alamatti Dam (Upper Krishna Project Stage II) is built on the Krishna river in Bagalkot district, Karnataka. It is one of the most significant dams on the Krishna river, providing irrigation and power to northern Karnataka. It has been a subject of dispute between Karnataka and Andhra Pradesh."},
+
+  {id:21,yr:"1997",topic:"Irrigation",
+   text:"The canal-carrying capacity of Farakka is:",
+   opts:["75,000 cusecs","70,000 cusecs","40,000 cusecs","35,000 cusecs"],ans:2,
+   exp:"The Farakka Barrage feeder canal (connecting Farakka to Hooghly/Bhagirathi) has a carrying capacity of 40,000 cusecs. The Farakka Barrage on the Ganga was constructed in 1975 and the feeder canal diverts water to maintain the navigability of Kolkata port."},
+
+  {id:22,yr:"1996",topic:"Energy & Irrigation",
+   text:"Which of the following pairs are correctly matched?\n\nI.   Idukki        →  Thermal power station\nII.  Sabarigiri  →  Hydro-electric project\nIII. Ghatprabha  →  Irrigation project\nIV.  Ramganga   →  Multipurpose project\n\nSelect the correct answer:",
+   opts:["II, III and IV","I, II, III and IV","III and IV","I and II"],ans:0,
+   exp:"Idukki is a HYDRO-ELECTRIC project (arch dam on Periyar river, Kerala), NOT thermal — pair I is WRONG. Sabarigiri is a hydro-electric project in Kerala — CORRECT. Ghatprabha is an irrigation project in Karnataka — CORRECT. Ramganga is a multipurpose project in Uttarakhand — CORRECT. So II, III and IV are correct."},
+
+  {id:23,yr:"1996",topic:"Steel Industry",
+   text:"Local supply of coal is NOT available to:",
+   opts:["TISCO, Jamshedpur","VSL, Bhadravati","HSL, Durgapur","HSL, Bhilai"],ans:1,
+   exp:"Visvesvaraya Steel Limited (VSL) at Bhadravati, Karnataka does NOT have local coal supply — it uses hydroelectric power and later non-coking coal from distant sources. Karnataka has no major coking coal deposits. In contrast, TISCO (Jharkhand), Durgapur (WB), and Bhilai (CG) all have access to Jharkhand/WB coalfields."},
+
+  {id:24,yr:"1995",topic:"Map-Based",
+   text:"In the map given below, three out of the four places marked indicate where a thermal power station is located. The place where there is NO thermal power station is marked:",
+   opts:["1","2","3","4"],ans:3,
+   mapImg:"https://i.ibb.co/1YqqXcjh/Screenshot-2026-03-31-144528.png",
+   mapCap:"🗺 Three locations have thermal power stations — identify the one (marked 1/2/3/4) that does NOT",
+   exp:"From the map showing thermal power station locations in India, location marked 4 does not correspond to a thermal power station. The other three positions (1, 2, 3) each mark known thermal power plant locations. Location 4 is in a region without a thermal plant."}
+];
+
+// State
+let S={
+  cur:0,
+  ans:new Array(24).fill(null),
+  skp:new Array(24).fill(false),
+  start:null,tLeft:20*60,tInt:null,done:false
+};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('upsc_energy_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('Resume previous session?')){
+        S={...S,...d,tInt:null};
+      }else{localStorage.removeItem('upsc_energy_v1');S.start=Date.now();}
+    }catch{S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz-screen');
+  buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updateTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updateTimer();
+    if(S.tLeft%15===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('Time is up! Submitting…');submitQuiz();}
+  },1000);
+}
+function updateTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className='timer'+(S.tLeft<=120?' danger':S.tLeft<=300?' warn':'');
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent=`Q${String(i+1).padStart(2,'0')}`;
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pbar').style.width=((i+1)/Q.length*100)+'%';
+
+  const st=document.getElementById('qStatus');
+  if(S.skp[i])             {st.textContent='⤭ Skipped'; st.className='qstatus qs-skp';}
+  else if(S.ans[i]!==null) {st.textContent='✓ Answered';st.className='qstatus qs-ans';}
+  else                     {st.textContent='○ Unanswered';st.className='qstatus qs-none';}
+
+  // Map
+  const ma=document.getElementById('mapArea'),mi=document.getElementById('mapImg'),mc=document.getElementById('mapCap');
+  if(q.mapImg){
+    mi.classList.remove('vis');
+    mi.src=q.mapImg;
+    mc.textContent=q.mapCap||'';
+    ma.style.display='block';
+  }else{ma.style.display='none';}
+
+  // Options
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' picked':'');
+    b.innerHTML=`<span class="opt-key">${KEYS[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=i===Q.length-1;
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSubmit').style.display=last?'inline-block':'none';
+  updateDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)nav(1);else renderQ();}
+
+function buildDots(){
+  const dr=document.getElementById('dotRow');dr.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`d${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};
+    dr.appendChild(d);
+  });
+}
+function updateDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('active');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showModal(){
+  const ans=S.ans.filter(a=>a!==null).length;
+  const skp=S.skp.filter(Boolean).length;
+  const una=Q.length-ans-skp;
+  document.getElementById('modalTxt').textContent=
+    `Answered: ${ans}  ·  Skipped: ${skp}  ·  Unanswered: ${una}\n\nAnswers cannot be changed after submission.`;
+  document.getElementById('overlay').classList.add('on');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('on');}
+
+function submitQuiz(){
+  closeModal();clearInterval(S.tInt);S.done=true;
+  const used=(20*60)-S.tLeft;
+  let correct=0,wrong=0,skipped=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)skipped++;
+    else if(S.ans[i]===q.ans)correct++;
+    else wrong++;
+  });
+  const attempted=correct+wrong;
+  const pct=Math.round(correct/Q.length*100);
+  const acc=attempted?Math.round(correct/attempted*100):0;
+  const avgT=Math.round(used/Q.length);
+
+  let grade,gc;
+  if(pct>=90){grade='A+ · Outstanding';gc='#6ee7b7';}
+  else if(pct>=75){grade='A · Excellent';gc='#7c9ef5';}
+  else if(pct>=60){grade='B · Good';gc='#a78bfa';}
+  else if(pct>=45){grade='C · Average';gc='#fcd34d';}
+  else{grade='D · Revise';gc='#f87171';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=gc;
+  setTimeout(()=>{arc.style.strokeDashoffset=314.16*(1-pct/100);},100);
+
+  document.getElementById('rNum').textContent=correct;
+  document.getElementById('rNum').style.color=gc;
+  const gp=document.getElementById('resGrade');
+  gp.textContent=grade;gp.style.cssText=`background:${gc}18;color:${gc};border:1px solid ${gc}35`;
+  document.getElementById('resTitle').textContent=pct>=75?'Strong Performance!':pct>=50?'Good Attempt!':'Keep Revising';
+  document.getElementById('resPct').textContent=`${pct}% · ${correct} correct of ${Q.length} questions`;
+
+  document.getElementById('stC').textContent=correct;
+  document.getElementById('stW').textContent=wrong;
+  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=`${Math.floor(used/60)}:${pad(used%60)}`;
+  document.getElementById('stAvg').textContent=avgT+'s';
+
+  buildInsights(correct,wrong,skipped,pct,acc,attempted);
+  renderReview('all');
+  localStorage.removeItem('upsc_energy_v1');
+  show('results-screen');
+}
+
+function buildInsights(correct,wrong,skipped,pct,acc,attempted){
+  const topicErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topicErr[q.topic]=(topicErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topicErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('★ Near-perfect mastery of Energy & Infrastructure Geography. Excellent UPSC preparation!');
+  else if(pct>=75)lines.push('↑ Very strong result! A few targeted revisions will bring you to mastery.');
+  else if(pct>=50)lines.push('~ Good base. Focus on power station locations and steel/aluminium plant details.');
+  else lines.push('↺ Review NCERT Class 10 Geography (Ch. 6 — Manufacturing Industries) and NCERT India People & Economy.');
+
+  if(attempted>0&&acc<55&&attempted>6)
+    lines.push(`◎ Accuracy: ${acc}% among attempted. Practice elimination technique to avoid negative marking.`);
+  if(skipped>5)
+    lines.push(`⤭ ${skipped} skipped. Educated guesses using elimination can score marks in UPSC Prelims.`);
+
+  if(topicErr['Hydro Power']||topicErr['Dams & Projects'])
+    lines.push('💧 Revise major dams: Bhakra (Sutlej), Tehri (Bhagirathi), Hirakud (Mahanadi), Sardar Sarovar (Narmada), Alamatti (Krishna), Gandhi Sagar (Chambal).');
+  if(topicErr['Steel Industry']||topicErr['Power & Industry'])
+    lines.push('🏭 Steel plant collaborations: Bhilai=Soviet, Rourkela=West Germany, Durgapur=Britain. VSL Bhadravati uses hydro power due to no local coal.');
+  if(topicErr['Aluminium Industry'])
+    lines.push('🔩 Aluminium locations: BALCO=Korba (CG), HINDALCO=Renukoot (UP), NALCO=Koraput/Damanjodi (Odisha). All near cheap power sources.');
+  if(topicErr['Thermal Power'])
+    lines.push('⚡ Thermal plants: Kothagudem (AP), Raichur (Karnataka), Mettur (TN), Wanakbori (Gujarat). Bokaro is in Jharkhand (post 2000 state).');
+  if(topicErr['Map-Based'])
+    lines.push('🗺 Map questions need regular atlas practice. Mark all major power plants, dams, and industrial centres on India outline maps.');
+  if(topicErr['Irrigation Projects'])
+    lines.push('🌊 Irrigation: Omkareshwar/Sardar Sarovar on Narmada; Alamatti on Krishna; Gandhi Sagar on Chambal; Farakka feeder canal = 40,000 cusecs.');
+
+  ranked.slice(0,3).forEach(([t,c])=>{
+    lines.push(`✗ Weak area: ${t} (${c} wrong) — prioritise in next revision.`);
+  });
+
+  const ib=document.getElementById('insightBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-item"><span>${l}</span></div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-row">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderReview(f);
+}
+function renderReview(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSkp=S.skp[i]||ua===null;
+    const isOk=!isSkp&&ua===q.ans;
+    const isWrong=!isSkp&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWrong)return;
+    if(f==='skipped'&&!isSkp)return;
+    const rc=isOk?'rc':isWrong?'rw':'rs';
+    const lbl=isOk?'✓ Correct':isWrong?'✗ Wrong':'⤭ Skipped';
+    const uaTxt=isSkp?'Not answered':`${KEYS[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${KEYS[q.ans]}) ${q.opts[q.ans]}`;
+    const mapHtml=q.mapImg?`<img class="r-map" src="${q.mapImg}" alt="Map" loading="lazy" onload="this.style.opacity='1'" style="opacity:0;transition:opacity .4s" onerror="this.style.display='none'">`:'';
+    const expHtml=q.exp?`<div class="rexp"><strong>// Explanation:</strong> ${q.exp}</div>`:'';
+    html+=`<div class="rcard ${rc}">
+      <div class="rtop">
+        <span class="r-num">Q${String(i+1).padStart(2,'0')}</span>
+        <span class="r-yr">${q.yr}</span>
+        <span class="r-badge ${rc}">${lbl}</span>
+        <span class="r-topic">${q.topic}</span>
+      </div>
+      <div class="rq">${q.text.replace(/</g,'&lt;')}</div>
+      ${mapHtml}
+      <div class="rrow"><span class="rlbl">Your Answer:</span><span class="rval ${isSkp?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rrow"><span class="rlbl">Correct Answer:</span><span class="rval good">${caTxt}</span></div>
+      ${expHtml}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt3);text-align:center;padding:2.5rem;font-family:DM Mono,monospace;font-size:.8rem">// no questions in this category</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('upsc_energy_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+  }));
+}
+function restartQuiz(){
+  if(!confirm('Restart quiz? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('upsc_energy_v1');
+  S={cur:0,ans:new Array(24).fill(null),skp:new Array(24).fill(false),start:null,tLeft:20*60,tInt:null,done:false};
+  show('start-screen');
+}
+</script>
+</body>
+</html>
