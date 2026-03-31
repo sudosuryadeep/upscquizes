@@ -3,660 +3,759 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WorldMap Pro – World Geography Quiz</title>
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>GeoMind · UPSC World Geography</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#04080f;--bg2:#080d18;--bg3:#0c1220;
-  --g1:rgba(255,255,255,.038);--gb:rgba(255,255,255,.085);
-  --cyan:#00d4ff;--cyan2:#0ea5e9;--teal:#14b8a6;
-  --lime:#84cc16;--rose:#f43f5e;--amber:#f59e0b;--grn:#22c55e;
-  --txt:#dbeafe;--txt2:#64748b;--txt3:#94a3b8;
-  --r:14px;--r2:20px;--r3:28px;
-  --sh:0 10px 40px rgba(0,0,0,.55);
-  --glow:0 0 50px rgba(0,212,255,.15);
+  --bg:#f5f0e8;
+  --bg2:#ede8df;
+  --ink:#1a1612;
+  --ink2:#4a4540;
+  --ink3:#8a837a;
+  --accent:#c84b2f;
+  --accent2:#e8855a;
+  --gold:#b8860b;
+  --correct:#2d6a4f;
+  --wrong:#c84b2f;
+  --card:#ffffff;
+  --border:#d4cfc8;
+  --r:12px;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Josefin Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-/* ── BG ── */
-body::before{content:'';position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 5% 30%,rgba(0,212,255,.09),transparent),
-    radial-gradient(ellipse 65% 55% at 95% 70%,rgba(20,184,166,.08),transparent),
-    radial-gradient(ellipse 60% 70% at 50% 100%,rgba(132,204,22,.05),transparent);
-  pointer-events:none}
-.globe-bg{position:fixed;right:-120px;top:-120px;width:500px;height:500px;border-radius:50%;
-  background:conic-gradient(from 0deg,transparent,rgba(0,212,255,.04),transparent 50%);
-  animation:globeSpin 20s linear infinite;pointer-events:none;z-index:0}
-@keyframes globeSpin{to{transform:rotate(360deg)}}
+/* grain texture */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;opacity:.5;
+}
 
-/* SCREENS */
 .screen{display:none;position:relative;z-index:1;min-height:100vh}
 .screen.active{display:flex}
 
-/* ══════ START ══════ */
-#start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+/* ── START ── */
+#start{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;gap:0;
+}
 
-.globe-icon{width:125px;height:125px;margin:0 auto 2rem;position:relative;display:flex;align-items:center;justify-content:center;font-size:3.5rem}
-.globe-icon::before{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#00d4ff,#14b8a6,#84cc16,#0ea5e9,#00d4ff);animation:spin 6s linear infinite;opacity:.9}
-.globe-icon::after{content:'';position:absolute;inset:5px;border-radius:50%;background:var(--bg2)}
-.globe-icon span{position:relative;z-index:2}
-@keyframes spin{to{transform:rotate(360deg)}}
+.s-eyebrow{
+  font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:2rem;
+  display:flex;align-items:center;gap:.8rem;
+}
+.s-eyebrow::before,.s-eyebrow::after{
+  content:'';height:1px;width:40px;background:var(--border);
+}
 
-.s-title{font-family:'Raleway',sans-serif;font-size:clamp(2rem,7vw,4.5rem);font-weight:900;line-height:1;margin-bottom:.55rem;letter-spacing:-.02em}
-.s-t1{display:block;background:linear-gradient(135deg,#00d4ff,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.s-t2{display:block;background:linear-gradient(135deg,#14b8a6,#84cc16);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.s-sub{font-size:.85rem;color:var(--txt2);margin-bottom:2.8rem;text-transform:uppercase;letter-spacing:.1em}
+.s-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,10vw,6.5rem);
+  line-height:.95;color:var(--ink);
+  margin-bottom:1.6rem;
+}
+.s-title em{color:var(--accent);font-style:italic}
 
-.meta-row{display:flex;gap:0;max-width:720px;width:100%;margin:0 auto 2.8rem;flex-wrap:wrap}
-.mc{flex:1;min-width:140px;padding:1.3rem 1rem;background:var(--g1);border:1px solid var(--gb);backdrop-filter:blur(14px);text-align:center;transition:.2s}
-.mc:first-child{border-radius:var(--r2) 0 0 var(--r2)}
-.mc:last-child{border-radius:0 var(--r2) var(--r2) 0}
-.mc+.mc{border-left:none}
-.mc:hover{background:rgba(0,212,255,.06)}
-.mc-ic{font-size:1.5rem;margin-bottom:.35rem}
-.mc-v{font-family:'Raleway',sans-serif;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.mc-l{font-size:.65rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em}
+.s-sub{
+  font-size:.88rem;color:var(--ink3);
+  max-width:400px;line-height:1.8;margin-bottom:3rem;
+  font-weight:300;
+}
 
-.chip-row{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:660px;margin:0 auto 2.8rem}
-.chip{font-size:.7rem;font-weight:600;padding:.3rem .9rem;border-radius:50px;border:1px solid rgba(0,212,255,.2);background:rgba(0,212,255,.05);color:var(--txt3);letter-spacing:.03em;transition:.2s}
-.chip:hover{border-color:var(--cyan);color:var(--cyan)}
+.s-stats{
+  display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;margin-bottom:3rem;background:var(--card);
+}
+.s-stat{
+  padding:1.2rem 2rem;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;gap:.25rem;
+}
+.s-stat:last-child{border-right:none}
+.s-stat-v{
+  font-family:'Playfair Display',serif;font-size:1.8rem;
+  font-weight:700;color:var(--ink);
+}
+.s-stat-l{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)}
 
-.start-btn{padding:1.05rem 3.2rem;background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#020a14;border:none;border-radius:50px;font-family:'Raleway',sans-serif;font-size:1.05rem;font-weight:800;cursor:pointer;letter-spacing:.06em;box-shadow:0 6px 28px rgba(0,212,255,.38);transition:.25s;position:relative;overflow:hidden}
-.start-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.2),transparent);opacity:0;transition:.25s}
-.start-btn:hover{transform:translateY(-4px);box-shadow:0 14px 42px rgba(0,212,255,.55)}
-.start-btn:hover::after{opacity:1}
-.note{color:var(--txt2);font-size:.72rem;margin-top:1.1rem;opacity:.6;letter-spacing:.04em}
+.s-btn{
+  background:var(--ink);color:var(--bg);
+  border:none;padding:1rem 3rem;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;
+  cursor:pointer;transition:all .25s;letter-spacing:.04em;
+  position:relative;overflow:hidden;
+}
+.s-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--accent);
+  transform:translateX(-100%);transition:.3s cubic-bezier(.4,0,.2,1);
+}
+.s-btn:hover::before{transform:translateX(0)}
+.s-btn span{position:relative;z-index:1}
+.s-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(26,22,18,.25)}
 
-/* ══════ QUIZ ══════ */
-#quiz-screen{flex-direction:column;padding:1rem}
-.qshell{max-width:880px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;padding-bottom:1rem}
+.s-note{margin-top:1.2rem;font-size:.72rem;color:var(--ink3)}
 
-/* Topbar */
-.topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:.82rem 1.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px)}
-.qlbl{font-family:'Raleway',sans-serif;font-size:1rem;font-weight:800;color:var(--txt3);letter-spacing:.03em}
-.qlbl em{color:var(--cyan);font-style:normal}
-.tclock{display:flex;align-items:center;gap:.42rem;padding:.4rem 1.1rem;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.28);border-radius:50px;font-family:'Raleway',sans-serif;font-size:.94rem;font-weight:800;color:var(--cyan);white-space:nowrap;transition:.3s}
-.tclock.hot{background:rgba(244,63,94,.16);border-color:rgba(244,63,94,.38);color:var(--rose);animation:hotblink .85s infinite}
-@keyframes hotblink{0%,100%{opacity:1}50%{opacity:.38}}
-.tb-r{display:flex;justify-content:flex-end}
+/* ── QUIZ ── */
+#quiz{
+  flex-direction:column;align-items:center;
+  padding:1.5rem 1rem;gap:1rem;
+}
+.q-shell{max-width:780px;width:100%;display:flex;flex-direction:column;gap:1rem}
 
-/* Progress */
-.pbar{height:4px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
-.pfill{height:100%;background:linear-gradient(90deg,#00d4ff,#14b8a6,#84cc16);border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(0,212,255,.45)}
+/* Header strip */
+.q-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0;
+}
+.q-counter{
+  font-family:'DM Mono',monospace;font-size:.75rem;
+  color:var(--ink3);letter-spacing:.05em;
+}
+.q-timer{
+  font-family:'DM Mono',monospace;font-size:.85rem;font-weight:500;
+  color:var(--ink);background:var(--card);border:1px solid var(--border);
+  padding:.4rem .9rem;border-radius:50px;transition:.3s;
+}
+.q-timer.hot{color:var(--accent);border-color:var(--accent);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
-/* Q Card */
-.qcard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:2rem 2.2rem;backdrop-filter:blur(20px);animation:cin .36s cubic-bezier(.4,0,.2,1)}
-@keyframes cin{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+/* Progress bar */
+.q-bar{height:2px;background:var(--border);border-radius:10px;overflow:hidden}
+.q-fill{height:100%;background:var(--accent);border-radius:10px;transition:width .5s ease}
 
-.q-toprow{display:flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
-.qbdg{background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#020a14;font-family:'Raleway',sans-serif;font-size:.77rem;font-weight:800;padding:.28rem .85rem;border-radius:50px;letter-spacing:.03em}
-.ytag{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.06);padding:.28rem .72rem;border-radius:50px;border:1px solid var(--gb)}
-.ttag{font-size:.68rem;color:var(--teal);background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.25);padding:.28rem .72rem;border-radius:50px}
-.stag{margin-left:auto;font-size:.68rem;font-weight:700;padding:.28rem .8rem;border-radius:50px}
-.st0{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
-.st1{background:rgba(34,197,94,.13);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.st2{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+/* Card */
+.q-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:2rem;
+  box-shadow:0 2px 20px rgba(26,22,18,.06);
+  animation:slideUp .35s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-/* Map image */
-.qmapbox{display:flex;justify-content:center;margin:1rem 0}
-.qmapbox img{max-width:360px;width:100%;border-radius:var(--r);border:1px solid var(--gb);box-shadow:var(--sh);background:rgba(255,255,255,.04)}
-.mapcap{font-size:.7rem;color:var(--txt2);text-align:center;margin-top:.42rem;font-style:italic;letter-spacing:.02em}
+.q-meta{
+  display:flex;align-items:center;gap:.6rem;margin-bottom:1.4rem;flex-wrap:wrap;
+}
+.q-num{
+  font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;
+  color:var(--accent);background:rgba(200,75,47,.08);
+  padding:.25rem .7rem;border-radius:50px;
+  border:1px solid rgba(200,75,47,.2);
+}
+.q-yr{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  color:var(--gold);background:rgba(184,134,11,.07);
+  padding:.25rem .7rem;border-radius:50px;
+  border:1px solid rgba(184,134,11,.2);
+}
+.q-topic{
+  font-size:.65rem;color:var(--ink3);background:var(--bg2);
+  padding:.25rem .7rem;border-radius:50px;border:1px solid var(--border);
+}
+.q-status-tag{
+  margin-left:auto;font-size:.62rem;font-weight:500;
+  padding:.25rem .7rem;border-radius:50px;
+}
+.qs-none{background:var(--bg2);color:var(--ink3);border:1px solid var(--border)}
+.qs-ans{background:rgba(45,106,79,.1);color:var(--correct);border:1px solid rgba(45,106,79,.25)}
+.qs-skp{background:rgba(184,134,11,.1);color:var(--gold);border:1px solid rgba(184,134,11,.2)}
 
-.qtext{font-size:.93rem;line-height:1.85;color:var(--txt);margin-bottom:1.55rem;white-space:pre-wrap}
+.q-body{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;line-height:1.85;
+  color:var(--ink);margin-bottom:1.6rem;
+  white-space:pre-wrap;
+}
+
+/* Map */
+.map-area{
+  margin:0 0 1.4rem;border-radius:10px;overflow:hidden;
+  border:1px solid var(--border);background:var(--bg2);
+}
+.map-area img{
+  width:100%;max-height:300px;object-fit:contain;
+  display:block;background:#fff;
+  opacity:0;transition:opacity .4s;
+}
+.map-area img.in{opacity:1}
+.map-cap{
+  padding:.6rem 1rem;font-size:.72rem;color:var(--ink3);
+  font-style:italic;border-top:1px solid var(--border);
+}
 
 /* Options */
-.opts{display:flex;flex-direction:column;gap:.68rem}
-.opt{display:flex;align-items:flex-start;gap:.9rem;padding:.97rem 1.15rem;background:rgba(255,255,255,.02);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--r);cursor:pointer;transition:all .2s;text-align:left;width:100%;color:var(--txt);font-family:'Josefin Sans',sans-serif;font-size:.875rem;font-weight:400;line-height:1.55;position:relative;overflow:hidden}
-.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.08),transparent);opacity:0;transition:.2s}
-.opt:hover:not(.sel):not(:disabled)::before{opacity:1}
-.opt:hover:not(.sel):not(:disabled){border-color:rgba(0,212,255,.4);transform:translateX(5px)}
-.oltr{min-width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:'Raleway',sans-serif;font-size:.77rem;font-weight:800;flex-shrink:0;transition:.2s;position:relative;z-index:1}
-.otxt{position:relative;z-index:1}
-.opt.sel{background:rgba(0,212,255,.1);border-color:var(--cyan)}
-.opt.sel .oltr{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14}
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.85rem;
+  padding:.9rem 1.1rem;
+  background:transparent;border:1.5px solid var(--border);
+  border-radius:10px;cursor:pointer;transition:all .18s;
+  text-align:left;width:100%;
+  font-family:'DM Sans',sans-serif;font-size:.875rem;
+  line-height:1.6;color:var(--ink);
+}
+.opt:hover:not(.sel){
+  border-color:var(--accent);background:rgba(200,75,47,.04);
+  transform:translateX(4px);
+}
+.opt.sel{
+  border-color:var(--accent);background:rgba(200,75,47,.06);
+}
+.opt-ltr{
+  min-width:26px;height:26px;border-radius:6px;
+  background:var(--bg2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;
+  color:var(--ink3);flex-shrink:0;transition:.18s;
+}
+.opt.sel .opt-ltr{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* Nav */
-.qnav{display:flex;justify-content:space-between;margin-top:1.55rem;gap:.65rem;flex-wrap:wrap}
-.nc{display:flex;gap:.6rem}
-.btn{padding:.75rem 1.55rem;border:none;border-radius:50px;font-family:'Josefin Sans',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:.22s;letter-spacing:.04em}
-.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
-.btn-ghost:hover{background:rgba(255,255,255,.1)}
-.btn-ghost:disabled{opacity:.28;cursor:not-allowed}
-.btn-skip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
-.btn-skip:hover{background:rgba(245,158,11,.2)}
-.btn-cyan{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14;box-shadow:0 4px 18px rgba(0,212,255,.32)}
-.btn-cyan:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,212,255,.5)}
-.btn-grn{background:linear-gradient(135deg,#16a34a,#22c55e);color:#021006;box-shadow:0 4px 14px rgba(34,197,94,.28)}
-.btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(34,197,94,.48)}
-.btn-early{font-size:.76rem;padding:.48rem 1rem}
+.q-nav{display:flex;justify-content:space-between;margin-top:1.4rem;gap:.6rem;flex-wrap:wrap}
+.btn{
+  padding:.65rem 1.4rem;border:none;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;
+  cursor:pointer;transition:all .2s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--ink2)}
+.btn-outline:hover:not(:disabled){border-color:var(--ink);background:var(--bg2)}
+.btn-skip{background:rgba(184,134,11,.1);border:1px solid rgba(184,134,11,.25);color:var(--gold)}
+.btn-skip:hover{background:rgba(184,134,11,.2)}
+.btn-dark{background:var(--ink);color:var(--bg)}
+.btn-dark:hover{background:#2d2820;transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,22,18,.2)}
+.btn-green{background:var(--correct);color:#fff}
+.btn-green:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(45,106,79,.3)}
 
-/* Dots */
-.dotmap{display:flex;flex-wrap:wrap;gap:.38rem;max-width:880px;width:100%;margin:0 auto}
-.dot{width:28px;height:28px;border-radius:8px;border:none;font-size:.65rem;font-weight:700;cursor:pointer;transition:.18s;background:rgba(255,255,255,.05);color:var(--txt2)}
-.dot:hover{background:rgba(0,212,255,.2);color:var(--cyan)}
-.dot.cur{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14;box-shadow:0 2px 12px rgba(0,212,255,.45)}
-.dot.d-ans{background:rgba(34,197,94,.17);color:#4ade80;border:1px solid rgba(34,197,94,.33)}
-.dot.d-skp{background:rgba(245,158,11,.17);color:var(--amber);border:1px solid rgba(245,158,11,.33)}
+/* Dot nav */
+.dots{
+  display:flex;flex-wrap:wrap;gap:.3rem;
+  max-width:780px;width:100%;
+}
+.dot{
+  width:26px;height:26px;border-radius:6px;border:none;
+  font-size:.6rem;font-weight:500;cursor:pointer;transition:.15s;
+  font-family:'DM Mono',monospace;
+  background:var(--bg2);border:1px solid var(--border);color:var(--ink3);
+}
+.dot:hover{border-color:var(--accent);color:var(--accent)}
+.dot.cur{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dot.d-ans{background:rgba(45,106,79,.15);color:var(--correct);border-color:rgba(45,106,79,.3)}
+.dot.d-skp{background:rgba(184,134,11,.12);color:var(--gold);border-color:rgba(184,134,11,.3)}
 
-/* OVERLAY */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+/* ── MODAL ── */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(26,22,18,.7);backdrop-filter:blur(8px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
 .overlay.on{display:flex}
-.modal{background:#060d1a;border:1px solid rgba(0,212,255,.35);border-radius:var(--r3);padding:2.5rem;max-width:430px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7),var(--glow)}
-.modal-em{font-size:3rem;display:block;margin-bottom:1.1rem}
-.modal h3{font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.75rem}
-.modal p{color:var(--txt2);font-size:.87rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
-.modal-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.modal{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:2.5rem;max-width:400px;width:100%;
+  text-align:center;
+  box-shadow:0 30px 80px rgba(26,22,18,.25);
+  animation:modalIn .25s ease;
+}
+@keyframes modalIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-ico{font-size:2.5rem;margin-bottom:1rem}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.7rem}
+.modal p{color:var(--ink3);font-size:.84rem;line-height:1.75;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-row{display:flex;gap:.7rem;justify-content:center}
 
-/* ══════ RESULTS ══════ */
-#results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
-.rshell{max-width:920px;width:100%}
+/* ── RESULTS ── */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-shell{max-width:820px;width:100%}
 
-.rhero{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);margin-bottom:1.4rem;overflow:hidden;position:relative}
-.rhero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 180deg at 50% 105%,transparent 55%,rgba(0,212,255,.06),transparent);animation:heroR 16s linear infinite;pointer-events:none}
-@keyframes heroR{to{transform:rotate(360deg)}}
+.res-top{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:3rem 2rem;text-align:center;
+  margin-bottom:1.2rem;position:relative;overflow:hidden;
+}
+.res-top::before{
+  content:'';position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,75,47,.07),transparent 70%);
+  pointer-events:none;
+}
 
-.sring{width:155px;height:155px;position:relative;margin:0 auto 1.5rem}
-.sring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.rbg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
-.rfill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1)}
-.rcenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.rnum{font-family:'Raleway',sans-serif;font-size:2.6rem;font-weight:900;line-height:1}
-.rden{font-size:.8rem;color:var(--txt2)}
-.rtitle{font-family:'Raleway',sans-serif;font-size:clamp(1.3rem,3.5vw,2rem);font-weight:900;margin-bottom:.4rem;position:relative;z-index:1}
-.rsub{color:var(--txt2);font-size:.88rem;position:relative;z-index:1;margin-bottom:1.4rem}
-.gpill{display:inline-block;padding:.42rem 1.5rem;border-radius:50px;font-family:'Raleway',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.55rem;position:relative;z-index:1}
-.gpct{color:var(--txt2);font-size:.87rem;position:relative;z-index:1}
+.res-score{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(4rem,15vw,8rem);line-height:1;
+  font-weight:700;color:var(--ink);margin-bottom:.3rem;
+}
+.res-score em{color:var(--accent);font-style:normal}
+.res-total{font-size:.88rem;color:var(--ink3);margin-bottom:1.2rem}
+.res-grade{
+  display:inline-block;
+  font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;
+  padding:.5rem 1.8rem;border-radius:50px;margin-bottom:.6rem;
+}
+.res-msg{color:var(--ink3);font-size:.85rem;max-width:380px;margin:0 auto}
 
-/* Stats */
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.4rem}
-@media(max-width:480px){.sg{grid-template-columns:repeat(2,1fr)}}
-.scard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.3rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
-.scard:hover{transform:translateY(-3px);border-color:rgba(0,212,255,.28)}
-.sic{font-size:1.45rem;margin-bottom:.4rem}
-.sv{font-family:'Raleway',sans-serif;font-size:1.45rem;font-weight:900;margin-bottom:.15rem}
-.sl{font-size:.67rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em}
+/* Stats row */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:.8rem;margin-bottom:1.2rem;
+}
+@media(max-width:480px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+.stat-c{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:1.1rem .8rem;text-align:center;
+  transition:.2s;
+}
+.stat-c:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(26,22,18,.08)}
+.stat-c-ico{font-size:1.2rem;margin-bottom:.3rem}
+.stat-c-v{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink)}
+.stat-c-l{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-top:.2rem}
 
 /* Insights */
-.ibox{background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(20,184,166,.05));border:1px solid rgba(0,212,255,.22);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.4rem}
-.ibtitle{font-family:'Raleway',sans-serif;font-size:.93rem;font-weight:800;color:var(--cyan);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem;letter-spacing:.03em}
-.ins{font-size:.84rem;color:var(--txt3);margin-bottom:.58rem;display:flex;gap:.55rem;line-height:1.62}
-.wchips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
-.wch{background:rgba(244,63,94,.11);border:1px solid rgba(244,63,94,.27);color:#fca5a5;font-size:.7rem;font-weight:700;padding:.27rem .8rem;border-radius:50px}
+.insights{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;
+}
+.ins-title{
+  font-family:'Playfair Display',serif;font-size:.95rem;
+  color:var(--ink);margin-bottom:1rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.ins-line{
+  font-size:.82rem;color:var(--ink2);
+  margin-bottom:.55rem;line-height:1.7;
+  padding-left:.8rem;border-left:2px solid var(--border);
+}
+.weak-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.8rem}
+.wt{
+  font-size:.68rem;background:rgba(200,75,47,.08);
+  color:var(--accent);padding:.22rem .65rem;border-radius:50px;
+  border:1px solid rgba(200,75,47,.2);
+}
 
-/* Tabs */
-.tabrow{display:flex;gap:.35rem;padding:.32rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);margin-bottom:1rem;backdrop-filter:blur(10px)}
-.tb{flex:1;padding:.52rem;border:none;border-radius:10px;background:transparent;font-family:'Josefin Sans',sans-serif;font-size:.77rem;font-weight:700;cursor:pointer;color:var(--txt2);transition:.2s;letter-spacing:.03em}
-.tb.on{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14}
+/* Tabs & Review */
+.tabs{
+  display:flex;gap:.25rem;background:var(--bg2);
+  border:1px solid var(--border);border-radius:10px;padding:.3rem;
+  margin-bottom:.9rem;
+}
+.tab{
+  flex:1;padding:.45rem;border:none;border-radius:7px;
+  background:transparent;font-family:'DM Sans',sans-serif;
+  font-size:.72rem;cursor:pointer;color:var(--ink3);transition:.2s;
+}
+.tab.on{background:var(--card);color:var(--ink);font-weight:500;box-shadow:0 1px 4px rgba(26,22,18,.08)}
 
-/* Review cards */
-.rcard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.4rem;margin-bottom:.9rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cin .35s ease}
-.rcard:hover{transform:translateX(4px)}
-.rcard.rc{border-left-color:var(--grn)}
-.rcard.rw{border-left-color:var(--rose)}
-.rcard.rs{border-left-color:var(--amber)}
-.rtop{display:flex;align-items:center;gap:.45rem;margin-bottom:.75rem;flex-wrap:wrap}
-.rqn{font-size:.7rem;font-weight:700;padding:.22rem .65rem;border-radius:50px;background:rgba(255,255,255,.07);color:var(--txt2)}
-.ryr{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.05);padding:.22rem .65rem;border-radius:50px;border:1px solid var(--gb)}
-.rbdg{font-size:.68rem;font-weight:700;padding:.22rem .7rem;border-radius:50px}
-.rbdg.rc{background:rgba(34,197,94,.14);color:#4ade80}
-.rbdg.rw{background:rgba(244,63,94,.14);color:#fb7185}
-.rbdg.rs{background:rgba(245,158,11,.12);color:var(--amber)}
-.rtopic{margin-left:auto;font-size:.68rem;color:var(--teal);background:rgba(20,184,166,.1);padding:.22rem .65rem;border-radius:50px;border:1px solid rgba(20,184,166,.2)}
-.rqt{font-size:.84rem;color:var(--txt3);margin-bottom:.85rem;line-height:1.65;white-space:pre-wrap}
-.rrow{display:flex;gap:.5rem;font-size:.8rem;margin-bottom:.35rem;align-items:flex-start}
-.rlbl{font-weight:700;min-width:115px;color:var(--txt2);flex-shrink:0}
-.rval{color:var(--txt)}
-.rval.good{color:#4ade80}
-.rval.bad{color:#fb7185}
-.rv-map{max-width:220px;border-radius:var(--r);border:1px solid var(--gb);margin:.7rem 0;display:block}
+.rev-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:1.3rem;margin-bottom:.7rem;
+  border-left:3px solid var(--border);
+  animation:slideUp .3s ease;
+  transition:transform .2s;
+}
+.rev-card:hover{transform:translateX(3px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--accent)}
+.rev-card.rs{border-left-color:var(--gold)}
 
-.resctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
-.btn-out{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.28);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Josefin Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:.22s;letter-spacing:.03em}
-.btn-out:hover{background:rgba(244,63,94,.22)}
+.rev-top{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.75rem}
+.rv-n{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink3);background:var(--bg2);padding:.2rem .55rem;border-radius:50px;border:1px solid var(--border)}
+.rv-yr{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);background:rgba(184,134,11,.07);padding:.2rem .55rem;border-radius:50px;border:1px solid rgba(184,134,11,.2)}
+.rv-badge{font-size:.62rem;font-weight:600;padding:.2rem .6rem;border-radius:50px}
+.rv-badge.rc{background:rgba(45,106,79,.1);color:var(--correct)}
+.rv-badge.rw{background:rgba(200,75,47,.1);color:var(--accent)}
+.rv-badge.rs{background:rgba(184,134,11,.1);color:var(--gold)}
+.rv-top2{margin-left:auto;font-size:.62rem;color:var(--ink3);background:var(--bg2);padding:.2rem .55rem;border-radius:50px}
+
+.rv-q{font-size:.82rem;color:var(--ink3);margin-bottom:.8rem;line-height:1.7;white-space:pre-wrap}
+.rv-map{max-width:200px;border-radius:8px;border:1px solid var(--border);margin:.5rem 0;display:block}
+.rv-row{display:flex;gap:.5rem;font-size:.78rem;margin-bottom:.28rem;align-items:flex-start}
+.rv-lbl{font-weight:500;min-width:115px;color:var(--ink3);flex-shrink:0}
+.rv-val{color:var(--ink)}
+.rv-val.good{color:var(--correct)}
+.rv-val.bad{color:var(--accent)}
+.rv-exp{margin-top:.75rem;padding:.8rem .95rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--ink2);line-height:1.7}
+.rv-exp strong{color:var(--ink);font-weight:600}
+
+.res-btns{display:flex;gap:.8rem;justify-content:center;margin:1.8rem 0;flex-wrap:wrap}
+.btn-accent{background:var(--accent);color:#fff;padding:.8rem 1.8rem;border-radius:50px;border:none;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:.2s}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(200,75,47,.3)}
 
 ::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
-::-webkit-scrollbar-thumb{background:rgba(0,212,255,.4);border-radius:10px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--ink3)}
 
-@media(max-width:640px){
-  .qcard{padding:1.3rem}
-  .topbar{grid-template-columns:1fr auto;padding:.7rem 1rem}
-  .tb-r{display:none}
-  .qnav{flex-direction:column;gap:.5rem}
-  .nc{justify-content:center}
-  .modal-btns{flex-direction:column}
-  .rtopic{display:none}
-  .meta-row{flex-direction:column;border-radius:var(--r2)}
-  .mc{border-radius:0!important;border-left:1px solid var(--gb)!important}
-  .mc:first-child{border-radius:var(--r2) var(--r2) 0 0!important}
-  .mc:last-child{border-radius:0 0 var(--r2) var(--r2)!important}
+@media(max-width:600px){
+  .s-stats{flex-direction:column}
+  .s-stat{border-right:none;border-bottom:1px solid var(--border)}
+  .s-stat:last-child{border-bottom:none}
+  .q-card{padding:1.3rem}
+  .q-nav{flex-direction:column}
+  .modal-row{flex-direction:column}
+  .res-score{font-size:5rem}
 }
 </style>
 </head>
 <body>
-<div class="globe-bg"></div>
 
-<!-- ════ START ════ -->
-<div id="start-screen" class="screen active">
-  <div class="globe-icon"><span>🌍</span></div>
-  <h1 class="s-title">
-    <span class="s-t1">WorldMap</span>
-    <span class="s-t2">Pro</span>
-  </h1>
-  <p class="s-sub">UPSC Prelims · World Geography · Borders · Seas · Rivers</p>
+<!-- ═══ START ═══ -->
+<div id="start" class="screen active">
+  <div class="s-eyebrow">UPSC Prelims · World Geography · PYQ</div>
+  <h1 class="s-title">Geo<em>Mind</em></h1>
+  <p class="s-sub">34 carefully curated questions from 1995–2023 UPSC Prelims. Continents, capitals, rivers, minerals, climate zones & more.</p>
 
-  <div class="meta-row">
-    <div class="mc"><div class="mc-ic">📋</div><div class="mc-v">43</div><div class="mc-l">Questions</div></div>
-    <div class="mc"><div class="mc-ic">⏱️</div><div class="mc-v">22 Min</div><div class="mc-l">Timer</div></div>
-    <div class="mc"><div class="mc-ic">🗺️</div><div class="mc-v">8 Maps</div><div class="mc-l">Visual Q</div></div>
-    <div class="mc"><div class="mc-ic">📅</div><div class="mc-v">1995–2023</div><div class="mc-l">PYQ Era</div></div>
+  <div class="s-stats">
+    <div class="s-stat"><div class="s-stat-v">34</div><div class="s-stat-l">Questions</div></div>
+    <div class="s-stat"><div class="s-stat-v">25 min</div><div class="s-stat-l">Timer</div></div>
+    <div class="s-stat"><div class="s-stat-v">1995–2023</div><div class="s-stat-l">PYQ Era</div></div>
   </div>
 
-  <div class="chip-row">
-    <span class="chip">🗺️ World Borders</span>
-    <span class="chip">🌊 Seas & Straits</span>
-    <span class="chip">🏔️ Country Geography</span>
-    <span class="chip">🌐 Equator & Tropics</span>
-    <span class="chip">🛤️ Canals & Routes</span>
-    <span class="chip">🗾 SE Asia & ME</span>
-    <span class="chip">🌍 Africa & Europe</span>
-    <span class="chip">📍 8 Map Questions</span>
-  </div>
-
-  <button class="start-btn" onclick="startQuiz()">🌐 Start Quiz</button>
-  <p class="note">💾 Progress auto-saved · Resume anytime</p>
+  <button class="s-btn" onclick="startQuiz()"><span>Begin Quiz →</span></button>
+  <p class="s-note">Progress auto-saved · Resume anytime</p>
 </div>
 
-<!-- ════ QUIZ ════ -->
-<div id="quiz-screen" class="screen">
-  <div class="qshell">
-
-    <div class="topbar">
-      <div class="qlbl">Q <em id="qCur">1</em> / <em id="qTot">43</em></div>
-      <div class="tclock" id="timerEl">⏱ 22:00</div>
-      <div class="tb-r">
-        <button class="btn btn-ghost btn-early" onclick="showSubmitModal()">Submit Early</button>
-      </div>
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="screen">
+  <div class="q-shell">
+    <div class="q-header">
+      <div class="q-counter">Question <span id="qCur">1</span> of <span id="qTot">34</span></div>
+      <div class="q-timer" id="timerEl">25:00</div>
     </div>
+    <div class="q-bar"><div class="q-fill" id="pFill" style="width:0%"></div></div>
 
-    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
-
-    <div class="qcard">
-      <div class="q-toprow">
-        <span class="qbdg" id="qBdg">Q1</span>
-        <span class="ytag" id="qYr">2023</span>
-        <span class="ttag" id="qTopic">—</span>
-        <span class="stag st0" id="qStat">○ Unanswered</span>
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="q-num" id="qBadge">Q01</span>
+        <span class="q-yr" id="qYr">—</span>
+        <span class="q-topic" id="qTopic">—</span>
+        <span class="q-status-tag qs-none" id="qStat">Unanswered</span>
       </div>
-      <div class="qtext" id="qText"></div>
-      <div class="qmapbox" id="qMapBox" style="display:none">
-        <div>
-          <img id="qMapImg" src="" alt="Map" loading="lazy">
-          <div class="mapcap" id="qMapCap"></div>
-        </div>
+      <div class="q-body" id="qBody"></div>
+      <div class="map-area" id="mapArea" style="display:none">
+        <img id="mapImg" src="" alt="Map" onload="this.classList.add('in')" onerror="document.getElementById('mapArea').style.display='none'"/>
+        <div class="map-cap" id="mapCap"></div>
       </div>
       <div class="opts" id="optsGrid"></div>
-      <div class="qnav">
-        <div class="nc">
-          <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
-          <button class="btn btn-skip" onclick="skipQ()">⤭ Skip</button>
+      <div class="q-nav">
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-outline" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">Skip</button>
         </div>
-        <div class="nc">
-          <button class="btn btn-cyan" id="btnNext" onclick="nav(1)">Next →</button>
-          <button class="btn btn-grn" id="btnSub" style="display:none" onclick="showSubmitModal()">✅ Submit</button>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-dark" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-green" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
         </div>
       </div>
     </div>
 
-    <div class="dotmap" id="dotMap"></div>
-
+    <div class="dots" id="dotMap"></div>
   </div>
 </div>
 
-<!-- ════ RESULTS ════ -->
-<div id="results-screen" class="screen">
-  <div class="rshell">
-    <div class="rhero">
-      <div class="rtitle" id="rTitle">🎉 Quiz Complete!</div>
-      <div class="rsub" id="rSub"></div>
-      <div class="sring">
-        <svg viewBox="0 0 120 120">
-          <circle class="rbg" cx="60" cy="60" r="50"/>
-          <circle class="rfill" id="rfill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
-        </svg>
-        <div class="rcenter"><div class="rnum" id="rNum">0</div><div class="rden" id="rDen">/ 43</div></div>
-      </div>
-      <div class="gpill" id="gPill">—</div>
-      <div class="gpct" id="gPct"></div>
+<!-- ═══ RESULTS ═══ -->
+<div id="results" class="screen">
+  <div class="res-shell">
+    <div class="res-top">
+      <div class="res-score"><em id="rScore">0</em><span style="font-size:.4em;color:var(--ink3)">/34</span></div>
+      <div class="res-total" id="rSub"></div>
+      <div class="res-grade" id="rGrade"></div>
+      <p class="res-msg" id="rMsg"></p>
     </div>
 
-    <div class="sg">
-      <div class="scard"><div class="sic">✅</div><div class="sv" id="stC" style="color:var(--grn)">0</div><div class="sl">Correct</div></div>
-      <div class="scard"><div class="sic">❌</div><div class="sv" id="stW" style="color:var(--rose)">0</div><div class="sl">Wrong</div></div>
-      <div class="scard"><div class="sic">⤭</div><div class="sv" id="stS" style="color:var(--amber)">0</div><div class="sl">Skipped</div></div>
-      <div class="scard"><div class="sic">🎯</div><div class="sv" id="stAcc" style="color:var(--cyan)">0%</div><div class="sl">Accuracy</div></div>
-      <div class="scard"><div class="sic">⏱️</div><div class="sv" id="stTm" style="color:#a78bfa">—</div><div class="sl">Time Taken</div></div>
-      <div class="scard"><div class="sic">📊</div><div class="sv" id="stAv" style="color:var(--lime)">—</div><div class="sl">Avg / Q</div></div>
+    <div class="stats-row">
+      <div class="stat-c"><div class="stat-c-ico">✓</div><div class="stat-c-v" id="stC" style="color:var(--correct)">0</div><div class="stat-c-l">Correct</div></div>
+      <div class="stat-c"><div class="stat-c-ico">✗</div><div class="stat-c-v" id="stW" style="color:var(--accent)">0</div><div class="stat-c-l">Wrong</div></div>
+      <div class="stat-c"><div class="stat-c-ico">—</div><div class="stat-c-v" id="stS" style="color:var(--gold)">0</div><div class="stat-c-l">Skipped</div></div>
+      <div class="stat-c"><div class="stat-c-ico">◎</div><div class="stat-c-v" id="stAcc">—</div><div class="stat-c-l">Accuracy</div></div>
+      <div class="stat-c"><div class="stat-c-ico">⊙</div><div class="stat-c-v" id="stTime">—</div><div class="stat-c-l">Time</div></div>
+      <div class="stat-c"><div class="stat-c-ico">∿</div><div class="stat-c-v" id="stAvg">—</div><div class="stat-c-l">Avg/Q</div></div>
     </div>
 
-    <div class="ibox">
-      <div class="ibtitle">🧠 Smart Insights &amp; Weak-Area Radar</div>
+    <div class="insights">
+      <div class="ins-title">Analysis & Weak Areas</div>
       <div id="insBody"></div>
     </div>
 
-    <div class="tabrow">
-      <button class="tb on" onclick="setTab('all',this)">All (43)</button>
-      <button class="tb" onclick="setTab('correct',this)">✅ Correct</button>
-      <button class="tb" onclick="setTab('wrong',this)">❌ Wrong</button>
-      <button class="tb" onclick="setTab('skipped',this)">⤭ Skipped</button>
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (34)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
     </div>
     <div id="revList"></div>
 
-    <div class="resctas">
-      <button class="btn-out" onclick="restartQuiz()">🔄 Restart Quiz</button>
-      <button class="btn btn-cyan" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
+    <div class="res-btns">
+      <button class="btn-accent" onclick="restartQuiz()">Restart Quiz</button>
+      <button class="btn btn-outline" onclick="window.scrollTo(0,0)">Back to Top</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL -->
-<div class="overlay" id="mOverlay">
+<div class="overlay" id="modalOv">
   <div class="modal">
-    <span class="modal-em">🌐</span>
+    <div class="modal-ico">◎</div>
     <h3>Submit Quiz?</h3>
-    <p id="mTxt"></p>
-    <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-grn" onclick="submitQuiz()">Submit Now</button>
+    <p id="modTxt"></p>
+    <div class="modal-row">
+      <button class="btn btn-outline" onclick="closeMod()">Cancel</button>
+      <button class="btn btn-green" onclick="submitQuiz()">Submit</button>
     </div>
   </div>
 </div>
 
 <script>
-// ════════════════════════════════════════════════
-//   43 UPSC PYQ QUESTIONS — WORLD GEOGRAPHY
-// ════════════════════════════════════════════════
-const L4=['A','B','C','D'];
-const TOTAL=43;
+const L=['A','B','C','D'];
 
 const Q=[
-  /* 1 */ {yr:"2023",topic:"Country Borders",
-    text:"Consider the following countries:\n1. Bulgaria\n2. Czech Republic\n3. Hungary\n4. Latvia\n5. Lithuania\n6. Romania\n\nHow many of the above-mentioned countries share a land border with Ukraine?",
-    opts:["Only two","Only three","Only four","Only five"],ans:0},
+  {id:1,yr:'2023',topic:'Minerals & Resources',
+   text:'About three-fourths of world\'s Cobalt, a metal required for the manufacture of batteries for electric motor vehicles, is produced by:',
+   opts:['Argentina','Botswana','The Democratic Republic of the Congo','Kazakhstan'],ans:2,
+   exp:'The Democratic Republic of the Congo produces about 70–75% of world\'s cobalt. The Katanga province in southern DRC is the epicenter of cobalt mining globally, making it strategically critical for EV battery supply chains.'},
 
-  /* 2 */ {yr:"2022",topic:"Country Borders",
-    text:"Consider the following countries:\n1. Azerbaijan\n2. Kyrgyzstan\n3. Tajikistan\n4. Turkmenistan\n5. Uzbekistan\n\nWhich of the above have borders with Afghanistan?",
-    opts:["1, 2 & 5 only","1, 2, 3 & 4 only","3, 4 & 5 only","1, 2, 3 & 5"],ans:2},
+  {id:2,yr:'2023',topic:'River Basins',
+   text:'Which one of the following is part of the Congo Basin?',
+   opts:['Cameroon','Nigeria','South Sudan','Uganda'],ans:0,
+   exp:'Cameroon is part of the Congo Basin. The Congo River basin spans DRC, Republic of Congo, Cameroon, Central African Republic, Gabon, and others. Nigeria and Uganda are outside this basin; South Sudan belongs to the Nile basin.'},
 
-  /* 3 */ {yr:"2020",topic:"Rivers & Seas",
-    text:"Consider the following pairs:\n      River        ↔  Flows into\n1. Mekong   ↔  Andaman Sea\n2. Thames    ↔  Irish Sea\n3. Volga        ↔  Caspian Sea\n4. Zambezi  ↔  Indian Ocean\n\nWhich of the pairs given above is/are correctly matched?",
-    opts:["1 and 2 only","3 only","3 and 4 only","1, 2 and 4 only"],ans:1},
+  {id:3,yr:'2023',topic:'Gold Trade',
+   text:'Consider the following statements:\nStatement-I: Switzerland is one of the leading exporters of gold in terms of value.\nStatement-II: Switzerland has the second largest gold reserves in the world.\n\nWhich one is correct?',
+   opts:['Both I & II correct; II explains I','Both I & II correct; II does NOT explain I','Statement-I correct, Statement-II incorrect','Statement-I incorrect, Statement-II correct'],ans:2,
+   exp:'Switzerland is indeed a leading gold exporter — it refines and re-exports gold. However, Switzerland does NOT have the second largest gold reserves; the USA holds the largest, followed by Germany. Switzerland\'s reserves are not in the top 2. So Statement-I is correct but Statement-II is incorrect.'},
 
-  /* 4 */ {yr:"2019",topic:"Seas & Borders",
-    text:"Consider the following pairs:\n      Sea                       ↔  Bordering Country\n1. Adriatic Sea         ↔  Albania\n2. Black Sea              ↔  Croatia\n3. Caspian Sea          ↔  Kazakhstan\n4. Mediterranean Sea ↔  Morocco\n5. Red Sea                 ↔  Syria\n\nWhich of the pairs given above are correctly matched?",
-    opts:["1, 2 and 4 only","1, 3 and 4 only","2 and 5 only","1, 2, 3, 4 and 5"],ans:1},
+  {id:4,yr:'2022',topic:'African Lakes',
+   text:'Which one of the following lakes of West Africa has become dry and turned into a desert?',
+   opts:['Lake Victoria','Lake Faguibine','Lake Oguta','Lake Volta'],ans:1,
+   exp:'Lake Faguibine in Mali (West Africa) has almost completely dried up due to prolonged drought, Saharan sand encroachment, and reduced Niger river inflow. It was once one of the largest lakes in West Africa but is now largely desert.'},
 
-  /* 5 */ {yr:"2018",topic:"Shrinking Water Bodies",
-    text:"Which of the following has/have shrunk immensely/dried up in the recent past due to human activities?\n1. Aral Sea\n2. Black Sea\n3. Lake Baikal\n\nSelect the correct answer using the code given below:",
-    opts:["1 only","2 and 3","2 only","1 and 3"],ans:0},
+  {id:5,yr:'2022',topic:'Indian Geography',
+   text:'Gandikota canyon of South India was created by which one of the following rivers?',
+   opts:['Cauvery','Manjira','Pennar','Tungabhadra'],ans:2,
+   exp:'Gandikota canyon, often called the "Grand Canyon of India," is located in Kadapa district of Andhra Pradesh and was carved by the Pennar (Penneru) river. The canyon is formed by the Erramala hills and the river cutting through them.'},
 
-  /* 6 */ {yr:"2017",topic:"Mediterranean Sea",
-    text:"Mediterranean Sea is a border of which of the following countries?\n1. Jordan\n2. Iraq\n3. Lebanon\n4. Syria\n\nSelect the correct answer using the code given below:",
-    opts:["1, 2 and 3 only","2 and 3 only","3 and 4 only","1, 3 and 4 only"],ans:2},
+  {id:6,yr:'2018',topic:'Current Affairs Geography',
+   text:'Consider the following pairs (Regions → Country):\n1. Catalonia → Spain\n2. Crimea → Hungary\n3. Mindanao → Philippines\n4. Oromia → Nigeria\n\nWhich pairs are correctly matched?',
+   opts:['1, 2 and 3','3 and 4 only','1 and 3 only','2 and 4 only'],ans:2,
+   exp:'Catalonia is an autonomous region of Spain — CORRECT. Crimea is in Ukraine (annexed by Russia), NOT Hungary — WRONG. Mindanao is the second-largest island in the Philippines — CORRECT. Oromia is a region in Ethiopia, NOT Nigeria — WRONG. Only pairs 1 and 3 are correct.'},
 
-  /* 7 */ {yr:"2015",topic:"Mediterranean Sea",
-    text:"Which one of the following countries of South-West Asia does not open out to the Mediterranean Sea?",
-    opts:["Syria","Jordan","Lebanon","Israel"],ans:1},
+  {id:7,yr:'2013',topic:'World Geography',
+   text:'Which of the following pairs is correctly matched?',
+   opts:['Abyssinian Plateau: Arabia','Atlas Mountains: North-Western Africa','Guiana Highlands: South-western Africa','Okavango Basin: Patagonia'],ans:1,
+   exp:'Atlas Mountains run across North-Western Africa — through Morocco, Algeria, and Tunisia — CORRECT. Abyssinian Plateau is in Ethiopia/East Africa, not Arabia. Guiana Highlands are in northern South America (Venezuela, Guyana), not southwestern Africa. Okavango Basin is in Botswana/southern Africa, not Patagonia.'},
 
-  /* 8 */ {yr:"2014",topic:"Country Borders",
-    text:"Turkey is located between:",
-    opts:["Black Sea and Caspian Sea","Black Sea and Mediterranean Sea","Gulf of Suez and Mediterranean Sea","Gulf of Aqaba and Dead Sea"],ans:1},
+  {id:8,yr:'2009',topic:'Uranium Reserves',
+   text:'Which among the following has the world\'s largest reserves of Uranium?',
+   opts:['Australia','Canada','Russian Federation','USA'],ans:0,
+   exp:'Australia holds the world\'s largest uranium reserves, accounting for about 28–30% of global identified uranium resources. Kazakhstan is the leading producer (not reserves), while Australia leads in proven reserves, followed by Kazakhstan, Canada, and Namibia.'},
 
-  /* 9 */ {yr:"2014",topic:"South-East Asia",
-    text:"What is the correct sequence of occurrence of the following cities in South-East Asia as one proceeds from south to north?\n1. Bangkok\n2. Hanoi\n3. Jakarta\n4. Singapore\n\nSelect the correct answer using the code given below:",
-    opts:["4-2-1-3","3-2-4-1","3-4-1-2","4-3-2-1"],ans:2},
+  {id:9,yr:'2009',topic:'Cities & Rivers',
+   text:'Which one of the following pairs is NOT correctly matched?\n(City → River)',
+   opts:['Berlin: Rhine','London: Thames','New York: Hudson','Vienna: Danube'],ans:0,
+   exp:'Berlin is situated on the Spree river (and Havel), NOT the Rhine. The Rhine flows through western Germany and the Netherlands. London is on Thames — CORRECT. New York is on the Hudson — CORRECT. Vienna is on the Danube — CORRECT.'},
 
-  /* 10 */ {yr:"2011",topic:"Straits & Canals",
-    text:"Between India and East Asia, the navigation-time and distance can be greatly reduced by which of the following?\n1. Deepening the Malacca Strait between Malaysia and Indonesia.\n2. Opening a new canal across the Kra Isthmus between the Gulf of Siam and Andaman Sea.\n\nWhich of the statements given above is/are correct?",
-    opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
+  {id:10,yr:'2009',topic:'World Landforms',
+   text:'Match the geographic features with their countries:\nA. Great Victoria Desert → 1. Australia\nB. Grand Canyon → 2. Canada\nC. Lake Winnipeg → 3. New Zealand\nD. Southern Alps → 4. USA\n\nA–B–C–D:',
+   opts:['1–2–4–3','1–4–2–3','3–2–4–1','3–4–2–1'],ans:1,
+   exp:'Great Victoria Desert is in Australia (A=1). Grand Canyon is in Arizona, USA (B=4). Lake Winnipeg is in Manitoba, Canada (C=2). Southern Alps is the mountain range in New Zealand\'s South Island (D=3). Correct sequence: A=1, B=4, C=2, D=3.'},
 
-  /* 11 */ {yr:"2010",topic:"Straits & Canals",
-    text:"Which one of the following can one come across if one travels through the Strait of Malacca?",
-    opts:["Bali","Brunei","Java","Singapore"],ans:3},
+  {id:11,yr:'2007',topic:'SE Asian Cities & Rivers',
+   text:'Match the cities with their rivers:\nA. Bangkok → 1. Irrawaddy\nB. Phnom Penh → 2. Mekong\nC. Hanoi → 3. Menam (Chao Phraya)\nD. Yangon → 4. Red River\n\nA–B–C–D:',
+   opts:['3–2–4–1','4–1–3–2','3–1–4–2','4–2–3–1'],ans:0,
+   exp:'Bangkok (Thailand) sits on the Chao Phraya (Menam) river — A=3. Phnom Penh (Cambodia) is at the confluence of Mekong and Tonle Sap — B=2. Hanoi (Vietnam) is on the Red River (Song Hong) — C=4. Yangon (Myanmar) is on the Irrawaddy/Yangon river — D=1. A–B–C–D = 3–2–4–1.'},
 
-  /* 12 */ {yr:"2009",topic:"Latitudes & Tropics",
-    text:"Consider the following countries:\n1. Australia\n2. Namibia\n3. Brazil\n4. Chile\n\nThrough which of the above does the Tropic of Capricorn pass?",
-    opts:["1 only","2, 3 and 4","1, 2 and 3","1, 2, 3 and 4"],ans:3},
+  {id:12,yr:'2007',topic:'World Rivers',
+   text:'Which one among the following rivers is the longest?',
+   opts:['Amazon','Amur','Congo','Lena'],ans:0,
+   exp:'Among the options, Amazon is the longest. It stretches about 6,400 km. Lena (Russia) is about 4,400 km, Amur about 4,444 km, and Congo about 4,700 km. The Amazon is second only to the Nile globally, but longest among these four options.'},
 
-  /* 13 */ {yr:"2008",topic:"Latitudes & Tropics",
-    text:"Which one of the following cities is nearest to the equator?",
-    opts:["Colombo","Jakarta","Manila","Singapore"],ans:3},
+  {id:13,yr:'2006',topic:'Ocean Trenches',
+   text:'In which one of the following oceans is Diamantina Trench situated?',
+   opts:['Pacific Ocean','Atlantic Ocean','Indian Ocean','Arctic Ocean'],ans:2,
+   exp:'Diamantina Trench (also called Diamantina Deep) is located in the eastern Indian Ocean, off the southwestern coast of Australia. It reaches a depth of about 8,047 m. It is one of the deepest points in the Indian Ocean.'},
 
-  /* 14 */ {yr:"2008",topic:"Straits & Canals",
-    text:"Which one of the following straits is nearest to the International Date Line?",
-    opts:["Malacca Strait","Bering Strait","Strait of Florida","Strait of Gibraltar"],ans:1},
+  {id:14,yr:'2006',topic:'World Places',
+   text:'Which one of the following pairs is NOT correctly matched?\n(Place → Country)',
+   opts:['Baikonur: Russia','Kourou: French Guiana','Borobudur: Indonesia','Cannes: France'],ans:0,
+   exp:'Baikonur Cosmodrome is located in Kazakhstan, not Russia (though Russia leases it from Kazakhstan). Kourou is in French Guiana — CORRECT. Borobudur is a famous Buddhist temple in Java, Indonesia — CORRECT. Cannes is a city in southern France — CORRECT. Baikonur–Russia is the incorrectly matched pair.'},
 
-  /* 15 */ {yr:"2008",topic:"Mediterranean Sea",
-    text:"In which one of the following is Malta located?",
-    opts:["Baltic Sea","Mediterranean Sea","Black Sea","North Sea"],ans:1},
+  {id:15,yr:'2006',topic:'Uranium Production',
+   text:'Which one of the following countries is the leading producer of Uranium?',
+   opts:['United States of America','Canada','Germany','Zambia'],ans:1,
+   exp:'At the time of this question (2006), Canada was the world\'s leading uranium producer, responsible for about 25–30% of global production. Since then, Kazakhstan has overtaken Canada. Among the options given, Canada is the correct answer for this historical question.'},
 
-  /* 16 */ {yr:"2008",topic:"Country Borders",
-    text:"Which of the following countries share borders with Moldova?\n1. Ukraine\n2. Romania\n3. Belarus\n\nSelect the correct answer using the code given below:",
-    opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:0},
+  {id:16,yr:'2005',topic:'European Cities & Rivers',
+   text:'Match List-I (City) with List-II (River):\nA. Washington DC → 1. River Manzanares\nB. Berlin → 2. River Seine\nC. Paris → 3. River Spree\nD. Madrid → 4. River Potomac\n\nA–B–C–D:',
+   opts:['2–3–4–1','4–1–2–3','2–1–4–3','4–3–2–1'],ans:3,
+   exp:'Washington DC is on the Potomac river — A=4. Berlin is on the Spree river — B=3. Paris is on the Seine — C=2. Madrid is on the Manzanares — D=1. Correct: A–B–C–D = 4–3–2–1.'},
 
-  /* 17 */ {yr:"2007",topic:"Straits & Canals",
-    text:"Through which one of the following Straits does a tunnel connect the United Kingdom and France?",
-    opts:["Davis Strait","Denmark Strait","Strait of Dover","Strait of Gibraltar"],ans:2},
+  {id:17,yr:'2005',topic:'Volcanoes',
+   text:'Where is the volcanic mountain Mount St. Helens located?',
+   opts:['Chile','Japan','Philippines','USA'],ans:3,
+   exp:'Mount St. Helens is an active stratovolcano in the state of Washington, USA. It famously erupted on May 18, 1980, in one of the most significant volcanic events in recent American history. It is part of the Cascade Range.'},
 
-  /* 18 */ {yr:"2007",topic:"Time Zones",
-    text:"Which one of the following cities does not have the same clock time as that of the other three cities at any given instant?",
-    opts:["London (U.K.)","Lisbon (Portugal)","Accra (Ghana)","Addis Ababa (Ethiopia)"],ans:3},
+  {id:18,yr:'2005',topic:'Island Groups',
+   text:'Where are the Balearic Islands located?',
+   opts:['Mediterranean Sea','Black Sea','Baltic Sea','North Sea'],ans:0,
+   exp:'The Balearic Islands (Majorca, Minorca, Ibiza, Formentera) are an archipelago in the western Mediterranean Sea, belonging to Spain. They are a major tourist destination known for their beaches and warm climate.'},
 
-  /* 19 */ {yr:"2006",topic:"Country Borders",
-    text:"Other than India and China, which of the following groups of countries border Myanmar?",
-    opts:["Bangladesh, Thailand and Vietnam","Cambodia, Laos and Malaysia","Thailand, Vietnam and Malaysia","Thailand, Laos and Bangladesh"],ans:3},
+  {id:19,yr:'2005',topic:'Capitals',
+   text:'Which of the following pairs is NOT correctly matched?\n(Country → Capital)',
+   opts:['Bahamas: Nassau','Costa Rica: San Jose','Nicaragua: Belmopan','Dominican Republic: Santo Domingo'],ans:2,
+   exp:'Belmopan is the capital of Belize, NOT Nicaragua. Nicaragua\'s capital is Managua. All other pairs are correct: Nassau is capital of Bahamas, San José is capital of Costa Rica, and Santo Domingo is capital of Dominican Republic.'},
 
-  /* 20 */ {yr:"2006",topic:"Latitudes & Tropics",
-    text:"Through which one of the following groups of countries does the Equator pass?",
-    opts:["Brazil, Zambia and Malaysia","Colombia, Kenya and Indonesia","Brazil, Sudan and Malaysia","Venezuela, Ethiopia and Indonesia"],ans:1},
+  {id:20,yr:'2004',topic:'River Courses',
+   text:'The great Asian river Mekong does NOT run through:',
+   opts:['China','Malaysia','Cambodia','Laos'],ans:1,
+   exp:'The Mekong river does NOT run through Malaysia. It flows through China (called Lancang Jiang), Myanmar, Laos, Thailand, Cambodia, and Vietnam before entering the South China Sea. Malaysia is a peninsula and islands south of mainland Southeast Asia, far from the Mekong\'s course.'},
 
-  /* 21 */ {yr:"2006",topic:"Rivers & Seas",
-    text:"Huangpu River flows through which one of the following cities?",
-    opts:["Beijing","Ho Chi Minh City","Shanghai","Manila"],ans:2},
+  {id:21,yr:'2004',topic:'States & Countries',
+   text:'Match the states/provinces/territories with their countries:\nA. British Columbia → 1. USA\nB. Bavaria → 2. UK\nC. Gibraltar → 3. Canada\nD. Rhode Island → 4. Germany\n\nA–B–C–D:',
+   opts:['1–2–5–3','3–4–2–1','1–4–2–3','3–2–5–1'],ans:1,
+   exp:'British Columbia is a province of Canada — A=3. Bavaria (Bayern) is a state of Germany — B=4. Gibraltar is a British Overseas Territory — C=2. Rhode Island is a state of the USA — D=1. A–B–C–D = 3–4–2–1.'},
 
-  /* 22 */ {yr:"2005",topic:"Country Borders",
-    text:"Which one of the following countries does not have a border with Lithuania?",
-    opts:["Poland","Ukraine","Belarus","Latvia"],ans:1},
+  {id:22,yr:'2003',topic:'World Waterfalls',
+   text:'The waterfall "Victoria" is associated with the river:',
+   opts:['Amazon','Missouri','St Lawrence','Zambezi'],ans:3,
+   exp:'Victoria Falls (Mosi-oa-Tunya meaning "The Smoke that Thunders") is located on the Zambezi river at the border of Zambia and Zimbabwe. At about 1,708 m wide and 108 m tall, it is one of the world\'s largest waterfalls by total area.'},
 
-  /* 23 */ {yr:"2005",topic:"South Asia",
-    text:"Which one of the following is the correct sequence of the given towns of Pakistan while moving from North towards the South?",
-    opts:["Islamabad – Gujranwala – Peshawar – Multan","Peshawar – Gujranwala – Multan – Islamabad","Peshawar – Islamabad – Gujranwala – Multan","Islamabad – Multan – Peshawar – Gujranwala"],ans:2},
+  {id:23,yr:'2001',topic:'Population Geography',
+   text:'The high density of population in Nile Valley and Island of Java is primarily due to:',
+   opts:['Intensive agriculture','Industrialisation','Urbanisation','Topographic constraints'],ans:0,
+   exp:'Both the Nile Valley and Java (Indonesia) support extremely high populations primarily because of intensive agriculture. The Nile Valley has exceptionally fertile alluvial soil from Nile floods; Java has rich volcanic soils. Both have long supported dense farming populations.'},
 
-  /* 24 */ {yr:"2004",topic:"Country Borders",
-    text:"Latvia does share its borders with which one of the following countries?",
-    opts:["Russia","Estonia","Lithuania","Poland"],ans:2},
+  {id:24,yr:'2000',topic:'Ocean Trenches',
+   text:'Match oceanic trenches with their locations:\nI. Aleutian → A. Indian Ocean\nII. Kermadec → B. North Pacific Ocean\nIII. Sunda → C. South Pacific Ocean\nIV. S. Sandwich → D. South Atlantic Ocean\n\nI–II–III–IV:',
+   opts:['I-B, II-D, III-A, IV-C','I-B, II-C, III-A, IV-D','I-A, II-C, III-B, IV-D','I-A, II-D, III-B, IV-C'],ans:1,
+   exp:'Aleutian Trench is in the North Pacific Ocean (B). Kermadec Trench is in the South Pacific Ocean near New Zealand (C). Sunda Trench (Java Trench) is in the Indian Ocean (A). South Sandwich Trench is in the South Atlantic Ocean (D). I-B, II-C, III-A, IV-D.'},
 
-  /* 25 */ {yr:"2004",topic:"Seas & Borders",
-    text:"Match List-I (Sea) with List-II (Country):\nA. Black Sea      →  ?\nB. Red Sea          →  ?\nC. Yellow Sea      →  ?\nD. Caspian Sea    →  ?\n\nCountries: 1. Bulgaria   2. China   3. Eritrea   4. Kazakhstan\n\nA – B – C – D",
-    opts:["1 – 4 – 2 – 3","2 – 3 – 1 – 4","1 – 3 – 2 – 4","2 – 4 – 1 – 3"],ans:2},
+  {id:25,yr:'2000',topic:'Minerals & Producers',
+   text:'Match minerals with their major producers:\nI. Mineral oil → A. Zambia\nII. Copper → B. Guyana\nIII. Manganese → C. Venezuela\nIV. Bauxite → D. Gabon\n\nI–II–III–IV:',
+   opts:['I-C, II-A, III-D, IV-B','I-C, II-A, III-B, IV-D','I-A, II-C, III-B, IV-D','I-A, II-C, III-D, IV-B'],ans:0,
+   exp:'Venezuela is a major oil producer (I=C). Zambia is a major copper producer (II=A). Gabon is a major manganese producer (III=D). Guyana has significant bauxite deposits (IV=B). I-C, II-A, III-D, IV-B.'},
 
-  /* 26 */ {yr:"2004",topic:"Country Borders",
-    text:"Which one of the following does not border Panama?",
-    opts:["Costa Rica","Pacific Ocean","Colombia","Venezuela"],ans:3},
+  {id:26,yr:'2000',topic:'World Trade & Ports',
+   text:'Which one of the following is known as the "Coffee port" of the world?',
+   opts:['Sao Paulo','Santos','Rio de Janeiro','Buenos Aires'],ans:1,
+   exp:'Santos in Brazil is known as the "Coffee port" of the world. It is the largest port in Latin America and handles most of Brazil\'s (the world\'s largest coffee exporter) coffee exports. Santos is located near São Paulo state.'},
 
-  /* 27 */ {yr:"2003",topic:"Country Geography",
-    text:"Which one of the following countries is landlocked?",
-    opts:["Bolivia","Peru","Suriname","Uruguay"],ans:0},
+  {id:27,yr:'1999',topic:'Volcanoes & Countries',
+   text:'Match volcanic mountains with their countries:\nI. Mt. Rainier → A. Italy\nII. Etna → B. Mexico\nIII. Paricutin → C. Philippines\nIV. Taal → D. USA\n\nI–II–III–IV:',
+   opts:['I-D, II-B, III-A, IV-C','I-D, II-A, III-B, IV-C','I-B, II-A, III-D, IV-C','I-D, II-C, III-B, IV-A'],ans:1,
+   exp:'Mt. Rainier is in Washington state, USA (I=D). Mt. Etna is in Sicily, Italy (II=A). Paricutin is a famous cinder cone volcano in Michoacán, Mexico (III=B). Taal is an active volcano in Batangas, Philippines (IV=C). I-D, II-A, III-B, IV-C.'},
 
-  /* 28 */ {yr:"2003",topic:"Country Borders",
-    text:"Israel has common borders with:",
-    opts:["Lebanon, Syria, Jordan and Egypt","Lebanon, Syria, Turkey and Jordan","Cyprus, Turkey, Jordan and Egypt","Turkey, Syria, Iraq and Yemen"],ans:0},
+  {id:28,yr:'1999',topic:'Timber & Countries',
+   text:'Match timber types with major producing countries:\nI. Cedar → A. Myanmar\nII. Douglas Fir → B. Canada\nIII. Mahogany → C. Mexico\nIV. Teak → D. Honduras\n\nI–II–III–IV:',
+   opts:['I-C, II-B, III-A, IV-D','I-C, II-B, III-D, IV-A','I-B, II-C, III-D, IV-A','I-B, II-C, III-A, IV-D'],ans:1,
+   exp:'Cedar is prominently associated with Mexico (I=C). Douglas Fir is primarily from Canada and the Pacific Northwest USA (II=B). Mahogany is associated with Honduras in Central America (III=D). Teak is classically from Myanmar (Burma) (IV=A). I-C, II-B, III-D, IV-A.'},
 
-  /* 29 */ {yr:"2003",topic:"Seas & Borders",
-    text:"Which one of the following countries does NOT border the Caspian Sea?",
-    opts:["Armenia","Azerbaijan","Kazakhstan","Turkmenistan"],ans:0},
+  {id:29,yr:'1999',topic:'Copper & Chile',
+   text:'Assertion (A): Chile continues to be an important producer of copper in the world.\nReason (R): Chile is endowed with the world\'s largest deposit of porphyry copper.',
+   opts:['Both A and R true; R is correct explanation of A','Both A and R true; R is NOT correct explanation of A','A is true, but R is false','A is false, but R is true'],ans:0,
+   exp:'Both statements are true. Chile is the world\'s largest copper producer, accounting for about 28% of global supply. This is precisely because Chile has the world\'s largest deposits of porphyry copper — a type of low-grade ore deposit that is mined in large open-pit operations. R correctly explains A.'},
 
-  /* 30 */ {yr:"2002",topic:"Seas & Borders",
-    text:"Consider the following countries:\n1. Albania\n2. Bosnia-Herzegovina\n3. Croatia\n4. Macedonia\n\nWhich of these countries has/have the Adriatic Sea as a boundary?",
-    opts:["1 and 2","1, 2 and 3","4 only","3 and 4"],ans:1},
+  {id:30,yr:'1997',topic:'Climate Zones',
+   text:'Of the four shaded areas in the map below, which is characterised by hot dry summers, mild and moist winters and seasonal reversal of winds?\n\n(Refer to the map image below)',
+   opts:['Area 1','Area 2','Area 3','Area 4'],ans:0,
+   mapImg:'https://i.ibb.co/Cp0M8j9D/Screenshot-2026-03-31-145209.png',
+   mapCap:'Map showing four shaded regions — identify the Mediterranean climate zone',
+   exp:'The described characteristics — hot dry summers, mild moist winters, and seasonal wind reversal — define the Mediterranean climate (also called Cs climate). Area 1 in the map corresponds to the Mediterranean basin region, which experiences this classic climate pattern. Areas around the Mediterranean Sea have this distinctive seasonal pattern.'},
 
-  /* 31 */ {yr:"2001",topic:"Map-Based: Central Asia",
-    text:"[Study the map of Central Asia shown below]\n\nThe towns marked as 1, 2, 3 and 4 on the map are:\nA. Bishkek   B. Ashkhabad   C. Tashkent   D. Dushanbe\n\nIdentify A – B – C – D:",
-    opts:["A-3, B-1, C-2, D-4","A-3, B-1, C-4, D-2","A-1, B-3, C-2, D-4","A-1, B-3, C-4, D-2"],ans:0,
-    mapImg:"https://i.ibb.co/xSTMkDbr/Screenshot-2026-03-31-145651.png",
-    mapCap:"Central Asia map — Match towns 1, 2, 3, 4 with Bishkek, Ashkhabad, Tashkent, Dushanbe"},
+  {id:31,yr:'1997',topic:'Island Archipelagos',
+   text:'"From Aceh in the far north-west to Torres Strait in the east is 5000 miles... The Archipelago has 14,000 islands..." This description best fits:',
+   opts:['West Indies','Japan','Philippines','Indonesia'],ans:3,
+   exp:'The description fits Indonesia. Aceh is the northwesternmost province of Indonesia (in Sumatra), and Torres Strait is near Papua (Indonesia\'s easternmost territory) and Australia. Indonesia has over 17,000 islands (the quote says 14,000 which was an older estimate), making it the world\'s largest archipelago nation.'},
 
-  /* 32 */ {yr:"2000",topic:"Country Borders",
-    text:"Consider the following provinces of former Yugoslavia:\nI. Bosnia\nII. Croatia\nIII. Slovenia\nIV. Yugoslavia (Serbia)\n\nThe correct sequence of these provinces from east to west is:",
-    opts:["IV, I, III, II","IV, I, II, III","I, IV, III, II","I, IV, II, III"],ans:1},
+  {id:32,yr:'1997',topic:'Fuelwood Production',
+   text:'Which one of the following countries is the largest producer of fuelwood in the world?',
+   opts:['Indonesia','Russia','India','China'],ans:3,
+   exp:'China is/was the largest producer of fuelwood (firewood/woodfuel) globally, owing to its massive population, large forested areas, and traditional reliance on biomass energy in rural areas. India comes second. This reflects subsistence energy use patterns in large developing nations.'},
 
-  /* 33 */ {yr:"2000",topic:"Rivers & Seas",
-    text:"Which one of the following lakes forms an international boundary between Tanzania and Uganda?",
-    opts:["Lake Chad","Lake Malawi","Lake Victoria","Zambezi"],ans:2},
+  {id:33,yr:'1997',topic:'Population Geography',
+   text:'About 50% of the world population is concentrated between the latitudes of:',
+   opts:['5°N and 20°N','20°N and 40°N','40°N and 60°N','20°S and 40°S'],ans:1,
+   exp:'The latitude band 20°N to 40°N is home to about 50% of world\'s population. This zone includes China, India (partially), Bangladesh, Pakistan, USA (partly), the Middle East, and North Africa — regions with the world\'s most densely populated areas.'},
 
-  /* 34 */ {yr:"1999",topic:"Map-Based: World Cities",
-    text:"[Study the map shown below]\n\nMatch the cities labelled A, B, C and D on the map with:\n1. Darwin   2. Kuala Lumpur   3. Lagos   4. Nairobi   5. Singapore\n\nA – B – C – D:",
-    opts:["A-1, B-2, C-4, D-3","A-2, B-1, C-4, D-3","A-1, B-4, C-5, D-2","A-4, B-3, C-5, D-2"],ans:0,
-    mapImg:"https://i.ibb.co/vxXyZm85/Screenshot-2026-03-31-145709.png",
-    mapCap:"World map — Match cities A, B, C, D with Darwin/KL/Lagos/Nairobi/Singapore"},
-
-  /* 35 */ {yr:"1999",topic:"Map-Based: South America",
-    text:"[Study the map of South America shown below]\n\nThe physical regions marked as 1, 2, 3 and 4 on the map are respectively:",
-    opts:["Andes, Brazilian Shield, Guyana Highlands and Amazon Basin","Andes, Guyana Highlands, Brazilian Shield and Amazon Basin","Amazon Basin, Guyana Highlands, Brazilian Shield and Andes","Guyana Highlands, Brazilian Shield, Andes and Amazon Basin"],ans:0,
-    mapImg:"https://i.ibb.co/Z1k5NnR6/Screenshot-2026-03-31-145720.png",
-    mapCap:"South America map — Identify physical regions 1, 2, 3 and 4"},
-
-  /* 36 */ {yr:"1998",topic:"Rivers & Seas",
-    text:"Match rivers labelled A, B, C and D on the map with:\n1. St. Lawrence   2. Orinoco   3. Mackenzie   4. Amazon   5. Yukon\n\nA – B – C – D:",
-    opts:["A-4, B-3, C-2, D-1","A-5, B-3, C-1, D-2","A-5, B-4, C-1, D-3","A-3, B-1, C-4, D-2"],ans:1},
-
-  /* 37 */ {yr:"1997",topic:"Map-Based: Country Location",
-    text:"[Study the geographical figure shown below]\n\nThe point marked by A in the figure indicates a country in:",
-    opts:["North America","South America","Europe","Asia"],ans:2,
-    mapImg:"https://i.ibb.co/bRzf24wQ/Screenshot-2026-03-31-145735.png",
-    mapCap:"Globe/map figure — Identify the continent/region of point A"},
-
-  /* 38 */ {yr:"1997",topic:"Straits & Canals",
-    text:"One will NOT have to pass through the Suez Canal while going from Mumbai to:",
-    opts:["Alexandria","Suez","Port Said","Benghazi"],ans:1},
-
-  /* 39 */ {yr:"1997",topic:"South-East Asia",
-    text:"During a flight from Delhi to Tokyo, the following are the landing airports:\nI. Hong Kong\nII. Hanoi\nIII. Taipei\nIV. Bangkok\n\nThe correct sequence of landing at these airports on an onward journey is:",
-    opts:["I, II, III, IV","IV, II, I, III","III, IV, I, II","IV, I, II, III"],ans:1},
-
-  /* 40 */ {yr:"1996",topic:"Map-Based: Sri Lanka",
-    text:"[Study the rough outline map of northern Sri Lanka shown below]\n\nJaffna is located at the point marked:",
-    opts:["A","B","C","D"],ans:3,
-    mapImg:"https://i.ibb.co/kVj3ygky/Screenshot-2026-03-31-145747.png",
-    mapCap:"Northern Sri Lanka map — Identify the location of Jaffna (A/B/C/D)"},
-
-  /* 41 */ {yr:"1996",topic:"Map-Based: Middle East",
-    text:"[Study the rough outline map of the Middle East shown below]\n\nThe countries labelled A, B, C and D are respectively:",
-    opts:["Syria, Iraq, Jordan and Saudi Arabia","Syria, Iraq, Saudi Arabia and Jordan","Iraq, Syria, Saudi Arabia and Jordan","Iraq, Syria, Jordan and Saudi Arabia"],ans:2,
-    mapImg:"https://i.ibb.co/KpHK5x4s/Screenshot-2026-03-31-145807.png",
-    mapCap:"Middle East map — Identify countries A, B, C and D"},
-
-  /* 42 */ {yr:"1995",topic:"Map-Based: Central Asia Ex-USSR",
-    text:"[Study the map of former Soviet Union countries shown below]\n\nThe countries marked 1, 2, 3, 4 and 5 are respectively:",
-    opts:["Tajikistan, Turkmenia, Uzbekistan, Kirgizia, Kazakhstan","Turkmenia, Kirgizia, Tajikistan, Uzbekistan, Kazakhstan","Kazakhstan, Uzbekistan, Tajikistan, Kirgizia, Turkmenia","Kazakhstan, Turkmenia, Uzbekistan, Kirgizia, Tajikistan"],ans:3,
-    mapImg:"https://i.ibb.co/Jjn1k7vn/Screenshot-2026-03-31-145821.png",
-    mapCap:"Ex-USSR map — Identify countries 1, 2, 3, 4 and 5"},
-
-  /* 43 */ {yr:"1995",topic:"Map-Based: Chechnya",
-    text:"[Study the map shown below indicating four places frequently in the news]\n\nWhich one of the marked places (1, 2, 3, 4) is Chechnya?",
-    opts:["Place 1","Place 2","Place 3","Place 4"],ans:2,
-    mapImg:"https://i.ibb.co/VY2gqj6m/Screenshot-2026-03-31-145831.png",
-    mapCap:"Map — Identify which marked place (1/2/3/4) is Chechnya"}
+  {id:34,yr:'1995',topic:'Continents',
+   text:'Which one of the following is the continent with the highest mean elevation in the world?',
+   opts:['Antarctica','North America','Asia','South America'],ans:0,
+   exp:'Antarctica has the highest mean elevation of any continent — approximately 2,300 m above sea level. This is because the continent sits atop a massive ice sheet (averaging 1,900 m thick), which gives it its tremendous average height. Asia has the highest individual peaks but a lower average elevation.'}
 ];
 
-// ════════════════════════════════════════════════
-//   STATE
-// ════════════════════════════════════════════════
-let S={
-  cur:0,
-  ans:new Array(TOTAL).fill(null),
-  skp:new Array(TOTAL).fill(false),
-  startTime:null,
-  tLeft:22*60,
-  tInt:null,
-  done:false
-};
+// ════ STATE ════
+let S={cur:0,ans:new Array(34).fill(null),skp:new Array(34).fill(false),start:null,tLeft:25*60,tInt:null,done:false};
 const pad=n=>String(n).padStart(2,'0');
 
 function startQuiz(){
-  const raw=localStorage.getItem('worldgeo_v1');
+  const raw=localStorage.getItem('geomind_v1');
   if(raw){
     const d=JSON.parse(raw);
-    if(!d.done&&confirm('📂 Resume your previous session?')){
+    if(!d.done&&confirm('Resume your previous session?')){
       S={...S,...d,tInt:null};
-    } else {
-      localStorage.removeItem('worldgeo_v1');
-      S.startTime=Date.now();
-    }
-  } else {
-    S.startTime=Date.now();
-  }
-  show('quiz-screen');
-  buildDots();
-  renderQ();
-  runTimer();
+    }else{localStorage.removeItem('geomind_v1');S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
 }
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
 }
 
-// TIMER
 function runTimer(){
-  if(S.tInt) clearInterval(S.tInt);
-  updateClk();
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
   S.tInt=setInterval(()=>{
     if(S.done){clearInterval(S.tInt);return;}
-    S.tLeft--;
-    updateClk();
-    if(S.tLeft%15===0) save();
-    if(S.tLeft<=0){
-      clearInterval(S.tInt);
-      alert('⏰ Time is up! Auto-submitting…');
-      submitQuiz();
-    }
+    S.tLeft--;updTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('Time is up! Submitting…');submitQuiz();}
   },1000);
 }
-function updateClk(){
+function updTimer(){
   const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
   const el=document.getElementById('timerEl');
-  el.textContent=`⏱ ${pad(m)}:${pad(s)}`;
-  el.className=S.tLeft<=240?'tclock hot':'tclock';
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'q-timer hot':'q-timer';
 }
 
-// RENDER Q
 function renderQ(){
-  const i=S.cur, q=Q[i];
+  const i=S.cur,q=Q[i];
   document.getElementById('qCur').textContent=i+1;
-  document.getElementById('qBdg').textContent=`Q${i+1}`;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
   document.getElementById('qYr').textContent=q.yr;
   document.getElementById('qTopic').textContent=q.topic;
-  document.getElementById('qText').textContent=q.text;
-  document.getElementById('pfill').style.width=((i+1)/Q.length*100)+'%';
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
 
   const sp=document.getElementById('qStat');
-  if(S.skp[i])             {sp.textContent='⤭ Skipped';  sp.className='stag st2';}
-  else if(S.ans[i]!==null) {sp.textContent='✅ Answered'; sp.className='stag st1';}
-  else                      {sp.textContent='○ Unanswered';sp.className='stag st0';}
+  if(S.skp[i]){sp.textContent='Skipped';sp.className='q-status-tag qs-skp';}
+  else if(S.ans[i]!==null){sp.textContent='Answered';sp.className='q-status-tag qs-ans';}
+  else{sp.textContent='Unanswered';sp.className='q-status-tag qs-none';}
 
-  const mb=document.getElementById('qMapBox'),mi=document.getElementById('qMapImg'),mc=document.getElementById('qMapCap');
-  if(q.mapImg){mi.src=q.mapImg;mc.textContent=q.mapCap||'';mb.style.display='flex';}
-  else{mb.style.display='none';}
+  // Map
+  const ma=document.getElementById('mapArea');
+  if(q.mapImg){
+    const mi=document.getElementById('mapImg');
+    mi.classList.remove('in');
+    mi.src=q.mapImg;
+    document.getElementById('mapCap').textContent=q.mapCap||'';
+    ma.style.display='block';
+  }else{ma.style.display='none';}
 
+  // Options
   const og=document.getElementById('optsGrid');og.innerHTML='';
   q.opts.forEach((o,idx)=>{
     const b=document.createElement('button');
     b.className='opt'+(S.ans[i]===idx?' sel':'');
-    b.innerHTML=`<span class="oltr">${L4[idx]}</span><span class="otxt">${o}</span>`;
+    b.innerHTML=`<span class="opt-ltr">${L[idx]}</span><span>${o}</span>`;
     b.onclick=()=>pick(idx);
     og.appendChild(b);
   });
@@ -665,99 +764,85 @@ function renderQ(){
   const last=(i===Q.length-1);
   document.getElementById('btnNext').style.display=last?'none':'inline-block';
   document.getElementById('btnSub').style.display=last?'inline-block':'none';
-  updateDots();
+  updDots();
 }
 
-function pick(idx){
-  if(S.done)return;
-  S.ans[S.cur]=idx; S.skp[S.cur]=false;
-  renderQ(); save();
-}
-function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
-function skipQ(){
-  S.skp[S.cur]=true; S.ans[S.cur]=null; save();
-  if(S.cur<Q.length-1) nav(1); else renderQ();
-}
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
 
-// DOTS
 function buildDots(){
   const dm=document.getElementById('dotMap');dm.innerHTML='';
   Q.forEach((_,i)=>{
     const d=document.createElement('button');
-    d.className='dot'; d.textContent=i+1; d.id=`d${i}`;
-    d.onclick=()=>{S.cur=i;renderQ();}; dm.appendChild(d);
+    d.className='dot';d.textContent=i+1;d.id=`d${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
   });
 }
-function updateDots(){
+function updDots(){
   Q.forEach((_,i)=>{
-    const d=document.getElementById(`d${i}`); if(!d)return;
+    const d=document.getElementById(`d${i}`);if(!d)return;
     d.className='dot';
-    if(i===S.cur)            d.classList.add('cur');
-    else if(S.skp[i])        d.classList.add('d-skp');
-    else if(S.ans[i]!==null) d.classList.add('d-ans');
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
   });
 }
 
-// MODAL
-function showSubmitModal(){
-  const a=S.ans.filter(x=>x!==null).length,sk=S.skp.filter(Boolean).length,u=Q.length-a-sk;
-  document.getElementById('mTxt').textContent=
-    `📊 Answered: ${a}  |  Skipped: ${sk}  |  Unanswered: ${u}\n\nOnce submitted, answers cannot be changed.`;
-  document.getElementById('mOverlay').classList.add('on');
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  const un=Q.length-a-sk;
+  document.getElementById('modTxt').textContent=`Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${un}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modalOv').classList.add('on');
 }
-function closeModal(){document.getElementById('mOverlay').classList.remove('on');}
+function closeMod(){document.getElementById('modalOv').classList.remove('on');}
 
-// SUBMIT
 function submitQuiz(){
-  closeModal(); clearInterval(S.tInt); S.done=true;
-  const usedSec=(22*60)-S.tLeft;
-  let correct=0,wrong=0,skipped=0;
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(25*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
   Q.forEach((q,i)=>{
-    if(S.skp[i]||S.ans[i]===null) skipped++;
-    else if(S.ans[i]===q.ans)     correct++;
-    else                            wrong++;
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
   });
-  const attempted=correct+wrong, pct=Math.round(correct/Q.length*100);
-  const acc=attempted?Math.round(correct/attempted*100):0;
-  const avgT=Math.round(usedSec/Q.length);
+  const attempted=cor+wr;
+  const pct=Math.round(cor/Q.length*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
 
   let grade,gc;
-  if(pct>=90){grade='🏆 World Expert';gc='#22c55e';}
-  else if(pct>=75){grade='🥇 Excellent';gc='#00d4ff';}
-  else if(pct>=60){grade='🥈 Good';gc='#a78bfa';}
-  else if(pct>=45){grade='🥉 Average';gc='#f59e0b';}
-  else{grade='📚 Keep Revising';gc='#f43f5e';}
+  if(pct>=90){grade='Outstanding';gc='#2d6a4f';}
+  else if(pct>=75){grade='Excellent';gc='#1d6fa0';}
+  else if(pct>=60){grade='Good';gc='#6b4fcc';}
+  else if(pct>=45){grade='Average';gc='#b8860b';}
+  else{grade='Keep Revising';gc='#c84b2f';}
 
-  document.getElementById('rfill').style.stroke=gc;
-  document.getElementById('rfill').style.strokeDashoffset=314.16*(1-pct/100);
-  document.getElementById('rNum').textContent=correct;
-  document.getElementById('rDen').textContent='/ '+Q.length;
-  const gp=document.getElementById('gPill');
-  gp.textContent=grade; gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
-  document.getElementById('gPct').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+  document.getElementById('rScore').textContent=cor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${gc}18;color:${gc};border:1px solid ${gc}40;font-family:'Playfair Display',serif;font-weight:700`;
+  document.getElementById('rSub').textContent=`${pct}% · ${cor} correct out of ${Q.length}`;
 
-  document.getElementById('rTitle').textContent=pct>=75?'🌍 Outstanding Performance!':pct>=50?'👍 Good Attempt!':'📚 Needs More Practice';
-  document.getElementById('rSub').textContent=pct>=75?'Excellent command over World Geography — UPSC level ready!':pct>=50?'Solid base. Work on the weak areas flagged below.':'Revise world borders, seas & straits systematically using atlas.';
+  if(pct>=75){document.getElementById('rMsg').textContent='Strong performance! Your world geography knowledge is solid.';}
+  else if(pct>=50){document.getElementById('rMsg').textContent='Decent attempt. Review the weak areas below and revise systematically.';}
+  else{document.getElementById('rMsg').textContent='More revision needed. Start with atlas practice and key geographic facts.';}
 
-  document.getElementById('stC').textContent=correct;
-  document.getElementById('stW').textContent=wrong;
-  document.getElementById('stS').textContent=skipped;
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
   document.getElementById('stAcc').textContent=acc+'%';
-  document.getElementById('stTm').textContent=fmtT(usedSec);
-  document.getElementById('stAv').textContent=avgT+'s';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=Math.round(used/Q.length)+'s';
 
-  buildInsights(pct,acc,skipped,attempted,correct,wrong);
-  renderReview('all');
-  localStorage.removeItem('worldgeo_v1');
-  show('results-screen');
-  window.scrollTo(0,0);
+  buildInsights(cor,wr,sk,pct,acc,attempted);
+  renderRev('all');
+  localStorage.removeItem('geomind_v1');
+  show('results');
 }
 function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
 
-// INSIGHTS
-const MAP_Q_INDICES=[30,33,34,36,39,40,41,42]; // 0-based Q31,34,35,37,40,41,42,43
-
-function buildInsights(pct,acc,skipped,attempted,correct,wrong){
+function buildInsights(cor,wr,sk,pct,acc,attempted){
   const topErr={};
   Q.forEach((q,i)=>{
     if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
@@ -766,103 +851,76 @@ function buildInsights(pct,acc,skipped,attempted,correct,wrong){
   const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
   const lines=[];
 
-  if(pct>=90)      lines.push('🌟 Near-perfect! You have exceptional mastery of World Political & Physical Geography.');
-  else if(pct>=75) lines.push('💪 Strong performance. A few more atlas revision sessions will take you to the top band.');
-  else if(pct>=50) lines.push('📈 Decent base. Revise individual topic clusters — borders, seas/straits, and latitudes are highest-yield.');
-  else             lines.push('📖 Start with NCERT World Geography + a good atlas. Focus on marking borders, seas, and capital locations.');
+  if(pct>=90)lines.push('Exceptional mastery of world geography. UPSC-ready performance.');
+  else if(pct>=75)lines.push('Strong result. A few targeted revisions will make you exam-ready.');
+  else if(pct>=50)lines.push('Good base. Revise mineral producers, river courses, and world landforms.');
+  else lines.push('Begin with NCERT Class 11 Fundamentals of Physical Geography and an atlas before retrying.');
 
-  if(attempted>0&&acc<55&&attempted>8)
-    lines.push(`🎯 Accuracy: ${acc}% — high error rate among attempted questions. Use elimination first, then guess.`);
-  if(skipped>10)
-    lines.push(`⤭ ${skipped} questions skipped. For UPSC Prelims, practise the elimination method to convert skips into attempts.`);
+  if(sk>6)lines.push(`${sk} questions skipped. Practice educated elimination — partial knowledge can still yield correct answers.`);
+  if(attempted>0&&acc<55&&attempted>6)lines.push(`Accuracy ${acc}% among attempted. Avoid guessing; use elimination carefully.`);
 
-  // Map Q weakness
-  const mapWrong=MAP_Q_INDICES.filter(i=>!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==Q[i].ans);
-  if(mapWrong.length>=2)
-    lines.push(`🗺️ ${mapWrong.length} out of 8 map-based questions wrong. Regularly practice blank map exercises using an atlas — these are high-scoring for prepared candidates.`);
+  if(topErr['World Geography']||topErr['World Landforms'])lines.push('Revise key world landforms: mountain ranges, deserts, highlands, trenches.');
+  if(topErr['Minerals & Resources']||topErr['Minerals & Producers'])lines.push('Mineral producers: DRC=Cobalt, Chile=Copper, Australia=Uranium, Venezuela=Oil, Zambia=Copper.');
+  if(topErr['Cities & Rivers']||topErr['SE Asian Cities & Rivers']||topErr['European Cities & Rivers'])lines.push('City-river pairs are high-yield. Berlin=Spree, Bangkok=Chao Phraya, Hanoi=Red River, Vienna=Danube.');
+  if(topErr['Ocean Trenches'])lines.push('Trenches: Aleutian=N.Pacific, Mariana=W.Pacific, Sunda=Indian Ocean, S.Sandwich=S.Atlantic.');
+  if(topErr['Climate Zones'])lines.push('Mediterranean climate: hot dry summers + mild moist winters. Found near Med Sea, California, Chile, SW Australia.');
+  if(topErr['River Courses'])lines.push('Mekong runs through China, Myanmar, Laos, Thailand, Cambodia, Vietnam — NOT Malaysia.');
 
-  // Topic-specific advice
-  if(topErr['Country Borders'])
-    lines.push('🗺️ Borders: Ukraine borders — Hungary, Romania, Poland, Slovakia, Moldova, Belarus, Russia. Afghanistan borders — Tajikistan, Uzbekistan, Turkmenistan, China, Pakistan, Iran. Revise with atlas.');
-  if(topErr['Seas & Borders'])
-    lines.push('🌊 Seas: Caspian Sea borders — Russia, Kazakhstan, Turkmenistan, Iran, Azerbaijan. Adriatic — Croatia, Bosnia, Albania. Black Sea — Ukraine, Russia, Turkey, Georgia, Romania, Bulgaria.');
-  if(topErr['Mediterranean Sea'])
-    lines.push('🏖️ Mediterranean: Syria, Lebanon, Israel border it. Jordan does NOT (it has only a tiny Red Sea coast at Aqaba). Malta is in the Mediterranean. Iraq has NO Mediterranean coast.');
-  if(topErr['Straits & Canals'])
-    lines.push('⚓ Straits: Strait of Dover connects UK & France (Channel Tunnel). Bering Strait is closest to IDL. Kra Isthmus canal proposal cuts through Thailand. Malacca Strait → Singapore.');
-  if(topErr['Latitudes & Tropics'])
-    lines.push('🌐 Tropics: Tropic of Capricorn passes through Australia, Namibia, Mozambique, Madagascar, Brazil, Chile, Argentina. Equator: Colombia, Brazil, Ecuador, Kenya, Uganda, Indonesia.');
-  if(topErr['Rivers & Seas'])
-    lines.push('🌊 Rivers: Volga → Caspian Sea (NOT Black Sea). Zambezi → Mozambique Channel (Indian Ocean). Mekong → South China Sea (NOT Andaman). Huangpu → flows through Shanghai.');
-  if(topErr['South-East Asia'])
-    lines.push('🗺️ SE Asia N-S order: Jakarta → Singapore → Bangkok → Hanoi. Myanmar borders: Bangladesh, Thailand, Laos, China, India. Delhi-Tokyo route: Bangkok → Hanoi → Hong Kong → Taipei.');
-  if(topErr['Map-Based: Central Asia'])
-    lines.push('🗾 Central Asia capitals: Bishkek (Kyrgyzstan), Dushanbe (Tajikistan), Tashkent (Uzbekistan), Ashgabat/Ashkhabad (Turkmenistan). Practice locating these on blank map.');
-  if(topErr['Map-Based: Middle East'])
-    lines.push('🗾 Middle East: Iraq borders — Turkey, Syria, Jordan, Saudi Arabia, Kuwait, Iran. Syria is north of Jordan. Israel borders — Lebanon, Syria, Jordan, Egypt.');
-  if(topErr['Time Zones'])
-    lines.push('🕐 Addis Ababa (Ethiopia) is UTC+3 while London/Lisbon/Accra are near UTC+0. It does NOT share the same clock time as the other three cities.');
-
-  ranked.slice(0,4).forEach(([t,c])=>{
-    lines.push(`❌ Weak Area → ${t}: ${c} wrong answer${c>1?'s':''}. Prioritise this in your next atlas revision session.`);
-  });
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`Weak area → ${t}: ${c} error${c>1?'s':''}. Prioritise in next revision.`));
 
   const ib=document.getElementById('insBody');
-  ib.innerHTML=lines.map(l=>`<div class="ins"><span>${l}</span></div>`).join('');
-  if(ranked.length){
-    ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wch">${t}</span>`).join('')}</div>`;
-  }
+  ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-tags">${ranked.map(([t])=>`<span class="wt">${t}</span>`).join('')}</div>`;
 }
 
-// REVIEW
 function setTab(f,btn){
-  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); renderReview(f);
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
 }
-function renderReview(f){
-  const rl=document.getElementById('revList'); let html='';
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
   Q.forEach((q,i)=>{
     const ua=S.ans[i];
     const isSk=S.skp[i]||ua===null;
     const isOk=!isSk&&ua===q.ans;
     const isWr=!isSk&&!isOk;
-    if(f==='correct'&&!isOk)  return;
-    if(f==='wrong'&&!isWr)    return;
-    if(f==='skipped'&&!isSk)  return;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
     const rc=isOk?'rc':isWr?'rw':'rs';
-    const lbl=isOk?'✅ Correct':isWr?'❌ Wrong':'⤭ Skipped';
-    const uaTxt=isSk?'Not answered / Skipped':`${L4[ua]}) ${q.opts[ua]}`;
-    const caTxt=`${L4[q.ans]}) ${q.opts[q.ans]}`;
-    const mapHtml=q.mapImg?`<img class="rv-map" src="${q.mapImg}" alt="Map" loading="lazy">`:'';
-    html+=`<div class="rcard ${rc}">
-      <div class="rtop">
-        <span class="rqn">Q${i+1}</span>
-        <span class="ryr">${q.yr}</span>
-        <span class="rbdg ${rc}">${lbl}</span>
-        <span class="rtopic">${q.topic}</span>
+    const lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const uaTxt=isSk?'Not answered':L[ua]+') '+q.opts[ua];
+    const caTxt=L[q.ans]+') '+q.opts[q.ans];
+    const mHtml=q.mapImg?`<img class="rv-map" src="${q.mapImg}" alt="Map" loading="lazy" onload="this.style.opacity='1'" style="opacity:0;transition:opacity .3s" onerror="this.style.display='none'">`:'';
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-top2">${q.topic}</span>
       </div>
-      <div class="rqt">${q.text}</div>
-      ${mapHtml}
-      <div class="rrow"><span class="rlbl">Your Answer:</span><span class="rval ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
-      <div class="rrow"><span class="rlbl">Correct Answer:</span><span class="rval good">${caTxt}</span></div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      ${mHtml}
+      <div class="rv-row"><span class="rv-lbl">Your answer:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
     </div>`;
   });
-  if(!html) html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
+  if(!html)html='<p style="color:var(--ink3);text-align:center;padding:2rem;font-size:.85rem">No questions in this category.</p>';
   rl.innerHTML=html;
 }
 
-// SAVE / RESTART
 function save(){
-  localStorage.setItem('worldgeo_v1',JSON.stringify({
-    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  localStorage.setItem('geomind_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
   }));
 }
 function restartQuiz(){
-  if(!confirm('🔄 Restart? All progress will be lost.')) return;
-  clearInterval(S.tInt);
-  localStorage.removeItem('worldgeo_v1');
-  S={cur:0,ans:new Array(TOTAL).fill(null),skp:new Array(TOTAL).fill(false),startTime:null,tLeft:22*60,tInt:null,done:false};
-  show('start-screen');
+  if(!confirm('Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('geomind_v1');
+  S={cur:0,ans:new Array(34).fill(null),skp:new Array(34).fill(false),start:null,tLeft:25*60,tInt:null,done:false};
+  show('start');
 }
 </script>
 </body>
