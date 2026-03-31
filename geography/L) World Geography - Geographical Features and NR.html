@@ -8,18 +8,22 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#04080f;--bg2:#080d18;
+  --bg:#04080f;--bg2:#080d18;--bg3:#0c1220;
   --g1:rgba(255,255,255,.038);--gb:rgba(255,255,255,.085);
   --cyan:#00d4ff;--cyan2:#0ea5e9;--teal:#14b8a6;
   --lime:#84cc16;--rose:#f43f5e;--amber:#f59e0b;--grn:#22c55e;
   --txt:#dbeafe;--txt2:#64748b;--txt3:#94a3b8;
   --r:14px;--r2:20px;--r3:28px;
   --sh:0 10px 40px rgba(0,0,0,.55);
+  --glow:0 0 50px rgba(0,212,255,.15);
 }
 html{scroll-behavior:smooth}
 body{font-family:'Josefin Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;line-height:1.6}
+
+/* ── BG ── */
 body::before{content:'';position:fixed;inset:0;z-index:0;
-  background:radial-gradient(ellipse 80% 60% at 5% 30%,rgba(0,212,255,.09),transparent),
+  background:
+    radial-gradient(ellipse 80% 60% at 5% 30%,rgba(0,212,255,.09),transparent),
     radial-gradient(ellipse 65% 55% at 95% 70%,rgba(20,184,166,.08),transparent),
     radial-gradient(ellipse 60% 70% at 50% 100%,rgba(132,204,22,.05),transparent);
   pointer-events:none}
@@ -28,143 +32,106 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
   animation:globeSpin 20s linear infinite;pointer-events:none;z-index:0}
 @keyframes globeSpin{to{transform:rotate(360deg)}}
 
+/* SCREENS */
 .screen{display:none;position:relative;z-index:1;min-height:100vh}
 .screen.active{display:flex}
 
-/* ══ START ══ */
+/* ══════ START ══════ */
 #start-screen{flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
-.globe-icon{width:115px;height:115px;margin:0 auto 2rem;position:relative;display:flex;align-items:center;justify-content:center;font-size:3.2rem}
+
+.globe-icon{width:125px;height:125px;margin:0 auto 2rem;position:relative;display:flex;align-items:center;justify-content:center;font-size:3.5rem}
 .globe-icon::before{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#00d4ff,#14b8a6,#84cc16,#0ea5e9,#00d4ff);animation:spin 6s linear infinite;opacity:.9}
 .globe-icon::after{content:'';position:absolute;inset:5px;border-radius:50%;background:var(--bg2)}
 .globe-icon span{position:relative;z-index:2}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.s-title{font-family:'Raleway',sans-serif;font-size:clamp(2rem,7vw,4.2rem);font-weight:900;line-height:1.05;margin-bottom:.5rem;letter-spacing:-.02em}
+.s-title{font-family:'Raleway',sans-serif;font-size:clamp(2rem,7vw,4.5rem);font-weight:900;line-height:1;margin-bottom:.55rem;letter-spacing:-.02em}
 .s-t1{display:block;background:linear-gradient(135deg,#00d4ff,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .s-t2{display:block;background:linear-gradient(135deg,#14b8a6,#84cc16);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.s-sub{font-size:.82rem;color:var(--txt2);margin-bottom:2.5rem;text-transform:uppercase;letter-spacing:.1em}
+.s-sub{font-size:.85rem;color:var(--txt2);margin-bottom:2.8rem;text-transform:uppercase;letter-spacing:.1em}
 
-.meta-row{display:flex;gap:0;max-width:680px;width:100%;margin:0 auto 2.5rem;flex-wrap:wrap}
-.mc{flex:1;min-width:130px;padding:1.2rem 1rem;background:var(--g1);border:1px solid var(--gb);backdrop-filter:blur(14px);text-align:center}
+.meta-row{display:flex;gap:0;max-width:720px;width:100%;margin:0 auto 2.8rem;flex-wrap:wrap}
+.mc{flex:1;min-width:140px;padding:1.3rem 1rem;background:var(--g1);border:1px solid var(--gb);backdrop-filter:blur(14px);text-align:center;transition:.2s}
 .mc:first-child{border-radius:var(--r2) 0 0 var(--r2)}
 .mc:last-child{border-radius:0 var(--r2) var(--r2) 0}
 .mc+.mc{border-left:none}
-.mc-ic{font-size:1.4rem;margin-bottom:.3rem}
-.mc-v{font-family:'Raleway',sans-serif;font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.mc-l{font-size:.63rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em}
+.mc:hover{background:rgba(0,212,255,.06)}
+.mc-ic{font-size:1.5rem;margin-bottom:.35rem}
+.mc-v{font-family:'Raleway',sans-serif;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mc-l{font-size:.65rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em}
 
-/* MODE SELECTOR */
-.mode-title{font-family:'Raleway',sans-serif;font-size:.8rem;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem}
-.mode-cards{display:flex;gap:1rem;max-width:680px;width:100%;margin:0 auto 2rem;flex-wrap:wrap}
-.mode-card{flex:1;min-width:240px;padding:1.6rem 1.4rem;background:var(--g1);border:1.5px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px);cursor:pointer;text-align:left;transition:all .25s;position:relative;overflow:hidden}
-.mode-card::before{content:'';position:absolute;inset:0;opacity:0;transition:.25s}
-.mode-card.full-mode::before{background:linear-gradient(135deg,rgba(0,212,255,.08),transparent)}
-.mode-card.prac-mode::before{background:linear-gradient(135deg,rgba(20,184,166,.1),transparent)}
-.mode-card:hover::before{opacity:1}
-.mode-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.4)}
-.mode-card.full-mode:hover{border-color:rgba(0,212,255,.45)}
-.mode-card.prac-mode:hover{border-color:rgba(20,184,166,.45)}
-.mc-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem}
-.mc-emoji{font-size:1.8rem}
-.mc-name{font-family:'Raleway',sans-serif;font-size:1.05rem;font-weight:800;position:relative;z-index:1}
-.full-mode .mc-name{background:linear-gradient(135deg,var(--cyan),var(--cyan2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.prac-mode .mc-name{background:linear-gradient(135deg,var(--teal),var(--lime));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.mc-desc{font-size:.78rem;color:var(--txt3);line-height:1.6;position:relative;z-index:1}
-.mc-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.85rem;position:relative;z-index:1}
-.mc-tag{font-size:.66rem;font-weight:600;padding:.22rem .65rem;border-radius:50px}
-.full-mode .mc-tag{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
-.prac-mode .mc-tag{background:rgba(20,184,166,.1);color:var(--teal);border:1px solid rgba(20,184,166,.2)}
+.chip-row{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;max-width:660px;margin:0 auto 2.8rem}
+.chip{font-size:.7rem;font-weight:600;padding:.3rem .9rem;border-radius:50px;border:1px solid rgba(0,212,255,.2);background:rgba(0,212,255,.05);color:var(--txt3);letter-spacing:.03em;transition:.2s}
+.chip:hover{border-color:var(--cyan);color:var(--cyan)}
 
-.chip-row{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;max-width:640px;margin:0 auto 1.5rem}
-.chip{font-size:.68rem;font-weight:600;padding:.28rem .8rem;border-radius:50px;border:1px solid rgba(0,212,255,.18);background:rgba(0,212,255,.04);color:var(--txt3);letter-spacing:.03em}
-.note{color:var(--txt2);font-size:.71rem;margin-top:.5rem;opacity:.6;letter-spacing:.04em}
+.start-btn{padding:1.05rem 3.2rem;background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#020a14;border:none;border-radius:50px;font-family:'Raleway',sans-serif;font-size:1.05rem;font-weight:800;cursor:pointer;letter-spacing:.06em;box-shadow:0 6px 28px rgba(0,212,255,.38);transition:.25s;position:relative;overflow:hidden}
+.start-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.2),transparent);opacity:0;transition:.25s}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 14px 42px rgba(0,212,255,.55)}
+.start-btn:hover::after{opacity:1}
+.note{color:var(--txt2);font-size:.72rem;margin-top:1.1rem;opacity:.6;letter-spacing:.04em}
 
-/* ══ QUIZ ══ */
+/* ══════ QUIZ ══════ */
 #quiz-screen{flex-direction:column;padding:1rem}
 .qshell{max-width:880px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:.9rem;padding-bottom:1rem}
-.topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:.8rem 1.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px)}
-.qlbl{font-family:'Raleway',sans-serif;font-size:1rem;font-weight:800;color:var(--txt3)}
+
+/* Topbar */
+.topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:.82rem 1.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px)}
+.qlbl{font-family:'Raleway',sans-serif;font-size:1rem;font-weight:800;color:var(--txt3);letter-spacing:.03em}
 .qlbl em{color:var(--cyan);font-style:normal}
-.mode-pill{font-size:.68rem;font-weight:700;padding:.3rem .85rem;border-radius:50px}
-.pill-full{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.28)}
-.pill-prac{background:rgba(20,184,166,.12);color:var(--teal);border:1px solid rgba(20,184,166,.28)}
 .tclock{display:flex;align-items:center;gap:.42rem;padding:.4rem 1.1rem;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.28);border-radius:50px;font-family:'Raleway',sans-serif;font-size:.94rem;font-weight:800;color:var(--cyan);white-space:nowrap;transition:.3s}
 .tclock.hot{background:rgba(244,63,94,.16);border-color:rgba(244,63,94,.38);color:var(--rose);animation:hotblink .85s infinite}
 @keyframes hotblink{0%,100%{opacity:1}50%{opacity:.38}}
 .tb-r{display:flex;justify-content:flex-end}
+
+/* Progress */
 .pbar{height:4px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
 .pfill{height:100%;background:linear-gradient(90deg,#00d4ff,#14b8a6,#84cc16);border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(0,212,255,.45)}
 
 /* Q Card */
 .qcard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:2rem 2.2rem;backdrop-filter:blur(20px);animation:cin .36s cubic-bezier(.4,0,.2,1)}
 @keyframes cin{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+
 .q-toprow{display:flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
-.qbdg{background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#020a14;font-family:'Raleway',sans-serif;font-size:.76rem;font-weight:800;padding:.27rem .85rem;border-radius:50px;letter-spacing:.03em}
-.ytag{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.06);padding:.27rem .72rem;border-radius:50px;border:1px solid var(--gb)}
-.ttag{font-size:.68rem;color:var(--teal);background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.25);padding:.27rem .72rem;border-radius:50px}
-.stag{margin-left:auto;font-size:.68rem;font-weight:700;padding:.27rem .8rem;border-radius:50px}
+.qbdg{background:linear-gradient(135deg,#00d4ff,#0ea5e9);color:#020a14;font-family:'Raleway',sans-serif;font-size:.77rem;font-weight:800;padding:.28rem .85rem;border-radius:50px;letter-spacing:.03em}
+.ytag{font-size:.7rem;color:var(--txt2);background:rgba(255,255,255,.06);padding:.28rem .72rem;border-radius:50px;border:1px solid var(--gb)}
+.ttag{font-size:.68rem;color:var(--teal);background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.25);padding:.28rem .72rem;border-radius:50px}
+.stag{margin-left:auto;font-size:.68rem;font-weight:700;padding:.28rem .8rem;border-radius:50px}
 .st0{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--gb)}
 .st1{background:rgba(34,197,94,.13);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
 .st2{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
 
+/* Map image */
 .qmapbox{display:flex;justify-content:center;margin:1rem 0}
 .qmapbox img{max-width:360px;width:100%;border-radius:var(--r);border:1px solid var(--gb);box-shadow:var(--sh);background:rgba(255,255,255,.04)}
-.mapcap{font-size:.7rem;color:var(--txt2);text-align:center;margin-top:.42rem;font-style:italic}
+.mapcap{font-size:.7rem;color:var(--txt2);text-align:center;margin-top:.42rem;font-style:italic;letter-spacing:.02em}
+
 .qtext{font-size:.93rem;line-height:1.85;color:var(--txt);margin-bottom:1.55rem;white-space:pre-wrap}
 
 /* Options */
 .opts{display:flex;flex-direction:column;gap:.68rem}
-.opt{display:flex;align-items:flex-start;gap:.9rem;padding:.97rem 1.15rem;background:rgba(255,255,255,.022);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--r);cursor:pointer;transition:all .2s;text-align:left;width:100%;color:var(--txt);font-family:'Josefin Sans',sans-serif;font-size:.875rem;font-weight:400;line-height:1.55;position:relative;overflow:hidden}
+.opt{display:flex;align-items:flex-start;gap:.9rem;padding:.97rem 1.15rem;background:rgba(255,255,255,.02);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--r);cursor:pointer;transition:all .2s;text-align:left;width:100%;color:var(--txt);font-family:'Josefin Sans',sans-serif;font-size:.875rem;font-weight:400;line-height:1.55;position:relative;overflow:hidden}
 .opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.08),transparent);opacity:0;transition:.2s}
-.opt:hover:not(.sel):not(.opt-correct):not(.opt-wrong):not(.opt-reveal):not(:disabled)::before{opacity:1}
-.opt:hover:not(.sel):not(.opt-correct):not(.opt-wrong):not(.opt-reveal):not(:disabled){border-color:rgba(0,212,255,.4);transform:translateX(5px)}
+.opt:hover:not(.sel):not(:disabled)::before{opacity:1}
+.opt:hover:not(.sel):not(:disabled){border-color:rgba(0,212,255,.4);transform:translateX(5px)}
 .oltr{min-width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:'Raleway',sans-serif;font-size:.77rem;font-weight:800;flex-shrink:0;transition:.2s;position:relative;z-index:1}
-.otxt{position:relative;z-index:1;flex:1}
+.otxt{position:relative;z-index:1}
 .opt.sel{background:rgba(0,212,255,.1);border-color:var(--cyan)}
 .opt.sel .oltr{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14}
-/* Practice mode feedback */
-.opt.opt-correct{background:rgba(34,197,94,.14)!important;border-color:var(--grn)!important;cursor:default}
-.opt.opt-correct .oltr{background:var(--grn)!important;color:#020a14!important}
-.opt.opt-wrong{background:rgba(244,63,94,.14)!important;border-color:var(--rose)!important;cursor:default}
-.opt.opt-wrong .oltr{background:var(--rose)!important;color:#fff!important}
-.opt.opt-reveal{background:rgba(34,197,94,.08)!important;border-color:rgba(34,197,94,.35)!important;cursor:default}
-.opt.opt-reveal .oltr{background:rgba(34,197,94,.3)!important;color:var(--grn)!important}
-.opt:disabled{cursor:default}
-
-/* Explanation Panel */
-.expl-panel{margin-top:1.1rem;padding:1.1rem 1.3rem;border-radius:var(--r2);border:1px solid;display:none;animation:cin .3s ease}
-.expl-panel.show{display:block}
-.expl-panel.correct-expl{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.3)}
-.expl-panel.wrong-expl{background:rgba(244,63,94,.07);border-color:rgba(244,63,94,.3)}
-.expl-result-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
-.expl-icon{font-size:1.4rem}
-.expl-result-txt{font-family:'Raleway',sans-serif;font-size:.88rem;font-weight:800}
-.correct-expl .expl-result-txt{color:var(--grn)}
-.wrong-expl .expl-result-txt{color:var(--rose)}
-.expl-correct-ans{font-size:.8rem;margin-bottom:.6rem}
-.expl-correct-ans span{color:var(--grn);font-weight:700}
-.expl-body{font-size:.82rem;color:var(--txt3);line-height:1.7;border-top:1px solid rgba(255,255,255,.08);padding-top:.65rem}
-
-/* Score strip (practice mode) */
-.score-strip{display:flex;align-items:center;justify-content:center;gap:1.5rem;padding:.7rem 1.3rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);backdrop-filter:blur(14px);font-size:.82rem}
-.ss-item{display:flex;align-items:center;gap:.4rem;font-weight:600}
-.ss-c{color:var(--grn)}
-.ss-w{color:var(--rose)}
-.ss-s{color:var(--amber)}
 
 /* Nav */
-.qnav{display:flex;justify-content:space-between;margin-top:1.4rem;gap:.65rem;flex-wrap:wrap}
+.qnav{display:flex;justify-content:space-between;margin-top:1.55rem;gap:.65rem;flex-wrap:wrap}
 .nc{display:flex;gap:.6rem}
-.btn{padding:.73rem 1.5rem;border:none;border-radius:50px;font-family:'Josefin Sans',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;transition:.22s;letter-spacing:.04em}
+.btn{padding:.75rem 1.55rem;border:none;border-radius:50px;font-family:'Josefin Sans',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:.22s;letter-spacing:.04em}
 .btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--gb);color:var(--txt)}
 .btn-ghost:hover{background:rgba(255,255,255,.1)}
 .btn-ghost:disabled{opacity:.28;cursor:not-allowed}
 .btn-skip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
 .btn-skip:hover{background:rgba(245,158,11,.2)}
-.btn-cyan{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14;box-shadow:0 4px 18px rgba(0,212,255,.32);font-weight:800}
+.btn-cyan{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14;box-shadow:0 4px 18px rgba(0,212,255,.32)}
 .btn-cyan:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,212,255,.5)}
-.btn-grn{background:linear-gradient(135deg,#16a34a,#22c55e);color:#021006;font-weight:800;box-shadow:0 4px 14px rgba(34,197,94,.28)}
+.btn-grn{background:linear-gradient(135deg,#16a34a,#22c55e);color:#021006;box-shadow:0 4px 14px rgba(34,197,94,.28)}
 .btn-grn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(34,197,94,.48)}
+.btn-early{font-size:.76rem;padding:.48rem 1rem}
 
 /* Dots */
 .dotmap{display:flex;flex-wrap:wrap;gap:.38rem;max-width:880px;width:100%;margin:0 auto}
@@ -173,23 +140,24 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
 .dot.cur{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14;box-shadow:0 2px 12px rgba(0,212,255,.45)}
 .dot.d-ans{background:rgba(34,197,94,.17);color:#4ade80;border:1px solid rgba(34,197,94,.33)}
 .dot.d-skp{background:rgba(245,158,11,.17);color:var(--amber);border:1px solid rgba(245,158,11,.33)}
-.dot.d-wrong{background:rgba(244,63,94,.17);color:#fb7185;border:1px solid rgba(244,63,94,.33)}
 
 /* OVERLAY */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);z-index:500;align-items:center;justify-content:center;padding:1rem}
 .overlay.on{display:flex}
-.modal{background:#060d1a;border:1px solid rgba(0,212,255,.35);border-radius:var(--r3);padding:2.5rem;max-width:430px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7)}
-.modal-em{font-size:3rem;display:block;margin-bottom:1rem}
-.modal h3{font-family:'Raleway',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.7rem}
+.modal{background:#060d1a;border:1px solid rgba(0,212,255,.35);border-radius:var(--r3);padding:2.5rem;max-width:430px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.7),var(--glow)}
+.modal-em{font-size:3rem;display:block;margin-bottom:1.1rem}
+.modal h3{font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:.75rem}
 .modal p{color:var(--txt2);font-size:.87rem;line-height:1.7;margin-bottom:1.8rem;white-space:pre-wrap}
 .modal-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
 
-/* ══ RESULTS ══ */
+/* ══════ RESULTS ══════ */
 #results-screen{flex-direction:column;align-items:center;padding:1.5rem 1rem}
 .rshell{max-width:920px;width:100%}
+
 .rhero{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r3);padding:3rem 2rem;text-align:center;backdrop-filter:blur(18px);margin-bottom:1.4rem;overflow:hidden;position:relative}
 .rhero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 180deg at 50% 105%,transparent 55%,rgba(0,212,255,.06),transparent);animation:heroR 16s linear infinite;pointer-events:none}
 @keyframes heroR{to{transform:rotate(360deg)}}
+
 .sring{width:155px;height:155px;position:relative;margin:0 auto 1.5rem}
 .sring svg{width:100%;height:100%;transform:rotate(-90deg)}
 .rbg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
@@ -201,6 +169,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
 .rsub{color:var(--txt2);font-size:.88rem;position:relative;z-index:1;margin-bottom:1.4rem}
 .gpill{display:inline-block;padding:.42rem 1.5rem;border-radius:50px;font-family:'Raleway',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.55rem;position:relative;z-index:1}
 .gpct{color:var(--txt2);font-size:.87rem;position:relative;z-index:1}
+
+/* Stats */
 .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.4rem}
 @media(max-width:480px){.sg{grid-template-columns:repeat(2,1fr)}}
 .scard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.3rem 1rem;text-align:center;backdrop-filter:blur(10px);transition:.2s}
@@ -208,14 +178,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
 .sic{font-size:1.45rem;margin-bottom:.4rem}
 .sv{font-family:'Raleway',sans-serif;font-size:1.45rem;font-weight:900;margin-bottom:.15rem}
 .sl{font-size:.67rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em}
+
+/* Insights */
 .ibox{background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(20,184,166,.05));border:1px solid rgba(0,212,255,.22);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.4rem}
-.ibtitle{font-family:'Raleway',sans-serif;font-size:.93rem;font-weight:800;color:var(--cyan);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem}
+.ibtitle{font-family:'Raleway',sans-serif;font-size:.93rem;font-weight:800;color:var(--cyan);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem;letter-spacing:.03em}
 .ins{font-size:.84rem;color:var(--txt3);margin-bottom:.58rem;display:flex;gap:.55rem;line-height:1.62}
 .wchips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
 .wch{background:rgba(244,63,94,.11);border:1px solid rgba(244,63,94,.27);color:#fca5a5;font-size:.7rem;font-weight:700;padding:.27rem .8rem;border-radius:50px}
+
+/* Tabs */
 .tabrow{display:flex;gap:.35rem;padding:.32rem;background:var(--g1);border:1px solid var(--gb);border-radius:var(--r);margin-bottom:1rem;backdrop-filter:blur(10px)}
 .tb{flex:1;padding:.52rem;border:none;border-radius:10px;background:transparent;font-family:'Josefin Sans',sans-serif;font-size:.77rem;font-weight:700;cursor:pointer;color:var(--txt2);transition:.2s;letter-spacing:.03em}
 .tb.on{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#020a14}
+
+/* Review cards */
 .rcard{background:var(--g1);border:1px solid var(--gb);border-radius:var(--r2);padding:1.4rem;margin-bottom:.9rem;border-left:4px solid transparent;backdrop-filter:blur(10px);transition:.2s;animation:cin .35s ease}
 .rcard:hover{transform:translateX(4px)}
 .rcard.rc{border-left-color:var(--grn)}
@@ -235,16 +211,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
 .rval{color:var(--txt)}
 .rval.good{color:#4ade80}
 .rval.bad{color:#fb7185}
-/* explanation in review */
-.rev-expl{margin-top:.75rem;padding:.9rem 1rem;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.18);border-radius:var(--r);font-size:.8rem;color:var(--txt3);line-height:1.65}
-.rev-expl-lbl{font-family:'Raleway',sans-serif;font-size:.72rem;font-weight:800;color:var(--cyan);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em}
-.rv-map{max-width:210px;border-radius:var(--r);border:1px solid var(--gb);margin:.7rem 0;display:block}
+.rv-map{max-width:220px;border-radius:var(--r);border:1px solid var(--gb);margin:.7rem 0;display:block}
+
 .resctas{display:flex;gap:.9rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
-.btn-out{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.28);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Josefin Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:.22s}
+.btn-out{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.28);color:#fb7185;padding:.8rem 1.8rem;border-radius:50px;font-family:'Josefin Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:.22s;letter-spacing:.03em}
 .btn-out:hover{background:rgba(244,63,94,.22)}
+
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
 ::-webkit-scrollbar-thumb{background:rgba(0,212,255,.4);border-radius:10px}
+
 @media(max-width:640px){
   .qcard{padding:1.3rem}
   .topbar{grid-template-columns:1fr auto;padding:.7rem 1rem}
@@ -253,7 +229,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
   .nc{justify-content:center}
   .modal-btns{flex-direction:column}
   .rtopic{display:none}
-  .mode-cards{flex-direction:column}
   .meta-row{flex-direction:column;border-radius:var(--r2)}
   .mc{border-radius:0!important;border-left:1px solid var(--gb)!important}
   .mc:first-child{border-radius:var(--r2) var(--r2) 0 0!important}
@@ -267,62 +242,47 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
 <!-- ════ START ════ -->
 <div id="start-screen" class="screen active">
   <div class="globe-icon"><span>🌍</span></div>
-  <h1 class="s-title"><span class="s-t1">WorldMap</span><span class="s-t2">Pro</span></h1>
-  <p class="s-sub">UPSC Prelims · World Geography · 43 PYQs · 1995–2023</p>
+  <h1 class="s-title">
+    <span class="s-t1">WorldMap</span>
+    <span class="s-t2">Pro</span>
+  </h1>
+  <p class="s-sub">UPSC Prelims · World Geography · Borders · Seas · Rivers</p>
+
   <div class="meta-row">
     <div class="mc"><div class="mc-ic">📋</div><div class="mc-v">43</div><div class="mc-l">Questions</div></div>
+    <div class="mc"><div class="mc-ic">⏱️</div><div class="mc-v">22 Min</div><div class="mc-l">Timer</div></div>
     <div class="mc"><div class="mc-ic">🗺️</div><div class="mc-v">8 Maps</div><div class="mc-l">Visual Q</div></div>
-    <div class="mc"><div class="mc-ic">💡</div><div class="mc-v">43</div><div class="mc-l">Explanations</div></div>
-    <div class="mc"><div class="mc-ic">📅</div><div class="mc-v">28 Yrs</div><div class="mc-l">PYQ Coverage</div></div>
+    <div class="mc"><div class="mc-ic">📅</div><div class="mc-v">1995–2023</div><div class="mc-l">PYQ Era</div></div>
   </div>
 
-  <p class="mode-title">Choose Your Quiz Mode</p>
-  <div class="mode-cards">
-    <div class="mode-card full-mode" onclick="startQuiz('full')">
-      <div class="mc-head"><span class="mc-emoji">🎯</span><span class="mc-name">Full Quiz Mode</span></div>
-      <div class="mc-desc">Answer all 43 questions first, then submit. Get a detailed performance analysis with score, accuracy, weak areas, and full explanations at the end.</div>
-      <div class="mc-tags">
-        <span class="mc-tag">⏱ 22 Min Timer</span>
-        <span class="mc-tag">📊 Deep Analytics</span>
-        <span class="mc-tag">🏆 Grade & Score</span>
-      </div>
-    </div>
-    <div class="mode-card prac-mode" onclick="startQuiz('practice')">
-      <div class="mc-head"><span class="mc-emoji">⚡</span><span class="mc-name">Practice Mode</span></div>
-      <div class="mc-desc">Get instant feedback after each answer. See ✅ or ❌ immediately with a detailed explanation shown right below the question. No timer stress.</div>
-      <div class="mc-tags">
-        <span class="mc-tag">💡 Instant Feedback</span>
-        <span class="mc-tag">📖 Explanations</span>
-        <span class="mc-tag">🔓 No Timer</span>
-      </div>
-    </div>
-  </div>
   <div class="chip-row">
-    <span class="chip">🗺️ Borders</span><span class="chip">🌊 Seas & Straits</span><span class="chip">🌐 Tropics</span>
-    <span class="chip">🛤️ Canals</span><span class="chip">🗾 SE Asia & ME</span><span class="chip">🌍 Rivers</span><span class="chip">📍 8 Maps</span>
+    <span class="chip">🗺️ World Borders</span>
+    <span class="chip">🌊 Seas & Straits</span>
+    <span class="chip">🏔️ Country Geography</span>
+    <span class="chip">🌐 Equator & Tropics</span>
+    <span class="chip">🛤️ Canals & Routes</span>
+    <span class="chip">🗾 SE Asia & ME</span>
+    <span class="chip">🌍 Africa & Europe</span>
+    <span class="chip">📍 8 Map Questions</span>
   </div>
-  <p class="note">💾 Full Quiz progress auto-saved · Resume anytime</p>
+
+  <button class="start-btn" onclick="startQuiz()">🌐 Start Quiz</button>
+  <p class="note">💾 Progress auto-saved · Resume anytime</p>
 </div>
 
 <!-- ════ QUIZ ════ -->
 <div id="quiz-screen" class="screen">
   <div class="qshell">
+
     <div class="topbar">
       <div class="qlbl">Q <em id="qCur">1</em> / <em id="qTot">43</em></div>
-      <div id="timerEl" class="tclock">⏱ 22:00</div>
-      <div class="tb-r" id="tbR">
-        <button class="btn btn-ghost" style="font-size:.76rem;padding:.46rem .95rem" onclick="showSubmitModal()">Submit Early</button>
+      <div class="tclock" id="timerEl">⏱ 22:00</div>
+      <div class="tb-r">
+        <button class="btn btn-ghost btn-early" onclick="showSubmitModal()">Submit Early</button>
       </div>
     </div>
-    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
 
-    <!-- Live score (practice mode) -->
-    <div class="score-strip" id="scoreStrip" style="display:none">
-      <div class="ss-item ss-c">✅ Correct: <strong id="ssC">0</strong></div>
-      <div class="ss-item ss-w">❌ Wrong: <strong id="ssW">0</strong></div>
-      <div class="ss-item ss-s">⤭ Skipped: <strong id="ssSk">0</strong></div>
-      <div class="ss-item" style="color:var(--cyan)">📊 <strong id="ssPct">0%</strong></div>
-    </div>
+    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
 
     <div class="qcard">
       <div class="q-toprow">
@@ -333,24 +293,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
       </div>
       <div class="qtext" id="qText"></div>
       <div class="qmapbox" id="qMapBox" style="display:none">
-        <div><img id="qMapImg" src="" alt="Map" loading="lazy"><div class="mapcap" id="qMapCap"></div></div>
+        <div>
+          <img id="qMapImg" src="" alt="Map" loading="lazy">
+          <div class="mapcap" id="qMapCap"></div>
+        </div>
       </div>
       <div class="opts" id="optsGrid"></div>
-
-      <!-- Explanation panel (practice mode) -->
-      <div class="expl-panel" id="explPanel">
-        <div class="expl-result-row">
-          <span class="expl-icon" id="explIcon">✅</span>
-          <span class="expl-result-txt" id="explResultTxt"></span>
-        </div>
-        <div class="expl-correct-ans" id="explCorrectAns"></div>
-        <div class="expl-body" id="explBody"></div>
-      </div>
-
       <div class="qnav">
         <div class="nc">
           <button class="btn btn-ghost" id="btnPrev" onclick="nav(-1)">← Prev</button>
-          <button class="btn btn-skip" id="btnSkip" onclick="skipQ()">⤭ Skip</button>
+          <button class="btn btn-skip" onclick="skipQ()">⤭ Skip</button>
         </div>
         <div class="nc">
           <button class="btn btn-cyan" id="btnNext" onclick="nav(1)">Next →</button>
@@ -360,6 +312,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
     </div>
 
     <div class="dotmap" id="dotMap"></div>
+
   </div>
 </div>
 
@@ -379,6 +332,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
       <div class="gpill" id="gPill">—</div>
       <div class="gpct" id="gPct"></div>
     </div>
+
     <div class="sg">
       <div class="scard"><div class="sic">✅</div><div class="sv" id="stC" style="color:var(--grn)">0</div><div class="sl">Correct</div></div>
       <div class="scard"><div class="sic">❌</div><div class="sv" id="stW" style="color:var(--rose)">0</div><div class="sl">Wrong</div></div>
@@ -387,10 +341,12 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
       <div class="scard"><div class="sic">⏱️</div><div class="sv" id="stTm" style="color:#a78bfa">—</div><div class="sl">Time Taken</div></div>
       <div class="scard"><div class="sic">📊</div><div class="sv" id="stAv" style="color:var(--lime)">—</div><div class="sl">Avg / Q</div></div>
     </div>
+
     <div class="ibox">
-      <div class="ibtitle">🧠 Smart Analysis &amp; Weak-Area Radar</div>
+      <div class="ibtitle">🧠 Smart Insights &amp; Weak-Area Radar</div>
       <div id="insBody"></div>
     </div>
+
     <div class="tabrow">
       <button class="tb on" onclick="setTab('all',this)">All (43)</button>
       <button class="tb" onclick="setTab('correct',this)">✅ Correct</button>
@@ -398,6 +354,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
       <button class="tb" onclick="setTab('skipped',this)">⤭ Skipped</button>
     </div>
     <div id="revList"></div>
+
     <div class="resctas">
       <button class="btn-out" onclick="restartQuiz()">🔄 Restart Quiz</button>
       <button class="btn btn-cyan" onclick="window.scrollTo(0,0)">⬆ Back to Top</button>
@@ -419,253 +376,209 @@ body::before{content:'';position:fixed;inset:0;z-index:0;
 </div>
 
 <script>
-// ══════════════════════════════════════════════
-//   DATA  —  43 Questions with Explanations
-// ══════════════════════════════════════════════
+// ════════════════════════════════════════════════
+//   43 UPSC PYQ QUESTIONS — WORLD GEOGRAPHY
+// ════════════════════════════════════════════════
 const L4=['A','B','C','D'];
+const TOTAL=43;
 
 const Q=[
-{yr:"2023",topic:"Country Borders",
- text:"Consider the following countries:\n1. Bulgaria\n2. Czech Republic\n3. Hungary\n4. Latvia\n5. Lithuania\n6. Romania\n\nHow many of the above-mentioned countries share a land border with Ukraine?",
- opts:["Only two","Only three","Only four","Only five"],ans:0,
- expl:"Ukraine shares land borders with Hungary and Romania from the given list. Bulgaria, Czech Republic, Latvia, and Lithuania do NOT border Ukraine. Ukraine's actual neighbors are: Russia, Belarus, Poland, Slovakia, Hungary, Romania, and Moldova."},
+  /* 1 */ {yr:"2023",topic:"Country Borders",
+    text:"Consider the following countries:\n1. Bulgaria\n2. Czech Republic\n3. Hungary\n4. Latvia\n5. Lithuania\n6. Romania\n\nHow many of the above-mentioned countries share a land border with Ukraine?",
+    opts:["Only two","Only three","Only four","Only five"],ans:0},
 
-{yr:"2022",topic:"Country Borders",
- text:"Consider the following countries:\n1. Azerbaijan\n2. Kyrgyzstan\n3. Tajikistan\n4. Turkmenistan\n5. Uzbekistan\n\nWhich of the above have borders with Afghanistan?",
- opts:["1, 2 & 5 only","1, 2, 3 & 4 only","3, 4 & 5 only","1, 2, 3 & 5"],ans:2,
- expl:"Afghanistan shares borders with Tajikistan (north), Turkmenistan (northwest), and Uzbekistan (north) from the given list. Azerbaijan does NOT border Afghanistan — it is separated by the Caspian Sea and Iran. Kyrgyzstan also does NOT share a border with Afghanistan."},
+  /* 2 */ {yr:"2022",topic:"Country Borders",
+    text:"Consider the following countries:\n1. Azerbaijan\n2. Kyrgyzstan\n3. Tajikistan\n4. Turkmenistan\n5. Uzbekistan\n\nWhich of the above have borders with Afghanistan?",
+    opts:["1, 2 & 5 only","1, 2, 3 & 4 only","3, 4 & 5 only","1, 2, 3 & 5"],ans:2},
 
-{yr:"2020",topic:"Rivers & Seas",
- text:"Consider the following pairs:\n      River        ↔  Flows into\n1. Mekong   ↔  Andaman Sea\n2. Thames    ↔  Irish Sea\n3. Volga        ↔  Caspian Sea\n4. Zambezi  ↔  Indian Ocean\n\nWhich of the pairs given above is/are correctly matched?",
- opts:["1 and 2 only","3 only","3 and 4 only","1, 2 and 4 only"],ans:1,
- expl:"Only Pair 3 is correct: Volga → Caspian Sea (world's largest inland drainage basin). Mekong flows into the South China Sea (NOT Andaman Sea). Thames flows into the North Sea (NOT Irish Sea). Zambezi flows into the Indian Ocean via the Mozambique Channel — but the official UPSC answer considers only Pair 3 correct."},
+  /* 3 */ {yr:"2020",topic:"Rivers & Seas",
+    text:"Consider the following pairs:\n      River        ↔  Flows into\n1. Mekong   ↔  Andaman Sea\n2. Thames    ↔  Irish Sea\n3. Volga        ↔  Caspian Sea\n4. Zambezi  ↔  Indian Ocean\n\nWhich of the pairs given above is/are correctly matched?",
+    opts:["1 and 2 only","3 only","3 and 4 only","1, 2 and 4 only"],ans:1},
 
-{yr:"2019",topic:"Seas & Borders",
- text:"Consider the following pairs:\n      Sea                        ↔  Bordering Country\n1. Adriatic Sea          ↔  Albania\n2. Black Sea               ↔  Croatia\n3. Caspian Sea           ↔  Kazakhstan\n4. Mediterranean Sea ↔  Morocco\n5. Red Sea                  ↔  Syria\n\nWhich of the pairs given above are correctly matched?",
- opts:["1, 2 and 4 only","1, 3 and 4 only","2 and 5 only","1, 2, 3, 4 and 5"],ans:1,
- expl:"Correct pairs: Albania (Adriatic ✓), Kazakhstan (Caspian ✓), Morocco (Mediterranean ✓). Croatia is on the Adriatic Sea, NOT the Black Sea. Syria has NO Red Sea coast — it only borders the Mediterranean. Hence 1, 3 and 4 are correct."},
+  /* 4 */ {yr:"2019",topic:"Seas & Borders",
+    text:"Consider the following pairs:\n      Sea                       ↔  Bordering Country\n1. Adriatic Sea         ↔  Albania\n2. Black Sea              ↔  Croatia\n3. Caspian Sea          ↔  Kazakhstan\n4. Mediterranean Sea ↔  Morocco\n5. Red Sea                 ↔  Syria\n\nWhich of the pairs given above are correctly matched?",
+    opts:["1, 2 and 4 only","1, 3 and 4 only","2 and 5 only","1, 2, 3, 4 and 5"],ans:1},
 
-{yr:"2018",topic:"Shrinking Water Bodies",
- text:"Which of the following has/have shrunk immensely/dried up in the recent past due to human activities?\n1. Aral Sea\n2. Black Sea\n3. Lake Baikal\n\nSelect the correct answer using the code given below:",
- opts:["1 only","2 and 3","2 only","1 and 3"],ans:0,
- expl:"The Aral Sea (Central Asia, between Kazakhstan & Uzbekistan) has shrunk by over 90% due to Soviet-era diversion of its feeder rivers (Amu Darya & Syr Darya) for irrigation. The Black Sea has NOT dried up. Lake Baikal (Siberia) is the world's deepest lake and remains healthy — it has not dried up."},
+  /* 5 */ {yr:"2018",topic:"Shrinking Water Bodies",
+    text:"Which of the following has/have shrunk immensely/dried up in the recent past due to human activities?\n1. Aral Sea\n2. Black Sea\n3. Lake Baikal\n\nSelect the correct answer using the code given below:",
+    opts:["1 only","2 and 3","2 only","1 and 3"],ans:0},
 
-{yr:"2017",topic:"Mediterranean Sea",
- text:"Mediterranean Sea is a border of which of the following countries?\n1. Jordan\n2. Iraq\n3. Lebanon\n4. Syria\n\nSelect the correct answer using the code given below:",
- opts:["1, 2 and 3 only","2 and 3 only","3 and 4 only","1, 3 and 4 only"],ans:2,
- expl:"Lebanon and Syria both have Mediterranean coastlines. Jordan does NOT border the Mediterranean — it has a short coast on the Gulf of Aqaba (Red Sea) at Aqaba. Iraq is landlocked except for a tiny outlet to the Persian Gulf at Basra — no Mediterranean coast."},
+  /* 6 */ {yr:"2017",topic:"Mediterranean Sea",
+    text:"Mediterranean Sea is a border of which of the following countries?\n1. Jordan\n2. Iraq\n3. Lebanon\n4. Syria\n\nSelect the correct answer using the code given below:",
+    opts:["1, 2 and 3 only","2 and 3 only","3 and 4 only","1, 3 and 4 only"],ans:2},
 
-{yr:"2015",topic:"Mediterranean Sea",
- text:"Which one of the following countries of South-West Asia does NOT open out to the Mediterranean Sea?",
- opts:["Syria","Jordan","Lebanon","Israel"],ans:1,
- expl:"Jordan does NOT have a Mediterranean coast. Its only sea access is a short coastline on the Gulf of Aqaba (Red Sea) at the city of Aqaba. Syria, Lebanon, and Israel all have coastlines on the Mediterranean Sea."},
+  /* 7 */ {yr:"2015",topic:"Mediterranean Sea",
+    text:"Which one of the following countries of South-West Asia does not open out to the Mediterranean Sea?",
+    opts:["Syria","Jordan","Lebanon","Israel"],ans:1},
 
-{yr:"2014",topic:"Country Borders",
- text:"Turkey is located between:",
- opts:["Black Sea and Caspian Sea","Black Sea and Mediterranean Sea","Gulf of Suez and Mediterranean Sea","Gulf of Aqaba and Dead Sea"],ans:1,
- expl:"Turkey is bordered by the Black Sea to the north and the Mediterranean Sea to the south. It also has the Aegean Sea to the west. The Bosphorus and Dardanelles straits in Turkey connect the Black Sea to the Mediterranean. Turkey does not border the Caspian Sea."},
+  /* 8 */ {yr:"2014",topic:"Country Borders",
+    text:"Turkey is located between:",
+    opts:["Black Sea and Caspian Sea","Black Sea and Mediterranean Sea","Gulf of Suez and Mediterranean Sea","Gulf of Aqaba and Dead Sea"],ans:1},
 
-{yr:"2014",topic:"South-East Asia",
- text:"What is the correct sequence of the following cities in South-East Asia from south to north?\n1. Bangkok\n2. Hanoi\n3. Jakarta\n4. Singapore\n\nSelect the correct answer using the code given below:",
- opts:["4-2-1-3","3-2-4-1","3-4-1-2","4-3-2-1"],ans:2,
- expl:"South to North order by latitude: Jakarta (~6°S) → Singapore (~1°N) → Bangkok (~13°N) → Hanoi (~21°N). So the sequence is 3→4→1→2. Jakarta is in Indonesia (southernmost), Singapore is just above the equator, Bangkok is in central Thailand, and Hanoi is in northern Vietnam."},
+  /* 9 */ {yr:"2014",topic:"South-East Asia",
+    text:"What is the correct sequence of occurrence of the following cities in South-East Asia as one proceeds from south to north?\n1. Bangkok\n2. Hanoi\n3. Jakarta\n4. Singapore\n\nSelect the correct answer using the code given below:",
+    opts:["4-2-1-3","3-2-4-1","3-4-1-2","4-3-2-1"],ans:2},
 
-{yr:"2011",topic:"Straits & Canals",
- text:"Between India and East Asia, the navigation-time and distance can be greatly reduced by which of the following?\n1. Deepening the Malacca Strait between Malaysia and Indonesia.\n2. Opening a new canal across the Kra Isthmus between the Gulf of Siam and the Andaman Sea.\n\nWhich of the statements given above is/are correct?",
- opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1,
- expl:"A canal across the Kra Isthmus in Thailand (Kra Canal) would create a shortcut by connecting the Gulf of Thailand directly to the Andaman Sea, bypassing the entire Strait of Malacca and significantly reducing distance/time. Merely deepening the Malacca Strait would NOT reduce distance — ships already use it. Only Statement 2 is correct."},
+  /* 10 */ {yr:"2011",topic:"Straits & Canals",
+    text:"Between India and East Asia, the navigation-time and distance can be greatly reduced by which of the following?\n1. Deepening the Malacca Strait between Malaysia and Indonesia.\n2. Opening a new canal across the Kra Isthmus between the Gulf of Siam and Andaman Sea.\n\nWhich of the statements given above is/are correct?",
+    opts:["1 only","2 only","Both 1 and 2","Neither 1 nor 2"],ans:1},
 
-{yr:"2010",topic:"Straits & Canals",
- text:"Which one of the following can one come across if one travels through the Strait of Malacca?",
- opts:["Bali","Brunei","Java","Singapore"],ans:3,
- expl:"The Strait of Malacca runs between the Malay Peninsula (Malaysia/Thailand) and the Indonesian island of Sumatra. Singapore is located at its southern end and is the key port through which ships transit. Bali and Java are further east in Indonesia (beyond the strait). Brunei is on the island of Borneo."},
+  /* 11 */ {yr:"2010",topic:"Straits & Canals",
+    text:"Which one of the following can one come across if one travels through the Strait of Malacca?",
+    opts:["Bali","Brunei","Java","Singapore"],ans:3},
 
-{yr:"2009",topic:"Latitudes & Tropics",
- text:"Consider the following countries:\n1. Australia\n2. Namibia\n3. Brazil\n4. Chile\n\nThrough which of the above does the Tropic of Capricorn pass?",
- opts:["1 only","2, 3 and 4","1, 2 and 3","1, 2, 3 and 4"],ans:3,
- expl:"The Tropic of Capricorn (23.5°S) passes through all four: Australia (through central Australia — NT, QLD, WA), Namibia (through its central region), Brazil (through Mato Grosso, São Paulo), and Chile (through the Atacama Desert region). All four countries are in the Southern Hemisphere and crossed by 23.5°S."},
+  /* 12 */ {yr:"2009",topic:"Latitudes & Tropics",
+    text:"Consider the following countries:\n1. Australia\n2. Namibia\n3. Brazil\n4. Chile\n\nThrough which of the above does the Tropic of Capricorn pass?",
+    opts:["1 only","2, 3 and 4","1, 2 and 3","1, 2, 3 and 4"],ans:3},
 
-{yr:"2008",topic:"Latitudes & Tropics",
- text:"Which one of the following cities is nearest to the equator?",
- opts:["Colombo","Jakarta","Manila","Singapore"],ans:3,
- expl:"Singapore (1.35°N) is nearest to the equator (0°). Colombo, Sri Lanka is at ~6.9°N. Jakarta, Indonesia is at ~6.2°S. Manila, Philippines is at ~14.6°N. Singapore lies almost exactly on the equator, making it one of the closest capital cities to 0° latitude."},
+  /* 13 */ {yr:"2008",topic:"Latitudes & Tropics",
+    text:"Which one of the following cities is nearest to the equator?",
+    opts:["Colombo","Jakarta","Manila","Singapore"],ans:3},
 
-{yr:"2008",topic:"Straits & Canals",
- text:"Which one of the following straits is nearest to the International Date Line?",
- opts:["Malacca Strait","Bering Strait","Strait of Florida","Strait of Gibraltar"],ans:1,
- expl:"The Bering Strait separates Russia (Asia) from Alaska (North America) and lies very close to the 180° meridian — the International Date Line (IDL). The IDL actually zigzags around this area. Malacca Strait is at ~104°E, Strait of Gibraltar is at ~6°W, Strait of Florida is at ~80°W — all far from the IDL."},
+  /* 14 */ {yr:"2008",topic:"Straits & Canals",
+    text:"Which one of the following straits is nearest to the International Date Line?",
+    opts:["Malacca Strait","Bering Strait","Strait of Florida","Strait of Gibraltar"],ans:1},
 
-{yr:"2008",topic:"Mediterranean Sea",
- text:"In which one of the following is Malta located?",
- opts:["Baltic Sea","Mediterranean Sea","Black Sea","North Sea"],ans:1,
- expl:"Malta is a small island nation in the central Mediterranean Sea, located about 93 km south of Sicily (Italy) and 300 km north of Libya. It is a strategic island historically significant for Mediterranean trade routes and was a key British naval base."},
+  /* 15 */ {yr:"2008",topic:"Mediterranean Sea",
+    text:"In which one of the following is Malta located?",
+    opts:["Baltic Sea","Mediterranean Sea","Black Sea","North Sea"],ans:1},
 
-{yr:"2008",topic:"Country Borders",
- text:"Which of the following countries share borders with Moldova?\n1. Ukraine\n2. Romania\n3. Belarus\n\nSelect the correct answer using the code given below:",
- opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:0,
- expl:"Moldova shares borders with only two countries: Ukraine (to the north, east, and south) and Romania (to the west). Belarus does NOT border Moldova — they are separated by a significant distance. Moldova is a landlocked country between these two neighbors."},
+  /* 16 */ {yr:"2008",topic:"Country Borders",
+    text:"Which of the following countries share borders with Moldova?\n1. Ukraine\n2. Romania\n3. Belarus\n\nSelect the correct answer using the code given below:",
+    opts:["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],ans:0},
 
-{yr:"2007",topic:"Straits & Canals",
- text:"Through which one of the following Straits does a tunnel connect the United Kingdom and France?",
- opts:["Davis Strait","Denmark Strait","Strait of Dover","Strait of Gibraltar"],ans:2,
- expl:"The Channel Tunnel (Chunnel), opened in 1994, runs under the Strait of Dover — the narrowest point of the English Channel (~33 km wide). It connects Folkestone (UK) to Coquelles near Calais (France). Davis Strait is between Canada and Greenland. Denmark Strait is between Greenland and Iceland."},
+  /* 17 */ {yr:"2007",topic:"Straits & Canals",
+    text:"Through which one of the following Straits does a tunnel connect the United Kingdom and France?",
+    opts:["Davis Strait","Denmark Strait","Strait of Dover","Strait of Gibraltar"],ans:2},
 
-{yr:"2007",topic:"Time Zones",
- text:"Which one of the following cities does NOT have the same clock time as that of the other three cities at any given instant?",
- opts:["London (U.K.)","Lisbon (Portugal)","Accra (Ghana)","Addis Ababa (Ethiopia)"],ans:3,
- expl:"London (UTC+0/+1 BST), Lisbon (UTC+0/+1 WEST), and Accra (UTC+0 always) share the same or near-identical standard time zones. Addis Ababa, Ethiopia is at UTC+3 (East Africa Time) — always 3 hours ahead of the other three. So it can NEVER have the same clock time as the others."},
+  /* 18 */ {yr:"2007",topic:"Time Zones",
+    text:"Which one of the following cities does not have the same clock time as that of the other three cities at any given instant?",
+    opts:["London (U.K.)","Lisbon (Portugal)","Accra (Ghana)","Addis Ababa (Ethiopia)"],ans:3},
 
-{yr:"2006",topic:"Country Borders",
- text:"Other than India and China, which of the following groups of countries border Myanmar?",
- opts:["Bangladesh, Thailand and Vietnam","Cambodia, Laos and Malaysia","Thailand, Vietnam and Malaysia","Thailand, Laos and Bangladesh"],ans:3,
- expl:"Myanmar (Burma) borders: India (northwest), China (northeast), Bangladesh (west), Thailand (southeast), and Laos (east). Vietnam, Cambodia, and Malaysia do NOT border Myanmar. The correct answer is Thailand, Laos, and Bangladesh."},
+  /* 19 */ {yr:"2006",topic:"Country Borders",
+    text:"Other than India and China, which of the following groups of countries border Myanmar?",
+    opts:["Bangladesh, Thailand and Vietnam","Cambodia, Laos and Malaysia","Thailand, Vietnam and Malaysia","Thailand, Laos and Bangladesh"],ans:3},
 
-{yr:"2006",topic:"Latitudes & Tropics",
- text:"Through which one of the following groups of countries does the Equator pass?",
- opts:["Brazil, Zambia and Malaysia","Colombia, Kenya and Indonesia","Brazil, Sudan and Malaysia","Venezuela, Ethiopia and Indonesia"],ans:1,
- expl:"The Equator (0°) passes through: Colombia (South America), Kenya (Africa), and Indonesia (Asia/Pacific) — all correct. Brazil is just south of the equator at its northern tip (Amazon). Zambia, Sudan, Venezuela, Malaysia, and Ethiopia are not on the equator. Colombia, Kenya, Indonesia is the correct group."},
+  /* 20 */ {yr:"2006",topic:"Latitudes & Tropics",
+    text:"Through which one of the following groups of countries does the Equator pass?",
+    opts:["Brazil, Zambia and Malaysia","Colombia, Kenya and Indonesia","Brazil, Sudan and Malaysia","Venezuela, Ethiopia and Indonesia"],ans:1},
 
-{yr:"2006",topic:"Rivers & Seas",
- text:"Huangpu River flows through which one of the following cities?",
- opts:["Beijing","Ho Chi Minh City","Shanghai","Manila"],ans:2,
- expl:"The Huangpu River (黄浦江) is a tributary of the Yangtze and flows through Shanghai, China. It is famous for running along the Bund (waterfront promenade). The Huangpu divides Shanghai into Puxi (west) and Pudong (east) — where the iconic skyline stands."},
+  /* 21 */ {yr:"2006",topic:"Rivers & Seas",
+    text:"Huangpu River flows through which one of the following cities?",
+    opts:["Beijing","Ho Chi Minh City","Shanghai","Manila"],ans:2},
 
-{yr:"2005",topic:"Country Borders",
- text:"Which one of the following countries does NOT have a border with Lithuania?",
- opts:["Poland","Ukraine","Belarus","Latvia"],ans:1,
- expl:"Lithuania borders: Latvia (north), Belarus (east & south), Poland (southwest), and Russia/Kaliningrad (west). Ukraine does NOT border Lithuania — there is no common boundary between them. Lithuania and Ukraine are separated by Belarus and Poland."},
+  /* 22 */ {yr:"2005",topic:"Country Borders",
+    text:"Which one of the following countries does not have a border with Lithuania?",
+    opts:["Poland","Ukraine","Belarus","Latvia"],ans:1},
 
-{yr:"2005",topic:"South Asia",
- text:"Which one of the following is the correct sequence of the given towns of Pakistan while moving from North towards the South?",
- opts:["Islamabad–Gujranwala–Peshawar–Multan","Peshawar–Gujranwala–Multan–Islamabad","Peshawar–Islamabad–Gujranwala–Multan","Islamabad–Multan–Peshawar–Gujranwala"],ans:2,
- expl:"Moving from North to South in Pakistan: Peshawar (~34°N, Khyber Pakhtunkhwa) → Islamabad (~33.7°N, Federal Capital) → Gujranwala (~32.2°N, Punjab) → Multan (~30.2°N, South Punjab). Peshawar is in the northwest (NWFP), farthest north among these cities."},
+  /* 23 */ {yr:"2005",topic:"South Asia",
+    text:"Which one of the following is the correct sequence of the given towns of Pakistan while moving from North towards the South?",
+    opts:["Islamabad – Gujranwala – Peshawar – Multan","Peshawar – Gujranwala – Multan – Islamabad","Peshawar – Islamabad – Gujranwala – Multan","Islamabad – Multan – Peshawar – Gujranwala"],ans:2},
 
-{yr:"2004",topic:"Country Borders",
- text:"Latvia does share its borders with which one of the following countries?",
- opts:["Russia","Estonia","Lithuania","Poland"],ans:2,
- expl:"Latvia shares borders with Estonia (north), Lithuania (south), Russia (east), and Belarus (southeast). It does NOT border Poland — Lithuania lies between Latvia and Poland. The question tests knowledge that from the given options, Lithuania is one of Latvia's confirmed neighbors. Poland has no common border with Latvia."},
+  /* 24 */ {yr:"2004",topic:"Country Borders",
+    text:"Latvia does share its borders with which one of the following countries?",
+    opts:["Russia","Estonia","Lithuania","Poland"],ans:2},
 
-{yr:"2004",topic:"Seas & Borders",
- text:"Match List-I (Sea) with List-II (Country):\nA. Black Sea      →  ?\nB. Red Sea          →  ?\nC. Yellow Sea      →  ?\nD. Caspian Sea    →  ?\n\nCountries: 1. Bulgaria   2. China   3. Eritrea   4. Kazakhstan\n\nA – B – C – D:",
- opts:["1–4–2–3","2–3–1–4","1–3–2–4","2–4–1–3"],ans:2,
- expl:"Black Sea → Bulgaria (1) ✓ (Bulgaria has Black Sea coast). Red Sea → Eritrea (3) ✓ (Eritrea lies along the western Red Sea coast in East Africa). Yellow Sea → China (2) ✓ (China borders the Yellow Sea to the east). Caspian Sea → Kazakhstan (4) ✓ (Kazakhstan has the longest Caspian coastline). Answer: A-1, B-3, C-2, D-4."},
+  /* 25 */ {yr:"2004",topic:"Seas & Borders",
+    text:"Match List-I (Sea) with List-II (Country):\nA. Black Sea      →  ?\nB. Red Sea          →  ?\nC. Yellow Sea      →  ?\nD. Caspian Sea    →  ?\n\nCountries: 1. Bulgaria   2. China   3. Eritrea   4. Kazakhstan\n\nA – B – C – D",
+    opts:["1 – 4 – 2 – 3","2 – 3 – 1 – 4","1 – 3 – 2 – 4","2 – 4 – 1 – 3"],ans:2},
 
-{yr:"2004",topic:"Country Borders",
- text:"Which one of the following does NOT border Panama?",
- opts:["Costa Rica","Pacific Ocean","Colombia","Venezuela"],ans:3,
- expl:"Panama borders: Costa Rica (north/northwest), Colombia (southeast), the Pacific Ocean (south), and the Caribbean Sea/Atlantic (north). Venezuela does NOT border Panama — there is Colombia in between. Panama's famous canal connects the Pacific and Atlantic Oceans."},
+  /* 26 */ {yr:"2004",topic:"Country Borders",
+    text:"Which one of the following does not border Panama?",
+    opts:["Costa Rica","Pacific Ocean","Colombia","Venezuela"],ans:3},
 
-{yr:"2003",topic:"Country Geography",
- text:"Which one of the following countries is landlocked?",
- opts:["Bolivia","Peru","Suriname","Uruguay"],ans:0,
- expl:"Bolivia is a landlocked country in South America, surrounded by Brazil, Paraguay, Argentina, Chile, and Peru. It lost its Pacific Ocean access to Chile after the War of the Pacific (1879–84). Peru, Suriname, and Uruguay all have coastlines — on the Pacific, Atlantic, and Atlantic Ocean respectively."},
+  /* 27 */ {yr:"2003",topic:"Country Geography",
+    text:"Which one of the following countries is landlocked?",
+    opts:["Bolivia","Peru","Suriname","Uruguay"],ans:0},
 
-{yr:"2003",topic:"Country Borders",
- text:"Israel has common borders with:",
- opts:["Lebanon, Syria, Jordan and Egypt","Lebanon, Syria, Turkey and Jordan","Cyprus, Turkey, Jordan and Egypt","Turkey, Syria, Iraq and Yemen"],ans:0,
- expl:"Israel shares borders with: Lebanon (north), Syria (northeast — Golan Heights), Jordan (east), and Egypt (southwest — Sinai Peninsula). Turkey and Cyprus do NOT border Israel. Iraq and Yemen are far away. The four neighbors are Lebanon, Syria, Jordan, Egypt."},
+  /* 28 */ {yr:"2003",topic:"Country Borders",
+    text:"Israel has common borders with:",
+    opts:["Lebanon, Syria, Jordan and Egypt","Lebanon, Syria, Turkey and Jordan","Cyprus, Turkey, Jordan and Egypt","Turkey, Syria, Iraq and Yemen"],ans:0},
 
-{yr:"2003",topic:"Seas & Borders",
- text:"Which one of the following countries does NOT border the Caspian Sea?",
- opts:["Armenia","Azerbaijan","Kazakhstan","Turkmenistan"],ans:0,
- expl:"The Caspian Sea is bordered by 5 countries: Russia, Kazakhstan, Turkmenistan, Iran, and Azerbaijan. Armenia does NOT border the Caspian Sea — it is a landlocked country in the South Caucasus, separated from the Caspian by Azerbaijan. Armenia borders Turkey, Georgia, Azerbaijan (land), and Iran."},
+  /* 29 */ {yr:"2003",topic:"Seas & Borders",
+    text:"Which one of the following countries does NOT border the Caspian Sea?",
+    opts:["Armenia","Azerbaijan","Kazakhstan","Turkmenistan"],ans:0},
 
-{yr:"2002",topic:"Seas & Borders",
- text:"Consider the following countries:\n1. Albania\n2. Bosnia-Herzegovina\n3. Croatia\n4. Macedonia\n\nWhich of these countries has/have the Adriatic Sea as a boundary?",
- opts:["1 and 2","1, 2 and 3","4 only","3 and 4"],ans:1,
- expl:"Albania, Bosnia-Herzegovina, and Croatia all have Adriatic Sea coastlines. Albania (long coast), Croatia (extensive coast + islands), Bosnia-Herzegovina (has a very small ~20 km coast near Neum). Macedonia (now North Macedonia) is landlocked with no sea access. So 1, 2 and 3 are correct."},
+  /* 30 */ {yr:"2002",topic:"Seas & Borders",
+    text:"Consider the following countries:\n1. Albania\n2. Bosnia-Herzegovina\n3. Croatia\n4. Macedonia\n\nWhich of these countries has/have the Adriatic Sea as a boundary?",
+    opts:["1 and 2","1, 2 and 3","4 only","3 and 4"],ans:1},
 
-{yr:"2001",topic:"Map-Based: Central Asia",
- text:"[Study the map of Central Asia shown below]\n\nThe towns marked as 1, 2, 3 and 4 on the map are:\nA. Bishkek   B. Ashkhabad   C. Tashkent   D. Dushanbe\n\nIdentify A – B – C – D:",
- opts:["A-3, B-1, C-2, D-4","A-3, B-1, C-4, D-2","A-1, B-3, C-2, D-4","A-1, B-3, C-4, D-2"],ans:0,
- mapImg:"https://i.ibb.co/xSTMkDbr/Screenshot-2026-03-31-145651.png",
- mapCap:"Central Asia map — Match towns 1, 2, 3, 4 with Bishkek, Ashkhabad, Tashkent, Dushanbe",
- expl:"Capitals: Bishkek (Kyrgyzstan, northeast), Ashkhabad/Ashgabat (Turkmenistan, south — near Iran border), Tashkent (Uzbekistan, north-center), Dushanbe (Tajikistan, southeast). Based on map positions: A-3 (Bishkek), B-1 (Ashkhabad), C-2 (Tashkent), D-4 (Dushanbe)."},
+  /* 31 */ {yr:"2001",topic:"Map-Based: Central Asia",
+    text:"[Study the map of Central Asia shown below]\n\nThe towns marked as 1, 2, 3 and 4 on the map are:\nA. Bishkek   B. Ashkhabad   C. Tashkent   D. Dushanbe\n\nIdentify A – B – C – D:",
+    opts:["A-3, B-1, C-2, D-4","A-3, B-1, C-4, D-2","A-1, B-3, C-2, D-4","A-1, B-3, C-4, D-2"],ans:0,
+    mapImg:"https://i.ibb.co/xSTMkDbr/Screenshot-2026-03-31-145651.png",
+    mapCap:"Central Asia map — Match towns 1, 2, 3, 4 with Bishkek, Ashkhabad, Tashkent, Dushanbe"},
 
-{yr:"2000",topic:"Country Borders",
- text:"Consider the following provinces of former Yugoslavia:\nI. Bosnia\nII. Croatia\nIII. Slovenia\nIV. Yugoslavia (Serbia)\n\nThe correct sequence from east to west is:",
- opts:["IV, I, III, II","IV, I, II, III","I, IV, III, II","I, IV, II, III"],ans:1,
- expl:"Moving east to west in the former Yugoslavia: Serbia/Yugoslavia (easternmost) → Bosnia-Herzegovina → Croatia → Slovenia (westernmost, bordering Italy and Austria). So the sequence east to west is IV→I→II→III. Slovenia is the most western, bordering Italy, while Serbia/Yugoslavia is the most eastern."},
+  /* 32 */ {yr:"2000",topic:"Country Borders",
+    text:"Consider the following provinces of former Yugoslavia:\nI. Bosnia\nII. Croatia\nIII. Slovenia\nIV. Yugoslavia (Serbia)\n\nThe correct sequence of these provinces from east to west is:",
+    opts:["IV, I, III, II","IV, I, II, III","I, IV, III, II","I, IV, II, III"],ans:1},
 
-{yr:"2000",topic:"Rivers & Seas",
- text:"Which one of the following lakes forms an international boundary between Tanzania and Uganda?",
- opts:["Lake Chad","Lake Malawi","Lake Victoria","Zambezi"],ans:2,
- expl:"Lake Victoria is Africa's largest lake (by area) and forms international boundaries between Tanzania (south), Uganda (north), and Kenya (east). Lake Chad borders Nigeria, Niger, Chad, Cameroon. Lake Malawi borders Malawi, Tanzania, Mozambique. Zambezi is a river, not a lake."},
+  /* 33 */ {yr:"2000",topic:"Rivers & Seas",
+    text:"Which one of the following lakes forms an international boundary between Tanzania and Uganda?",
+    opts:["Lake Chad","Lake Malawi","Lake Victoria","Zambezi"],ans:2},
 
-{yr:"1999",topic:"Map-Based: World Cities",
- text:"[Study the map shown below]\n\nMatch the cities labelled A, B, C and D on the map with:\n1. Darwin   2. Kuala Lumpur   3. Lagos   4. Nairobi   5. Singapore\n\nA – B – C – D:",
- opts:["A-1, B-2, C-4, D-3","A-2, B-1, C-4, D-3","A-1, B-4, C-5, D-2","A-4, B-3, C-5, D-2"],ans:0,
- mapImg:"https://i.ibb.co/vxXyZm85/Screenshot-2026-03-31-145709.png",
- mapCap:"World map — Match cities A, B, C, D with Darwin/KL/Lagos/Nairobi/Singapore",
- expl:"Based on geographic positions: A = Darwin (northern Australia), B = Kuala Lumpur (Malaysia, SE Asia), C = Nairobi (Kenya, East Africa), D = Lagos (Nigeria, West Africa). Answer: A-1, B-2, C-4, D-3."},
+  /* 34 */ {yr:"1999",topic:"Map-Based: World Cities",
+    text:"[Study the map shown below]\n\nMatch the cities labelled A, B, C and D on the map with:\n1. Darwin   2. Kuala Lumpur   3. Lagos   4. Nairobi   5. Singapore\n\nA – B – C – D:",
+    opts:["A-1, B-2, C-4, D-3","A-2, B-1, C-4, D-3","A-1, B-4, C-5, D-2","A-4, B-3, C-5, D-2"],ans:0,
+    mapImg:"https://i.ibb.co/vxXyZm85/Screenshot-2026-03-31-145709.png",
+    mapCap:"World map — Match cities A, B, C, D with Darwin/KL/Lagos/Nairobi/Singapore"},
 
-{yr:"1999",topic:"Map-Based: South America",
- text:"[Study the map of South America shown below]\n\nThe physical regions marked as 1, 2, 3 and 4 on the map are respectively:",
- opts:["Andes, Brazilian Shield, Guyana Highlands and Amazon Basin","Andes, Guyana Highlands, Brazilian Shield and Amazon Basin","Amazon Basin, Guyana Highlands, Brazilian Shield and Andes","Guyana Highlands, Brazilian Shield, Andes and Amazon Basin"],ans:0,
- mapImg:"https://i.ibb.co/Z1k5NnR6/Screenshot-2026-03-31-145720.png",
- mapCap:"South America map — Identify physical regions 1, 2, 3 and 4",
- expl:"South America's major physical regions: Andes (western mountain chain along Pacific coast), Brazilian Shield/Highlands (east-central plateau), Guyana Highlands (northeast plateau), Amazon Basin (central lowland basin). Reading positions 1–4 on the map gives: Andes, Brazilian Shield, Guyana Highlands, Amazon Basin."},
+  /* 35 */ {yr:"1999",topic:"Map-Based: South America",
+    text:"[Study the map of South America shown below]\n\nThe physical regions marked as 1, 2, 3 and 4 on the map are respectively:",
+    opts:["Andes, Brazilian Shield, Guyana Highlands and Amazon Basin","Andes, Guyana Highlands, Brazilian Shield and Amazon Basin","Amazon Basin, Guyana Highlands, Brazilian Shield and Andes","Guyana Highlands, Brazilian Shield, Andes and Amazon Basin"],ans:0,
+    mapImg:"https://i.ibb.co/Z1k5NnR6/Screenshot-2026-03-31-145720.png",
+    mapCap:"South America map — Identify physical regions 1, 2, 3 and 4"},
 
-{yr:"1998",topic:"Rivers & Seas",
- text:"Match rivers labelled A, B, C and D on the map with:\n1. St. Lawrence   2. Orinoco   3. Mackenzie   4. Amazon   5. Yukon\n\nA – B – C – D:",
- opts:["A-4, B-3, C-2, D-1","A-5, B-3, C-1, D-2","A-5, B-4, C-1, D-3","A-3, B-1, C-4, D-2"],ans:1,
- expl:"North/South American rivers from map positions: A = Yukon (5) — flows northwest through Alaska. B = Mackenzie (3) — Canada's longest river, flows north. C = St. Lawrence (1) — flows east from Great Lakes to Atlantic. D = Orinoco (2) — flows through Venezuela. Answer: A-5, B-3, C-1, D-2."},
+  /* 36 */ {yr:"1998",topic:"Rivers & Seas",
+    text:"Match rivers labelled A, B, C and D on the map with:\n1. St. Lawrence   2. Orinoco   3. Mackenzie   4. Amazon   5. Yukon\n\nA – B – C – D:",
+    opts:["A-4, B-3, C-2, D-1","A-5, B-3, C-1, D-2","A-5, B-4, C-1, D-3","A-3, B-1, C-4, D-2"],ans:1},
 
-{yr:"1997",topic:"Map-Based: Country Location",
- text:"[Study the geographical figure shown below]\n\nThe point marked by A in the figure indicates a country in:",
- opts:["North America","South America","Europe","Asia"],ans:2,
- mapImg:"https://i.ibb.co/bRzf24wQ/Screenshot-2026-03-31-145735.png",
- mapCap:"Globe/map figure — Identify the continent/region of point A",
- expl:"Based on the geographical figure provided, point A indicates a location in Europe. The shape and position of the country outline on the globe map corresponds to a European nation."},
+  /* 37 */ {yr:"1997",topic:"Map-Based: Country Location",
+    text:"[Study the geographical figure shown below]\n\nThe point marked by A in the figure indicates a country in:",
+    opts:["North America","South America","Europe","Asia"],ans:2,
+    mapImg:"https://i.ibb.co/bRzf24wQ/Screenshot-2026-03-31-145735.png",
+    mapCap:"Globe/map figure — Identify the continent/region of point A"},
 
-{yr:"1997",topic:"Straits & Canals",
- text:"One will NOT have to pass through the Suez Canal while going from Mumbai to:",
- opts:["Alexandria","Suez","Port Said","Benghazi"],ans:1,
- expl:"The Suez Canal runs from Port Said (north, Mediterranean) to Suez city (south, Red Sea). Going from Mumbai: you sail north through the Arabian Sea, enter the Red Sea, and reach Suez city at the canal's southern entrance — WITHOUT having to pass THROUGH the canal. To reach Alexandria, Port Said (north end), or Benghazi (Libya, Mediterranean), you must pass through the canal fully."},
+  /* 38 */ {yr:"1997",topic:"Straits & Canals",
+    text:"One will NOT have to pass through the Suez Canal while going from Mumbai to:",
+    opts:["Alexandria","Suez","Port Said","Benghazi"],ans:1},
 
-{yr:"1997",topic:"South-East Asia",
- text:"During a flight from Delhi to Tokyo, the following are the landing airports:\nI. Hong Kong\nII. Hanoi\nIII. Taipei\nIV. Bangkok\n\nThe correct sequence of landing at these airports on an onward journey is:",
- opts:["I, II, III, IV","IV, II, I, III","III, IV, I, II","IV, I, II, III"],ans:1,
- expl:"Delhi to Tokyo — moving northeast: Bangkok (Thailand, ~13°N 100°E) → Hanoi (Vietnam, ~21°N 105°E) → Hong Kong (China, ~22°N 114°E) → Taipei (Taiwan, ~25°N 121°E) → Tokyo. So the sequence is IV → II → I → III."},
+  /* 39 */ {yr:"1997",topic:"South-East Asia",
+    text:"During a flight from Delhi to Tokyo, the following are the landing airports:\nI. Hong Kong\nII. Hanoi\nIII. Taipei\nIV. Bangkok\n\nThe correct sequence of landing at these airports on an onward journey is:",
+    opts:["I, II, III, IV","IV, II, I, III","III, IV, I, II","IV, I, II, III"],ans:1},
 
-{yr:"1996",topic:"Map-Based: Sri Lanka",
- text:"[Study the rough outline map of northern Sri Lanka shown below]\n\nJaffna is located at the point marked:",
- opts:["A","B","C","D"],ans:3,
- mapImg:"https://i.ibb.co/kVj3ygky/Screenshot-2026-03-31-145747.png",
- mapCap:"Northern Sri Lanka map — Identify location of Jaffna (A/B/C/D)",
- expl:"Jaffna is located at the very northern tip of Sri Lanka on the Jaffna Peninsula, which juts northward toward India (separated by the Palk Strait). On a map of northern Sri Lanka, Jaffna would be marked at the northernmost point — point D on this map."},
+  /* 40 */ {yr:"1996",topic:"Map-Based: Sri Lanka",
+    text:"[Study the rough outline map of northern Sri Lanka shown below]\n\nJaffna is located at the point marked:",
+    opts:["A","B","C","D"],ans:3,
+    mapImg:"https://i.ibb.co/kVj3ygky/Screenshot-2026-03-31-145747.png",
+    mapCap:"Northern Sri Lanka map — Identify the location of Jaffna (A/B/C/D)"},
 
-{yr:"1996",topic:"Map-Based: Middle East",
- text:"[Study the rough outline map of the Middle East shown below]\n\nThe countries labelled A, B, C and D are respectively:",
- opts:["Syria, Iraq, Jordan and Saudi Arabia","Syria, Iraq, Saudi Arabia and Jordan","Iraq, Syria, Saudi Arabia and Jordan","Iraq, Syria, Jordan and Saudi Arabia"],ans:2,
- mapImg:"https://i.ibb.co/KpHK5x4s/Screenshot-2026-03-31-145807.png",
- mapCap:"Middle East map — Identify countries A, B, C and D",
- expl:"Based on the Middle East map positions: A = Iraq (east/northeast, borders Iran), B = Syria (northwest, borders Turkey and Mediterranean), C = Saudi Arabia (large southern country), D = Jordan (west of Iraq, south of Syria). Answer: Iraq, Syria, Saudi Arabia, Jordan."},
+  /* 41 */ {yr:"1996",topic:"Map-Based: Middle East",
+    text:"[Study the rough outline map of the Middle East shown below]\n\nThe countries labelled A, B, C and D are respectively:",
+    opts:["Syria, Iraq, Jordan and Saudi Arabia","Syria, Iraq, Saudi Arabia and Jordan","Iraq, Syria, Saudi Arabia and Jordan","Iraq, Syria, Jordan and Saudi Arabia"],ans:2,
+    mapImg:"https://i.ibb.co/KpHK5x4s/Screenshot-2026-03-31-145807.png",
+    mapCap:"Middle East map — Identify countries A, B, C and D"},
 
-{yr:"1995",topic:"Map-Based: Central Asia Ex-USSR",
- text:"[Study the map of former Soviet Union countries shown below]\n\nThe countries marked 1, 2, 3, 4 and 5 are respectively:",
- opts:["Tajikistan, Turkmenia, Uzbekistan, Kirgizia, Kazakhstan","Turkmenia, Kirgizia, Tajikistan, Uzbekistan, Kazakhstan","Kazakhstan, Uzbekistan, Tajikistan, Kirgizia, Turkmenia","Kazakhstan, Turkmenia, Uzbekistan, Kirgizia, Tajikistan"],ans:3,
- mapImg:"https://i.ibb.co/Jjn1k7vn/Screenshot-2026-03-31-145821.png",
- mapCap:"Ex-USSR Central Asia map — Identify countries 1, 2, 3, 4 and 5",
- expl:"From map positions (north to south/east): 1=Kazakhstan (largest, northernmost), 2=Turkmenistan (southwest, borders Iran/Afghanistan), 3=Uzbekistan (central), 4=Kyrgyzstan/Kirgizia (northeast, mountainous), 5=Tajikistan (southeast, borders Afghanistan/China). Answer: Kazakhstan, Turkmenia, Uzbekistan, Kirgizia, Tajikistan."},
+  /* 42 */ {yr:"1995",topic:"Map-Based: Central Asia Ex-USSR",
+    text:"[Study the map of former Soviet Union countries shown below]\n\nThe countries marked 1, 2, 3, 4 and 5 are respectively:",
+    opts:["Tajikistan, Turkmenia, Uzbekistan, Kirgizia, Kazakhstan","Turkmenia, Kirgizia, Tajikistan, Uzbekistan, Kazakhstan","Kazakhstan, Uzbekistan, Tajikistan, Kirgizia, Turkmenia","Kazakhstan, Turkmenia, Uzbekistan, Kirgizia, Tajikistan"],ans:3,
+    mapImg:"https://i.ibb.co/Jjn1k7vn/Screenshot-2026-03-31-145821.png",
+    mapCap:"Ex-USSR map — Identify countries 1, 2, 3, 4 and 5"},
 
-{yr:"1995",topic:"Map-Based: Chechnya",
- text:"[Study the map indicating four places frequently in the news]\n\nWhich one of the marked places (1, 2, 3, 4) is Chechnya?",
- opts:["Place 1","Place 2","Place 3","Place 4"],ans:2,
- mapImg:"https://i.ibb.co/VY2gqj6m/Screenshot-2026-03-31-145831.png",
- mapCap:"Map — Identify which marked place (1/2/3/4) is Chechnya",
- expl:"Chechnya is a republic of Russia located in the North Caucasus region, in the southeastern part of European Russia, bordering Georgia to the south. It gained notoriety due to the First and Second Chechen Wars in the 1990s–2000s. On this map, it is marked as Place 3."}
+  /* 43 */ {yr:"1995",topic:"Map-Based: Chechnya",
+    text:"[Study the map shown below indicating four places frequently in the news]\n\nWhich one of the marked places (1, 2, 3, 4) is Chechnya?",
+    opts:["Place 1","Place 2","Place 3","Place 4"],ans:2,
+    mapImg:"https://i.ibb.co/VY2gqj6m/Screenshot-2026-03-31-145831.png",
+    mapCap:"Map — Identify which marked place (1/2/3/4) is Chechnya"}
 ];
 
-// ══════════════════════════════════════════════
+// ════════════════════════════════════════════════
 //   STATE
-// ══════════════════════════════════════════════
-let MODE='full'; // 'full' | 'practice'
+// ════════════════════════════════════════════════
 let S={
   cur:0,
-  ans:new Array(43).fill(null),
-  skp:new Array(43).fill(false),
-  revealed:new Array(43).fill(false), // practice: has this Q been answered?
+  ans:new Array(TOTAL).fill(null),
+  skp:new Array(TOTAL).fill(false),
   startTime:null,
   tLeft:22*60,
   tInt:null,
@@ -673,38 +586,23 @@ let S={
 };
 const pad=n=>String(n).padStart(2,'0');
 
-// ══ START ══
-function startQuiz(mode){
-  MODE=mode;
-  if(mode==='full'){
-    const raw=localStorage.getItem('wgeo_v2');
-    if(raw){
-      const d=JSON.parse(raw);
-      if(!d.done&&confirm('📂 Resume your previous Full Quiz session?')){
-        S={...S,...d,tInt:null};
-      } else {
-        localStorage.removeItem('wgeo_v2');
-        S.startTime=Date.now();
-      }
-    } else { S.startTime=Date.now(); }
+function startQuiz(){
+  const raw=localStorage.getItem('worldgeo_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('📂 Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    } else {
+      localStorage.removeItem('worldgeo_v1');
+      S.startTime=Date.now();
+    }
   } else {
     S.startTime=Date.now();
   }
   show('quiz-screen');
-  // Mode-specific UI
-  const te=document.getElementById('timerEl');
-  const mp=document.getElementById('timerEl').parentElement;
-  if(mode==='practice'){
-    te.textContent='⚡ Practice';
-    te.className='tclock pill-prac';
-    document.getElementById('scoreStrip').style.display='flex';
-    document.getElementById('tbR').style.display='none';
-  } else {
-    document.getElementById('scoreStrip').style.display='none';
-    runTimer();
-  }
   buildDots();
   renderQ();
+  runTimer();
 }
 
 function show(id){
@@ -712,7 +610,7 @@ function show(id){
   document.getElementById(id).classList.add('active');
 }
 
-// ══ TIMER (full mode) ══
+// TIMER
 function runTimer(){
   if(S.tInt) clearInterval(S.tInt);
   updateClk();
@@ -721,7 +619,11 @@ function runTimer(){
     S.tLeft--;
     updateClk();
     if(S.tLeft%15===0) save();
-    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏰ Time is up! Auto-submitting…');submitQuiz();}
+    if(S.tLeft<=0){
+      clearInterval(S.tInt);
+      alert('⏰ Time is up! Auto-submitting…');
+      submitQuiz();
+    }
   },1000);
 }
 function updateClk(){
@@ -731,7 +633,7 @@ function updateClk(){
   el.className=S.tLeft<=240?'tclock hot':'tclock';
 }
 
-// ══ RENDER Q ══
+// RENDER Q
 function renderQ(){
   const i=S.cur, q=Q[i];
   document.getElementById('qCur').textContent=i+1;
@@ -741,105 +643,43 @@ function renderQ(){
   document.getElementById('qText').textContent=q.text;
   document.getElementById('pfill').style.width=((i+1)/Q.length*100)+'%';
 
-  // Status
   const sp=document.getElementById('qStat');
   if(S.skp[i])             {sp.textContent='⤭ Skipped';  sp.className='stag st2';}
   else if(S.ans[i]!==null) {sp.textContent='✅ Answered'; sp.className='stag st1';}
   else                      {sp.textContent='○ Unanswered';sp.className='stag st0';}
 
-  // Map
   const mb=document.getElementById('qMapBox'),mi=document.getElementById('qMapImg'),mc=document.getElementById('qMapCap');
   if(q.mapImg){mi.src=q.mapImg;mc.textContent=q.mapCap||'';mb.style.display='flex';}
   else{mb.style.display='none';}
 
-  // Options
   const og=document.getElementById('optsGrid');og.innerHTML='';
   q.opts.forEach((o,idx)=>{
     const b=document.createElement('button');
-    const isRevealed=S.revealed[i];
-    let cls='opt';
-    if(isRevealed){
-      b.disabled=true;
-      if(idx===q.ans) cls+=' opt-correct';
-      else if(idx===S.ans[i]&&S.ans[i]!==q.ans) cls+=' opt-wrong';
-    } else {
-      if(S.ans[i]===idx) cls+=' sel';
-    }
-    b.className=cls;
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
     b.innerHTML=`<span class="oltr">${L4[idx]}</span><span class="otxt">${o}</span>`;
-    if(!isRevealed) b.onclick=()=>pick(idx);
+    b.onclick=()=>pick(idx);
     og.appendChild(b);
   });
 
-  // Explanation panel
-  const ep=document.getElementById('explPanel');
-  if(MODE==='practice'&&S.revealed[i]){
-    showExplPanel(i);
-  } else {
-    ep.style.display='none';
-    ep.className='expl-panel';
-  }
-
-  // Skip button — hide in practice after reveal
-  document.getElementById('btnSkip').style.display=(MODE==='practice'&&S.revealed[i])?'none':'inline-block';
   document.getElementById('btnPrev').disabled=(i===0);
   const last=(i===Q.length-1);
   document.getElementById('btnNext').style.display=last?'none':'inline-block';
   document.getElementById('btnSub').style.display=last?'inline-block':'none';
-
-  // practice: if last Q revealed, show submit
-  if(MODE==='practice'&&last&&S.revealed[i]){
-    document.getElementById('btnSub').style.display='inline-block';
-    document.getElementById('btnNext').style.display='none';
-  }
-
   updateDots();
-  updateScoreStrip();
 }
 
-function showExplPanel(i){
-  const q=Q[i], ua=S.ans[i];
-  const isCorrect=ua===q.ans;
-  const ep=document.getElementById('explPanel');
-  ep.className='expl-panel show '+(isCorrect?'correct-expl':'wrong-expl');
-  ep.style.display='block';
-  document.getElementById('explIcon').textContent=isCorrect?'✅':'❌';
-  document.getElementById('explResultTxt').textContent=isCorrect?'Correct! Well done!':'Incorrect. Let\'s learn from this.';
-  const ans=document.getElementById('explCorrectAns');
-  if(!isCorrect){
-    ans.innerHTML=`Correct Answer: <span>${L4[q.ans]}) ${q.opts[q.ans]}</span>`;
-    ans.style.display='block';
-  } else {
-    ans.style.display='none';
-  }
-  document.getElementById('explBody').textContent=q.expl||'No explanation available.';
-}
-
-// ══ PICK ══
 function pick(idx){
-  if(S.done) return;
-  S.ans[S.cur]=idx;
-  S.skp[S.cur]=false;
-  if(MODE==='practice'){
-    S.revealed[S.cur]=true;
-    renderQ();
-  } else {
-    renderQ();
-    save();
-  }
+  if(S.done)return;
+  S.ans[S.cur]=idx; S.skp[S.cur]=false;
+  renderQ(); save();
 }
-
 function nav(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
-
 function skipQ(){
-  if(S.done) return;
-  S.skp[S.cur]=true; S.ans[S.cur]=null;
-  if(MODE==='full') save();
-  updateScoreStrip();
+  S.skp[S.cur]=true; S.ans[S.cur]=null; save();
   if(S.cur<Q.length-1) nav(1); else renderQ();
 }
 
-// ══ DOTS ══
+// DOTS
 function buildDots(){
   const dm=document.getElementById('dotMap');dm.innerHTML='';
   Q.forEach((_,i)=>{
@@ -849,57 +689,33 @@ function buildDots(){
   });
 }
 function updateDots(){
-  Q.forEach((q,i)=>{
+  Q.forEach((_,i)=>{
     const d=document.getElementById(`d${i}`); if(!d)return;
     d.className='dot';
-    if(i===S.cur) d.classList.add('cur');
-    else if(S.skp[i]) d.classList.add('d-skp');
-    else if(S.revealed[i]){
-      if(S.ans[i]===q.ans) d.classList.add('d-ans');
-      else d.classList.add('d-wrong');
-    } else if(S.ans[i]!==null) d.classList.add('d-ans');
+    if(i===S.cur)            d.classList.add('cur');
+    else if(S.skp[i])        d.classList.add('d-skp');
+    else if(S.ans[i]!==null) d.classList.add('d-ans');
   });
 }
 
-// ══ SCORE STRIP (practice) ══
-function updateScoreStrip(){
-  if(MODE!=='practice') return;
-  let c=0,w=0,sk=0;
-  Q.forEach((q,i)=>{
-    if(S.skp[i]||(!S.revealed[i]&&S.ans[i]===null)) sk++;
-    else if(S.revealed[i]&&S.ans[i]===q.ans) c++;
-    else if(S.revealed[i]&&S.ans[i]!==q.ans) w++;
-    else sk++;
-  });
-  document.getElementById('ssC').textContent=c;
-  document.getElementById('ssW').textContent=w;
-  document.getElementById('ssSk').textContent=sk;
-  const att=c+w;
-  document.getElementById('ssPct').textContent=att>0?Math.round(c/att*100)+'%':'—';
-}
-
-// ══ MODAL ══
+// MODAL
 function showSubmitModal(){
   const a=S.ans.filter(x=>x!==null).length,sk=S.skp.filter(Boolean).length,u=Q.length-a-sk;
   document.getElementById('mTxt').textContent=
-    `📊 Answered: ${a}  |  Skipped: ${sk}  |  Unanswered: ${u}\n\nOnce submitted, you'll see the full analysis.`;
+    `📊 Answered: ${a}  |  Skipped: ${sk}  |  Unanswered: ${u}\n\nOnce submitted, answers cannot be changed.`;
   document.getElementById('mOverlay').classList.add('on');
 }
 function closeModal(){document.getElementById('mOverlay').classList.remove('on');}
 
-// ══ SUBMIT ══
+// SUBMIT
 function submitQuiz(){
-  closeModal();
-  if(S.tInt) clearInterval(S.tInt);
-  S.done=true;
-  const usedSec=MODE==='practice'
-    ? Math.floor((Date.now()-S.startTime)/1000)
-    : (22*60)-S.tLeft;
+  closeModal(); clearInterval(S.tInt); S.done=true;
+  const usedSec=(22*60)-S.tLeft;
   let correct=0,wrong=0,skipped=0;
   Q.forEach((q,i)=>{
     if(S.skp[i]||S.ans[i]===null) skipped++;
-    else if(S.ans[i]===q.ans) correct++;
-    else wrong++;
+    else if(S.ans[i]===q.ans)     correct++;
+    else                            wrong++;
   });
   const attempted=correct+wrong, pct=Math.round(correct/Q.length*100);
   const acc=attempted?Math.round(correct/attempted*100):0;
@@ -918,9 +734,11 @@ function submitQuiz(){
   document.getElementById('rDen').textContent='/ '+Q.length;
   const gp=document.getElementById('gPill');
   gp.textContent=grade; gp.style.cssText=`background:${gc}22;color:${gc};border:1px solid ${gc}55`;
-  document.getElementById('gPct').textContent=pct+'% Score  ·  '+correct+' correct out of '+Q.length+'  ·  Mode: '+(MODE==='practice'?'Practice ⚡':'Full Quiz 🎯');
-  document.getElementById('rTitle').textContent=pct>=75?'🌍 Outstanding!':pct>=50?'👍 Good Attempt!':'📚 More Practice Needed';
-  document.getElementById('rSub').textContent=pct>=75?'Excellent command over World Geography — UPSC level ready!':pct>=50?'Solid base. Review the weak areas and explanations below.':'Read the explanations carefully and retry after atlas revision.';
+  document.getElementById('gPct').textContent=pct+'% Score · '+correct+' correct out of '+Q.length;
+
+  document.getElementById('rTitle').textContent=pct>=75?'🌍 Outstanding Performance!':pct>=50?'👍 Good Attempt!':'📚 Needs More Practice';
+  document.getElementById('rSub').textContent=pct>=75?'Excellent command over World Geography — UPSC level ready!':pct>=50?'Solid base. Work on the weak areas flagged below.':'Revise world borders, seas & straits systematically using atlas.';
+
   document.getElementById('stC').textContent=correct;
   document.getElementById('stW').textContent=wrong;
   document.getElementById('stS').textContent=skipped;
@@ -930,13 +748,15 @@ function submitQuiz(){
 
   buildInsights(pct,acc,skipped,attempted,correct,wrong);
   renderReview('all');
-  localStorage.removeItem('wgeo_v2');
+  localStorage.removeItem('worldgeo_v1');
   show('results-screen');
   window.scrollTo(0,0);
 }
 function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
 
-// ══ INSIGHTS ══
+// INSIGHTS
+const MAP_Q_INDICES=[30,33,34,36,39,40,41,42]; // 0-based Q31,34,35,37,40,41,42,43
+
 function buildInsights(pct,acc,skipped,attempted,correct,wrong){
   const topErr={};
   Q.forEach((q,i)=>{
@@ -947,37 +767,54 @@ function buildInsights(pct,acc,skipped,attempted,correct,wrong){
   const lines=[];
 
   if(pct>=90)      lines.push('🌟 Near-perfect! You have exceptional mastery of World Political & Physical Geography.');
-  else if(pct>=75) lines.push('💪 Strong performance. A few more atlas revision sessions will take you to the expert band.');
-  else if(pct>=50) lines.push('📈 Decent base. Focus on borders, seas/straits, and latitude-based questions — they are highest-yield for UPSC.');
-  else             lines.push('📖 Start with NCERT World Geography + Oxford Student Atlas. Mark borders, seas, and capital positions daily.');
+  else if(pct>=75) lines.push('💪 Strong performance. A few more atlas revision sessions will take you to the top band.');
+  else if(pct>=50) lines.push('📈 Decent base. Revise individual topic clusters — borders, seas/straits, and latitudes are highest-yield.');
+  else             lines.push('📖 Start with NCERT World Geography + a good atlas. Focus on marking borders, seas, and capital locations.');
 
-  if(MODE==='practice') lines.push('⚡ Practice Mode completed — review the explanations below for every wrong answer. This mode is ideal for concept-building before attempting Full Quiz mode.');
-  if(attempted>0&&acc<55&&attempted>8) lines.push(`🎯 Accuracy: ${acc}% — high error rate. Use the explanation panel to understand WHY before guessing. Eliminate 2 options first.`);
-  if(skipped>10) lines.push(`⤭ ${skipped} questions skipped. For UPSC Prelims, practise the elimination technique — skipping loses potential marks.`);
+  if(attempted>0&&acc<55&&attempted>8)
+    lines.push(`🎯 Accuracy: ${acc}% — high error rate among attempted questions. Use elimination first, then guess.`);
+  if(skipped>10)
+    lines.push(`⤭ ${skipped} questions skipped. For UPSC Prelims, practise the elimination method to convert skips into attempts.`);
 
-  const mapQIdx=[30,33,34,36,39,40,41,42];
-  const mapWrong=mapQIdx.filter(i=>!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==Q[i].ans);
-  if(mapWrong.length>=2) lines.push(`🗺️ ${mapWrong.length} out of 8 map questions wrong. Practice locating countries on blank maps daily — these are easy marks with preparation.`);
+  // Map Q weakness
+  const mapWrong=MAP_Q_INDICES.filter(i=>!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==Q[i].ans);
+  if(mapWrong.length>=2)
+    lines.push(`🗺️ ${mapWrong.length} out of 8 map-based questions wrong. Regularly practice blank map exercises using an atlas — these are high-scoring for prepared candidates.`);
 
-  if(topErr['Country Borders']) lines.push('🗺️ Borders weak: Memorise Ukraine\'s 7 neighbors, Afghanistan\'s 6 neighbors, Lithuania\'s 4 neighbors. Use a "spider diagram" method.');
-  if(topErr['Seas & Borders']) lines.push('🌊 Seas weak: Caspian (Russia/Kazakhstan/Turkmenistan/Iran/Azerbaijan), Adriatic (Croatia/Bosnia/Albania/Italy), Black Sea (6 countries including Bulgaria NOT Croatia).');
-  if(topErr['Mediterranean Sea']) lines.push('🏖️ Mediterranean: Jordan has NO Mediterranean coast (only Gulf of Aqaba). Iraq has no Mediterranean. Syria, Lebanon, Israel all border it. Malta is IN the Mediterranean.');
-  if(topErr['Straits & Canals']) lines.push('⚓ Straits: Dover = UK-France tunnel. Bering = nearest to IDL. Kra Isthmus canal (Thailand) would bypass Malacca. Malacca Strait → Singapore at southern end.');
-  if(topErr['Latitudes & Tropics']) lines.push('🌐 Tropics: Capricorn (23.5°S) through Australia/Namibia/Brazil/Chile. Equator through Colombia/Kenya/Indonesia. Singapore (1.35°N) is nearest capital to equator.');
-  if(topErr['Rivers & Seas']) lines.push('🌊 Rivers: Volga → Caspian (NOT Black) Sea. Huangpu → Shanghai. Bering Strait nearest to IDL (180°). Mekong → South China Sea (NOT Andaman).');
-  if(topErr['South-East Asia']) lines.push('🗾 SE Asia S→N: Jakarta→Singapore→Bangkok→Hanoi. Myanmar neighbors (besides India/China): Bangladesh, Thailand, Laos. Delhi-Tokyo route: BKK→HAN→HKG→TPE.');
-  if(topErr['Time Zones']) lines.push('🕐 Addis Ababa is UTC+3, not UTC+0 like London/Lisbon/Accra. Always 3 hours ahead — can never share same clock time.');
+  // Topic-specific advice
+  if(topErr['Country Borders'])
+    lines.push('🗺️ Borders: Ukraine borders — Hungary, Romania, Poland, Slovakia, Moldova, Belarus, Russia. Afghanistan borders — Tajikistan, Uzbekistan, Turkmenistan, China, Pakistan, Iran. Revise with atlas.');
+  if(topErr['Seas & Borders'])
+    lines.push('🌊 Seas: Caspian Sea borders — Russia, Kazakhstan, Turkmenistan, Iran, Azerbaijan. Adriatic — Croatia, Bosnia, Albania. Black Sea — Ukraine, Russia, Turkey, Georgia, Romania, Bulgaria.');
+  if(topErr['Mediterranean Sea'])
+    lines.push('🏖️ Mediterranean: Syria, Lebanon, Israel border it. Jordan does NOT (it has only a tiny Red Sea coast at Aqaba). Malta is in the Mediterranean. Iraq has NO Mediterranean coast.');
+  if(topErr['Straits & Canals'])
+    lines.push('⚓ Straits: Strait of Dover connects UK & France (Channel Tunnel). Bering Strait is closest to IDL. Kra Isthmus canal proposal cuts through Thailand. Malacca Strait → Singapore.');
+  if(topErr['Latitudes & Tropics'])
+    lines.push('🌐 Tropics: Tropic of Capricorn passes through Australia, Namibia, Mozambique, Madagascar, Brazil, Chile, Argentina. Equator: Colombia, Brazil, Ecuador, Kenya, Uganda, Indonesia.');
+  if(topErr['Rivers & Seas'])
+    lines.push('🌊 Rivers: Volga → Caspian Sea (NOT Black Sea). Zambezi → Mozambique Channel (Indian Ocean). Mekong → South China Sea (NOT Andaman). Huangpu → flows through Shanghai.');
+  if(topErr['South-East Asia'])
+    lines.push('🗺️ SE Asia N-S order: Jakarta → Singapore → Bangkok → Hanoi. Myanmar borders: Bangladesh, Thailand, Laos, China, India. Delhi-Tokyo route: Bangkok → Hanoi → Hong Kong → Taipei.');
+  if(topErr['Map-Based: Central Asia'])
+    lines.push('🗾 Central Asia capitals: Bishkek (Kyrgyzstan), Dushanbe (Tajikistan), Tashkent (Uzbekistan), Ashgabat/Ashkhabad (Turkmenistan). Practice locating these on blank map.');
+  if(topErr['Map-Based: Middle East'])
+    lines.push('🗾 Middle East: Iraq borders — Turkey, Syria, Jordan, Saudi Arabia, Kuwait, Iran. Syria is north of Jordan. Israel borders — Lebanon, Syria, Jordan, Egypt.');
+  if(topErr['Time Zones'])
+    lines.push('🕐 Addis Ababa (Ethiopia) is UTC+3 while London/Lisbon/Accra are near UTC+0. It does NOT share the same clock time as the other three cities.');
 
   ranked.slice(0,4).forEach(([t,c])=>{
-    lines.push(`❌ Weak Area — ${t}: ${c} wrong answer${c>1?'s':''}. Read explanations for these questions carefully.`);
+    lines.push(`❌ Weak Area → ${t}: ${c} wrong answer${c>1?'s':''}. Prioritise this in your next atlas revision session.`);
   });
 
   const ib=document.getElementById('insBody');
   ib.innerHTML=lines.map(l=>`<div class="ins"><span>${l}</span></div>`).join('');
-  if(ranked.length) ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wch">${t}</span>`).join('')}</div>`;
+  if(ranked.length){
+    ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wch">${t}</span>`).join('')}</div>`;
+  }
 }
 
-// ══ REVIEW ══
+// REVIEW
 function setTab(f,btn){
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on'); renderReview(f);
@@ -1008,25 +845,23 @@ function renderReview(f){
       ${mapHtml}
       <div class="rrow"><span class="rlbl">Your Answer:</span><span class="rval ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
       <div class="rrow"><span class="rlbl">Correct Answer:</span><span class="rval good">${caTxt}</span></div>
-      <div class="rev-expl"><div class="rev-expl-lbl">💡 Explanation</div>${q.expl||'—'}</div>
     </div>`;
   });
   if(!html) html='<p style="color:var(--txt2);text-align:center;padding:2.5rem;font-size:.9rem">No questions in this category.</p>';
   rl.innerHTML=html;
 }
 
-// ══ SAVE / RESTART ══
+// SAVE / RESTART
 function save(){
-  if(MODE!=='full') return;
-  localStorage.setItem('wgeo_v2',JSON.stringify({
-    cur:S.cur,ans:S.ans,skp:S.skp,revealed:S.revealed,startTime:S.startTime,tLeft:S.tLeft,done:S.done
+  localStorage.setItem('worldgeo_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,startTime:S.startTime,tLeft:S.tLeft,done:S.done
   }));
 }
 function restartQuiz(){
   if(!confirm('🔄 Restart? All progress will be lost.')) return;
   clearInterval(S.tInt);
-  localStorage.removeItem('wgeo_v2');
-  S={cur:0,ans:new Array(43).fill(null),skp:new Array(43).fill(false),revealed:new Array(43).fill(false),startTime:null,tLeft:22*60,tInt:null,done:false};
+  localStorage.removeItem('worldgeo_v1');
+  S={cur:0,ans:new Array(TOTAL).fill(null),skp:new Array(TOTAL).fill(false),startTime:null,tLeft:22*60,tInt:null,done:false};
   show('start-screen');
 }
 </script>
