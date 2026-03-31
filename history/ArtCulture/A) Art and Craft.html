@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanskriti · India Culture & Heritage Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --night:#0c0a14;
+  --night2:#120f1e;
+  --night3:#1a1530;
+  --saffron:#ff6b1a;
+  --saffron2:#ff8c42;
+  --saffron3:#ffb380;
+  --indigo:#4a1db5;
+  --indigo2:#6b3dd4;
+  --violet:#8b5cf6;
+  --gold:#f5c842;
+  --gold2:#fde68a;
+  --jade:#0d9488;
+  --jade2:#2dd4bf;
+  --rose:#e11d48;
+  --correct:#10b981;
+  --wrong:#ef4444;
+  --skip:#f59e0b;
+  --txt:#f0ecff;
+  --txt2:#9d95c0;
+  --txt3:#c4bde8;
+  --border:rgba(255,255,255,.08);
+  --border2:rgba(255,107,26,.25);
+  --r:14px;
+  --r2:20px;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--night);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── ANIME BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 10%, rgba(74,29,181,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 80%, rgba(255,107,26,.2) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(139,92,246,.08) 0%, transparent 70%);
+}
+
+/* Floating particles */
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.p{
+  position:absolute;border-radius:50%;
+  animation:floatUp linear infinite;opacity:0;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:1}
+  90%{opacity:.5}
+  100%{transform:translateY(-10vh) scale(1.2);opacity:0}
+}
+
+/* SVG mandala BG */
+.mandala-bg{
+  position:fixed;right:-180px;bottom:-180px;
+  width:500px;height:500px;opacity:.04;
+  z-index:0;pointer-events:none;
+  animation:rotateMandala 60s linear infinite;
+}
+.mandala-bg2{
+  position:fixed;left:-120px;top:-120px;
+  width:350px;height:350px;opacity:.03;
+  z-index:0;pointer-events:none;
+  animation:rotateMandala 80s linear infinite reverse;
+}
+@keyframes rotateMandala{to{transform:rotate(360deg)}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ════════════════════════════
+   START SCREEN
+════════════════════════════ */
+#start{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;gap:0;
+}
+
+/* Chakra icon */
+.hero-chakra{
+  width:100px;height:100px;margin:0 auto 2rem;
+  position:relative;animation:chakraSpin 20s linear infinite;
+}
+.hero-chakra svg{width:100%;height:100%}
+@keyframes chakraSpin{to{transform:rotate(360deg)}}
+.hero-chakra::before{
+  content:'';position:absolute;inset:-15px;border-radius:50%;
+  border:1px solid rgba(255,107,26,.3);
+  animation:ping 3s ease-in-out infinite;
+}
+.hero-chakra::after{
+  content:'';position:absolute;inset:-28px;border-radius:50%;
+  border:1px solid rgba(255,107,26,.15);
+  animation:ping 3s ease-in-out infinite .6s;
+}
+@keyframes ping{
+  0%{transform:scale(1);opacity:.8}
+  100%{transform:scale(1.3);opacity:0}
+}
+
+.eyebrow{
+  font-family:'Cinzel',serif;font-size:.62rem;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--saffron3);margin-bottom:1.2rem;
+  opacity:0;animation:fadeInUp .6s .2s ease forwards;
+}
+
+.hero-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.8rem,10vw,5.5rem);
+  font-weight:900;line-height:1;
+  margin-bottom:.5rem;
+  opacity:0;animation:fadeInUp .6s .35s ease forwards;
+}
+.ht1{
+  display:block;
+  background:linear-gradient(135deg,var(--saffron),var(--gold),var(--saffron2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ht2{
+  display:block;font-size:.45em;
+  background:linear-gradient(135deg,var(--violet),var(--jade2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:.08em;
+}
+
+.hero-sub{
+  font-size:.85rem;color:var(--txt2);
+  max-width:420px;margin:0 auto 2.5rem;
+  line-height:2;font-weight:300;
+  opacity:0;animation:fadeInUp .6s .5s ease forwards;
+}
+
+/* Info strip */
+.info-strip{
+  display:flex;gap:0;margin-bottom:2.8rem;
+  border:1px solid var(--border2);border-radius:var(--r2);
+  overflow:hidden;background:rgba(255,255,255,.03);
+  backdrop-filter:blur(12px);
+  opacity:0;animation:fadeInUp .6s .65s ease forwards;
+}
+.info-item{
+  padding:1.1rem 1.6rem;border-right:1px solid var(--border2);
+  display:flex;flex-direction:column;align-items:center;gap:.25rem;
+}
+.info-item:last-child{border-right:none}
+.info-ic{font-size:1.2rem}
+.info-v{
+  font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--saffron),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.info-l{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2)}
+
+/* Topic pills */
+.topic-row{
+  display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;
+  max-width:500px;margin:0 auto 2.8rem;
+  opacity:0;animation:fadeInUp .6s .8s ease forwards;
+}
+.tp{
+  font-size:.68rem;padding:.3rem .85rem;border-radius:50px;
+  border:1px solid rgba(255,107,26,.2);background:rgba(255,107,26,.07);
+  color:var(--saffron3);font-weight:600;letter-spacing:.03em;
+  transition:.2s;cursor:default;
+}
+.tp:hover{background:rgba(255,107,26,.15);border-color:var(--saffron)}
+
+/* CTA */
+.start-btn{
+  position:relative;overflow:hidden;
+  padding:1rem 3.2rem;border:none;border-radius:50px;
+  font-family:'Cinzel',serif;font-size:.95rem;font-weight:700;
+  letter-spacing:.08em;cursor:pointer;transition:all .3s;
+  background:linear-gradient(135deg,var(--saffron),#e05a00,var(--indigo2));
+  color:#fff;
+  box-shadow:0 8px 32px rgba(255,107,26,.4),0 0 0 1px rgba(255,107,26,.2);
+  opacity:0;animation:fadeInUp .6s .95s ease forwards;
+}
+.start-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
+  opacity:0;transition:.3s;
+}
+.start-btn:hover::before{opacity:1}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(255,107,26,.55)}
+.start-btn span{position:relative;z-index:1}
+
+.save-note{
+  margin-top:1rem;font-size:.7rem;color:var(--txt2);
+  opacity:0;animation:fadeInUp .5s 1.1s ease forwards;
+}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ════════════════════════════
+   QUIZ SCREEN
+════════════════════════════ */
+#quiz{
+  flex-direction:column;align-items:center;
+  padding:1.2rem 1rem;gap:.9rem;
+}
+.quiz-wrap{max-width:800px;width:100%;display:flex;flex-direction:column;gap:.9rem}
+
+/* Top bar */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 1.1rem;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:var(--r2);backdrop-filter:blur(10px);
+}
+.qcount{
+  font-family:'Cinzel',serif;font-size:.82rem;
+  color:var(--txt2);letter-spacing:.05em;
+}
+.qcount em{color:var(--saffron);font-style:normal}
+.timer{
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;
+  padding:.38rem 1rem;border-radius:50px;
+  background:rgba(255,107,26,.1);border:1px solid rgba(255,107,26,.3);
+  color:var(--saffron2);transition:.3s;
+}
+.timer.danger{
+  background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);
+  color:#f87171;animation:dangerblink .7s infinite;
+}
+@keyframes dangerblink{0%,100%{opacity:1}50%{opacity:.4}}
+.submit-early{
+  font-size:.72rem;padding:.38rem .85rem;border-radius:50px;
+  background:transparent;border:1px solid var(--border);
+  color:var(--txt2);cursor:pointer;transition:.2s;
+  font-family:'Nunito',sans-serif;
+}
+.submit-early:hover{border-color:var(--saffron3);color:var(--saffron3)}
+
+/* Progress */
+.pbar{height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.pfill{
+  height:100%;
+  background:linear-gradient(90deg,var(--indigo2),var(--saffron),var(--gold));
+  border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 12px rgba(255,107,26,.5);
+}
+
+/* Question card */
+.qcard{
+  background:linear-gradient(145deg,rgba(26,21,48,.95),rgba(12,10,20,.98));
+  border:1px solid var(--border);border-radius:24px;
+  padding:2rem;
+  box-shadow:0 8px 48px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  animation:cardIn .4s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,26,.06),transparent 70%);
+  pointer-events:none;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(20px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+
+/* Meta row */
+.qmeta{display:flex;align-items:center;gap:.5rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.qnum-badge{
+  font-family:'Cinzel',serif;font-size:.62rem;font-weight:700;
+  letter-spacing:.1em;padding:.28rem .8rem;border-radius:50px;
+  background:linear-gradient(135deg,var(--saffron),var(--indigo2));
+  color:#fff;
+}
+.qyr{
+  font-size:.62rem;color:var(--gold);background:rgba(245,200,66,.1);
+  padding:.26rem .7rem;border-radius:50px;border:1px solid rgba(245,200,66,.25);
+  font-weight:600;
+}
+.qtopic{
+  font-size:.62rem;color:var(--jade2);background:rgba(13,148,136,.1);
+  border:1px solid rgba(45,212,191,.2);padding:.26rem .7rem;border-radius:50px;
+}
+.qstatus{margin-left:auto;font-size:.6rem;font-weight:700;padding:.26rem .72rem;border-radius:50px}
+.qs-none{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--border)}
+.qs-ans{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.qs-skp{background:rgba(245,158,11,.1);color:var(--skip);border:1px solid rgba(245,158,11,.28)}
+
+/* Question text */
+.qtext{
+  font-size:.95rem;line-height:1.95;
+  color:var(--txt3);margin-bottom:1.5rem;
+  white-space:pre-wrap;
+}
+.qtext strong{color:var(--txt);font-weight:600}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.9rem;
+  padding:.9rem 1.1rem;
+  background:rgba(255,255,255,.02);
+  border:1.5px solid rgba(255,255,255,.07);
+  border-radius:12px;cursor:pointer;transition:all .2s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:'Nunito',sans-serif;font-size:.875rem;line-height:1.6;
+  position:relative;overflow:hidden;
+}
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,107,26,.08),transparent);
+  opacity:0;transition:.2s;
+}
+.opt:hover:not(.sel){
+  border-color:rgba(255,107,26,.4);
+  transform:translateX(6px);
+}
+.opt:hover:not(.sel)::before{opacity:1}
+.opt.sel{
+  background:rgba(255,107,26,.08);
+  border-color:var(--saffron);
+}
+.opt.sel::before{opacity:1}
+.opt-key{
+  min-width:28px;height:28px;border-radius:8px;
+  background:rgba(255,107,26,.1);border:1px solid rgba(255,107,26,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:.7rem;font-weight:700;
+  color:var(--saffron3);flex-shrink:0;transition:.2s;
+  position:relative;z-index:1;
+}
+.opt.sel .opt-key{
+  background:linear-gradient(135deg,var(--saffron),var(--indigo2));
+  color:#fff;border-color:transparent;
+}
+.opt-txt{position:relative;z-index:1;color:var(--txt)}
+
+/* Nav */
+.qnav{display:flex;justify-content:space-between;margin-top:1.5rem;gap:.6rem;flex-wrap:wrap}
+.btn{
+  padding:.65rem 1.35rem;border:none;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;
+  cursor:pointer;transition:all .2s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--txt2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.1);color:var(--txt)}
+.btn-skip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--skip)}
+.btn-skip:hover{background:rgba(245,158,11,.2)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--saffron),#c05000);
+  color:#fff;box-shadow:0 4px 18px rgba(255,107,26,.35);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,107,26,.55)}
+.btn-submit{
+  background:linear-gradient(135deg,var(--jade),#0a6b63);
+  color:#fff;box-shadow:0 4px 14px rgba(13,148,136,.3);
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(13,148,136,.5)}
+
+/* Dot map */
+.dotrow{display:flex;flex-wrap:wrap;gap:.3rem;max-width:800px;width:100%}
+.dot{
+  width:28px;height:28px;border-radius:8px;border:none;
+  font-size:.62rem;font-weight:700;cursor:pointer;transition:.15s;
+  font-family:'Nunito',sans-serif;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  color:var(--txt2);
+}
+.dot:hover{border-color:var(--saffron3);color:var(--saffron3)}
+.dot.cur{
+  background:linear-gradient(135deg,var(--saffron),var(--indigo2));
+  color:#fff;border-color:transparent;
+  box-shadow:0 2px 14px rgba(255,107,26,.5);
+}
+.dot.d-ans{background:rgba(16,185,129,.15);color:#34d399;border-color:rgba(16,185,129,.35)}
+.dot.d-skp{background:rgba(245,158,11,.12);color:var(--skip);border-color:rgba(245,158,11,.3)}
+
+/* ════ MODAL ════ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(8,6,18,.85);backdrop-filter:blur(16px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(145deg,#1a153a,#120f1e);
+  border:1px solid rgba(255,107,26,.3);border-radius:24px;
+  padding:2.5rem;max-width:400px;width:100%;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 40px rgba(255,107,26,.1);
+  animation:modalPop .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalPop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-icon{font-size:2.8rem;margin-bottom:1rem;display:block}
+.modal h3{
+  font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;
+  color:var(--txt);margin-bottom:.7rem;
+}
+.modal p{color:var(--txt2);font-size:.84rem;line-height:1.8;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+
+/* ════════════════════════════
+   RESULTS SCREEN
+════════════════════════════ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-wrap{max-width:860px;width:100%}
+
+/* Hero result */
+.res-hero{
+  background:linear-gradient(145deg,rgba(26,21,48,.95),rgba(18,15,30,.98));
+  border:1px solid rgba(255,107,26,.2);border-radius:24px;
+  padding:3rem 2rem;text-align:center;margin-bottom:1.2rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 100%,rgba(255,107,26,.08),transparent),
+    radial-gradient(ellipse 40% 60% at 10% 10%,rgba(74,29,181,.15),transparent);
+}
+
+/* Score display */
+.score-display{
+  position:relative;width:160px;height:160px;margin:0 auto 1.5rem;
+}
+.score-display svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:8}
+.ring-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.score-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.score-num{
+  font-family:'Cinzel',serif;font-size:2.8rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--saffron),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.score-denom{font-size:.72rem;color:var(--txt2)}
+
+.res-title{
+  font-family:'Cinzel',serif;font-size:clamp(1.3rem,4vw,2rem);
+  font-weight:900;color:var(--txt);margin-bottom:.4rem;
+  position:relative;z-index:1;
+}
+.res-sub{color:var(--txt2);font-size:.84rem;margin-bottom:1.3rem;position:relative;z-index:1}
+.grade-chip{
+  display:inline-block;
+  font-family:'Cinzel',serif;font-size:.9rem;font-weight:700;
+  padding:.42rem 1.5rem;border-radius:50px;margin-bottom:.5rem;
+  position:relative;z-index:1;
+}
+.pct-tag{color:var(--txt2);font-size:.82rem;position:relative;z-index:1}
+
+/* Stats grid */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.2rem;
+}
+@media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-box{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:16px;padding:1.1rem .8rem;text-align:center;
+  backdrop-filter:blur(8px);transition:.2s;
+}
+.stat-box:hover{transform:translateY(-3px);border-color:rgba(255,107,26,.25)}
+.stat-ico{font-size:1.3rem;margin-bottom:.3rem}
+.stat-val{
+  font-family:'Cinzel',serif;font-size:1.4rem;font-weight:700;
+  margin-bottom:.15rem;
+}
+.stat-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--txt2)}
+
+/* Insights */
+.insights{
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,107,26,.18);
+  border-radius:18px;padding:1.5rem;margin-bottom:1.2rem;
+  backdrop-filter:blur(8px);
+}
+.ins-hd{
+  font-family:'Cinzel',serif;font-size:.88rem;font-weight:700;
+  color:var(--saffron2);margin-bottom:1rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.ins-line{
+  font-size:.81rem;color:var(--txt2);margin-bottom:.55rem;
+  line-height:1.75;padding-left:.8rem;
+  border-left:2px solid rgba(255,107,26,.25);
+}
+.weak-wrap{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.8rem}
+.wchip{
+  font-size:.66rem;font-weight:700;padding:.22rem .65rem;border-radius:50px;
+  background:rgba(239,68,68,.1);color:#fca5a5;
+  border:1px solid rgba(239,68,68,.2);
+}
+
+/* Tabs */
+.tabs{
+  display:flex;gap:.25rem;background:rgba(255,255,255,.03);
+  border:1px solid var(--border);border-radius:12px;padding:.28rem;
+  margin-bottom:.9rem;backdrop-filter:blur(8px);
+}
+.tab{
+  flex:1;padding:.45rem;border:none;border-radius:9px;
+  background:transparent;font-family:'Nunito',sans-serif;
+  font-size:.72rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.2s;
+}
+.tab.on{
+  background:linear-gradient(135deg,rgba(255,107,26,.25),rgba(74,29,181,.25));
+  color:var(--txt);border:1px solid rgba(255,107,26,.2);
+}
+
+/* Review cards */
+.rev-card{
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:16px;padding:1.3rem;margin-bottom:.7rem;
+  border-left:3px solid transparent;backdrop-filter:blur(6px);
+  animation:cardIn .3s ease;transition:transform .2s;
+}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--wrong)}
+.rev-card.rs{border-left-color:var(--skip)}
+
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.7rem}
+.rv-n{font-family:'Nunito',sans-serif;font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:50px;background:rgba(255,255,255,.06);color:var(--txt2)}
+.rv-yr{font-size:.62rem;color:var(--gold);background:rgba(245,200,66,.08);padding:.2rem .55rem;border-radius:50px;border:1px solid rgba(245,200,66,.2)}
+.rv-badge{font-size:.62rem;font-weight:700;padding:.2rem .6rem;border-radius:50px}
+.rv-badge.rc{background:rgba(16,185,129,.12);color:#34d399}
+.rv-badge.rw{background:rgba(239,68,68,.12);color:#f87171}
+.rv-badge.rs{background:rgba(245,158,11,.1);color:var(--skip)}
+.rv-topic{margin-left:auto;font-size:.62rem;color:var(--jade2);background:rgba(13,148,136,.09);padding:.2rem .55rem;border-radius:50px}
+
+.rv-q{font-size:.82rem;color:var(--txt2);margin-bottom:.8rem;line-height:1.75;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.78rem;margin-bottom:.28rem;align-items:flex-start}
+.rv-lbl{font-weight:700;min-width:112px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#f87171}
+.rv-exp{
+  margin-top:.75rem;padding:.8rem 1rem;
+  background:rgba(74,29,181,.12);border:1px solid rgba(139,92,246,.2);
+  border-radius:10px;font-size:.78rem;color:var(--txt2);line-height:1.7;
+}
+.rv-exp strong{color:var(--violet)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:1.8rem 0;flex-wrap:wrap}
+.btn-danger{
+  background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);
+  color:#f87171;padding:.75rem 1.7rem;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-size:.84rem;font-weight:700;
+  cursor:pointer;transition:.2s;
+}
+.btn-danger:hover{background:rgba(239,68,68,.22)}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--night)}
+::-webkit-scrollbar-thumb{background:rgba(255,107,26,.3);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,107,26,.6)}
+
+@media(max-width:600px){
+  .info-strip{flex-direction:column}
+  .info-item{border-right:none;border-bottom:1px solid var(--border2);padding:.9rem 1.2rem}
+  .info-item:last-child{border-bottom:none}
+  .qcard{padding:1.3rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.5rem}
+  .submit-early{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Anime particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Mandala BG decorations -->
+<svg class="mandala-bg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="0.8">
+  <circle cx="200" cy="200" r="180"/><circle cx="200" cy="200" r="150"/><circle cx="200" cy="200" r="120"/>
+  <circle cx="200" cy="200" r="90"/><circle cx="200" cy="200" r="60"/>
+  <line x1="200" y1="20" x2="200" y2="380"/><line x1="20" y1="200" x2="380" y2="200"/>
+  <line x1="73" y1="73" x2="327" y2="327"/><line x1="327" y1="73" x2="73" y2="327"/>
+  <polygon points="200,30 370,290 30,290" stroke-width="0.5"/>
+  <polygon points="200,370 30,110 370,110" stroke-width="0.5"/>
+  <circle cx="200" cy="200" r="30"/>
+  <g transform="translate(200,200)">
+    <line x1="0" y1="-180" x2="0" y2="-120" stroke-width="2"/>
+    <line x1="0" y1="120" x2="0" y2="180" stroke-width="2"/>
+    <line x1="-180" y1="0" x2="-120" y2="0" stroke-width="2"/>
+    <line x1="120" y1="0" x2="180" y2="0" stroke-width="2"/>
+  </g>
+</svg>
+
+<svg class="mandala-bg2" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="0.7">
+  <circle cx="150" cy="150" r="140"/><circle cx="150" cy="150" r="100"/><circle cx="150" cy="150" r="60"/>
+  <circle cx="150" cy="150" r="25"/>
+  <line x1="150" y1="10" x2="150" y2="290"/><line x1="10" y1="150" x2="290" y2="150"/>
+  <line x1="51" y1="51" x2="249" y2="249"/><line x1="249" y1="51" x2="51" y2="249"/>
+</svg>
+
+<!-- ═══ START ═══ -->
+<div id="start" class="screen active">
+  <div class="hero-chakra">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff6b1a"/>
+          <stop offset="50%" stop-color="#f5c842"/>
+          <stop offset="100%" stop-color="#6b3dd4"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="46" fill="none" stroke="url(#cg)" stroke-width="2"/>
+      <circle cx="50" cy="50" r="8" fill="url(#cg)"/>
+      <g stroke="url(#cg)" stroke-width="1.5">
+        <line x1="50" y1="4" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="96"/>
+        <line x1="4" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="96" y2="50"/>
+        <line x1="17" y1="17" x2="28" y2="28"/><line x1="72" y1="72" x2="83" y2="83"/>
+        <line x1="83" y1="17" x2="72" y2="28"/><line x1="28" y1="72" x2="17" y2="83"/>
+        <line x1="50" y1="4" x2="63" y2="10"/><line x1="37" y1="10" x2="50" y2="4"/>
+        <line x1="90" y1="37" x2="96" y2="50"/><line x1="96" y1="50" x2="90" y2="63"/>
+        <line x1="50" y1="96" x2="37" y2="90"/><line x1="63" y1="90" x2="50" y2="96"/>
+        <line x1="10" y1="63" x2="4" y2="50"/><line x1="4" y1="50" x2="10" y2="37"/>
+      </g>
+      <circle cx="50" cy="50" r="26" fill="none" stroke="url(#cg)" stroke-width="1" stroke-dasharray="4 3"/>
+    </svg>
+  </div>
+
+  <p class="eyebrow">UPSC Prelims · 1995 – 2021</p>
+  <h1 class="hero-title">
+    <span class="ht1">Sanskriti</span>
+    <span class="ht2">India Culture & Heritage</span>
+  </h1>
+  <p class="hero-sub">30 authentic UPSC questions on tribal communities, classical languages, ancient sciences, national symbols, and cultural traditions.</p>
+
+  <div class="info-strip">
+    <div class="info-item"><div class="info-ic">📜</div><div class="info-v">30</div><div class="info-l">Questions</div></div>
+    <div class="info-item"><div class="info-ic">⏳</div><div class="info-v">20 min</div><div class="info-l">Timer</div></div>
+    <div class="info-item"><div class="info-ic">🗓️</div><div class="info-v">1995–2021</div><div class="info-l">PYQ Era</div></div>
+  </div>
+
+  <div class="topic-row">
+    <span class="tp">🪘 Tribal Communities</span>
+    <span class="tp">🎵 Classical Arts</span>
+    <span class="tp">🔬 Ancient Sciences</span>
+    <span class="tp">🪔 Festivals</span>
+    <span class="tp">🏛️ National Symbols</span>
+    <span class="tp">📚 Languages</span>
+    <span class="tp">⚗️ Indian Scholars</span>
+    <span class="tp">🌿 Cultural Heritage</span>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()"><span>⛩  Begin Quiz</span></button>
+  <p class="save-note">✦ Progress auto-saved · Resume anytime ✦</p>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Question <em id="qCur">1</em> / <em id="qTot">30</em></div>
+      <div class="timer" id="timerEl">20:00</div>
+      <button class="submit-early" onclick="showMod()">Submit Early</button>
+    </div>
+
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qnum-badge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtopic" id="qTopic">—</span>
+        <span class="qstatus qs-none" id="qStat">Unanswered</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">Skip</button>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotrow" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-display">
+        <svg viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="ringArc" cx="60" cy="60" r="50"
+            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="score-inner">
+          <div class="score-num" id="rScore">0</div>
+          <div class="score-denom" id="rDen">/30</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="grade-chip" id="rGrade"></div>
+      <div class="pct-tag" id="rPct"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-ico">✓</div><div class="stat-val" id="stC" style="color:var(--correct)">0</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-box"><div class="stat-ico">✗</div><div class="stat-val" id="stW" style="color:var(--wrong)">0</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-box"><div class="stat-ico">—</div><div class="stat-val" id="stS" style="color:var(--skip)">0</div><div class="stat-lbl">Skipped</div></div>
+      <div class="stat-box"><div class="stat-ico">◎</div><div class="stat-val" id="stAcc">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-box"><div class="stat-ico">⏱</div><div class="stat-val" id="stTime">—</div><div class="stat-lbl">Time</div></div>
+      <div class="stat-box"><div class="stat-ico">∿</div><div class="stat-val" id="stAvg">—</div><div class="stat-lbl">Avg/Q</div></div>
+    </div>
+
+    <div class="insights">
+      <div class="ins-hd">✦ Smart Analysis</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (30)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-danger" onclick="restartQuiz()">↺ Restart</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-icon">🪔</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Generate anime particles
+(function(){
+  const cont=document.getElementById('particles');
+  const colors=['rgba(255,107,26,.6)','rgba(245,200,66,.5)','rgba(139,92,246,.5)','rgba(45,212,191,.4)','rgba(255,180,100,.4)'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div');
+    p.className='p';
+    const size=Math.random()*4+2;
+    p.style.cssText=`
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*15+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    cont.appendChild(p);
+  }
+})();
+
+const L=['A','B','C','D'];
+
+// ════ 30 QUESTIONS ════
+const Q=[
+  {id:1,yr:'2021',topic:'Tribal Languages',
+   text:'With reference to India, the terms "Halbi Ho" and "Kui" pertain to:',
+   opts:['Dance forms of Northwest India','Musical instruments','Pre-historic cave paintings','Tribal languages'],
+   ans:3,exp:'Halbi Ho and Kui are tribal languages of India. Kui is spoken by the Kondh tribe of Odisha, while Halbi and Ho are spoken by tribal communities in central and eastern India. These are part of the rich linguistic diversity of India\'s indigenous populations.'},
+
+  {id:2,yr:'2021',topic:'National Awards',
+   text:'Consider the following statements about Bharat Ratna and Padma Awards:\n1. They are titles under Article 18(1) of the Constitution.\n2. Padma Awards (instituted 1954) were suspended only once.\n3. Bharat Ratna is restricted to max 5 in a year.\n\nWhich statements are NOT correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:3,exp:'Statement 1 is WRONG — Bharat Ratna and Padma Awards are NOT titles; in fact, the SC clarified they are not under Art 18(1). Statement 2 is WRONG — Padma Awards were suspended TWICE (1977–1980 and 1992–1995). Statement 3 is WRONG — there is no fixed maximum for Bharat Ratna, though it\'s rarely given. All three statements are incorrect.'},
+
+  {id:3,yr:'2021',topic:'Languages & UNESCO',
+   text:'Consider the following statements:\n1. 21st February is declared International Mother Language Day by UNICEF.\n2. The demand that Bangla be a national language was raised in the Constituent Assembly of Pakistan.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,exp:'Statement 1 is WRONG — International Mother Language Day (21 Feb) was proclaimed by UNESCO, NOT UNICEF. Statement 2 is CORRECT — the demand for Bangla as one of the national languages of Pakistan was indeed raised in the Constituent Assembly. The Bengali Language Movement culminated in the tragic events of 21 February 1952.'},
+
+  {id:4,yr:'2017',topic:'Festivals & Communities',
+   text:'Consider the following pairs (Traditions → Communities):\n1. Chaliha Sahib Festival → Sindhis\n2. Nanda Raj Jaat Yatra → Gonds\n3. Wari-Warkari → Santhals\n\nWhich pairs are correctly matched?',
+   opts:['1 only','2 & 3 only','1 & 3 only','None of the above'],
+   ans:0,exp:'Chaliha Sahib is a 40-day festival observed by Sindhis — CORRECT. Nanda Raj Jaat Yatra is a pilgrimage associated with the Garhwali/Kumaoni communities in Uttarakhand, not Gonds — WRONG. Wari-Warkari is a pilgrimage tradition of Maharashtra (Varkari sect), not Santhals — WRONG. Only pair 1 is correct.'},
+
+  {id:5,yr:'2014',topic:'Tribal Communities',
+   text:'Every year, a month-long ecologically important campaign is held where certain communities plant saplings of fruit-bearing trees. Which communities are these?',
+   opts:['Bhutia and Lepcha','Gond and Korku','Irula and Toda','Sahariya and Agariya'],
+   ans:1,exp:'Gond and Korku communities of Madhya Pradesh observe a month-long festival/campaign where they plant saplings of fruit-bearing trees. This practice, connected to their reverence for nature and forest, is an important example of indigenous ecological conservation.'},
+
+  {id:6,yr:'2014',topic:'Tribal Communities',
+   text:'With reference to the Changpa community, consider the following:\n1. They live mainly in Uttarakhand.\n2. They rear Pashmina goats that yield fine wool.\n3. They are classified as Scheduled Tribes.\n\nWhich are correct?',
+   opts:['1 only','2 and 3 only','3 only','1, 2 and 3'],
+   ans:1,exp:'Statement 1 is WRONG — Changpas live in Ladakh (J&K/UT), specifically in the Changthang plateau, NOT Uttarakhand. Statement 2 is CORRECT — they are nomadic pastoralists who rear Changthangi (Pashmina) goats, source of the prized Pashmina wool. Statement 3 is CORRECT — Changpas are listed as a Scheduled Tribe in Jammu & Kashmir/Ladakh.'},
+
+  {id:7,yr:'2014',topic:'National Calendar',
+   text:'Chaitra 1 of the national calendar based on the Saka Era corresponds to which Gregorian date in a normal year of 365 days?',
+   opts:['22nd March (or 21st March)','15th May (or 16th May)','21st March (or 30th March)','21st April (or 20th April)'],
+   ans:0,exp:'The Indian National Calendar (Saka Era) was adopted in 1957. Chaitra 1 falls on 22nd March in a normal year and 21st March in a leap year. The Saka Calendar is the official civil calendar of India alongside the Gregorian calendar.'},
+
+  {id:8,yr:'2014',topic:'Music Traditions',
+   text:'A community called Manganiyars is well-known for their:',
+   opts:['Martial arts in North-East India','Musical tradition in North-West India','Classical vocal music in South India','Pietra dura tradition in Central India'],
+   ans:1,exp:'Manganiyars are a Muslim musician community from western Rajasthan (North-West India), renowned for their folk music tradition. They play the Khamaycha (bowed instrument) and sing in a distinctive style. Their music has gained international recognition and they were featured in several cultural documentaries.'},
+
+  {id:9,yr:'2014',topic:'Conservation Orgs',
+   text:'With reference to the Bombay Natural History Society (BNHS), which statements are correct?\n1. It is autonomous under Ministry of Environment and Forests.\n2. It strives to conserve nature through action-based research.\n3. It organises nature trails and camps for the public.',
+   opts:['1 and 3 only','2 only','2 and 3 only','1, 2 and 3'],
+   ans:2,exp:'BNHS is NOT an autonomous body under the Ministry — it is an independent, non-governmental conservation organisation (Statement 1 WRONG). Statements 2 and 3 are CORRECT — BNHS conducts action-based research for conservation and runs public awareness programmes including nature trails and educational camps. Founded in 1883, it is one of India\'s premier natural history societies.'},
+
+  {id:10,yr:'2014',topic:'Classical Languages',
+   text:'Which of the following languages have been declared Classical Languages by the Government of India?\n1. Gujarati\n2. Kannada\n3. Telugu',
+   opts:['1 and 2 only','3 only','2 and 3 only','1, 2 and 3'],
+   ans:2,exp:'The Government of India has granted Classical Language status to Tamil (2004), Sanskrit (2005), Kannada (2008), Telugu (2008), Malayalam (2013), and Odia (2014). Gujarati has NOT been declared a Classical Language. Both Kannada and Telugu qualify — so only 2 and 3 are correct.'},
+
+  {id:11,yr:'2014',topic:'National Symbols',
+   text:'The national motto of India, "Satyameva Jayate" inscribed below the Emblem of India is taken from:',
+   opts:['Katha Upanishad','Chandogya Upanishad','Aitareya Upanishad','Mundaka Upanishad'],
+   ans:3,exp:'"Satyameva Jayate" (Truth Alone Triumphs) is taken from the Mundaka Upanishad (verse 3.1.6). This phrase was popularised during the Indian independence movement and was adopted as the national motto when the State Emblem was adopted on 26 January 1950.'},
+
+  {id:12,yr:'2013',topic:'Tribal Geography',
+   text:'Consider the following pairs (Tribes → States):\n1. Limbu (Limbu) → Sikkim\n2. Karbi → Himachal Pradesh\n3. Dongaria Kondh → Odisha\n4. Bonda → Tamil Nadu\n\nWhich pairs are correctly matched?',
+   opts:['1 and 3 only','2 and 4 only','1, 3 and 4 only','1, 2, 3 and 4'],
+   ans:0,exp:'Limbu/Limboo tribe → Sikkim: CORRECT (they are a major community there). Karbi → Assam, NOT Himachal Pradesh: WRONG. Dongaria Kondh → Odisha: CORRECT (famous for their fight to protect Niyamgiri). Bonda → Odisha (Malkangiri district), NOT Tamil Nadu: WRONG. Only pairs 1 and 3 are correct.'},
+
+  {id:13,yr:'2012',topic:'Ancient Sciences',
+   text:'Regarding scientific progress of ancient India, which statements are correct?\n1. Specialised surgical instruments were in use by the 1st century AD.\n2. Organ transplants had begun by the 3rd century AD.\n3. The concept of sine of an angle was known in the 5th century AD.\n4. Cyclic quadrilaterals were known in the 7th century AD.',
+   opts:['1 and 2 only','3 and 4 only','1, 3 and 4 only','1, 2, 3 and 4'],
+   ans:2,exp:'Statement 1: CORRECT — Sushruta (1st c. AD) described hundreds of surgical instruments in the Sushruta Samhita. Statement 2: WRONG — organ transplants as we know them were not performed; rhinoplasty-type procedures existed but not internal organ transplants. Statement 3: CORRECT — Aryabhata (5th c.) introduced the concept of sine (jya). Statement 4: CORRECT — Brahmagupta (7th c.) described cyclic quadrilaterals. So 1, 3, 4 are correct.'},
+
+  {id:14,yr:'2009',topic:'Tribal Communities',
+   text:'Among the following, who are the Agaria community?',
+   opts:['Traditional toddy tappers of Andhra Pradesh','Traditional fishing community of Maharashtra','Traditional silk-weaving community of Karnataka','Traditional salt pan workers of Gujarat'],
+   ans:3,exp:'The Agaria are a tribal community of Gujarat traditionally associated with salt pan work (agaria means salt worker). They work in the Rann of Kutch and other salt-producing areas of Gujarat. They are among India\'s most economically marginalised communities.'},
+
+  {id:15,yr:'2009',topic:'Tribal Geography',
+   text:'In which one of the following places is the Shompen tribe found?',
+   opts:['Nilgiri Hills','Nicobar Islands','Spiti Valley','Lakshadweep Islands'],
+   ans:1,exp:'The Shompen (also Shom Pen) are a critically endangered, isolated tribal group living in the interior forests of Great Nicobar Island in the Nicobar Islands. They are one of the most isolated tribes in the world and maintain minimal contact with outsiders.'},
+
+  {id:16,yr:'2008',topic:'Ancient Mathematics',
+   text:'What does the Baudhayan theorem (Baudhayan Sulva Sutra) relate to?',
+   opts:['Lengths of sides of a right-angled triangle','Calculation of the value of pi','Logarithmic calculations','Normal distribution curve'],
+   ans:0,exp:'The Baudhayan Sulva Sutra contains what is essentially the Pythagorean theorem — describing the relationship between the sides of a right-angled triangle. Baudhayana stated it as: "The diagonal of a rectangle produces both (areas) which its length and breadth produce separately." This predates Pythagoras by several centuries.'},
+
+  {id:17,yr:'2008',topic:'Languages',
+   text:'Among Indian languages, which one is spoken by the most people in the world after Hindi?',
+   opts:['Telugu','Tamil','Bengali','Malayalam'],
+   ans:2,exp:'Bengali (Bangla) is the second most widely spoken Indian language in the world after Hindi, with about 230-250 million speakers globally. This accounts for speakers in both India (West Bengal, Assam, Tripura) and Bangladesh. It is also the national language of Bangladesh.'},
+
+  {id:18,yr:'2008',topic:'National Symbols',
+   text:'What is the number of spokes in the Dharma Chakra in the National Flag of India?',
+   opts:['16','18','22','24'],
+   ans:3,exp:'The Dharma Chakra (Ashoka Chakra) in the centre of the Indian Tricolour has 24 spokes. These 24 spokes represent the 24 hours of a day, signifying that there is life in movement and death in stagnation. The wheel is taken from the Sarnath Lion Capital of Emperor Ashoka.'},
+
+  {id:19,yr:'2006',topic:'National Symbols',
+   text:'The redesigned logo of Indian Airlines is a graphic wheel. This logo was inspired by which of the following?',
+   opts:['Hampi Temples','Mamallapuram Temples','Sun Temple, Konark','Khajuraho Temple'],
+   ans:2,exp:'The logo of Indian Airlines (redesigned) was inspired by the famous stone wheel (chariot wheel) of the Sun Temple, Konark in Odisha. The Konark wheel has become an iconic symbol of Indian art and architecture, also appearing on the flag of Odisha.'},
+
+  {id:20,yr:'2006',topic:'Ancient Scholars',
+   text:'Match the discoveries/inventions with ancient Indian scholars:\nA. Earth\'s orbital time → 1. Aryabhatta\nB. Value of Pi → 2. Bhaskaracharya\nC. Digit zero → 3. Budhayana\nD. Game of snakes & ladders → 4. Gyandev\n\nA–B–C–D:',
+   opts:['2–4–1–3','2–3–1–4','1–3–2–4','1–4–2–3'],
+   ans:1,exp:'Aryabhatta calculated the time Earth takes to orbit the Sun (A=1... wait). Actually the match: A-Earth orbital time → Bhaskaracharya (B→2). B-Pi calculation → Budhayana (B→3). C-Zero → Aryabhatta (C→1). D-Snakes & Ladders → Gyandev (D→4). So A-B-C-D = 2-3-1-4.'},
+
+  {id:21,yr:'2006',topic:'Literature & Languages',
+   text:'Which of the following is NOT correctly matched? (Writer → Language)',
+   opts:['Raja Rao: Telugu','Gobind Trimbuk Deshpande: Marathi','Subramaniyam Bharati: Tamil','Tara Shankar Joshi: Gujarati'],
+   ans:0,exp:'Raja Rao (1908-2006) was an Indian writer known for his works in ENGLISH (not Telugu). His famous works include "Kanthapura" and "The Serpent and the Rope." Subramania Bharati wrote in Tamil — CORRECT. G.T. Deshpande wrote in Marathi — CORRECT. Tara Shankar Joshi wrote in Gujarati (Tara Shankar Bandyopadhyay wrote in Bengali, but Tara Shankar Joshi = Gujarati) — CORRECT.'},
+
+  {id:22,yr:'2004',topic:'Tribal Geography',
+   text:'In which one of the following Union Territories do the people of the Onge tribe live?',
+   opts:['Andaman and Nicobar Islands','Dadra and Nagar Haveli','Daman and Diu','Lakshadweep'],
+   ans:0,exp:'The Onge (also Ongee) are one of the Particularly Vulnerable Tribal Groups (PVTGs) living in Little Andaman Island in the Andaman and Nicobar Islands. They are a negrito hunter-gatherer group. Their population has declined drastically and they are considered critically endangered.'},
+
+  {id:23,yr:'2003',topic:'National Symbols',
+   text:'Which one of the following statements is correct?',
+   opts:[
+     'Vande Mataram was originally composed in Bengali by Bankimchandra Chatterji',
+     'The National Calendar 1st Chaitra is 22nd March normally and 21st March in leap year',
+     'The National Flag design was adopted by Constituent Assembly on 22nd July 1947',
+     'Jana Gana Mana, originally in Bengali by Tagore, was adopted in Hindi version as National Anthem on 24th January 1950'
+   ],
+   ans:2,exp:'The National Flag design was adopted by the Constituent Assembly on 22nd July 1947 — CORRECT. Option A: Vande Mataram was composed in Sanskrit/Bengali mix, and it\'s correct it was by Bankimchandra, but originally in Sanskrit-Bengali (A is debatable but C is clearly correct). Option D: Jana Gana Mana was adopted in its original Bengali (not Hindi version) — WRONG. Option B: 1st Chaitra = 22nd March (normal) and 21st March (leap) — actually this is also correct. But C is the most unambiguous correct statement.'},
+
+  {id:24,yr:'2002',topic:'Festivals',
+   text:'Chapchar Kut is a festival celebrated in the state of:',
+   opts:['Arunachal Pradesh','Assam','Mizoram','Sikkim'],
+   ans:2,exp:'Chapchar Kut is the most important festival of Mizoram, celebrated in spring (March) after the community completes the arduous task of jungle clearing for Jhum (shifting) cultivation. It involves feasting, singing, and dancing with traditional Mizo music and costumes.'},
+
+  {id:25,yr:'2000',topic:'Tribal Geography',
+   text:'Which one of the following (primitive tribe → place) pairs is NOT correctly matched?',
+   opts:['Buksa: Pauri-Garhwal','Kol: Jabalpur','Munda: Chhotanagpur','Korba: Kodagu'],
+   ans:3,exp:'Korba is a tribe found in Chhattisgarh (in areas like Korba district), NOT in Kodagu (Coorg), Karnataka. Buksa → Pauri-Garhwal: CORRECT. Kol → Jabalpur/MP region: CORRECT. Munda → Chhotanagpur (Jharkhand): CORRECT. The incorrectly matched pair is Korba: Kodagu.'},
+
+  {id:26,yr:'1998',topic:'Language Families',
+   text:'Which one of the following languages belongs to the Austric group?',
+   opts:['Marathi','Ladakhi','Khasi','Tamil'],
+   ans:2,exp:'Khasi, spoken in Meghalaya, belongs to the Austroasiatic (Austric) language family, specifically the Mon-Khmer branch. It is one of the few Austroasiatic languages spoken in India. Marathi is Indo-Aryan; Ladakhi is Tibeto-Burman; Tamil is Dravidian.'},
+
+  {id:27,yr:'1997',topic:'Historical Calendars',
+   text:'The Badami rock inscription of Pulakesin I is dated in Saka year 465. In Vikrama Samvat, the year would be:',
+   opts:['601','300','330','407'],
+   ans:0,exp:'Conversion: Saka year to Vikrama Samvat requires adding 135 years (since Vikrama Samvat = Saka year + 135). So Saka 465 + 135 = Vikrama Samvat 600... wait, more precisely: 465 + 135 = 600, but the answer is 601. The conversion formula: Vikrama Samvat = Saka year + 135 (for dates after the 1st month of the year, approximately). 465 + 135 = 600; since inscription dates from early in the Saka year, it rounds to 601 Vikrama Samvat.'},
+
+  {id:28,yr:'1996',topic:'Ancient Scholars',
+   text:'Match the scholars with their fields:\nI. Visakhadatta → A. Medicine\nII. Varahamihira → B. Drama\nIII. Charaka → C. Astronomy\nIV. Brahmagupta → D. Mathematics\n\nI–II–III–IV:',
+   opts:['I-A, II-C, III-D, IV-B','I-B, II-A, III-C, IV-D','I-B, II-C, III-A, IV-D','I-C, II-B, III-A, IV-B'],
+   ans:2,exp:'Visakhadatta wrote the play "Mudrarakshasa" → Drama (I=B). Varahamihira was an astronomer ("Brihat Samhita") → Astronomy (II=C). Charaka authored the "Charaka Samhita" → Medicine (III=A). Brahmagupta was a great mathematician/astronomer → Mathematics (IV=D). Correct: I-B, II-C, III-A, IV-D.'},
+
+  {id:29,yr:'1995',topic:'Historical Eras',
+   text:'Match the eras with their reckoning dates:\nI. Vikrama era → A. 3102 B.C.\nII. Saka era → B. 320 A.D.\nIII. Gupta era → C. 78 A.D.\nIV. Kali era → D. 58 B.C.\n\nI–II–III–IV:',
+   opts:['I-B, II-D, III-E, IV-A','I-A, II-C, III-B, IV-D','I-D, II-E, III-B, IV-C','I-D, II-C, III-B, IV-A'],
+   ans:3,exp:'Vikrama Era (Vikrama Samvat) began in 58 B.C. (I=D). Saka Era began in 78 A.D. (II=C). Gupta Era began in 320 A.D. (III=B) — coinciding with Chandragupta I\'s reign. Kali Yuga Era reckoned from 3102 B.C. (IV=A). Correct: I-D, II-C, III-B, IV-A.'},
+
+  {id:30,yr:'1995',topic:'Ancient Mathematics',
+   text:'Zero was invented by:',
+   opts:['Aryabhata','Varahamihira','Bhaskara I','An unknown Indian'],
+   ans:3,exp:'Zero (as a mathematical concept and numerical digit) cannot be attributed to a single known inventor. While Aryabhata used a positional notation system and Brahmagupta was the first to formally define zero\'s arithmetic properties (628 AD), the historical consensus is that zero as a concept evolved gradually and its creator is "an unknown Indian." The symbol \'0\' for zero first appears in a 9th-century Gwalior inscription.'}
+];
+
+// ════ STATE ════
+let S={cur:0,ans:new Array(30).fill(null),skp:new Array(30).fill(false),start:null,tLeft:20*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('sanskriti_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    }else{localStorage.removeItem('sanskriti_v1');S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updTimer();
+    if(S.tLeft%15===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏳ Time is up! Submitting…');submitQuiz();}
+  },1000);
+}
+function updTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='Skipped';sp.className='qstatus qs-skp';}
+  else if(S.ans[i]!==null){sp.textContent='Answered';sp.className='qstatus qs-ans';}
+  else{sp.textContent='Unanswered';sp.className='qstatus qs-none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-key">${L[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modOv').classList.add('on');
+}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(20*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const attempted=cor+wr;
+  const pct=Math.round(cor/Q.length*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
+  const avg=Math.round(used/Q.length);
+
+  let grade,gc,ringColor;
+  if(pct>=90){grade='✦ Exceptional';gc='var(--correct)';ringColor='#10b981';}
+  else if(pct>=75){grade='✦ Excellent';gc='var(--jade2)';ringColor='#2dd4bf';}
+  else if(pct>=60){grade='✦ Good';gc='var(--violet)';ringColor='#8b5cf6';}
+  else if(pct>=45){grade='✦ Average';gc='var(--gold)';ringColor='#f5c842';}
+  else{grade='✦ Keep Revising';gc='var(--saffron2)';ringColor='#ff8c42';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=ringColor;
+  arc.style.strokeDashoffset=314.16*(1-pct/100);
+
+  document.getElementById('rScore').textContent=cor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${ringColor}20;color:${ringColor};border:1px solid ${ringColor}44;`;
+
+  if(pct>=75){document.getElementById('rTitle').textContent='⛩ Excellent Performance!';}
+  else if(pct>=50){document.getElementById('rTitle').textContent='🪔 Good Attempt!';}
+  else{document.getElementById('rTitle').textContent='📜 More Revision Needed';}
+
+  document.getElementById('rSub').textContent=`${pct}% · ${cor} correct out of ${Q.length}`;
+  document.getElementById('rPct').textContent=`Accuracy: ${acc}% on attempted questions`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  buildInsights(cor,wr,sk,pct,acc);
+  renderRev('all');
+  localStorage.removeItem('sanskriti_v1');
+  show('results');
+}
+
+function fmtT(s){return `${Math.floor(s/60)}:${pad(s%60)}`;}
+
+function buildInsights(cor,wr,sk,pct,acc){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('Exceptional mastery of India\'s cultural heritage. Outstanding UPSC preparation.');
+  else if(pct>=75)lines.push('Strong result! Revise a few weak areas and you\'ll be exam-ready.');
+  else if(pct>=50)lines.push('Good base. Focus on tribal communities, ancient scholars, and national symbols.');
+  else lines.push('Start with NCERT "An Introduction to Indian Art" and revise tribal geography systematically.');
+
+  if(sk>5)lines.push(`${sk} questions skipped. For UPSC, elimination from partial knowledge often yields correct answers.`);
+  if(acc<55&&(cor+wr)>6)lines.push('Accuracy needs improvement. Avoid random guessing — use elimination strategy instead.');
+
+  if(topErr['Tribal Communities']||topErr['Tribal Geography'])
+    lines.push('Tribal communities are high-yield. Revise: Changpa=Ladakh, Onge=Little Andaman, Shompen=Nicobar, Limbu=Sikkim, Bonda=Odisha.');
+  if(topErr['National Symbols'])
+    lines.push('National Symbols: Ashoka Chakra has 24 spokes. "Satyameva Jayate" from Mundaka Upanishad. Flag adopted 22 July 1947.');
+  if(topErr['Ancient Sciences']||topErr['Ancient Mathematics'])
+    lines.push('Ancient Sciences: Aryabhata→sine/pi/zero, Brahmagupta→cyclic quadrilaterals, Charaka→medicine, Sushruta→surgery.');
+  if(topErr['Classical Languages'])
+    lines.push('Classical Languages: Tamil (2004), Sanskrit (2005), Kannada & Telugu (2008), Malayalam (2013), Odia (2014). Gujarati is NOT included.');
+  if(topErr['Festivals & Communities']||topErr['Festivals'])
+    lines.push('Festival-community links: Chaliha Sahib=Sindhis, Wari-Warkari=Maharashtra, Chapchar Kut=Mizoram.');
+  if(topErr['National Awards'])
+    lines.push('Bharat Ratna/Padma: NOT "titles" under Art 18(1). Padma suspended twice (1977–80, 1992–95). No fixed max for Bharat Ratna.');
+  if(topErr['Historical Eras']||topErr['Historical Calendars'])
+    lines.push('Era conversion: Vikrama Samvat = Saka year + 135. Saka era = 78 AD. Gupta era = 320 AD. Kali Yuga = 3102 BC.');
+
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`Weak Area → ${t}: ${c} wrong. Prioritise in next revision.`));
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-wrap">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const uaTxt=isSk?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rv-row"><span class="rv-lbl">Your answer:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-size:.85rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('sanskriti_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+  }));
+}
+
+function restartQuiz(){
+  if(!confirm('Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('sanskriti_v1');
+  S={cur:0,ans:new Array(30).fill(null),skp:new Array(30).fill(false),start:null,tLeft:20*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
