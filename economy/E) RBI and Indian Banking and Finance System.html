@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhanagara · Banking & Finance UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#03060f;
+  --bg2:#060c1a;
+  --bg3:#0a1228;
+  --bg4:#0f1a36;
+  --navy:#0d1b40;
+  --b1:#1a73e8;
+  --b2:#4d9ef7;
+  --b3:#8ec5fc;
+  --gold:#e8c84a;
+  --gold2:#f5e090;
+  --gold3:#fff3b0;
+  --teal:#00bcd4;
+  --teal2:#80deea;
+  --ruby:#e53935;
+  --correct:#43a047;
+  --wrong:#e53935;
+  --skip:#fb8c00;
+  --txt:#e8edf8;
+  --txt2:#7080a0;
+  --txt3:#a8b8d8;
+  --border:rgba(26,115,232,.12);
+  --border2:rgba(232,200,74,.18);
+  --r:12px;
+  --r2:20px;
+  --glow-b:0 0 40px rgba(26,115,232,.15);
+  --glow-g:0 0 40px rgba(232,200,74,.12);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* Diagonal lines BG */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:repeating-linear-gradient(
+    -45deg,
+    transparent,transparent 28px,
+    rgba(26,115,232,.025) 28px,
+    rgba(26,115,232,.025) 29px
+  );
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 10% 5%,rgba(26,115,232,.2) 0%,transparent 60%),
+    radial-gradient(ellipse 55% 65% at 90% 90%,rgba(232,200,74,.1) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(0,188,212,.04) 0%,transparent 70%);
+}
+
+/* Floating orbs */
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(60px);
+  animation:orbFloat ease-in-out infinite;
+}
+@keyframes orbFloat{
+  0%,100%{transform:translate(0,0)}
+  33%{transform:translate(20px,-30px)}
+  66%{transform:translate(-15px,20px)}
+}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ═══════════════════
+   START SCREEN
+═══════════════════ */
+#start{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2.5rem 1.5rem;text-align:center;
+}
+
+/* Vault logo */
+.vault-logo{
+  width:96px;height:96px;margin:0 auto 2rem;position:relative;
+}
+.vault-outer{
+  width:100%;height:100%;border-radius:50%;
+  border:2px solid var(--gold);
+  background:radial-gradient(circle at 35% 35%,rgba(232,200,74,.15),transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 30px rgba(232,200,74,.25),0 0 60px rgba(232,200,74,.1),
+             inset 0 0 20px rgba(232,200,74,.05);
+  animation:vaultGlow 4s ease-in-out infinite;
+  position:relative;
+}
+.vault-outer::before{
+  content:'';position:absolute;inset:6px;border-radius:50%;
+  border:1px solid rgba(232,200,74,.3);
+}
+.vault-outer::after{
+  content:'';position:absolute;inset:14px;border-radius:50%;
+  border:1px dashed rgba(232,200,74,.15);
+  animation:vaultSpin 20s linear infinite;
+}
+@keyframes vaultGlow{
+  0%,100%{box-shadow:0 0 20px rgba(232,200,74,.2),0 0 50px rgba(232,200,74,.08)}
+  50%{box-shadow:0 0 40px rgba(232,200,74,.4),0 0 80px rgba(232,200,74,.15)}
+}
+@keyframes vaultSpin{to{transform:rotate(360deg)}}
+.vault-ic{font-size:2.2rem;position:relative;z-index:1}
+
+/* Stagger banner */
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1rem;
+  opacity:0;animation:fadeUp .5s .15s ease forwards;
+}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,10vw,5.8rem);
+  font-weight:900;line-height:.92;
+  margin-bottom:.6rem;
+  opacity:0;animation:fadeUp .5s .3s ease forwards;
+}
+.ht1{
+  display:block;
+  background:linear-gradient(130deg,var(--b2) 0%,var(--teal) 40%,var(--b3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ht2{
+  display:block;font-size:.38em;font-style:italic;font-weight:400;
+  color:var(--gold);-webkit-text-fill-color:var(--gold);
+  letter-spacing:.02em;margin-top:.4rem;
+}
+
+.hero-desc{
+  font-size:.875rem;color:var(--txt2);max-width:460px;
+  margin:0 auto 2.5rem;line-height:2;font-weight:300;
+  opacity:0;animation:fadeUp .5s .45s ease forwards;
+}
+
+/* Ledger stats */
+.ledger{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--border2);border-radius:var(--r2);
+  overflow:hidden;background:rgba(0,0,0,.35);
+  backdrop-filter:blur(18px);margin-bottom:2.5rem;
+  box-shadow:var(--glow-g);
+  opacity:0;animation:fadeUp .5s .6s ease forwards;
+}
+.led-item{
+  padding:1.1rem .9rem;border-right:1px solid var(--border2);
+  display:flex;flex-direction:column;align-items:center;gap:.22rem;
+}
+.led-item:last-child{border-right:none}
+.led-ic{font-size:1rem}
+.led-v{
+  font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:700;
+  color:var(--gold);
+}
+.led-l{font-family:'IBM Plex Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.12em;color:var(--txt2)}
+
+/* Topic pills */
+.pills{
+  display:flex;flex-wrap:wrap;gap:.38rem;justify-content:center;
+  max-width:540px;margin:0 auto 2.8rem;
+  opacity:0;animation:fadeUp .5s .75s ease forwards;
+}
+.pill{
+  font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:500;
+  padding:.26rem .8rem;border-radius:3px;
+  border:1px solid rgba(26,115,232,.3);background:rgba(26,115,232,.07);
+  color:var(--b3);letter-spacing:.02em;
+}
+
+/* CTA */
+.cta{
+  position:relative;overflow:hidden;
+  padding:.95rem 3.2rem;
+  border:1px solid var(--gold);border-radius:4px;
+  font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:700;
+  letter-spacing:.12em;cursor:pointer;transition:all .3s;text-transform:uppercase;
+  background:rgba(232,200,74,.07);color:var(--gold);
+  box-shadow:0 0 24px rgba(232,200,74,.2),0 0 60px rgba(232,200,74,.08);
+  opacity:0;animation:fadeUp .5s .9s ease forwards;
+}
+.cta::before{
+  content:'';position:absolute;top:50%;left:-100%;
+  width:80px;height:200%;background:rgba(232,200,74,.12);
+  transform:translateY(-50%) skewX(-15deg);
+  transition:left .5s;
+}
+.cta:hover::before{left:150%}
+.cta:hover{
+  background:rgba(232,200,74,.14);
+  box-shadow:0 0 50px rgba(232,200,74,.4),0 0 100px rgba(232,200,74,.1);
+  transform:translateY(-3px);
+}
+
+.footnote{
+  margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;
+  color:var(--txt2);letter-spacing:.08em;
+  opacity:0;animation:fadeUp .4s 1.05s ease forwards;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════
+   QUIZ SCREEN
+═══════════════════ */
+#quiz{
+  flex-direction:column;align-items:center;
+  padding:1.3rem 1rem;gap:.85rem;
+}
+.quiz-wrap{max-width:830px;width:100%;display:flex;flex-direction:column;gap:.85rem}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.45rem;
+  padding:.7rem 1.1rem;
+  background:rgba(0,0,0,.45);border:1px solid var(--border);
+  border-radius:var(--r);backdrop-filter:blur(16px);
+}
+.qcount{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--txt2);letter-spacing:.05em}
+.qcount em{color:var(--b2);font-style:normal}
+.timer{
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.82rem;
+  padding:.32rem .88rem;border-radius:3px;
+  background:rgba(26,115,232,.08);border:1px solid rgba(26,115,232,.25);
+  color:var(--b2);transition:.3s;letter-spacing:.1em;
+}
+.timer.danger{
+  background:rgba(229,57,53,.1);border-color:rgba(229,57,53,.35);
+  color:#ef9a9a;animation:blink .55s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sub-early{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;padding:.32rem .75rem;
+  border-radius:3px;background:transparent;border:1px solid var(--border);
+  color:var(--txt2);cursor:pointer;transition:.18s;letter-spacing:.04em;
+}
+.sub-early:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Progress */
+.pbar{height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pfill{
+  height:100%;
+  background:linear-gradient(90deg,var(--b1),var(--teal),var(--gold));
+  border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(26,115,232,.5);
+}
+
+/* Card */
+.qcard{
+  background:linear-gradient(155deg,rgba(10,18,40,.97),rgba(3,6,15,.99));
+  border:1px solid var(--border);border-radius:22px;padding:2rem;
+  box-shadow:var(--glow-b),0 10px 50px rgba(0,0,0,.7),inset 0 1px 0 rgba(26,115,232,.08);
+  animation:cardDrop .38s cubic-bezier(.34,1.45,.64,1);
+  position:relative;overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:-60px;left:-60px;
+  width:220px;height:220px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(26,115,232,.05),transparent 65%);
+}
+.qcard::after{
+  content:'';position:absolute;bottom:-40px;right:-40px;
+  width:160px;height:160px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(232,200,74,.04),transparent 65%);
+}
+@keyframes cardDrop{
+  from{opacity:0;transform:translateY(22px) scale(.973)}
+  to{opacity:1;transform:none}
+}
+
+.qmeta{display:flex;align-items:center;gap:.42rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.qbadge{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:700;
+  letter-spacing:.1em;padding:.22rem .7rem;border-radius:3px;
+  background:rgba(26,115,232,.15);border:1px solid rgba(26,115,232,.3);
+  color:var(--b2);
+}
+.qyr{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  color:var(--gold);background:rgba(232,200,74,.08);
+  padding:.2rem .62rem;border-radius:3px;border:1px solid rgba(232,200,74,.2);
+}
+.qtop{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  color:var(--teal2);background:rgba(0,188,212,.07);
+  border:1px solid rgba(0,188,212,.18);padding:.2rem .62rem;border-radius:3px;
+}
+.qstat{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.54rem;font-weight:700;padding:.2rem .62rem;border-radius:3px}
+.qs-none{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--border)}
+.qs-ans{background:rgba(67,160,71,.1);color:#81c784;border:1px solid rgba(67,160,71,.28)}
+.qs-skp{background:rgba(251,140,0,.08);color:var(--skip);border:1px solid rgba(251,140,0,.22)}
+
+.qtext{
+  font-size:.93rem;line-height:2;color:var(--txt3);margin-bottom:1.4rem;
+  white-space:pre-wrap;font-family:'IBM Plex Sans',sans-serif;
+}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.48rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.82rem;
+  padding:.82rem 1.05rem;
+  background:rgba(26,115,232,.02);border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;cursor:pointer;transition:all .17s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:'IBM Plex Sans',sans-serif;font-size:.865rem;line-height:1.65;
+  position:relative;overflow:hidden;
+}
+.opt::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(26,115,232,.07),transparent);
+  opacity:0;transition:opacity .17s;
+}
+.opt:hover:not(.sel){
+  border-color:rgba(26,115,232,.35);
+  background:rgba(26,115,232,.04);
+}
+.opt:hover:not(.sel)::after{opacity:1}
+.opt.sel{
+  background:rgba(26,115,232,.08);
+  border-color:rgba(26,115,232,.6);
+}
+.opt.sel::after{opacity:1}
+.okey{
+  min-width:26px;height:26px;border-radius:4px;
+  background:rgba(26,115,232,.1);border:1px solid rgba(26,115,232,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.64rem;font-weight:700;
+  color:var(--b2);flex-shrink:0;transition:.17s;position:relative;z-index:1;
+}
+.opt.sel .okey{
+  background:var(--b1);color:#fff;border-color:var(--b1);
+  box-shadow:0 0 10px rgba(26,115,232,.5);
+}
+.otxt{position:relative;z-index:1;color:var(--txt)}
+
+/* Nav */
+.qnav{display:flex;justify-content:space-between;margin-top:1.4rem;gap:.45rem;flex-wrap:wrap}
+.btn{
+  padding:.58rem 1.2rem;border:none;border-radius:5px;
+  font-family:'IBM Plex Sans',sans-serif;font-size:.78rem;font-weight:600;
+  cursor:pointer;transition:all .17s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.22;cursor:not-allowed}
+.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--txt2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.08);color:var(--txt)}
+.btn-skip{background:rgba(251,140,0,.07);border:1px solid rgba(251,140,0,.22);color:var(--skip)}
+.btn-skip:hover{background:rgba(251,140,0,.14)}
+.btn-primary{
+  background:rgba(26,115,232,.12);border:1px solid rgba(26,115,232,.35);color:var(--b2);
+  box-shadow:0 0 14px rgba(26,115,232,.18);
+}
+.btn-primary:hover{background:rgba(26,115,232,.22);box-shadow:0 0 25px rgba(26,115,232,.35)}
+.btn-submit{
+  background:rgba(232,200,74,.1);border:1px solid rgba(232,200,74,.3);color:var(--gold);
+  box-shadow:0 0 12px rgba(232,200,74,.12);
+}
+.btn-submit:hover{background:rgba(232,200,74,.18);box-shadow:0 0 22px rgba(232,200,74,.3)}
+
+/* Dot map */
+.dotmap{display:flex;flex-wrap:wrap;gap:.26rem;max-width:830px;width:100%}
+.dot{
+  width:26px;height:26px;border-radius:4px;border:1px solid var(--border);
+  background:rgba(255,255,255,.025);font-family:'IBM Plex Mono',monospace;
+  font-size:.52rem;font-weight:700;cursor:pointer;color:var(--txt2);transition:.12s;
+}
+.dot:hover{border-color:var(--b2);color:var(--b2)}
+.dot.cur{background:rgba(26,115,232,.2);color:var(--b2);border-color:var(--b1);box-shadow:0 0 8px rgba(26,115,232,.4)}
+.dot.d-ans{background:rgba(67,160,71,.1);color:#81c784;border-color:rgba(67,160,71,.3)}
+.dot.d-skp{background:rgba(251,140,0,.08);color:var(--skip);border-color:rgba(251,140,0,.25)}
+
+/* ════ MODAL ════ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(1,3,10,.9);backdrop-filter:blur(20px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(155deg,#0a1228,#06091a);
+  border:1px solid var(--border2);border-radius:20px;
+  padding:2.5rem;max-width:390px;width:100%;text-align:center;
+  box-shadow:0 0 60px rgba(232,200,74,.1),0 30px 80px rgba(0,0,0,.85);
+  animation:mpop .28s cubic-bezier(.34,1.5,.64,1);
+}
+@keyframes mpop{from{transform:scale(.83);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-ic{font-size:2.4rem;margin-bottom:.8rem;display:block}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--txt);margin-bottom:.6rem}
+.modal p{color:var(--txt2);font-size:.8rem;line-height:1.9;margin-bottom:1.7rem;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.6rem;justify-content:center}
+
+/* ═══════════════════
+   RESULTS SCREEN
+═══════════════════ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-wrap{max-width:900px;width:100%}
+
+.res-hero{
+  background:linear-gradient(155deg,rgba(10,18,40,.97),rgba(3,6,15,.99));
+  border:1px solid rgba(232,200,74,.15);border-radius:24px;
+  padding:3rem 2rem;text-align:center;margin-bottom:1rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 55% at 50% 100%,rgba(26,115,232,.06),transparent),
+    radial-gradient(ellipse 45% 50% at 0% 0%,rgba(232,200,74,.06),transparent);
+}
+
+.score-wrap{position:relative;width:152px;height:152px;margin:0 auto 1.4rem}
+.score-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.r-bg{fill:none;stroke:rgba(255,255,255,.04);stroke-width:6}
+.r-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1.7s cubic-bezier(.4,0,.2,1)}
+.score-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.score-num{
+  font-family:'Playfair Display',serif;font-size:2.7rem;font-weight:900;line-height:1;
+  color:var(--gold);
+}
+.score-den{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--txt2)}
+
+.res-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.3rem,4vw,2rem);font-weight:700;
+  color:var(--txt);margin-bottom:.35rem;position:relative;z-index:1;
+}
+.res-sub{color:var(--txt2);font-size:.8rem;margin-bottom:1.1rem;position:relative;z-index:1}
+.grade-tag{
+  display:inline-block;
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:700;
+  padding:.35rem 1.35rem;border-radius:3px;margin-bottom:.4rem;
+  position:relative;z-index:1;letter-spacing:.07em;
+}
+.pct-note{font-family:'IBM Plex Mono',monospace;color:var(--txt2);font-size:.62rem;position:relative;z-index:1}
+
+/* Stats grid */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:.9rem;
+}
+@media(max-width:450px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sbox{
+  background:rgba(0,0,0,.3);border:1px solid var(--border);
+  border-radius:13px;padding:1rem .8rem;text-align:center;
+  backdrop-filter:blur(6px);transition:.18s;
+}
+.sbox:hover{transform:translateY(-3px);border-color:rgba(26,115,232,.25)}
+.sico{font-size:1.15rem;margin-bottom:.22rem}
+.sval{
+  font-family:'IBM Plex Mono',monospace;font-size:1.3rem;font-weight:700;
+  margin-bottom:.1rem;
+}
+.slbl{font-family:'IBM Plex Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2)}
+
+/* Analysis */
+.analysis{
+  background:rgba(0,0,0,.22);border:1px solid rgba(26,115,232,.18);
+  border-radius:15px;padding:1.3rem;margin-bottom:.9rem;
+  backdrop-filter:blur(6px);
+}
+.an-hd{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:700;
+  color:var(--b2);margin-bottom:.8rem;
+  display:flex;align-items:center;gap:.45rem;letter-spacing:.08em;text-transform:uppercase;
+}
+.an-line{
+  font-size:.79rem;color:var(--txt2);margin-bottom:.48rem;
+  line-height:1.78;padding-left:.82rem;
+  border-left:2px solid rgba(26,115,232,.25);
+}
+.weak-row{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:.65rem}
+.wt{
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:700;
+  padding:.15rem .55rem;border-radius:2px;
+  background:rgba(229,57,53,.08);color:#ef9a9a;
+  border:1px solid rgba(229,57,53,.18);
+}
+
+/* Tabs */
+.tabs{
+  display:flex;gap:.18rem;background:rgba(0,0,0,.22);
+  border:1px solid var(--border);border-radius:9px;padding:.22rem;margin-bottom:.75rem;
+}
+.tab{
+  flex:1;padding:.4rem;border:none;border-radius:7px;
+  background:transparent;font-family:'IBM Plex Mono',monospace;
+  font-size:.6rem;font-weight:700;cursor:pointer;color:var(--txt2);transition:.17s;
+  letter-spacing:.04em;
+}
+.tab.on{
+  background:rgba(26,115,232,.12);color:var(--b2);
+  border:1px solid rgba(26,115,232,.25);
+}
+
+/* Review cards */
+.rev-card{
+  background:rgba(0,0,0,.22);border:1px solid var(--border);
+  border-radius:13px;padding:1.2rem;margin-bottom:.6rem;
+  border-left:3px solid transparent;
+  animation:cardDrop .25s ease;transition:transform .17s;
+}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--wrong)}
+.rev-card.rs{border-left-color:var(--skip)}
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.32rem;margin-bottom:.6rem}
+.rv-n{font-family:'IBM Plex Mono',monospace;font-size:.56rem;padding:.15rem .48rem;border-radius:2px;background:rgba(255,255,255,.05);color:var(--txt2)}
+.rv-yr{font-family:'IBM Plex Mono',monospace;font-size:.56rem;color:var(--gold);background:rgba(232,200,74,.07);padding:.15rem .48rem;border-radius:2px;border:1px solid rgba(232,200,74,.18)}
+.rv-badge{font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:700;padding:.15rem .52rem;border-radius:2px}
+.rv-badge.rc{background:rgba(67,160,71,.1);color:#a5d6a7}
+.rv-badge.rw{background:rgba(229,57,53,.1);color:#ef9a9a}
+.rv-badge.rs{background:rgba(251,140,0,.08);color:var(--skip)}
+.rv-topic{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.52rem;color:var(--teal2);background:rgba(0,188,212,.07);padding:.15rem .48rem;border-radius:2px}
+.rv-q{font-size:.8rem;color:var(--txt2);margin-bottom:.72rem;line-height:1.82;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.76rem;margin-bottom:.22rem;align-items:flex-start}
+.rv-lbl{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:700;min-width:105px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#a5d6a7}
+.rv-val.bad{color:#ef9a9a}
+.rv-exp{
+  margin-top:.65rem;padding:.75rem .95rem;
+  background:rgba(26,115,232,.06);border:1px solid rgba(26,115,232,.15);
+  border-radius:8px;font-size:.77rem;color:var(--txt2);line-height:1.78;
+}
+.rv-exp strong{color:var(--b3)}
+
+.res-actions{display:flex;gap:.75rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap}
+.btn-red{
+  background:rgba(229,57,53,.08);border:1px solid rgba(229,57,53,.25);color:#ef9a9a;
+  padding:.68rem 1.5rem;border-radius:5px;
+  font-family:'IBM Plex Sans',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:.18s;
+}
+.btn-red:hover{background:rgba(229,57,53,.18)}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(26,115,232,.3);border-radius:10px}
+
+@media(max-width:580px){
+  .ledger{grid-template-columns:repeat(2,1fr)}
+  .led-item:nth-child(2){border-right:none}
+  .led-item:nth-child(1),.led-item:nth-child(2){border-bottom:1px solid var(--border2)}
+  .qcard{padding:1.25rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.45rem}
+  .sub-early{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Floating orbs -->
+<div class="orbs">
+  <div class="orb" style="width:300px;height:300px;left:-100px;top:100px;background:rgba(26,115,232,.06);animation-duration:18s;animation-delay:0s"></div>
+  <div class="orb" style="width:200px;height:200px;right:-50px;top:300px;background:rgba(232,200,74,.05);animation-duration:14s;animation-delay:-5s"></div>
+  <div class="orb" style="width:250px;height:250px;left:40%;bottom:100px;background:rgba(0,188,212,.04);animation-duration:22s;animation-delay:-8s"></div>
+</div>
+
+<!-- ═══ START ═══ -->
+<div id="start" class="screen active">
+  <div class="vault-logo">
+    <div class="vault-outer"><div class="vault-ic">🏦</div></div>
+  </div>
+
+  <p class="eyebrow">UPSC Prelims · Indian Economy · Banking & Finance</p>
+
+  <h1 class="hero-title">
+    <span class="ht1">Dhanagara</span>
+    <span class="ht2">Banking, Finance & Monetary Policy</span>
+  </h1>
+  <p class="hero-desc">59 authentic UPSC questions on RBI, commercial banks, digital payments, financial inclusion, NBFC, priority sector lending, and monetary instruments.</p>
+
+  <div class="ledger">
+    <div class="led-item"><div class="led-ic">📋</div><div class="led-v">59</div><div class="led-l">Questions</div></div>
+    <div class="led-item"><div class="led-ic">⏱</div><div class="led-v">40 min</div><div class="led-l">Timer</div></div>
+    <div class="led-item"><div class="led-ic">📅</div><div class="led-v">1995–2023</div><div class="led-l">PYQ Era</div></div>
+    <div class="led-item"><div class="led-ic">⚖️</div><div class="led-v">+2/−0.66</div><div class="led-l">Marking</div></div>
+  </div>
+
+  <div class="pills">
+    <span class="pill">🏛️ RBI Functions</span>
+    <span class="pill">💳 Digital Payments</span>
+    <span class="pill">🤝 Financial Inclusion</span>
+    <span class="pill">📊 Basel Norms</span>
+    <span class="pill">🏘️ Priority Sector</span>
+    <span class="pill">💰 MUDRA / SHG</span>
+    <span class="pill">🔐 Banking Reforms</span>
+    <span class="pill">📱 UPI / BHIM / NPS</span>
+  </div>
+
+  <button class="cta" onclick="startQuiz()">◆ &nbsp;BEGIN QUIZ</button>
+  <p class="footnote">[ AUTO-SAVE ENABLED · RESUME ANYTIME ]</p>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Q <em id="qCur">1</em> / <em id="qTot">59</em></div>
+      <div class="timer" id="timerEl">40:00</div>
+      <button class="sub-early" onclick="showMod()">SUBMIT EARLY</button>
+    </div>
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qbadge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtop" id="qTop">—</span>
+        <span class="qstat qs-none" id="qStat">UNANSWERED</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.42rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← PREV</button>
+          <button class="btn btn-skip" onclick="skipQ()">SKIP</button>
+        </div>
+        <div style="display:flex;gap:.42rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">NEXT →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">SUBMIT ✓</button>
+        </div>
+      </div>
+    </div>
+    <div class="dotmap" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-wrap">
+        <svg viewBox="0 0 120 120">
+          <circle class="r-bg" cx="60" cy="60" r="50"/>
+          <circle class="r-fill" id="ringArc" cx="60" cy="60" r="50"
+            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="score-inner">
+          <div class="score-num" id="rScore">0</div>
+          <div class="score-den">/59</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="grade-tag" id="rGrade"></div>
+      <div class="pct-note" id="rPct"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sbox"><div class="sico">✓</div><div class="sval" id="stC" style="color:var(--correct)">0</div><div class="slbl">Correct</div></div>
+      <div class="sbox"><div class="sico">✗</div><div class="sval" id="stW" style="color:var(--wrong)">0</div><div class="slbl">Wrong</div></div>
+      <div class="sbox"><div class="sico">—</div><div class="sval" id="stS" style="color:var(--skip)">0</div><div class="slbl">Skipped</div></div>
+      <div class="sbox"><div class="sico">◎</div><div class="sval" id="stAcc">0%</div><div class="slbl">Accuracy</div></div>
+      <div class="sbox"><div class="sico">⏱</div><div class="sval" id="stTime">—</div><div class="slbl">Time Used</div></div>
+      <div class="sbox"><div class="sico">∿</div><div class="sval" id="stAvg">—</div><div class="slbl">Avg/Q</div></div>
+    </div>
+
+    <div class="analysis">
+      <div class="an-hd">◆ PERFORMANCE ANALYSIS</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">ALL (59)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ CORRECT</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ WRONG</button>
+      <button class="tab" onclick="setTab('skipped',this)">— SKIPPED</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-red" onclick="restartQuiz()">↺ RESTART</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ TOP</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-ic">🏦</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">CANCEL</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">SUBMIT ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L=['A','B','C','D'];
+
+const Q=[
+  {id:1,yr:'2023',topic:'MSME Policy',
+   text:'Consider the following statements with reference to India:\n1. According to the MSMED Act, 2006, the "medium enterprises" are those with investments in plant and machinery between ₹15 crore and ₹25 crore.\n2. All bank loans to MSMEs qualify under the priority sector.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1 is WRONG — Under the original MSMED Act 2006, medium enterprises had investment between ₹5 crore–₹10 crore (services) and ₹5 crore–₹10 crore (manufacturing). The current revised limits (2020 revision) are different. Statement 2 is CORRECT — All bank loans to MSMEs are classified under priority sector lending (PSL) as per RBI guidelines.'},
+
+  {id:2,yr:'2023',topic:'Digital Currency',
+   text:'With reference to Central Bank digital currencies (CBDCs), consider:\n1. It is possible to make payments in a digital currency without using US dollar or SWIFT system.\n2. A digital currency can be distributed with a condition programmed into it such as a time-frame for spending it.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'Both are correct. CBDCs enable direct bilateral settlements between countries, bypassing SWIFT and dollar dependency (Statement 1 ✓). This was demonstrated by Russia–China trade settlements using local digital currencies. CBDCs are programmable — they can embed conditions like expiry dates (time-frame for spending), ensuring targeted use of government transfers (Statement 2 ✓). India\'s e-Rupee (launched 2022) embodies both features.'},
+
+  {id:3,yr:'2023',topic:'Self-Help Groups',
+   text:'Consider the following statements about SHGs:\n1. The SHG programme was originally initiated by the State Bank of India by providing microcredit to the financially deprived.\n2. In an SHG, all members of a group take responsibility for a loan that an individual member takes.\n3. The Regional Rural Banks and Scheduled Commercial Banks support SHGs.\n\nHow many are correct?',
+   opts:['Only one','Only two','All three','None'],
+   ans:1,
+   exp:'Statement 1 is WRONG — The SHG-Bank Linkage Programme was initiated by NABARD (not SBI) in 1992, with RBI\'s policy support. Statement 2 is CORRECT — SHGs operate on group guarantee / joint liability; all members collectively guarantee each loan. Statement 3 is CORRECT — Both RRBs and SCBs actively extend credit to SHGs under NABARD\'s programme. Two statements (2 and 3) are correct.'},
+
+  {id:4,yr:'2022',topic:'Credit Rating',
+   text:'Consider the following statements:\n1. In India, credit rating agencies are regulated by the Reserve Bank of India.\n2. The rating agency popularly known as ICRA is a public limited company.\n3. Brickwork Ratings is an Indian credit rating agency.\n\nWhich are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:1,
+   exp:'Statement 1 is WRONG — Credit Rating Agencies in India are regulated by SEBI (Securities and Exchange Board of India), NOT the RBI. Statement 2 is CORRECT — ICRA Limited (formerly Investment Information and Credit Rating Agency) is indeed a public limited company listed on BSE/NSE. Statement 3 is CORRECT — Brickwork Ratings is an Indian CRA registered with SEBI. So 2 and 3 are correct.'},
+
+  {id:5,yr:'2022',topic:'Banks Board Bureau',
+   text:'With reference to the Banks Board Bureau (BBB), which statements are correct?\n1. The Governor of RBI is the Chairman of BBB.\n2. BBB recommends for the selection of heads for Public Sector Banks.\n3. BBB helps the Public Sector Banks in developing strategies and capital raising plans.',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:1,
+   exp:'Statement 1 is WRONG — The BBB is chaired by a government-appointed Chairman (not the RBI Governor). It was first chaired by Vinod Rai. Statement 2 is CORRECT — BBB recommends appointment of Directors/Heads of PSBs to the Government. Statement 3 is CORRECT — BBB advises PSBs on strategies, governance improvements and capital raising. Hence 2 and 3 are correct.'},
+
+  {id:6,yr:'2021',topic:'RBI Governance',
+   text:'Consider the following statements:\n1. The Governor of the RBI is appointed by the Central Government.\n2. Certain provisions in the Constitution of India give the Central Government the right to issue directions to the RBI in public interest.\n3. The Governor of the RBI draws his power from the RBI Act.\n\nWhich are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:2,
+   exp:'Statement 1 is CORRECT — The RBI Governor is appointed by the Central Government (Cabinet Committee on Appointments). Statement 2 is WRONG — There is NO specific provision in the Constitution granting the Central Government the right to issue directions to RBI; this power comes from the RBI Act, Section 7. Statement 3 is CORRECT — The Governor\'s powers are derived from the RBI Act, 1934. So 1 and 3 are correct.'},
+
+  {id:7,yr:'2021',topic:'Urban Cooperative Banks',
+   text:'With reference to urban cooperative banks in India:\n1. They are supervised and regulated by local boards set up by the state governments.\n2. They can issue equity shares and preference shares.\n3. They were brought under the Banking Regulation Act, 1949 through an Amendment in 1966.\n\nWhich is/are correct?',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:1,
+   exp:'Statement 1 is WRONG — Urban Cooperative Banks are regulated by RBI (for banking operations) and the Registrar of Cooperative Societies (for cooperative functions) — NOT local boards. Statement 2 is CORRECT — UCBs can issue equity and preference shares to their members. Statement 3 is CORRECT — The Banking Laws (Application to Cooperative Societies) Act 1965 (effective 1966) brought UCBs under the Banking Regulation Act. So 2 and 3 are correct.'},
+
+  {id:8,yr:'2021',topic:'RBI as Lender of Last Resort',
+   text:'In India, the central bank\'s function as the "lender of last resort" usually refers to:\n1. Lending to trade and industry bodies when they fail to borrow from other sources\n2. Providing liquidity to the banks having a temporary crisis\n3. Lending to governments to finance budgetary deficits\n\nSelect correct answer:',
+   opts:['1 and 2','2 only','2 and 3 only','3 only'],
+   ans:1,
+   exp:'The "lender of last resort" function means the RBI provides emergency liquidity to commercial banks (and other financial institutions) that face temporary liquidity crises and cannot borrow elsewhere. It does NOT mean lending to trade/industry (that\'s commercial banking) or to government (that\'s WMA/ways and means advances, a different function). Only option 2 — providing liquidity to banks in temporary crisis — is the correct description.'},
+
+  {id:9,yr:'2019',topic:'Lead Bank Scheme',
+   text:'The Service Area Approach was implemented under the purview of:',
+   opts:['Integrated Rural Development Programme','Lead Bank Scheme','Mahatma Gandhi National Rural Employment Guarantee Scheme','National Skill Development Mission'],
+   ans:1,
+   exp:'The Service Area Approach (SAA) was introduced in 1989 under the Lead Bank Scheme. Under SAA, each bank branch in rural areas was assigned a specific "service area" (cluster of villages) for which it was responsible for meeting all credit needs and developing area-based annual credit plans. It was later modified in 2004 to make it more flexible.'},
+
+  {id:10,yr:'2019',topic:'Bank Balance Sheet',
+   text:'Which of the following is NOT included in the assets of a commercial bank in India?',
+   opts:['Advances','Deposits','Investments','Money at call and short notice'],
+   ans:1,
+   exp:'A commercial bank\'s ASSETS include: Cash & Balances with RBI, Balances with Banks/Money at Call (short-term lending), Investments (in govt securities etc.), Advances (loans given to customers). DEPOSITS are LIABILITIES of a bank — they represent money owed to depositors, not assets. Hence "Deposits" is NOT an asset.'},
+
+  {id:11,yr:'2020',topic:'Agriculture Credit',
+   text:'Consider the following statements:\n1. In terms of short-term credit delivery to agriculture, District Central Cooperative Banks (DCCBs) deliver more credit than Scheduled Commercial Banks and Regional Rural Banks.\n2. One of the most important functions of DCCBs is to provide funds to the Primary Agricultural Credit Societies.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1 is WRONG — Commercial Banks actually disburse the MOST credit to agriculture. DCCBs\' share, while significant in rural cooperative structure, is lower than that of commercial banks. Statement 2 is CORRECT — The primary function of DCCBs is to act as a link between State Cooperative Banks (at the apex) and Primary Agricultural Credit Societies (PACS) at the village level, providing them funds. Hence only Statement 2 is correct.'},
+
+  {id:12,yr:'2019',topic:'Banking Reforms',
+   text:'What was the purpose of Inter-Creditor Agreement signed by Indian banks and financial institutions recently?',
+   opts:['To lessen the Government\'s burden of fiscal deficit and current account deficit','To support infrastructure projects of Central and State Governments','To act as independent regulator in case of loans of ₹50 crore or more','To aim at faster resolution of stressed assets of ₹50 crore or more under consortium lending'],
+   ans:3,
+   exp:'The Inter-Creditor Agreement (ICA) was a framework introduced under the Sashakt Committee\'s recommendations (2018) specifically to enable faster resolution of stressed assets (NPAs) worth ₹50 crore or more that involve multiple lenders (consortium lending). Under ICA, the majority lenders (67% by value) can override dissenting minority lenders to resolve stressed accounts faster outside IBC/court process.'},
+
+  {id:13,yr:'2019',topic:'PSB Governance',
+   text:'The Chairmen of public sector banks are selected by the:',
+   opts:['Banks Board Bureau','Reserve Bank of India','Union Ministry of Finance','Management of concerned bank'],
+   ans:0,
+   exp:'The Banks Board Bureau (BBB), constituted by the Government of India in 2016, is mandated to recommend appointments of full-time Directors (including Chairman & MD / CEO) of Public Sector Banks and Public Sector Financial Institutions. The final appointment is made by the Government based on BBB\'s recommendation.'},
+
+  {id:14,yr:'2019',topic:'Data Privacy',
+   text:'RBI\'s directives on "Storage of Payment System Data" ("data diktat") command that:\n1. Entire data relating to payment systems shall be stored in a system only in India\n2. Systems are owned and operated by public sector enterprises\n3. Consolidated system audit report shall be submitted to CAG by end of calendar year\n\nWhich is/are correct?',
+   opts:['1 only','1 and 2 only','3 only','1, 2 and 3'],
+   ans:0,
+   exp:'RBI\'s April 2018 circular on Payment System Data mandated that ALL payment system data must be stored EXCLUSIVELY in India (data localisation) within 6 months. This was the core directive. Statement 2 is WRONG — no requirement that systems be owned by PSEs (private companies like Visa, Mastercard, PhonePe are included). Statement 3 is WRONG — reports go to RBI, not CAG. Only Statement 1 is correct.'},
+
+  {id:15,yr:'2018',topic:'ATM Network',
+   text:'Which one of the following links all the ATMs in India?',
+   opts:['Indian Bank\'s Association','National Securities Depository Ltd.','National Payments Corporation of India','Reserve Bank of India'],
+   ans:2,
+   exp:'NPCI (National Payments Corporation of India) operates the National Financial Switch (NFS), which is the network that interconnects all ATMs in India, enabling interbank ATM transactions. NFS is the largest ATM network in the world by number of connected ATMs. NPCI also operates RuPay, UPI, IMPS, NACH, and other payment infrastructure.'},
+
+  {id:16,yr:'2018',topic:'Capital Adequacy',
+   text:'Consider the following statements:\n1. Capital Adequacy Ratio (CAR) is the amount that banks have to maintain in the form of their own funds to offset any loss if account holders fail to repay dues.\n2. CAR is decided by each individual bank.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,
+   exp:'Statement 1 is CORRECT — CAR (also called CRAR - Capital to Risk-weighted Assets Ratio) is indeed the proportion of a bank\'s own capital/funds maintained as a cushion against potential losses from loan defaults and asset write-offs. Statement 2 is WRONG — CAR is NOT set by individual banks; it is mandated by the RBI (in India) following Basel Accords. Currently India requires minimum 9% CAR (Basel III: 10.875% including buffers). Hence only Statement 1.'},
+
+  {id:17,yr:'2018',topic:'Digital Payments',
+   text:'With reference to digital payments:\n1. BHIM app allows the user to transfer money to anyone with a UPI-enabled bank account.\n2. While a chip-pin debit card has four factors of authentication, BHIM app has only two factors of authentication.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,
+   exp:'Statement 1 is CORRECT — BHIM (Bharat Interface for Money) app works on UPI (Unified Payments Interface) and enables money transfer to any UPI-enabled bank account using UPI ID / mobile number / QR code. Statement 2 is WRONG — A chip-pin debit card typically has TWO factors: card (something you have) + PIN (something you know). BHIM app also has TWO factors: mobile/device + UPI PIN. Neither has four factors. So only Statement 1 is correct.'},
+
+  {id:18,yr:'2018',topic:'Digital Payments',
+   text:'Which of the following best describes the term "Merchant Discount Rate" (MDR)?',
+   opts:['The incentive given by a Bank to a merchant for accepting payments through debit cards.',
+         'The amount paid by bank to customers when they pay by debit cards.',
+         'The charge to a merchant by a bank for accepting payments from customers through the bank\'s debit card.',
+         'The incentive given by the Government to merchants for promoting digital payments through PoS machines.'],
+   ans:2,
+   exp:'MDR (Merchant Discount Rate) is a fee that a merchant pays to the bank/payment processor for the service of accepting card/digital payments. For example, if MDR is 0.5% and a customer pays ₹1000, the merchant receives ₹995 and ₹5 goes to the bank. This is NOT an incentive — it is a CHARGE levied on merchants. The Government of India has periodically revised/waived MDR for small merchants to promote digital payments.'},
+
+  {id:19,yr:'2018',topic:'PSB Reforms',
+   text:'Consider the following statements on governance of public sector banking:\n1. Capital infusion into public sector banks by the Government of India has steadily increased in the last decade.\n2. To put PSBs in order, the merger of associate Banks with the parent State Bank of India has been effected.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1 is WRONG — Capital infusion was not "steadily increasing"; it varied year to year and actually saw massive infusions only after the NPA crisis of 2015-18. In some earlier years it was minimal. Statement 2 is CORRECT — The five associate banks (SBI Hyderabad, SBI Mysore, SBI Travancore, SBI Patiala, SBI Bikaner & Jaipur) and Bharatiya Mahila Bank were merged with SBI effective 1 April 2017. Hence only Statement 2.'},
+
+  {id:20,yr:'2017',topic:'Pension Schemes',
+   text:'Who among the following can join the National Pension System (NPS)?',
+   opts:['Resident Indian citizens only',
+         'Persons of age from 21 to 55 only',
+         'All State Government employees joining the services after the date of notification by the respective State Governments',
+         'All Central Government employees including those of Armed Forces joining the services on or after 1st April, 2004'],
+   ans:2,
+   exp:'NPS was made mandatory for Central Government employees (excluding Armed Forces) joining on or after 1 January 2004. State Governments can notify NPS for their employees, and it applies from the date of their notification. Option C correctly captures this — State Government employees join NPS after state notification. Option D is WRONG because Armed Forces are EXCLUDED from NPS (they have separate pension arrangements).'},
+
+  {id:21,yr:'2017',topic:'Small Finance Banks',
+   text:'What is the purpose of setting up Small Finance Banks (SFBs) in India?\n1. To supply credit to small business units\n2. To supply credit to small and marginal farmers\n3. To encourage young entrepreneurs to set up business particularly in rural areas.',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:0,
+   exp:'SFBs were licensed by RBI (2015-16) with the mandate to: primarily serve underserved sections — small business units, marginal farmers, micro and small industries, unorganised sector entities. Statement 1 (small businesses) and Statement 2 (small/marginal farmers) are the stated objectives. Statement 3 (encouraging young entrepreneurs particularly in rural areas) is NOT a stated objective of SFBs in RBI\'s licensing framework.'},
+
+  {id:22,yr:'2017',topic:'UPI Payments',
+   text:'Which of the following is a most likely consequence of implementing the Unified Payments Interface (UPI)?',
+   opts:['Mobile wallets will not be necessary for online payments.',
+         'Digital currency will totally replace the physical currency in about two decades.',
+         'FDI inflows will drastically increase.',
+         'Direct transfer of subsidies to poor people will become very effective.'],
+   ans:0,
+   exp:'UPI (launched 2016 by NPCI) enables direct bank-to-bank payments through mobile phones using a UPI ID. Since UPI allows instant money transfer directly from bank accounts, pre-loaded mobile wallets (like Paytm wallet, etc.) become less necessary — users can pay directly from their bank accounts without maintaining separate wallet balances. This has indeed happened with many wallet users shifting to UPI. Hence option A is the most likely direct consequence.'},
+
+  {id:23,yr:'2017',topic:'NPA Resolution',
+   text:'Which of the following best describes the "Scheme for Sustainable Structuring of Stressed Assets (S4A)"?',
+   opts:['A procedure for considering ecological costs of developmental schemes.',
+         'A scheme of RBI for reworking the financial structure of big corporate entities facing genuine difficulties.',
+         'A disinvestment plan of the Government regarding Central PSUs.',
+         'An important provision in The Insolvency and Bankruptcy Code.'],
+   ans:1,
+   exp:'S4A (Scheme for Sustainable Structuring of Stressed Assets) was introduced by RBI in 2016 as a resolution framework for large corporate NPAs. Under S4A, the debt of stressed corporate borrowers was divided into "sustainable debt" (which the borrower can service) and "unsustainable debt" (converted to equity/quasi-equity). It was RBI\'s tool for restructuring finances of big corporates in genuine difficulty, before IBC became the primary mechanism.'},
+
+  {id:24,yr:'2017',topic:'NPCI & RuPay',
+   text:'Consider the following statements:\n1. National Payments Corporation of India (NPCI) helps in promoting financial inclusion in the country.\n2. NPCI has launched RuPay, a card payment scheme.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'Both statements are CORRECT. NPCI (set up in 2008 by RBI and IBA) is India\'s umbrella organisation for retail payment and settlement systems. It promotes financial inclusion through platforms like NACH, IMPS, UPI, Aadhaar Payment Bridge, and BHIM. RuPay is indeed a domestic card payment network launched by NPCI in 2012 as India\'s own alternative to Visa/Mastercard. RuPay cards are extensively used under Jan Dhan Yojana.'},
+
+  {id:25,yr:'2016',topic:'Core Banking',
+   text:'Which of the following statements best describe/describes "Core Banking Solutions" (CBS)?\n1. It is a networking of a bank\'s branches which enables customers to operate their accounts from any branch regardless of where they opened their accounts.\n2. It is an effort to increase RBI\'s control over commercial banks through computerization.\n3. It is a detailed procedure by which a bank with huge NPAs is taken over by another bank.',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:0,
+   exp:'Core Banking Solution (CBS) is a back-end banking system that connects all branches of a bank on a centralised platform. Customers can perform banking transactions from ANY branch or online, regardless of the branch where they opened their account. Statement 1 is CORRECT. Statement 2 is WRONG — CBS is about bank IT infrastructure, not RBI\'s control mechanism. Statement 3 is WRONG — that describes bank mergers/acquisitions, not CBS. Only Statement 1 is correct.'},
+
+  {id:26,yr:'2016',topic:'Pension Schemes',
+   text:'Regarding Atal Pension Yojana, which is/are correct?\n1. It is a minimum guaranteed pension scheme mainly targeted at unorganized sector workers.\n2. Only one member of a family can join the scheme.\n3. Same amount of pension is guaranteed for the spouse for life after subscriber\'s death.',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:2,
+   exp:'Statement 1 is CORRECT — APY targets unorganised sector workers (18-40 years), offering guaranteed minimum pension of ₹1,000–₹5,000/month at age 60. Statement 2 is WRONG — Both spouses can independently join APY (though one account per person). There is no family restriction. Statement 3 is CORRECT — After the subscriber\'s death, the spouse receives the same pension amount. After both die, the accumulated corpus goes to the nominee. So 1 and 3 are correct.'},
+
+  {id:27,yr:'2016',topic:'Lending Rates',
+   text:'What is/are the purpose/purposes of the "Marginal Cost of Funds based Lending Rate (MCLR)" announced by RBI?\n1. These guidelines help improve transparency in the methodology followed by banks for determining interest rates on advances.\n2. These guidelines help ensure availability of bank credit at interest rates which are fair to both borrowers and banks.',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'MCLR (introduced January 2016) replaced the base rate system. Both purposes stated are CORRECT. MCLR improved transparency by linking lending rates to the bank\'s actual marginal cost of funds (deposits, RBI borrowing) rather than average costs — making rate determination methodology clearer. It also ensured faster pass-through of RBI rate cuts to borrowers, making rates fairer. Both statements 1 and 2 are correct objectives of MCLR.'},
+
+  {id:28,yr:'2016',topic:'MUDRA Yojana',
+   text:'Pradhan Mantri MUDRA Yojana is aimed at:',
+   opts:['Bringing the small entrepreneurs into formal financial system',
+         'Providing loans to poor farmers for cultivating particular crops',
+         'Providing pensions to old and destitute persons',
+         'Funding voluntary organizations involved in skill development and employment generation'],
+   ans:0,
+   exp:'MUDRA (Micro Units Development and Refinance Agency) Yojana, launched in April 2015, provides loans up to ₹10 lakh (now ₹20 lakh) to non-corporate, non-farm small/micro enterprises through three categories — Shishu (up to ₹50,000), Kishore (₹50,000–₹5 lakh), and Tarun (₹5–₹10 lakh). The primary aim is to bring small entrepreneurs (petty traders, shopkeepers, artisans) into the formal financial system.'},
+
+  {id:29,yr:'2016',topic:'Payment Banks',
+   text:'Regarding Payment Banks being allowed in India:\n1. Mobile telephone companies and supermarket chains owned and controlled by residents are eligible to be promoters.\n2. Payment Banks can issue both credit cards and debit cards.\n3. Payment Banks cannot undertake lending activities.\n\nWhich is/are correct?',
+   opts:['1 and 2 only','1 and 3 only','2 only','1, 2 and 3'],
+   ans:1,
+   exp:'Statement 1 is CORRECT — RBI\'s Payment Bank guidelines allow mobile companies (Airtel, Jio, etc.), supermarkets/retail chains, and other entities owned by residents to be promoters. Statement 2 is WRONG — Payment Banks CANNOT issue credit cards (no lending); they can issue only DEBIT cards/prepaid payment instruments. Statement 3 is CORRECT — Payment Banks cannot extend loans or credit facilities. They can only accept deposits (up to ₹2 lakh/customer) and provide payment services. So 1 and 3 are correct.'},
+
+  {id:30,yr:'2015',topic:'Financial Inclusion',
+   text:'Pradhan Mantri Jan Dhan Yojana has been launched for:',
+   opts:['Providing housing loan to poor people at cheaper interest rates',
+         'Promoting women\'s Self Help Groups in backward areas',
+         'Promoting financial inclusion in the country',
+         'Providing financial help to marginalised communities'],
+   ans:2,
+   exp:'PMJDY (launched August 28, 2014) is India\'s flagship financial inclusion mission aimed at ensuring access to financial services — banking/savings accounts, remittance, credit, insurance, pension — to every household. It achieved over 50 crore bank account openings. It includes a zero-balance savings account, RuPay debit card with ₹2 lakh accident cover, and ₹30,000 life insurance cover. The core objective is financial inclusion.'},
+
+  {id:31,yr:'2015',topic:'Basel Norms',
+   text:'"Basel III Accord" seeks to:',
+   opts:['Develop national strategies for conservation and sustainable use of biodiversity',
+         'Improve banking sector\'s ability to deal with financial and economic stress and improve risk management',
+         'Reduce greenhouse gas emissions but place heavier burden on developed countries',
+         'Transfer technology from developed countries to poor countries to replace CFCs in refrigeration'],
+   ans:1,
+   exp:'Basel III is the third edition of the Basel Accords — international banking supervision framework developed by the Basel Committee on Banking Supervision (BCBS). Post the 2008 global financial crisis, Basel III (2010) focused on: improving quality and quantity of bank capital, introducing liquidity standards (LCR, NSFR), leverage ratio requirements, and strengthening banks\' ability to absorb financial shocks and manage systemic risk. Options A, C, D refer to biodiversity (CBD), climate (Kyoto/Paris), and ozone (Montreal Protocol) respectively.'},
+
+  {id:32,yr:'2014',topic:'Banking Terminology',
+   text:'The terms "Marginal Standing Facility Rate" and "Net Demand and Time Liabilities", sometimes appearing in news, are used in relation to:',
+   opts:['Banking operations','Communications networking','Military strategies','Supply and demand of agricultural products'],
+   ans:0,
+   exp:'Both terms are core banking/monetary policy concepts. Marginal Standing Facility (MSF) Rate is the rate at which scheduled commercial banks can borrow overnight funds from RBI against government securities — it is 25 bps above the Repo rate. Net Demand and Time Liabilities (NDTL) is the total demand deposits, time deposits, and other liabilities of a bank, used for computing CRR and SLR requirements. Both are banking operations terminology.'},
+
+  {id:33,yr:'2014',topic:'Business Correspondent',
+   text:'What facilities can beneficiaries get from Business Correspondent (Bank Saathi) in branchless areas?\n1. It enables beneficiaries to draw their subsidies and social security benefits in their villages.\n2. It enables beneficiaries in rural areas to make deposits and withdrawals.',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 4'],
+   ans:2,
+   exp:'Business Correspondents (BCs/Bank Mitra/Bank Saathi) act as agents of banks in areas without bank branches. They offer a wide range of services: (1) Disbursement of social security payments, subsidies, NREGA wages, pensions — CORRECT. (2) Basic deposit and withdrawal transactions from accounts — CORRECT. BCs also provide micro-insurance, small credit, and other basic banking services, effectively extending banking to the unbanked in remote areas. Both statements are correct.'},
+
+  {id:34,yr:'2013',topic:'Rural Credit',
+   text:'Which of the following grant/grants direct credit assistance to rural households?\n1. Regional Rural Banks\n2. National Bank for Agriculture and Rural Development\n3. Land Development Banks\n\nSelect correct answer:',
+   opts:['1 and 2 only','2 only','1 and 3 only','1, 2 and 3'],
+   ans:2,
+   exp:'NABARD (Statement 2) is a REFINANCING institution — it provides credit to banks (not directly to farmers/rural households). RRBs (Statement 1) directly provide loans to rural individuals and small farmers — CORRECT. Land Development Banks (now Agricultural Development Banks) directly provide long-term credit for land development to rural households — CORRECT. So 1 and 3 directly lend to rural households, while NABARD does not.'},
+
+  {id:35,yr:'2013',topic:'Priority Sector Lending',
+   text:'Priority Sector Lending by banks in India constitutes the lending to:\nA. Agriculture\nB. Micro and Small Enterprises\nC. Weaker Sections\nD. All of the above',
+   opts:['A only','B only','A and B only','All of the above'],
+   ans:3,
+   exp:'Priority Sector Lending (PSL) guidelines issued by RBI include multiple categories: Agriculture, MSMEs, Export Credit, Education, Housing, Social Infrastructure, Renewable Energy, and Weaker Sections. So Agriculture (A), Micro & Small Enterprises (B), and Weaker Sections (C) are ALL included under PSL. The answer is "All of the above" — PSL covers all three and more. Currently 40% of Adjusted Net Bank Credit must go to priority sectors.'},
+
+  {id:36,yr:'2013',topic:'RBI Regulatory Role',
+   text:'The Reserve Bank of India regulates commercial banks in matters of:\n1. Liquidity of assets\n2. Branch expansion\n3. Merger of banks\n4. Winding-up of banks\n\nSelect correct answer:',
+   opts:['1 and 4 only','2, 3 and 4 only','1, 2 and 3 only','1, 2, 3 and 4'],
+   ans:3,
+   exp:'RBI, as the banking regulator under the Banking Regulation Act 1949, has regulatory authority over ALL four aspects: (1) Liquidity — through CRR and SLR requirements; (2) Branch expansion — prior approval needed for opening/closing branches; (3) Merger/amalgamation — RBI approves bank mergers; (4) Winding-up — RBI can recommend/order winding up of banks under Section 45 of BR Act. All four are under RBI\'s regulatory purview.'},
+
+  {id:37,yr:'2012',topic:'RBI as Bankers\' Bank',
+   text:'The Reserve Bank of India acts as a "bankers\' bank." This would imply:\n1. Other banks retain their deposits with the RBI.\n2. The RBI lends funds to the commercial banks in times of need.\n3. The RBI advises the commercial banks on monetary matters.',
+   opts:['2 & 3 only','1 & 2 only','1 & 3 only','1, 2 & 3'],
+   ans:3,
+   exp:'All three implications are correct. (1) All scheduled commercial banks must maintain a percentage of their NDTL as Cash Reserve Ratio (CRR) deposits with the RBI — RBI holds their deposits. ✓ (2) RBI provides liquidity (repo, MSF, special credit lines) to banks in distress — lender of last resort. ✓ (3) RBI issues monetary policy guidance, circulars, and advisories to commercial banks. ✓ All three aspects define the "bankers\' bank" role.'},
+
+  {id:38,yr:'2012',topic:'Lead Bank Scheme',
+   text:'The basic aim of the Lead Bank Scheme is that:',
+   opts:['Big banks should try to open offices in each district',
+         'There should be stiff competition among nationalized banks',
+         'Individual banks should adopt particular districts for intensive development',
+         'All banks should make intensive efforts to mobilize deposits'],
+   ans:2,
+   exp:'The Lead Bank Scheme (introduced 1969, on Gadgil Committee recommendations) assigns one bank as the "Lead Bank" for each district. The lead bank is responsible for coordinating credit activities of all banks in the district, conducting surveys, preparing District Credit Plans, and driving overall financial development of that district. The core idea: one bank adopts and takes leadership responsibility for a specific district\'s banking development.'},
+
+  {id:39,yr:'2011',topic:'Teaser Loans',
+   text:'Why is the offering of "teaser loans" by commercial banks a cause of economic concern?',
+   opts:['The teaser loans are considered an aspect of sub-prime lending and banks may be exposed to risk of defaulters in future.',
+         'In India, teaser loans are mostly given to inexperienced entrepreneurs to set up manufacturing or export units.',
+         'Both 1 and 2',
+         'Neither 1 nor 2'],
+   ans:0,
+   exp:'"Teaser loans" offer very low initial interest rates for a fixed period (e.g., 2-3 years), after which rates reset to normal/higher rates. RBI cautioned against them in 2010-11 as they attract borrowers who cannot service loans at normal rates — akin to sub-prime lending in the US (which triggered the 2008 crisis). Statement 1 correctly identifies the risk. Statement 2 is NOT true — teaser loans were primarily offered for home loans to retail borrowers, not to entrepreneurs.'},
+
+  {id:40,yr:'2011',topic:'Agriculture Credit',
+   text:'In India, which of the following have the highest share in the disbursement of credit to agriculture and allied activities?',
+   opts:['Commercial banks','Cooperative banks','Regional rural banks','Microfinance institutions'],
+   ans:0,
+   exp:'Commercial Banks (public and private sector) have the highest share in agricultural credit disbursement in India. After bank nationalisation (1969) and subsequent priority sector mandates, commercial banks significantly increased farm lending. By volume, commercial banks disburse far more than cooperative banks and RRBs. This is also why PSL targets specifically include agriculture to ensure continued lending.'},
+
+  {id:41,yr:'2011',topic:'Microfinance',
+   text:'Microfinance is the provision of financial services to people of low-income groups. The service/services rendered under microfinance is/are:\n1. Credit facilities\n2. Savings facilities\n3. Insurance facilities\n4. Fund transfer facilities\n\nSelect correct answer:',
+   opts:['1 only','1 and 4 only','2 and 3 only','1, 2, 3 and 4'],
+   ans:3,
+   exp:'Microfinance is a comprehensive financial services package — NOT just microcredit. It includes: (1) Credit/loans (small-ticket loans for income-generating activities), (2) Savings services (small savings, recurring deposits), (3) Micro-insurance (life, health, crop, livestock), and (4) Remittances/fund transfers (domestic money transfers). The Rangarajan Committee Report (2008) and NABARD define microfinance broadly to include all these services. All four are correct.'},
+
+  {id:42,yr:'2010',topic:'Financial Inclusion History',
+   text:'With reference to India, which of the following can be considered as steps taken to achieve "financial inclusion"?\n1. Nationalisation of Banks\n2. Formation of Regional Rural Banks\n3. Adoption of villages by Bank Branches',
+   opts:['1 and 2 only','2 and 3 only','3 only','1, 2 and 3'],
+   ans:3,
+   exp:'All three are steps toward financial inclusion. (1) Bank Nationalisation (1969, 1980) brought banks under government ownership to serve underserved sections and expand rural banking. (2) RRBs (est. 1975) were specifically created to serve rural populations and small farmers. (3) Village adoption by branches (under Service Area Approach) assigned villages to branches for comprehensive financial coverage. All three represent historical financial inclusion initiatives.'},
+
+  {id:43,yr:'2010',topic:'Banking Ombudsman',
+   text:'With reference to the Banking Ombudsman in India, which one of the following statements is NOT correct?',
+   opts:['The Banking Ombudsman is appointed by the Reserve Bank of India.',
+         'The Banking Ombudsman can consider complaints from Non-Resident Indians having accounts in India.',
+         'The orders passed by the Banking Ombudsman are final and binding on the parties concerned.',
+         'The service provided by the Banking Ombudsman is free of any fee.'],
+   ans:2,
+   exp:'Statement C is NOT correct — the orders (awards) of the Banking Ombudsman are NOT absolutely final and binding. The customer or the bank can appeal against the Ombudsman\'s award to the Appellate Authority (Deputy Governor of RBI) within 30 days. So the award is not "final" — it is appealable. Statements A, B, and D are correct: RBI appoints the BO; NRIs can complain; the service is free to complainants.'},
+
+  {id:44,yr:'2010',topic:'Commercial Bank Functions',
+   text:'The functions of commercial banks in India include:\n1. Purchase and sale of shares and securities on behalf of customers.\n2. Acting as executors and trustees of wills.',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,
+   exp:'Both functions, while performed by some financial institutions, are NOT standard listed functions of commercial banks under the Banking Regulation Act. Commercial banks\' core functions are accepting deposits and providing credit. Purchase/sale of shares is a brokerage/DMAT service (done by some banks but not a core banking function). Acting as executor/trustee of wills is a specialised trust/legal service, not a standard commercial banking function. Hence "Neither" per the UPSC answer key.'},
+
+  {id:45,yr:'2010',topic:'Interest Rates',
+   text:'In India, the interest rate on savings accounts in all nationalised commercial banks is fixed by:',
+   opts:['Union Ministry of Finance','Union Finance Commission','Indian Banks\' Association','None of the above'],
+   ans:3,
+   exp:'Prior to 2011, RBI prescribed savings bank deposit rates. In October 2011, RBI deregulated savings bank deposit interest rates (above ₹1 lakh) allowing banks to set their own rates. The IBA (Indian Banks\' Association) is a lobby body, not a rate regulator. The Ministry of Finance and Finance Commission are not involved in commercial bank deposit rates. The answer "None of the above" reflects the deregulated nature — effectively RBI (before deregulation) or banks themselves (after deregulation).'},
+
+  {id:46,yr:'2010',topic:'Credit to Government',
+   text:'Which of the following terms indicates a mechanism used by commercial banks for providing credit to the government?',
+   opts:['Cash Credit Ratio','Debt Service Obligation','Liquidity Adjustment Facility','Statutory Liquidity Ratio'],
+   ans:3,
+   exp:'SLR (Statutory Liquidity Ratio) requires banks to invest a prescribed percentage of their NDTL in government securities, gold, and approved securities. This mandated investment in G-secs is the key mechanism by which commercial banks provide credit to the government. When banks buy G-secs, they lend money to the government. LAF is an RBI tool; CRR maintains cash reserves; Cash Credit Ratio is not an RBI instrument.'},
+
+  {id:47,yr:'2010',topic:'NBFCs',
+   text:'With reference to Non-Banking Financial Companies (NBFCs) in India:\n1. They cannot engage in the acquisition of securities issued by the government.\n2. They cannot accept demand deposits like saving accounts.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1 is WRONG — NBFCs CAN invest in/acquire government securities. Many NBFCs hold government bonds as part of their asset portfolio. Statement 2 is CORRECT — NBFCs cannot accept demand deposits (i.e., deposits withdrawable on demand like savings/current accounts). This is the key distinction from banks. Some NBFCs can accept time deposits with RBI permission (Deposit-taking NBFCs), but NOT demand deposits. Hence only Statement 2 is correct.'},
+
+  {id:48,yr:'2008',topic:'Social Security',
+   text:'With reference to Indira Gandhi National Old Age Pension Scheme (IGNOAPS):\n1. All persons of 60 years or above belonging to BPL household in rural areas are eligible.\n2. The Central Assistance under this Scheme is at the rate of ₹300 per month per beneficiary.',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,
+   exp:'Statement 1 is WRONG — When originally launched (1995), the age criterion was 65 years (not 60). In 2007 the age was reduced to 60. At the time of this question (2008), the age was still 65. Also, the original scheme was for "destitute" — not all BPL persons. Statement 2 is WRONG — The central assistance was ₹200 per month (not ₹300) in 2008. It was enhanced to ₹200 and then later increased. Both statements as stated are incorrect.'},
+
+  {id:49,yr:'2007',topic:'Basel Accords',
+   text:'Basel II relates to which one of the following?',
+   opts:['International standards for safety in civil aviation',
+         'Measures against cyber crimes',
+         'Measures against drug abuse by sportspersons',
+         'International standards for measuring the adequacy of a bank\'s capital'],
+   ans:3,
+   exp:'Basel II (2004) is the second set of international banking regulations by the Basel Committee on Banking Supervision (BIS). It developed a more risk-sensitive approach to measuring Capital Adequacy through three pillars: (1) Minimum Capital Requirements based on credit/market/operational risk, (2) Supervisory Review, and (3) Market Discipline/Disclosure. India adopted Basel II guidelines in March 2009. Options A, B, C refer to ICAO, cybersecurity frameworks, and WADA respectively.'},
+
+  {id:50,yr:'2007',topic:'Development Banks',
+   text:'The National Housing Bank was set up in India as a wholly-owned subsidiary of which one of the following?',
+   opts:['State Bank of India','Reserve Bank of India','ICICI Bank','Life Insurance Corporation of India'],
+   ans:1,
+   exp:'NHB (National Housing Bank) was established on 9 July 1988 under the NHB Act, 1987 as a wholly-owned subsidiary of the Reserve Bank of India (RBI). It was created to function as an apex-level institution for housing finance, promoting housing finance companies and channelling resources to housing. In 2019, the Government transferred the RBI\'s 100% stake in NHB to itself (Government of India), making it a government-owned entity.'},
+
+  {id:51,yr:'2006',topic:'Bank History',
+   text:'Which one of the following Indian banks is NOT a nationalised bank?',
+   opts:['Corporation Bank','Dena Bank','Federal Bank','Vijaya Bank'],
+   ans:2,
+   exp:'Federal Bank is a PRIVATE SECTOR bank headquartered in Aluva, Kerala. It was not nationalised in either 1969 or 1980. Corporation Bank, Dena Bank, and Vijaya Bank were all nationalised commercial banks (all three were later merged into other PSBs — Dena and Vijaya into Bank of Baroda in 2019, Corporation Bank into Union Bank in 2020). Federal Bank remains an independent private sector bank.'},
+
+  {id:52,yr:'2006',topic:'Insurance History',
+   text:'Consider the following statements:\n1. Life Insurance Corporation of India is the oldest insurance company in India.\n2. National Insurance Company Limited was nationalised in 1972 and made a subsidiary of General Insurance Corporation of India.\n3. Headquarters of United India Insurance Company Limited are located at Chennai.\n\nWhich are correct?',
+   opts:['1, 2 and 3','1 and 2 only','2 and 3 only','1 and 3 only'],
+   ans:0,
+   exp:'Per the UPSC answer key: all three statements are taken as correct. LIC (est. 1956) is the oldest government-owned life insurer (though Oriental Insurance Company traces earlier roots). National Insurance (est. 1906) was nationalised in 1972 and became a subsidiary of GIC — CORRECT. United India Insurance Company HQ is in Chennai — CORRECT. Note: Statement 1 has debate but UPSC accepts it as correct here.'},
+
+  {id:53,yr:'2004',topic:'Development Banks',
+   text:'Consider the following statements:\n1. The National Housing Bank was set up as a wholly-owned subsidiary of the Reserve Bank of India.\n2. The Small Industries Development Bank of India was established as a wholly-owned subsidiary of the Industrial Development Bank of India.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'Both statements are CORRECT. (1) NHB was established in 1988 as a wholly-owned subsidiary of RBI (later ownership transferred to GoI in 2019). (2) SIDBI was established in April 1990 under the SIDBI Act 1989 as a wholly-owned subsidiary of IDBI (Industrial Development Bank of India) to serve as the principal financial institution for the promotion, financing, and development of small-scale industries.'},
+
+  {id:54,yr:'2003',topic:'Bank History',
+   text:'In India, the first bank of limited liability managed by Indians and founded in 1881 was:',
+   opts:['Hindustan Commercial Bank','Oudh Commercial Bank','Punjab National Bank','Punjab and Sind Bank'],
+   ans:1,
+   exp:'The Oudh Commercial Bank was founded in 1881 in Faizabad (now Ayodhya), becoming the first bank of limited liability managed by Indians. It was later liquidated in 1958. Punjab National Bank was established in 1894. Punjab and Sind Bank (1908) and Hindustan Commercial Bank (1943) came even later. The 1881 founding of Oudh Commercial Bank marks the beginning of Indian-managed limited liability banking.'},
+
+  {id:55,yr:'2003',topic:'Banking Regulations',
+   text:'Consider the following statements:\n1. The maximum limit of shareholding of Indian promoters in private sector banks is 49% of the paid-up capital.\n2. Foreign Direct Investment up to 49% from all sources is permitted in private sector banks under automatic route.\n\nWhich is/are correct?',
+   opts:['Only 1','Only 2','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,
+   exp:'Both statements are INCORRECT (as per the regulations at the time of the question and subsequent changes). Statement 1 is WRONG — RBI\'s guidelines allow promoters more than 49% (especially in newly licensed banks; RBI periodically reviews promoter holding limits). Statement 2 is WRONG — FDI in private sector banks is permitted up to 74% (not 49%), with automatic route up to 49% and government route beyond. At the time of question (2003), limits were different. Answer key says "Neither" — both incorrect as stated.'},
+
+  {id:56,yr:'2001',topic:'Financial Reforms',
+   text:'Which of the following committees examined and suggested Financial Sector Reforms?',
+   opts:['Abid Hussain Committee','Bhagwati Committee','Chelliah Committee','Narasimham Committee'],
+   ans:3,
+   exp:'The Narasimham Committee (M. Narasimham, former RBI Governor) was constituted specifically to examine financial sector reforms. The First Narasimham Committee (1991) recommended liberalisation of banking — lowering CRR/SLR, reducing priority sector requirements, allowing new private banks. The Second Narasimham Committee (1998) recommended further reforms for banking system strengthening and NPA resolution. Abid Hussain: capital markets; Bhagwati: trade; Chelliah: tax reforms.'},
+
+  {id:57,yr:'2001',topic:'RBI Functions',
+   text:'Consider the following statements regarding RBI:\nI. It is a banker to the Central Government.\nII. It formulates and administers monetary policy.\nIII. It acts as an agent of the Government in respect of India\'s membership of IMF.\nIV. It handles the borrowing programme of Government of India.\n\nWhich are correct?',
+   opts:['I and II','II, III and IV','I, II, III and IV','III and IV'],
+   ans:2,
+   exp:'All four functions are correctly attributed to RBI. (I) RBI is the banker and debt manager for the Central Government — receives deposits, makes payments. ✓ (II) RBI formulates and administers monetary policy through the MPC. ✓ (III) RBI acts as India\'s agent/representative with the IMF, managing India\'s quota, SDR holdings, and IMF transactions. ✓ (IV) RBI manages the Government of India\'s borrowing programme (auction of G-secs, T-bills). ✓ All four are correct.'},
+
+  {id:58,yr:'1998',topic:'RBI Accounting',
+   text:'The accounting year of the Reserve Bank of India is:',
+   opts:['April–March','July–June','October–September','January–December'],
+   ans:1,
+   exp:'The RBI\'s accounting year (financial year) is April 1 to March 31... wait — actually RBI\'s accounting year has historically been July 1 to June 30, which is different from the Government of India\'s April–March financial year. This unique accounting year was established when RBI was set up in 1935. The RBI Annual Report is published based on this July–June year. The answer is July–June (option b).'},
+
+  {id:59,yr:'1995',topic:'Credit Control',
+   text:'Which one of the following is NOT an instrument of selective credit control in India?',
+   opts:['Regulation of consumer credit','Rationing of credit','Margin requirements','Variable cash reserve ratios'],
+   ans:3,
+   exp:'Selective credit control instruments target specific sectors/activities: Regulation of consumer credit (restricts credit for specific consumer durables), Rationing of credit (limits credit to particular sectors/borrowers), Margin requirements (restricts LTV ratio for specific commodities like food grains, stocks). These are all SELECTIVE — they affect specific types of credit. Variable Cash Reserve Ratios (CRR) is a GENERAL (quantitative) credit control instrument — it affects ALL credit equally, not selectively. Hence CRR is NOT a selective credit control tool.'}
+];
+
+// ════ STATE ════
+let S={cur:0,ans:new Array(59).fill(null),skp:new Array(59).fill(false),start:null,tLeft:40*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('dhanagara_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('Resume your previous session?')){
+        S={...S,...d,tInt:null};
+      }else{localStorage.removeItem('dhanagara_v1');S.start=Date.now();}
+    }catch(e){S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏱ Time is up! Submitting quiz…');submitQuiz();}
+  },1000);
+}
+function updTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTop').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='SKIPPED';sp.className='qstat qs-skp';}
+  else if(S.ans[i]!==null){sp.textContent='ANSWERED';sp.className='qstat qs-ans';}
+  else{sp.textContent='UNANSWERED';sp.className='qstat qs-none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="okey">${L[idx]}</span><span class="otxt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, review all answers with detailed explanations.`;
+  document.getElementById('modOv').classList.add('on');
+}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+function fmtT(s){return `${Math.floor(s/60)}m ${pad(s%60)}s`;}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(40*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const tot=Q.length;
+  const attempted=cor+wr;
+  const pct=Math.round(cor/tot*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
+  const avg=Math.round(used/tot);
+
+  let grade,ringColor;
+  if(pct>=90){grade='◆ EXCEPTIONAL';ringColor='#e8c84a';}
+  else if(pct>=75){grade='◆ EXCELLENT';ringColor='#4d9ef7';}
+  else if(pct>=60){grade='◆ PROFICIENT';ringColor='#00bcd4';}
+  else if(pct>=45){grade='◆ AVERAGE';ringColor='#fb8c00';}
+  else{grade='◆ NEEDS REVISION';ringColor='#e53935';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=ringColor;
+  setTimeout(()=>arc.style.strokeDashoffset=314.16*(1-pct/100),100);
+
+  document.getElementById('rScore').textContent=cor;
+  document.getElementById('rScore').style.color=ringColor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${ringColor}15;color:${ringColor};border:1px solid ${ringColor}30;`;
+
+  if(pct>=75)document.getElementById('rTitle').textContent='Strong Command on Banking & Finance!';
+  else if(pct>=50)document.getElementById('rTitle').textContent='Good Attempt — Keep Building!';
+  else document.getElementById('rTitle').textContent='Focused Revision Required';
+
+  document.getElementById('rSub').textContent=`Score: ${cor}/${tot} · Attempted: ${attempted} questions`;
+  document.getElementById('rPct').textContent=`[ ACCURACY: ${acc}% ON ATTEMPTED · TIME USED: ${fmtT(used)} ]`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  buildAnalysis(cor,wr,sk,pct,acc);
+  renderRev('all');
+  localStorage.removeItem('dhanagara_v1');
+  show('results');
+}
+
+function buildAnalysis(cor,wr,sk,pct,acc){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('Excellent mastery of banking and monetary policy. You are exam-ready for GS Paper 3 economics section.');
+  else if(pct>=75)lines.push('Strong performance. Fill remaining gaps using RBI publications, Economic Survey, and current banking news.');
+  else if(pct>=50)lines.push('Decent foundation. Focus on RBI functions, Basel norms, digital payments, and priority sector guidelines.');
+  else lines.push('Revise systematically: start with Ramesh Singh Ch. 9-14 (Money & Banking), then RBI Annual Report highlights.');
+
+  if(sk>10)lines.push(`${sk} questions skipped. Banking questions have clear factual answers — elimination strategy helps narrow choices.`);
+  if(acc<55&&(cor+wr)>10)lines.push('Improve concept clarity: read each explanation carefully. Many banking questions test precise definitions.');
+
+  if(topErr['RBI Governance']||topErr['RBI as Bankers\' Bank']||topErr['RBI Functions'])
+    lines.push('RBI: Governor appointed by Central Govt; powers from RBI Act. Bankers\' bank = CRR deposits + lender of last resort + monetary guidance.');
+  if(topErr['Digital Payments']||topErr['Digital Currency']||topErr['ATM Network'])
+    lines.push('Digital: NPCI runs NFS (ATM network), UPI, RuPay. BHIM uses UPI. Payment Banks: no credit cards, no lending, deposits ≤₹2 lakh.');
+  if(topErr['Financial Inclusion']||topErr['Priority Sector Lending'])
+    lines.push('Financial Inclusion: PMJDY = zero-balance accounts + RuPay. PSL = 40% of ANBC. MUDRA targets micro-entrepreneurs. BC/Bank Mitra = banking in unbanked areas.');
+  if(topErr['Basel Norms']||topErr['Capital Adequacy'])
+    lines.push('Basel: Basel II = capital adequacy. Basel III = post-2008 crisis reforms (higher capital, liquidity ratios LCR/NSFR, leverage ratio). India mandates 9% CAR.');
+  if(topErr['NPA Resolution']||topErr['Banking Reforms']||topErr['PSB Reforms'])
+    lines.push('NPA Tools: IBC 2016 (primary), ICA (inter-creditor pact for ≥₹50cr), S4A (debt restructuring for large corporates). BBB selects PSB heads.');
+  if(topErr['Pension Schemes']||topErr['Social Security'])
+    lines.push('Pensions: NPS mandatory for Central Govt employees from 1 Jan 2004 (NOT armed forces). APY: unorganised sector, 18-40 yrs, ₹1000-5000/month at 60.');
+  if(topErr['Credit Rating']||topErr['NBFCs'])
+    lines.push('NBFCs: Cannot accept demand deposits. CAN invest in G-secs. Regulated by RBI. Credit Rating Agencies regulated by SEBI (not RBI).');
+
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`WEAK AREA: ${t} — ${c} error${c>1?'s':''}. Prioritise in revision.`));
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="an-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-row">${ranked.map(([t])=>`<span class="wt">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ CORRECT':isWr?'✗ WRONG':'— SKIPPED';
+    const uaTxt=isSk?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rv-row"><span class="rv-lbl">YOUR ANSWER:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">CORRECT ANS:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-family:\'IBM Plex Mono\',monospace;font-size:.72rem">[ NO QUESTIONS IN THIS CATEGORY ]</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  try{
+    localStorage.setItem('dhanagara_v1',JSON.stringify({
+      cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+    }));
+  }catch(e){}
+}
+
+function restartQuiz(){
+  if(!confirm('Restart quiz? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('dhanagara_v1');
+  S={cur:0,ans:new Array(59).fill(null),skp:new Array(59).fill(false),start:null,tLeft:40*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
