@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artha · Indian Economy UPSC Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#040d0a;
+  --bg2:#061410;
+  --bg3:#0a1f19;
+  --bg4:#0f2820;
+  --g1:#00e676;
+  --g2:#00c853;
+  --g3:#69f0ae;
+  --g4:#b9f6ca;
+  --amber:#ffab00;
+  --amber2:#ffd740;
+  --red:#ff5252;
+  --blue:#40c4ff;
+  --blue2:#82cfff;
+  --teal:#1de9b6;
+  --correct:#00e676;
+  --wrong:#ff5252;
+  --skip:#ffab00;
+  --txt:#e8f5e9;
+  --txt2:#7fa98a;
+  --txt3:#a8d5b5;
+  --border:rgba(0,230,118,.1);
+  --border2:rgba(0,230,118,.2);
+  --r:12px;
+  --r2:18px;
+  --glow:0 0 40px rgba(0,230,118,.12);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* Grid background */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,230,118,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,230,118,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%,rgba(0,200,83,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 100%,rgba(64,196,255,.08) 0%,transparent 55%);
+}
+
+/* Ticker tape */
+.ticker{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(0,230,118,.06);border-bottom:1px solid var(--border2);
+  padding:.3rem 0;overflow:hidden;backdrop-filter:blur(12px);
+}
+.ticker-inner{
+  display:flex;gap:0;white-space:nowrap;
+  animation:tickerScroll 30s linear infinite;
+}
+.ticker-item{
+  padding:0 1.8rem;font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--g3);letter-spacing:.04em;
+  border-right:1px solid var(--border);
+}
+.ticker-item.up{color:var(--g1);}
+.ticker-item.dn{color:var(--red);}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh;padding-top:30px}
+.screen.active{display:flex}
+
+/* ═══════════════════
+   START SCREEN
+═══════════════════ */
+#start{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:3rem 1.5rem;text-align:center;gap:0;
+}
+
+/* Terminal cursor logo */
+.term-logo{
+  width:90px;height:90px;margin:0 auto 2.2rem;
+  border:2px solid var(--g1);border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  box-shadow:0 0 30px rgba(0,230,118,.3),inset 0 0 30px rgba(0,230,118,.05);
+  animation:logoGlow 3s ease-in-out infinite;
+}
+@keyframes logoGlow{
+  0%,100%{box-shadow:0 0 20px rgba(0,230,118,.25),inset 0 0 20px rgba(0,230,118,.04)}
+  50%{box-shadow:0 0 50px rgba(0,230,118,.5),inset 0 0 40px rgba(0,230,118,.1)}
+}
+.term-logo svg{width:52px;height:52px}
+
+/* Chart bars animation in logo */
+.bar-anim{display:flex;align-items:flex-end;gap:4px;height:38px}
+.bar-anim span{
+  width:6px;background:var(--g1);border-radius:2px 2px 0 0;
+  animation:barUp 1.8s ease-in-out infinite;
+}
+.bar-anim span:nth-child(1){height:40%;animation-delay:0s}
+.bar-anim span:nth-child(2){height:70%;animation-delay:.15s}
+.bar-anim span:nth-child(3){height:55%;animation-delay:.3s}
+.bar-anim span:nth-child(4){height:90%;animation-delay:.45s}
+.bar-anim span:nth-child(5){height:65%;animation-delay:.6s}
+.bar-anim span:nth-child(6){height:80%;animation-delay:.75s}
+@keyframes barUp{
+  0%,100%{transform:scaleY(1);opacity:.8}
+  50%{transform:scaleY(1.15);opacity:1}
+}
+
+.tag-row{
+  display:flex;align-items:center;gap:.6rem;justify-content:center;
+  margin-bottom:1rem;
+  opacity:0;animation:slideUp .5s .1s ease forwards;
+}
+.ver-tag{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  color:var(--g2);background:rgba(0,230,118,.08);
+  border:1px solid var(--border2);border-radius:4px;
+  padding:.18rem .6rem;letter-spacing:.1em;
+}
+.sep{color:var(--txt2);font-size:.6rem}
+
+.hero-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(3.2rem,11vw,6rem);
+  font-weight:400;line-height:.95;
+  margin-bottom:.8rem;
+  opacity:0;animation:slideUp .5s .2s ease forwards;
+}
+.ht1{
+  display:block;
+  background:linear-gradient(135deg,var(--g1) 0%,var(--teal) 50%,var(--blue) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ht2{
+  display:block;font-size:.38em;font-style:italic;
+  color:var(--txt2);-webkit-text-fill-color:var(--txt2);
+  font-family:'DM Serif Display',serif;
+  letter-spacing:.02em;margin-top:.3rem;
+}
+
+.hero-desc{
+  font-size:.88rem;color:var(--txt2);max-width:440px;
+  margin:0 auto 2.5rem;line-height:1.9;font-weight:300;
+  opacity:0;animation:slideUp .5s .35s ease forwards;
+}
+
+/* Stats bar */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;border:1px solid var(--border2);border-radius:var(--r2);
+  overflow:hidden;background:rgba(0,0,0,.3);backdrop-filter:blur(16px);
+  margin-bottom:2.5rem;
+  opacity:0;animation:slideUp .5s .5s ease forwards;
+}
+.sb-item{
+  padding:1.1rem 1rem;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;gap:.2rem;
+}
+.sb-item:last-child{border-right:none}
+.sb-ic{font-size:1rem;margin-bottom:.1rem}
+.sb-v{
+  font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;
+  color:var(--g1);
+}
+.sb-l{font-size:.56rem;text-transform:uppercase;letter-spacing:.12em;color:var(--txt2)}
+
+/* Topic pills */
+.pill-wrap{
+  display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;
+  max-width:520px;margin:0 auto 2.8rem;
+  opacity:0;animation:slideUp .5s .65s ease forwards;
+}
+.pill{
+  font-size:.65rem;font-weight:500;padding:.28rem .82rem;
+  border-radius:4px;border:1px solid rgba(0,230,118,.2);
+  background:rgba(0,230,118,.05);color:var(--g3);
+  font-family:'Space Mono',monospace;letter-spacing:.03em;
+}
+
+/* CTA */
+.cta-btn{
+  position:relative;overflow:hidden;
+  padding:1rem 3.5rem;border:1px solid var(--g1);border-radius:6px;
+  font-family:'Space Mono',monospace;font-size:.82rem;font-weight:700;
+  letter-spacing:.1em;cursor:pointer;transition:all .3s;text-transform:uppercase;
+  background:rgba(0,230,118,.08);color:var(--g1);
+  box-shadow:0 0 30px rgba(0,230,118,.2),inset 0 0 20px rgba(0,230,118,.03);
+  opacity:0;animation:slideUp .5s .8s ease forwards;
+}
+.cta-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,230,118,.15),transparent);
+  opacity:0;transition:.3s;
+}
+.cta-btn:hover{
+  background:rgba(0,230,118,.15);
+  box-shadow:0 0 60px rgba(0,230,118,.4),inset 0 0 30px rgba(0,230,118,.06);
+  transform:translateY(-3px);
+}
+.cta-btn:hover::before{opacity:1}
+.cta-btn span{position:relative;z-index:1}
+
+.sub-note{
+  margin-top:.9rem;font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--txt2);letter-spacing:.06em;
+  opacity:0;animation:slideUp .4s .95s ease forwards;
+}
+
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════
+   QUIZ SCREEN
+═══════════════════ */
+#quiz{
+  flex-direction:column;align-items:center;
+  padding:1.5rem 1rem;gap:.9rem;
+}
+.quiz-wrap{max-width:820px;width:100%;display:flex;flex-direction:column;gap:.9rem}
+
+/* Top bar */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+  padding:.75rem 1.1rem;
+  background:rgba(0,0,0,.4);border:1px solid var(--border);
+  border-radius:var(--r);backdrop-filter:blur(14px);
+}
+.qcount{
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--txt2);letter-spacing:.06em;
+}
+.qcount em{color:var(--g1);font-style:normal}
+.timer{
+  font-family:'Space Mono',monospace;font-weight:700;font-size:.85rem;
+  padding:.35rem .9rem;border-radius:4px;
+  background:rgba(0,230,118,.07);border:1px solid var(--border2);
+  color:var(--g2);transition:.3s;letter-spacing:.08em;
+}
+.timer.danger{
+  background:rgba(255,82,82,.1);border-color:rgba(255,82,82,.4);
+  color:var(--red);animation:blink .6s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.sub-early{
+  font-family:'Space Mono',monospace;font-size:.6rem;padding:.35rem .8rem;
+  border-radius:4px;background:transparent;border:1px solid var(--border);
+  color:var(--txt2);cursor:pointer;transition:.2s;letter-spacing:.04em;
+}
+.sub-early:hover{border-color:var(--amber);color:var(--amber)}
+
+/* Progress bar */
+.pbar{
+  height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;
+}
+.pfill{
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--teal),var(--g1));
+  border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 10px rgba(0,230,118,.4);
+}
+
+/* Q Card */
+.qcard{
+  background:linear-gradient(150deg,rgba(9,24,18,.97),rgba(4,13,10,.99));
+  border:1px solid var(--border);border-radius:20px;padding:2rem;
+  box-shadow:var(--glow),0 8px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(0,230,118,.06);
+  animation:qSlide .35s cubic-bezier(.34,1.4,.64,1);
+  position:relative;overflow:hidden;
+}
+.qcard::after{
+  content:'';position:absolute;top:0;right:0;
+  width:200px;height:200px;pointer-events:none;
+  background:radial-gradient(circle at top right,rgba(0,230,118,.04),transparent 65%);
+}
+@keyframes qSlide{
+  from{opacity:0;transform:translateY(18px) scale(.975)}
+  to{opacity:1;transform:none}
+}
+
+.qmeta{display:flex;align-items:center;gap:.45rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.qbadge{
+  font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.1em;padding:.24rem .72rem;border-radius:4px;
+  background:rgba(0,230,118,.12);border:1px solid var(--border2);
+  color:var(--g1);
+}
+.qyr{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  color:var(--amber2);background:rgba(255,171,0,.08);
+  padding:.22rem .65rem;border-radius:4px;border:1px solid rgba(255,171,0,.2);
+}
+.qtop{
+  font-size:.6rem;color:var(--blue2);background:rgba(64,196,255,.07);
+  border:1px solid rgba(64,196,255,.18);padding:.22rem .65rem;border-radius:4px;
+  font-family:'Space Mono',monospace;
+}
+.qstat{margin-left:auto;font-family:'Space Mono',monospace;font-size:.56rem;font-weight:700;padding:.22rem .65rem;border-radius:4px}
+.qs-none{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--border)}
+.qs-ans{background:rgba(0,230,118,.1);color:var(--g1);border:1px solid rgba(0,230,118,.25)}
+.qs-skp{background:rgba(255,171,0,.08);color:var(--amber);border:1px solid rgba(255,171,0,.22)}
+
+.qtext{
+  font-size:.95rem;line-height:2;color:var(--txt3);margin-bottom:1.5rem;
+  white-space:pre-wrap;font-family:'DM Sans',sans-serif;
+}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.5rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.85rem;
+  padding:.85rem 1.1rem;
+  background:rgba(0,230,118,.02);border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;cursor:pointer;transition:all .18s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;line-height:1.6;
+  position:relative;overflow:hidden;
+}
+.opt::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:linear-gradient(90deg,rgba(0,230,118,.08),transparent);
+  transition:width .2s;
+}
+.opt:hover:not(.sel){
+  border-color:rgba(0,230,118,.3);color:var(--txt);
+}
+.opt:hover:not(.sel)::before{width:100%}
+.opt.sel{
+  background:rgba(0,230,118,.07);border-color:var(--g1);
+}
+.opt.sel::before{width:100%}
+.okey{
+  min-width:26px;height:26px;border-radius:5px;
+  background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;
+  color:var(--g2);flex-shrink:0;transition:.18s;position:relative;z-index:1;
+}
+.opt.sel .okey{background:var(--g1);color:var(--bg);border-color:var(--g1)}
+.otxt{position:relative;z-index:1;color:var(--txt)}
+
+/* Nav */
+.qnav{display:flex;justify-content:space-between;margin-top:1.5rem;gap:.5rem;flex-wrap:wrap}
+.btn{
+  padding:.6rem 1.25rem;border:none;border-radius:6px;
+  font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:all .18s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.25;cursor:not-allowed}
+.btn-ghost{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--txt2);
+}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.08);color:var(--txt)}
+.btn-skip{
+  background:rgba(255,171,0,.07);border:1px solid rgba(255,171,0,.2);color:var(--amber);
+}
+.btn-skip:hover{background:rgba(255,171,0,.14)}
+.btn-primary{
+  background:rgba(0,230,118,.1);border:1px solid var(--border2);color:var(--g1);
+  box-shadow:0 0 16px rgba(0,230,118,.15);
+}
+.btn-primary:hover{background:rgba(0,230,118,.18);box-shadow:0 0 28px rgba(0,230,118,.3)}
+.btn-submit{
+  background:rgba(64,196,255,.1);border:1px solid rgba(64,196,255,.25);color:var(--blue);
+  box-shadow:0 0 16px rgba(64,196,255,.1);
+}
+.btn-submit:hover{background:rgba(64,196,255,.18)}
+
+/* Dot map */
+.dotmap{display:flex;flex-wrap:wrap;gap:.28rem;max-width:820px;width:100%}
+.dot{
+  width:26px;height:26px;border-radius:5px;border:1px solid var(--border);
+  background:rgba(255,255,255,.03);font-family:'Space Mono',monospace;
+  font-size:.55rem;font-weight:700;cursor:pointer;color:var(--txt2);transition:.12s;
+}
+.dot:hover{border-color:var(--g2);color:var(--g2)}
+.dot.cur{background:rgba(0,230,118,.15);color:var(--g1);border-color:var(--g1);box-shadow:0 0 10px rgba(0,230,118,.3)}
+.dot.d-ans{background:rgba(0,230,118,.1);color:var(--g2);border-color:rgba(0,230,118,.3)}
+.dot.d-skp{background:rgba(255,171,0,.08);color:var(--amber);border-color:rgba(255,171,0,.25)}
+
+/* ════ MODAL ════ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(2,8,5,.88);backdrop-filter:blur(20px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(150deg,#0a1f19,#061410);
+  border:1px solid var(--border2);border-radius:18px;
+  padding:2.5rem;max-width:380px;width:100%;text-align:center;
+  box-shadow:0 0 60px rgba(0,230,118,.12),0 30px 80px rgba(0,0,0,.8);
+  animation:mpop .3s cubic-bezier(.34,1.5,.64,1);
+}
+@keyframes mpop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-ic{font-size:2.4rem;margin-bottom:.9rem;display:block}
+.modal h3{
+  font-family:'DM Serif Display',serif;font-size:1.2rem;
+  color:var(--txt);margin-bottom:.6rem;
+}
+.modal p{color:var(--txt2);font-size:.82rem;line-height:1.9;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.6rem;justify-content:center}
+
+/* ═══════════════════
+   RESULTS SCREEN
+═══════════════════ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-wrap{max-width:880px;width:100%}
+
+/* Hero */
+.res-hero{
+  background:linear-gradient(150deg,rgba(9,24,18,.97),rgba(4,13,10,.99));
+  border:1px solid rgba(0,230,118,.15);border-radius:22px;
+  padding:3rem 2rem;text-align:center;margin-bottom:1.1rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 100%,rgba(0,230,118,.06),transparent),
+    radial-gradient(ellipse 40% 50% at 5% 0%,rgba(64,196,255,.06),transparent);
+}
+
+/* Score ring */
+.score-wrap{position:relative;width:150px;height:150px;margin:0 auto 1.5rem}
+.score-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.r-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:7}
+.r-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
+.score-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.score-num{
+  font-family:'DM Serif Display',serif;font-size:2.8rem;line-height:1;
+  color:var(--g1);
+}
+.score-den{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--txt2)}
+
+.res-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(1.4rem,4vw,2.1rem);color:var(--txt);
+  margin-bottom:.35rem;position:relative;z-index:1;
+}
+.res-sub{color:var(--txt2);font-size:.82rem;margin-bottom:1.2rem;position:relative;z-index:1}
+.grade-tag{
+  display:inline-block;
+  font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;
+  padding:.38rem 1.4rem;border-radius:4px;margin-bottom:.4rem;
+  position:relative;z-index:1;letter-spacing:.06em;
+}
+.pct-note{font-family:'Space Mono',monospace;color:var(--txt2);font-size:.65rem;position:relative;z-index:1}
+
+/* Stats */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem;
+}
+@media(max-width:460px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sbox{
+  background:rgba(0,0,0,.3);border:1px solid var(--border);
+  border-radius:14px;padding:1.1rem .9rem;text-align:center;
+  backdrop-filter:blur(8px);transition:.2s;
+}
+.sbox:hover{transform:translateY(-3px);border-color:rgba(0,230,118,.2)}
+.sico{font-size:1.2rem;margin-bottom:.25rem}
+.sval{
+  font-family:'Space Mono',monospace;font-size:1.35rem;font-weight:700;
+  margin-bottom:.12rem;
+}
+.slbl{font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2);font-family:'Space Mono',monospace}
+
+/* Analysis */
+.analysis{
+  background:rgba(0,0,0,.25);border:1px solid rgba(0,230,118,.15);
+  border-radius:16px;padding:1.4rem;margin-bottom:1rem;
+  backdrop-filter:blur(8px);
+}
+.an-hd{
+  font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;
+  color:var(--g2);margin-bottom:.9rem;
+  display:flex;align-items:center;gap:.5rem;letter-spacing:.06em;text-transform:uppercase;
+}
+.an-line{
+  font-size:.8rem;color:var(--txt2);margin-bottom:.5rem;
+  line-height:1.75;padding-left:.85rem;
+  border-left:2px solid rgba(0,230,118,.2);
+}
+.weak-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.7rem}
+.wt{
+  font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;
+  padding:.18rem .58rem;border-radius:3px;
+  background:rgba(255,82,82,.08);color:#ff8a80;
+  border:1px solid rgba(255,82,82,.18);
+}
+
+/* Tabs */
+.tabs{
+  display:flex;gap:.2rem;background:rgba(0,0,0,.25);
+  border:1px solid var(--border);border-radius:10px;padding:.25rem;
+  margin-bottom:.8rem;
+}
+.tab{
+  flex:1;padding:.42rem;border:none;border-radius:7px;
+  background:transparent;font-family:'Space Mono',monospace;
+  font-size:.62rem;font-weight:700;cursor:pointer;color:var(--txt2);transition:.18s;
+  letter-spacing:.04em;
+}
+.tab.on{
+  background:rgba(0,230,118,.1);color:var(--g1);
+  border:1px solid rgba(0,230,118,.2);
+}
+
+/* Review cards */
+.rev-card{
+  background:rgba(0,0,0,.25);border:1px solid var(--border);
+  border-radius:14px;padding:1.3rem;margin-bottom:.65rem;
+  border-left:3px solid transparent;backdrop-filter:blur(5px);
+  animation:qSlide .25s ease;transition:transform .18s;
+}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--wrong)}
+.rev-card.rs{border-left-color:var(--skip)}
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-bottom:.65rem}
+.rv-n{font-family:'Space Mono',monospace;font-size:.58rem;padding:.18rem .5rem;border-radius:3px;background:rgba(255,255,255,.05);color:var(--txt2)}
+.rv-yr{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--amber);background:rgba(255,171,0,.07);padding:.18rem .5rem;border-radius:3px;border:1px solid rgba(255,171,0,.18)}
+.rv-badge{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;padding:.18rem .55rem;border-radius:3px}
+.rv-badge.rc{background:rgba(0,230,118,.1);color:#69f0ae}
+.rv-badge.rw{background:rgba(255,82,82,.1);color:#ff8a80}
+.rv-badge.rs{background:rgba(255,171,0,.08);color:var(--amber)}
+.rv-topic{margin-left:auto;font-family:'Space Mono',monospace;font-size:.55rem;color:var(--blue2);background:rgba(64,196,255,.07);padding:.18rem .5rem;border-radius:3px}
+.rv-q{font-size:.82rem;color:var(--txt2);margin-bottom:.75rem;line-height:1.8;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.78rem;margin-bottom:.25rem;align-items:flex-start}
+.rv-lbl{font-family:'Space Mono',monospace;font-weight:700;min-width:110px;color:var(--txt2);flex-shrink:0;font-size:.65rem}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:var(--correct)}
+.rv-val.bad{color:var(--wrong)}
+.rv-exp{
+  margin-top:.7rem;padding:.8rem 1rem;
+  background:rgba(64,196,255,.05);border:1px solid rgba(64,196,255,.15);
+  border-radius:8px;font-size:.78rem;color:var(--txt2);line-height:1.75;
+}
+.rv-exp strong{color:var(--blue2)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:1.6rem 0;flex-wrap:wrap}
+.btn-red{
+  background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.25);color:#ff8a80;
+  padding:.7rem 1.6rem;border-radius:6px;
+  font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:.18s;
+}
+.btn-red:hover{background:rgba(255,82,82,.18)}
+
+/* scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(0,230,118,.25);border-radius:10px}
+
+@media(max-width:580px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .qcard{padding:1.3rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.5rem}
+  .sub-early{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker">
+  <div class="ticker-inner" id="tickerInner"></div>
+</div>
+
+<!-- ═══ START ═══ -->
+<div id="start" class="screen active">
+  <div class="term-logo">
+    <div class="bar-anim">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="tag-row">
+    <span class="ver-tag">UPSC PRELIMS</span>
+    <span class="sep">·</span>
+    <span class="ver-tag">PYQ 1995–2023</span>
+  </div>
+
+  <h1 class="hero-title">
+    <span class="ht1">Artha</span>
+    <span class="ht2">Indian Economy Quiz</span>
+  </h1>
+
+  <p class="hero-desc">44 authentic UPSC questions spanning macroeconomic concepts, GDP, monetary policy, liberalisation, inflation, and India's economic structure.</p>
+
+  <div class="stats-bar">
+    <div class="sb-item"><div class="sb-ic">📊</div><div class="sb-v">44</div><div class="sb-l">Questions</div></div>
+    <div class="sb-item"><div class="sb-ic">⏱</div><div class="sb-v">35 min</div><div class="sb-l">Timer</div></div>
+    <div class="sb-item"><div class="sb-ic">📅</div><div class="sb-v">1995–2023</div><div class="sb-l">PYQ Era</div></div>
+    <div class="sb-item"><div class="sb-ic">🎯</div><div class="sb-v">+2/−0.66</div><div class="sb-l">Marking</div></div>
+  </div>
+
+  <div class="pill-wrap">
+    <span class="pill">📈 GDP & GNP</span>
+    <span class="pill">🏦 Monetary Policy</span>
+    <span class="pill">🌐 Liberalisation</span>
+    <span class="pill">📉 Recession</span>
+    <span class="pill">💱 Currency & PPP</span>
+    <span class="pill">🔄 Supply & Demand</span>
+    <span class="pill">💰 Capital Formation</span>
+    <span class="pill">🧾 National Income</span>
+  </div>
+
+  <button class="cta-btn" onclick="startQuiz()"><span>▶ &nbsp;BEGIN QUIZ</span></button>
+  <p class="sub-note">// AUTO-SAVE ENABLED · RESUME ANYTIME //</p>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Q&nbsp;<em id="qCur">1</em>&nbsp;/&nbsp;<em id="qTot">44</em></div>
+      <div class="timer" id="timerEl">35:00</div>
+      <button class="sub-early" onclick="showMod()">SUBMIT EARLY</button>
+    </div>
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qbadge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtop" id="qTop">—</span>
+        <span class="qstat qs-none" id="qStat">UNANSWERED</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.45rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← PREV</button>
+          <button class="btn btn-skip" onclick="skipQ()">SKIP</button>
+        </div>
+        <div style="display:flex;gap:.45rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">NEXT →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">SUBMIT ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotmap" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-wrap">
+        <svg viewBox="0 0 120 120">
+          <circle class="r-bg" cx="60" cy="60" r="50"/>
+          <circle class="r-fill" id="ringArc" cx="60" cy="60" r="50"
+            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="score-inner">
+          <div class="score-num" id="rScore">0</div>
+          <div class="score-den" id="rDen">/44</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="grade-tag" id="rGrade"></div>
+      <div class="pct-note" id="rPct"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sbox"><div class="sico">✓</div><div class="sval" id="stC" style="color:var(--correct)">0</div><div class="slbl">Correct</div></div>
+      <div class="sbox"><div class="sico">✗</div><div class="sval" id="stW" style="color:var(--wrong)">0</div><div class="slbl">Wrong</div></div>
+      <div class="sbox"><div class="sico">—</div><div class="sval" id="stS" style="color:var(--skip)">0</div><div class="slbl">Skipped</div></div>
+      <div class="sbox"><div class="sico">◎</div><div class="sval" id="stAcc">0%</div><div class="slbl">Accuracy</div></div>
+      <div class="sbox"><div class="sico">⏱</div><div class="sval" id="stTime">—</div><div class="slbl">Time Used</div></div>
+      <div class="sbox"><div class="sico">∿</div><div class="sval" id="stAvg">—</div><div class="slbl">Avg/Q</div></div>
+    </div>
+
+    <div class="analysis">
+      <div class="an-hd">▶ PERFORMANCE ANALYSIS</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">ALL (44)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ CORRECT</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ WRONG</button>
+      <button class="tab" onclick="setTab('skipped',this)">— SKIPPED</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-red" onclick="restartQuiz()">↺ RESTART</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ TOP</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-ic">📊</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">CANCEL</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">SUBMIT ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Ticker tape
+(function(){
+  const items=[
+    {t:'GDP GROWTH ▲ 7.2%',cls:'up'},{t:'INFLATION ▼ 4.8%',cls:'dn'},
+    {t:'REPO RATE 6.50%',cls:''},{t:'FISCAL DEFICIT 5.1% OF GDP',cls:'dn'},
+    {t:'FOREX RESERVES $620B',cls:'up'},{t:'CURRENT ACCOUNT DEFICIT ▲',cls:'dn'},
+    {t:'IIP INDEX ▲ 5.6%',cls:'up'},{t:'WPI 3.4%',cls:''},{t:'CPI 5.1%',cls:'dn'},
+    {t:'NIFTY 50 ▲ 0.8%',cls:'up'},{t:'SENSEX ▲ 1.2%',cls:'up'},
+    {t:'USD/INR 83.2',cls:''},{t:'CAPITAL FORMATION 31.4% OF GDP',cls:'up'},
+    {t:'FDI INFLOW $71B',cls:'up'},{t:'EXPORTS ▲ 12.5%',cls:'up'},
+    {t:'IMPORTS ▲ 8.3%',cls:'dn'},{t:'TRADE DEFICIT $21B',cls:'dn'},
+  ];
+  const cont=document.getElementById('tickerInner');
+  // duplicate for seamless loop
+  [...items,...items].forEach(({t,cls})=>{
+    const d=document.createElement('div');
+    d.className='ticker-item'+(cls?' '+cls:'');
+    d.textContent=t;cont.appendChild(d);
+  });
+})();
+
+const L=['A','B','C','D'];
+
+// ════ 44 QUESTIONS ════
+const Q=[
+  {id:1,yr:'2023',topic:'Monetary Policy',
+   text:'Consider the following statements:\nStatement-I: In the post-pandemic recent past, many Central Banks worldwide had carried out interest rate hikes.\nStatement-II: Central Banks generally assume that they have the ability to counteract the rising consumer prices via monetary policy means.\n\nWhich of the following is correct in respect of the above statements?',
+   opts:['Both Statement-I and Statement-II are correct and Statement-II is the correct explanation for Statement-I.',
+         'Both Statement-I and Statement-II are correct and Statement-II is not the correct explanation for Statement-I.',
+         'Statement-I is correct but Statement-II is incorrect.',
+         'Statement-I is incorrect but Statement-II is correct.'],
+   ans:0,
+   exp:'Both statements are correct. Post-pandemic, inflation surged globally and Central Banks (US Fed, RBI, ECB, etc.) raised interest rates aggressively. Central Banks do believe monetary tightening (rate hikes) can reduce demand and thereby control inflation — this belief directly explains why rate hikes were undertaken. Thus Statement-II correctly explains Statement-I.'},
+
+  {id:2,yr:'2022',topic:'Real vs Financial Sector',
+   text:'Which of the following activities constitute a real sector in the economy?\n1. Farmers harvesting their crops\n2. Textile mills converting raw cotton into fabrics\n3. A commercial bank lending money to a trading company\n4. A corporate body issuing Rupee Denominated Bonds overseas\n\nSelect the correct answer:',
+   opts:['1 and 2 only','2, 3 and 4 only','1, 3 and 4 only','1, 2, 3 and 4'],
+   ans:0,
+   exp:'The real sector involves production of goods and services — agriculture and manufacturing. Financial sector involves financial transactions (lending, borrowing, bonds). Activity 1 (farming) and 2 (manufacturing) are REAL sector. Activity 3 (bank lending) and 4 (bond issuance) are financial sector activities. Hence only 1 and 2.'},
+
+  {id:3,yr:'2021',topic:'Recession Policy',
+   text:'Which among the following steps is most likely to be taken at the time of an economic recession?',
+   opts:['Cut in tax rates accompanied by increase in interest rate',
+         'Increase in expenditure on public projects',
+         'Increase in tax rates accompanied by reduction of interest rate',
+         'Reduction of expenditure on public projects'],
+   ans:1,
+   exp:'During a recession, governments use expansionary fiscal policy — increasing public expenditure to stimulate demand (Keynesian economics). This increases aggregate demand, boosts employment and output. Increasing tax rates or cutting spending would worsen a recession. Increasing interest rates during recession is also counterproductive.'},
+
+  {id:4,yr:'2021',topic:'Supply & Demand',
+   text:'Other things remaining unchanged, market demand for a good might increase if:\n1. Price of its substitute increases\n2. Price of its complement increases\n3. The good is an inferior good and income of the consumers increases\n4. Its price falls\n\nWhich are correct?',
+   opts:['1 and 4 only','2, 3 and 4','1, 3 and 4','1, 2 and 3'],
+   ans:0,
+   exp:'(1) If substitute price rises, consumers shift to this good — demand RISES. ✓\n(2) If complement price rises, less of the complement is bought, so demand for this good FALLS — WRONG.\n(3) For inferior goods, income rise causes demand to FALL (negative income effect) — WRONG.\n(4) Price fall → demand rises (law of demand). ✓\nOnly 1 and 4 are correct.'},
+
+  {id:5,yr:'2020',topic:'Post-Liberalisation Economy',
+   text:'With reference to the Indian economy after the 1991 economic liberalization, which statements are correct?\n1. Worker productivity increased in urban areas while it decreased in rural areas.\n2. The percentage share of rural areas in the workforce steadily increased.\n3. In rural areas, the growth in non-farm economy increased.\n4. The growth rate in rural employment decreased.',
+   opts:['1 and 2 only','3 and 4 only','3 only','1, 2 and 4 only'],
+   ans:1,
+   exp:'After 1991 liberalisation: Worker productivity increased in both urban AND rural areas (statement 1 wrong). Rural share of workforce gradually DECLINED as urbanisation increased (statement 2 wrong). Non-farm activities (construction, trade, transport) in rural areas DID increase significantly (statement 3 correct). Rural employment growth rate slowed as farm sector stagnated (statement 4 correct). So 3 and 4 are correct.'},
+
+  {id:6,yr:'2019',topic:'PPP & GDP',
+   text:'Consider the following statements:\n1. Purchasing Power Parity (PPP) exchange rates are calculated by comparing the prices of the same basket of goods and services in different countries.\n2. In terms of PPP dollars, India is the sixth largest economy in the world.\n\nWhich are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,
+   exp:'Statement 1 is CORRECT — PPP exchange rates are indeed derived by comparing identical baskets of goods/services across countries (e.g., the Big Mac Index). Statement 2 is INCORRECT — by PPP, India is the 3rd largest economy (after USA and China), NOT 6th. India overtook Japan and Germany in PPP terms. Hence only statement 1 is correct.'},
+
+  {id:7,yr:'2018',topic:'Money & Banking',
+   text:'Which one of the following statements correctly describes the meaning of legal tender money?',
+   opts:['The money which is tendered in courts of law to defray the fee of legal cases',
+         'The money which a creditor is under compulsion to accept in settlement of his claims',
+         'The bank money in the form of cheques, drafts, bill of exchange, etc.',
+         'The metallic money in circulation in a country'],
+   ans:1,
+   exp:'Legal tender money is money that, by law, must be accepted as payment for debts and obligations. A creditor cannot legally refuse legal tender in settlement of a debt. In India, currency notes and coins are legal tender. Cheques and drafts are NOT legal tender (a creditor can refuse them). Hence option (b) is correct.'},
+
+  {id:8,yr:'2018',topic:'Opportunity Cost',
+   text:'If a commodity is provided free to the public by Government, then:',
+   opts:['The opportunity cost is zero.',
+         'The opportunity cost is ignored.',
+         'The opportunity cost is transferred from the consumers of the product to the tax paying public.',
+         'The opportunity cost is transferred from the consumers of the product to the Government.'],
+   ans:2,
+   exp:'When Government provides a good free, the consumer pays zero price but the cost does not disappear — it is funded by tax revenue. So the opportunity cost is borne by the tax-paying public. Resources used to produce/distribute this good could have been used elsewhere. The cost is simply transferred (shifted) from direct consumers to taxpayers.'},
+
+  {id:9,yr:'2018',topic:'GDP & Development',
+   text:'Increase in absolute and per capita real GNP do not connote a higher level of economic development, if:',
+   opts:['Industrial output fails to keep pace with agricultural output.',
+         'Agricultural output fails to keep pace with industrial output.',
+         'Poverty and unemployment increases.',
+         'Imports grow faster than exports.'],
+   ans:2,
+   exp:'GDP/GNP growth is a necessary but not sufficient condition for economic development. If poverty and unemployment increase despite GNP growth, it means growth is inequitably distributed and has not improved people\'s well-being. Development means improvement in living standards, reduction of poverty, and human capability enhancement — not mere output increase.'},
+
+  {id:10,yr:'2018',topic:'Capital Formation',
+   text:'Despite being a high saving economy, capital formation may not result in significant increase in output due to:',
+   opts:['Weak administrative machinery','Illiteracy','High population density','High capital-output ratio'],
+   ans:3,
+   exp:'The capital-output ratio (ICOR) measures how much capital is needed to produce one unit of output. A HIGH capital-output ratio means each unit of investment yields less output — investment is less efficient. Even with high savings and investment, if ICOR is high (due to inefficient projects, infrastructure gaps, etc.), output growth will be disappointing. India historically had a high ICOR in its planning era.'},
+
+  {id:11,yr:'2017',topic:'Post-Liberalisation',
+   text:'Which of the following has/have occurred in India after its liberalization of economic policies in 1991?\n1. Share of agriculture in GDP increased enormously.\n2. Share of India\'s exports in world trade increased.\n3. FDI inflows increased.\n4. India\'s foreign exchange reserves increased enormously.\n\nSelect correct answer:',
+   opts:['1 and 4 only','2, 3 and 4 only','2 and 3 only','1, 2, 3 and 4'],
+   ans:1,
+   exp:'After 1991 liberalisation: Agriculture share in GDP DECLINED (services and industry grew faster) — Statement 1 WRONG. India\'s export share in world trade did increase gradually — Statement 2 CORRECT. FDI inflows rose dramatically — Statement 3 CORRECT. Forex reserves grew from near-bankruptcy ($1B in 1991) to hundreds of billions — Statement 4 CORRECT. So 2, 3 and 4 are correct.'},
+
+  {id:12,yr:'2015',topic:'GDP Trends',
+   text:'With reference to India economy, consider the following statements:\n1. The rate of growth of real GDP has steadily increased in the last decade.\n2. The Gross Domestic Product at market prices (in rupees) has steadily increased in the last decade.\n\nWhich are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1 is WRONG — India\'s real GDP growth rate has NOT steadily increased; it fluctuated (high in 2007-08, then fell during global crisis 2008-09, rose again, then slowed after 2011-12). Statement 2 is CORRECT — Nominal GDP at market prices (in rupees) has indeed steadily increased every year because nominal values include inflation; even in slowdown years, nominal GDP grows. Hence only statement 2.'},
+
+  {id:13,yr:'2015',topic:'International Finance',
+   text:'The problem of international liquidity is related to the non-availability of:',
+   opts:['Goods and services','Gold and silver','Dollars and other hard currencies','Exportable surplus'],
+   ans:2,
+   exp:'International liquidity refers to the availability of means of international payment. In the post-Bretton Woods era, this means having adequate hard currencies (primarily US dollars, Euros, etc.) and reserve assets (like SDRs) to settle international transactions. Shortage of dollars and other convertible currencies creates international liquidity problems, especially for developing countries.'},
+
+  {id:14,yr:'2015',topic:'Tax & Growth',
+   text:'A decrease in tax to GDP ratio of a country indicates which of the following?\n1. Slowing economic growth rates\n2. Less equitable distribution of national income\n\nSelect correct answer:',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,
+   exp:'If the tax-to-GDP ratio falls, it indicates the government is collecting less tax relative to the size of the economy, which often signals slowing economic growth (lower income, less corporate profit, reduced tax base). Statement 1 is correct. Statement 2 (less equitable distribution) is NOT necessarily implied by a lower tax ratio — equity depends on the structure of taxation and spending, not the ratio alone.'},
+
+  {id:15,yr:'2013',topic:'Economic Growth',
+   text:'Economic growth in country X will necessarily have to occur if:',
+   opts:['There is technical progress in the world economy',
+         'There is population growth in X',
+         'There is capital formation in X',
+         'The volume of trade grows in the world economy'],
+   ans:2,
+   exp:'Capital formation (investment in productive assets) directly increases the productive capacity of an economy and NECESSARILY leads to economic growth, as it adds to the capital stock. Technical progress in the world may or may not benefit country X. Population growth can either help or hurt (depends on productivity). World trade volume growth benefits X only if X participates. Capital formation is the most direct and necessary condition.'},
+
+  {id:16,yr:'2013',topic:'National Income Concepts',
+   text:'The national income of a country for a given period is equal to the:',
+   opts:['Total value of goods and services produced by the nationals',
+         'Sum of total consumption and investment expenditure',
+         'Sum of personal income of all individuals',
+         'Money value of final goods and services produced'],
+   ans:3,
+   exp:'National Income = Net National Product at factor cost = money value of final goods and services produced by residents (nationals) during a year, avoiding double counting. Option (d) correctly captures this — "money value of final goods and services produced." Option (a) is slightly misleading as it says "total value" not "final." Option (b) misses government expenditure and net exports.'},
+
+  {id:17,yr:'2012',topic:'Capital Gains',
+   text:'Under which of the following circumstances may "capital gains" arise?\n1. When there is an increase in the sales of a product\n2. When there is a natural increase in the value of the property owned\n3. When you purchase a painting and there is a growth in its value due to increase in its popularity\n\nSelect correct answer:',
+   opts:['1 Only','2 & 3 Only','2 Only','1, 2 & 3 Only'],
+   ans:1,
+   exp:'Capital gains arise from an increase in the value of a capital asset (not from current production/sales). Situation 1 — increased sales of a product — is OPERATING INCOME, not capital gain. Situation 2 — natural appreciation of property value — IS a capital gain. Situation 3 — a painting appreciating in value — IS a capital gain (asset appreciation). So only 2 and 3 constitute capital gains.'},
+
+  {id:18,yr:'2011',topic:'GDP Trends',
+   text:'In the context of Indian economy, consider the following statements:\n1. The growth rate of GDP has steadily increased in the last five years.\n2. The growth rate in per capita income has steadily increased in the last five years.\n\nWhich are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,
+   exp:'Neither statement is correct. India\'s GDP growth rate fluctuated — it peaked around 9% in 2007-08, fell sharply during the global financial crisis in 2008-09, recovered somewhat, but was not "steadily increasing." Similarly, per capita income growth was not steady. Economic indicators inherently fluctuate. Both statements overstate the consistency of India\'s growth trajectory.'},
+
+  {id:19,yr:'2011',topic:'Macroeconomics',
+   text:'Economic growth is usually coupled with:',
+   opts:['Deflation','Inflation','Stagflation','Hyperinflation'],
+   ans:1,
+   exp:'Economic growth is typically accompanied by moderate inflation. As the economy grows, incomes rise, demand for goods/services increases, and with limited supply in the short run, prices tend to rise (demand-pull inflation). This is considered healthy — a moderate 2-4% inflation alongside growth. Deflation usually signals economic contraction; stagflation is growth stagnation with inflation.'},
+
+  {id:20,yr:'2011',topic:'Macroeconomics',
+   text:'A "closed economy" is an economy in which:',
+   opts:['The money supply is fully controlled.',
+         'Deficit financing takes place.',
+         'Only exports take place.',
+         'Neither exports nor imports take place.'],
+   ans:3,
+   exp:'A closed economy has no international trade — it neither exports nor imports. It is self-sufficient and has no economic interaction with the rest of the world. This contrasts with an open economy which engages in international trade and financial flows. The concept is important in theoretical macroeconomic models (like closed-economy Keynesian models).'},
+
+  {id:21,yr:'2010',topic:'Indian GDP',
+   text:'With reference to the Indian economy, consider the following statements:\n1. The Gross Domestic Product (GDP) has increased by four times in the last 10 years.\n2. The percentage share of Public Sector in GDP has declined in the last 10 years.\n\nWhich are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1: GDP may not have quadrupled in 10 years at the time of the question (2010 context, 2000-2010 data). Real GDP roughly doubled. So statement 1 is INCORRECT as a precise claim. Statement 2: With liberalisation, privatisation and rise of private sector, the share of public sector in GDP DID decline as private industry and services grew faster. Statement 2 is CORRECT. Hence only 2.'},
+
+  {id:22,yr:'2010',topic:'Economic Terms',
+   text:'In the context of Indian economy, which of the following pairs (Term → Most appropriate description) is/are correctly matched?\n1. Meltdown → Fall in stock prices\n2. Recession → Fall in growth rate\n3. Slowdown → Fall in GDP\n\nWhich pairs are correctly matched?',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:0,
+   exp:'Meltdown = dramatic, rapid fall in stock/asset prices — CORRECT. Recession = two consecutive quarters of NEGATIVE GDP growth (actual fall, not just slower growth); not merely "fall in growth rate" — Statement 2 WRONG (that\'s "slowdown"). Slowdown = fall in the RATE of growth, not actual fall in GDP level — Statement 3 WRONG (fall in GDP level is recession/contraction). Only Pair 1 is correctly matched.'},
+
+  {id:23,yr:'2010',topic:'Currency & Finance',
+   text:'Which of the following is/are treated as artificial currency?',
+   opts:['ADR','GDR','SDR','Both ADR and SDR'],
+   ans:2,
+   exp:'SDR (Special Drawing Rights) is an international reserve asset created by the IMF and is called "artificial currency" because it is not a currency per se but a claim on freely usable currencies. ADR (American Depositary Receipt) and GDR (Global Depositary Receipt) are equity instruments/certificates, not currencies. The SDR value is based on a basket of five major currencies.'},
+
+  {id:24,yr:'2010',topic:'Inflation & Deflation',
+   text:'Which one of the following is an appropriate description of deflation?',
+   opts:['It is a sudden fall in the value of a currency against other currencies.',
+         'It is a persistent recession in both the financial and real sectors of economy.',
+         'It is a persistent fall in the general price level of goods and services.',
+         'It is a fall in the rate of inflation over a period of time.'],
+   ans:2,
+   exp:'Deflation is a persistent, sustained fall in the general price level of goods and services in an economy. It is the opposite of inflation. Option (a) describes currency depreciation. Option (b) describes depression/deep recession. Option (d) describes disinflation (slowing rate of inflation, not actual price fall). Deflation can be harmful as it discourages spending and investment.'},
+
+  {id:25,yr:'2009',topic:'Economic History India',
+   text:'In the context of independent India\'s Economy, which one of the following was the earliest event to take place?',
+   opts:['Nationalisation of Insurance companies',
+         'Nationalisation of State Bank of India',
+         'Enactment of Banking Regulation Act',
+         'Introduction of First Five-Year Plan'],
+   ans:2,
+   exp:'The Banking Regulation Act was enacted in 1949. The First Five-Year Plan was introduced in 1951-52. State Bank of India was formed in 1955 (from Imperial Bank). Life Insurance nationalization was in 1956. So the chronological order is: Banking Regulation Act (1949) → First Five-Year Plan (1951) → SBI Nationalisation (1955) → LIC/Insurance Nationalisation (1956). The earliest event is Banking Regulation Act, 1949.'},
+
+  {id:26,yr:'2007',topic:'Sectoral Contribution',
+   text:'Which one of the following is the correct sequence in the decreasing order of contribution of different sectors to the Gross Domestic Product of India?',
+   opts:['Service – Industry – Agriculture',
+         'Service – Agriculture – Industry',
+         'Industry – Services – Agriculture',
+         'Industry – Agriculture – Services'],
+   ans:0,
+   exp:'In India, the Services sector contributes the most to GDP (over 55%), followed by Industry (about 25-28%), and Agriculture has the smallest share (around 15-18%) though it employs the most people. This structural transformation accelerated post-1991 liberalisation. The correct descending order is Services > Industry > Agriculture.'},
+
+  {id:27,yr:'2003',topic:'Per Capita Income',
+   text:'Which one among the following countries has the lowest GDP per capita?',
+   opts:['China','India','Indonesia','Sri Lanka'],
+   ans:1,
+   exp:'At the time of this question (2003), India had the lowest per capita GDP among the listed countries. China had already begun its rapid growth, Sri Lanka had higher per capita income, and Indonesia was at a comparable or slightly higher level. India\'s low per capita income reflects its large population base despite growing aggregate GDP.'},
+
+  {id:28,yr:'2002',topic:'GDP Composition',
+   text:'With reference to Indian economy, the decreasing order of contribution of sectors to GDP at factor cost at constant prices (2000-01) — sectors: 1. Agriculture/Forestry/Fishing, 2. Manufacturing, 3. Trade/Hotels/Transport/Communication, 4. Financing/Insurance/Real Estate/Business services — is:',
+   opts:['3, 1, 2, 4','1, 3, 4, 2','3, 4, 1, 2','1, 3, 2, 4'],
+   ans:2,
+   exp:'In 2000-01, the sectoral contribution to GDP: Trade/Hotels/Transport/Communication (sector 3) was the largest service component, followed by Finance/Insurance/Real Estate (sector 4), then Agriculture (sector 1), and Manufacturing (sector 2) was relatively smaller. The correct decreasing order is 3 > 4 > 1 > 2.'},
+
+  {id:29,yr:'2002',topic:'Foreign Capital',
+   text:'Global capital flows to developing countries increased significantly during the nineties. In view of the East Asian financial crisis and Latin American experience, which type of inflow is good for the host country?',
+   opts:['Commercial loans','Foreign Direct Investment','Foreign Portfolio Investment','External Commercial Borrowings'],
+   ans:1,
+   exp:'FDI (Foreign Direct Investment) is considered the most beneficial capital inflow as it brings technology, managerial expertise, creates jobs, and is long-term/stable. FPI (hot money) is volatile and caused the 1997 East Asian crisis when it fled rapidly. Commercial loans and ECBs create debt obligations. FDI does not create debt and doesn\'t leave suddenly in times of crisis.'},
+
+  {id:30,yr:'2002',topic:'Debt Trap',
+   text:'A country is said to be in a debt trap if:',
+   opts:['It has to abide by the conditionalities imposed by the International Monetary Fund',
+         'It has to borrow to make interest payments on outstanding loans',
+         'It has been refused loans or aid by creditors abroad',
+         'The World Bank charges a very high rate of interest on outstanding as well as new loans'],
+   ans:1,
+   exp:'A debt trap occurs when a country\'s debt burden is so heavy that it must keep borrowing NEW loans just to pay the INTEREST on existing loans — a vicious cycle. This means the debt principal never decreases and the country is trapped in perpetual indebtedness. This is the textbook definition of a debt trap, applicable to many developing nations that faced debt crises.'},
+
+  {id:31,yr:'2001',topic:'National Income',
+   text:'The term National Income represents:',
+   opts:['Gross National Product at market prices minus depreciation',
+         'Gross National Product at market prices minus depreciation and net factor income from abroad',
+         'Gross National Product at market prices minus depreciation and indirect taxes plus subsidies',
+         'Gross National Product at market prices minus net factor income from abroad'],
+   ans:0,
+   exp:'National Income = Net National Product at factor cost = GNP at market prices – Depreciation – Indirect taxes + Subsidies. However, in simpler terminologies, NNP at market prices = GNP at market prices – Depreciation. The question\'s answer key indicates option (a): GNP at market prices minus depreciation = NNP at market prices. The fuller definition includes further adjustments for indirect taxes and subsidies.'},
+
+  {id:32,yr:'2001',topic:'State Economies',
+   text:'The descending order of these States with reference to their level of Per Capita Net State Domestic Product is (States: I. Gujarat, II. Karnataka, III. Maharashtra, IV. Tamil Nadu):',
+   opts:['I, III, IV, II','II, I, IV, III','I, III, II, IV','III, I, IV, II'],
+   ans:1,
+   exp:'In 2001 data, the per capita NSDP ranking among these four states placed Karnataka at the top (due to Bangalore IT boom), followed by Gujarat (strong industry), Tamil Nadu (textile/auto), and Maharashtra (though high absolute GDP, per capita was lower due to metro-rural disparity). The answer key gives II, I, IV, III = Karnataka > Gujarat > Tamil Nadu > Maharashtra (per capita).'},
+
+  {id:33,yr:'2001',topic:'Measuring Growth',
+   text:'The most appropriate measure of a country\'s economic growth is its:',
+   opts:['Gross Domestic Product','Net Domestic Product','Net National Product','Per Capita Real Income'],
+   ans:3,
+   exp:'Per capita real income is the most appropriate measure of economic growth because: (1) it adjusts for population size (growth should benefit per person), (2) "real" means inflation is removed to show actual purchasing power improvements. GDP is an aggregate — a large country can have high GDP but poor living standards. NDP and NNP are better than GDP but per capita real income best captures living standard changes.'},
+
+  {id:34,yr:'2000',topic:'Income Measurement',
+   text:'The growth rate of per capita income at current prices is higher than that of per capita income at constant prices, because the latter takes into account the rate of:',
+   opts:['Growth of population','Increase in price level','Growth of money supply','Increase in the wage rate'],
+   ans:1,
+   exp:'Per capita income at CURRENT prices includes the effect of both real growth AND inflation. Per capita income at CONSTANT prices removes the inflation effect (using base year prices). Hence, the difference between the two growth rates reflects the rate of inflation (increase in price level). If nominal rate = 12% and real rate = 7%, the difference (5%) represents inflation.'},
+
+  {id:35,yr:'2000',topic:'GDP Base Year',
+   text:'The new Gross Domestic Product (GDP) series released by the Central Statistical Organisation (CSO) in February 1999 is with reference to base price of:',
+   opts:['1991-\'92','1992-\'93','1993-\'94','1994-\'95'],
+   ans:2,
+   exp:'The CSO released a new GDP series in 1999 with the base year shifted to 1993-94 (from the earlier 1980-81 base). This revision better reflected structural changes in the Indian economy post-liberalisation, including the growing services sector. This base year was used until another revision shifted it to 2004-05 and then 2011-12.'},
+
+  {id:36,yr:'2000',topic:'Business Cycles',
+   text:'Match the economic phases (Boom, Recession, Depression, Recovery) with their descriptions:\nI. Boom → A. Business activity at high level with increasing income, output, employment\nII. Recession → B. Gradual fall of income, output and employment\nIII. Depression → C. Unprecedented underemployment, drastic fall in income, output\nIV. Recovery → D. Steady rise in general level of prices, income, output\n\nCorrect matching I-II-III-IV:',
+   opts:['I-A, II-B, III-C, IV-D','I-A, II-B, III-D, IV-C','I-B, II-A, III-D, IV-C','I-B, II-A, III-C, IV-D'],
+   ans:0,
+   exp:'Business cycle phases: Boom = A (high activity, rising income/output/employment). Recession = B (gradual fall in economic activity — mild decline). Depression = C (severe prolonged downturn — mass unemployment, drastic fall — like 1930s Great Depression). Recovery = D (economy picking up — prices, income, output steadily rising). The correct match is I-A, II-B, III-C, IV-D.'},
+
+  {id:37,yr:'2000',topic:'National Income Identity',
+   text:'In an open economy, the national income (Y) of the economy is (C=Consumption, I=Investment, G=Govt. Expenditure, X=Total exports, M=Total imports):',
+   opts:['Y = C + I + G + X',
+         'Y = C + I + G - X + M',
+         'Y = C + I + G + (X - M)',
+         'Y = C + I - G + X - M'],
+   ans:2,
+   exp:'In an open economy, National Income (GDP by expenditure method): Y = C + I + G + NX, where NX = Net Exports = X - M (Exports minus Imports). If exports > imports (trade surplus), NX is positive, adding to GDP. If imports > exports (trade deficit), NX is negative, reducing GDP. The correct formula is Y = C + I + G + (X - M).'},
+
+  {id:38,yr:'1999',topic:'Sectoral Trends',
+   text:'Since 1980, the share of the tertiary sector in the total GDP of India has:',
+   opts:['Shown an increasing trend','Shown a decreasing trend','Remained constant','Been fluctuating'],
+   ans:0,
+   exp:'The tertiary sector (services) has shown a consistently increasing trend in India\'s GDP since 1980. This "services-led growth" is a defining feature of India\'s economic transformation. IT/software, banking, telecom, retail and other services expanded rapidly. By 2023, services contribute over 55% of GDP. This structural shift from agriculture → industry → services is the pattern of economic development.'},
+
+  {id:39,yr:'1998',topic:'Consumer Economics',
+   text:'A consumer is said to be in equilibrium, if:',
+   opts:['He is able to fulfil his need with a given level of income',
+         'He is able to live in full comforts with a given level of income',
+         'He can fulfil his needs without consumption of certain items',
+         'He is able to locate new sources of income'],
+   ans:0,
+   exp:'Consumer equilibrium in microeconomics occurs when a consumer maximises satisfaction (utility) from their given income and existing prices. In simple terms — the consumer has allocated their income such that they cannot improve their total utility by reallocating spending. The practical meaning is that they are fulfilling their needs optimally with their given income. Option (a) most closely captures this concept.'},
+
+  {id:40,yr:'1998',topic:'Economic Theories',
+   text:'The supply-side economics lays greater emphasis on the point of view of:',
+   opts:['Producer','Global economy','Consumer','Middle-man'],
+   ans:0,
+   exp:'Supply-side economics (associated with Reagan-era "Reaganomics" and Thatcher policies) focuses on increasing production (supply) rather than stimulating demand. It advocates tax cuts for producers/investors, deregulation, and reducing government interference so producers can invest and create economic growth. The emphasis is on the PRODUCER (supply side) rather than consumer demand.'},
+
+  {id:41,yr:'1997',topic:'National Income',
+   text:'National Income is the:',
+   opts:['Net National Product at market price',
+         'Net National Product at factor cost',
+         'Net Domestic Product at market price',
+         'Net Domestic Product at factor cost'],
+   ans:0,
+   exp:'In standard national accounts terminology: National Income = NNP at factor cost = NNP at market prices − Indirect taxes + Subsidies. The answer key here indicates option (a): NNP at market price. While strictly National Income = NNP at factor cost, different sources define it differently. Per the official UPSC answer key, the answer is (a) — NNP at market price in the context of this question.'},
+
+  {id:42,yr:'1996',topic:'Income Distribution',
+   text:'A redistribution of income in a country can be best brought about through:',
+   opts:['Progressive taxation combined with progressive expenditure',
+         'Progressive taxation combined with regressive expenditure',
+         'Regressive taxation combined with regressive expenditure',
+         'Regressive taxation combined with progressive expenditure'],
+   ans:1,
+   exp:'This is a nuanced fiscal policy question. Progressive taxation (rich pay higher %) + regressive expenditure (spending on items more beneficial to lower-income groups proportionally — like basic amenities, food subsidies) achieves redistribution. However, the standard answer per the UPSC key is (b). Note: many economists argue (a) is better; this reflects the original answer key\'s position.'},
+
+  {id:43,yr:'1996',topic:'Economic Reforms',
+   text:'Which one of the following is correct regarding stabilization and structural adjustment as two components of the new economic policy adopted in India?',
+   opts:['Stabilization is a gradual, multi-step process while structural adjustment is a quick adaptation process',
+         'Structural adjustment is a gradual, multi-step process, while stabilization is a quick adaptation process',
+         'Stabilization and structural adjustment are very similar and complementary policies',
+         'Stabilization mainly deals with Central Government while structural adjustment is set in motion by State Governments'],
+   ans:1,
+   exp:'In India\'s 1991 New Economic Policy: Stabilization refers to short-term measures (reducing fiscal deficit, controlling inflation, managing BoP crisis) — these are relatively QUICK fixes. Structural Adjustment refers to long-term, fundamental reforms (liberalisation, privatisation, deregulation) — these are GRADUAL, multi-step processes taking years to implement fully. Hence structural adjustment is gradual while stabilization is the quick, immediate response.'},
+
+  {id:44,yr:'1995',topic:'Capital & Output',
+   text:'The main reason for low growth rate in India, in spite of high rate of savings and capital formation is:',
+   opts:['High birth rate','Low level of foreign aid','Low capital/output ratio','High capital/output ratio'],
+   ans:3,
+   exp:'India had a high capital-output ratio (also called ICOR — Incremental Capital Output Ratio) in its planning era. This means that large amounts of capital investment yielded relatively small increases in output — investment was inefficient. Capital was trapped in unproductive public sector enterprises, poor infrastructure, and capital-intensive industries. Despite high savings, inefficient deployment meant low output growth per unit of capital.'}
+];
+
+// ════ STATE ════
+let S={cur:0,ans:new Array(44).fill(null),skp:new Array(44).fill(false),start:null,tLeft:35*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('artha_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('Resume your previous session?')){
+        S={...S,...d,tInt:null};
+      }else{localStorage.removeItem('artha_v1');S.start=Date.now();}
+    }catch(e){S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏱ Time is up! Submitting quiz…');submitQuiz();}
+  },1000);
+}
+function updTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTop').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='SKIPPED';sp.className='qstat qs-skp';}
+  else if(S.ans[i]!==null){sp.textContent='ANSWERED';sp.className='qstat qs-ans';}
+  else{sp.textContent='UNANSWERED';sp.className='qstat qs-none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="okey">${L[idx]}</span><span class="otxt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);
+  });
+}
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, you can review all answers with explanations.`;
+  document.getElementById('modOv').classList.add('on');
+}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+
+function fmtT(s){return `${Math.floor(s/60)}m ${pad(s%60)}s`;}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(35*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const tot=Q.length;
+  const attempted=cor+wr;
+  const pct=Math.round(cor/tot*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
+  const avg=Math.round(used/tot);
+
+  let grade,ringColor;
+  if(pct>=90){grade='★ EXCEPTIONAL';ringColor='#00e676';}
+  else if(pct>=75){grade='★ EXCELLENT';ringColor='#1de9b6';}
+  else if(pct>=60){grade='★ PROFICIENT';ringColor='#40c4ff';}
+  else if(pct>=45){grade='★ AVERAGE';ringColor='#ffab00';}
+  else{grade='★ NEEDS REVISION';ringColor='#ff5252';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=ringColor;
+  setTimeout(()=>arc.style.strokeDashoffset=314.16*(1-pct/100),100);
+
+  document.getElementById('rScore').textContent=cor;
+  document.getElementById('rScore').style.color=ringColor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${ringColor}15;color:${ringColor};border:1px solid ${ringColor}30;`;
+
+  if(pct>=75)document.getElementById('rTitle').textContent='Strong Economic Fundamentals!';
+  else if(pct>=50)document.getElementById('rTitle').textContent='Decent Attempt — Keep Revising!';
+  else document.getElementById('rTitle').textContent='More Revision Required';
+
+  document.getElementById('rSub').textContent=`Score: ${cor}/${tot} · Attempted: ${attempted}`;
+  document.getElementById('rPct').textContent=`// ACCURACY: ${acc}% ON ATTEMPTED · TIME: ${fmtT(used)} //`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  buildAnalysis(cor,wr,sk,pct,acc);
+  renderRev('all');
+  localStorage.removeItem('artha_v1');
+  show('results');
+}
+
+function buildAnalysis(cor,wr,sk,pct,acc){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('Excellent command over Indian Economy for UPSC. Focus on current economic events for GS Paper 3.');
+  else if(pct>=75)lines.push('Strong foundation. Revise NCERT Class 11-12 Economics and Economic Survey for remaining gaps.');
+  else if(pct>=50)lines.push('Decent base. Systematically cover Ramesh Singh\'s Indian Economy and NCERT Macroeconomics Class 12.');
+  else lines.push('Start from NCERT Class 12 Macroeconomics, then move to Ramesh Singh. Attempt sectoral questions separately.');
+
+  if(sk>8)lines.push(`${sk} questions skipped — in UPSC, use elimination strategy to attempt more questions confidently.`);
+  if(acc<55&&(cor+wr)>8)lines.push('Focus on conceptual clarity before speed. Read explanations for all wrong answers carefully.');
+
+  if(topErr['National Income Concepts']||topErr['National Income'])
+    lines.push('National Income: NI = NNP at factor cost = NNP at market price − Net Indirect Taxes. Y = C+I+G+(X−M) for open economy.');
+  if(topErr['Monetary Policy'])
+    lines.push('Monetary Policy: Rate hikes combat inflation; cuts stimulate growth. RBI uses repo, reverse repo, CRR, SLR as tools.');
+  if(topErr['GDP & Development']||topErr['GDP Trends']||topErr['Sectoral Contribution'])
+    lines.push('India GDP: Services > Industry > Agriculture (by %). But Agriculture employs ~46% of workforce. Services lead post-1991.');
+  if(topErr['Post-Liberalisation']||topErr['Post-Liberalisation Economy'])
+    lines.push('1991 Reforms (LPG): Agriculture GDP share FELL; Services share ROSE; FDI increased; Forex reserves grew from $1B to $600B+.');
+  if(topErr['Capital Formation']||topErr['Capital & Output'])
+    lines.push('High ICOR (capital-output ratio) = inefficient investment = less output per rupee invested. India\'s planning era challenge.');
+  if(topErr['Supply & Demand'])
+    lines.push('Demand shifters: Substitute price ↑ → demand ↑. Complement price ↑ → demand ↓. Inferior good: income ↑ → demand ↓.');
+  if(topErr['Inflation & Deflation']||topErr['Macroeconomics'])
+    lines.push('Deflation = persistent price FALL. Disinflation = slowing inflation rate. Stagflation = inflation + stagnation together.');
+  if(topErr['International Finance']||topErr['Foreign Capital'])
+    lines.push('FDI > FPI for stability. SDR = IMF artificial reserve asset. PPP compares same basket of goods across countries.');
+  if(topErr['Economic Terms']||topErr['Business Cycles'])
+    lines.push('Recession = 2 quarters negative growth. Meltdown = stock crash. Slowdown = falling growth rate (not negative). Depression = severe prolonged recession.');
+
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`WEAK AREA: ${t} — ${c} error${c>1?'s':''}. Prioritise in next revision session.`));
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="an-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-row">${ranked.map(([t])=>`<span class="wt">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ CORRECT':isWr?'✗ WRONG':'— SKIPPED';
+    const uaTxt=isSk?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rv-row"><span class="rv-lbl">YOUR ANSWER:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">CORRECT ANS:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-family:\'Space Mono\',monospace;font-size:.75rem">// NO QUESTIONS IN THIS CATEGORY //</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  try{
+    localStorage.setItem('artha_v1',JSON.stringify({
+      cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+    }));
+  }catch(e){}
+}
+
+function restartQuiz(){
+  if(!confirm('Restart quiz? All progress will be erased.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('artha_v1');
+  S={cur:0,ans:new Array(44).fill(null),skp:new Array(44).fill(false),start:null,tLeft:35*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
