@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arthneeti · UPSC Economy & Public Finance Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05080f;
+  --bg2:#080c17;
+  --bg3:#0d1220;
+  --surface:#111827;
+  --surface2:#1a2235;
+  --surface3:#1f2a3f;
+  --emerald:#00d4a1;
+  --emerald2:#00b589;
+  --emerald3:#4fffcc;
+  --emerald-dim:rgba(0,212,161,.12);
+  --blue:#3b82f6;
+  --blue2:#60a5fa;
+  --amber:#f59e0b;
+  --amber2:#fbbf24;
+  --amber3:#fde68a;
+  --rose:#f43f5e;
+  --correct:#10b981;
+  --wrong:#ef4444;
+  --skip:#f59e0b;
+  --violet:#7c3aed;
+  --violet2:#a78bfa;
+  --txt:#e8f0ff;
+  --txt2:#7a8aaa;
+  --txt3:#b0bfd4;
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(0,212,161,.2);
+  --r:12px;
+  --r2:18px;
+  --r3:24px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* ── GRID BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,161,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,161,.035) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%,rgba(0,212,161,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 80%,rgba(59,130,246,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(124,58,237,.04) 0%,transparent 70%);
+}
+
+/* Floating orbs */
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat ease-in-out infinite}
+.orb1{width:400px;height:400px;top:-100px;left:-100px;background:rgba(0,212,161,.06);animation-duration:18s}
+.orb2{width:300px;height:300px;bottom:-80px;right:-80px;background:rgba(59,130,246,.07);animation-duration:22s;animation-delay:-7s}
+.orb3{width:200px;height:200px;top:50%;left:60%;background:rgba(245,158,11,.05);animation-duration:15s;animation-delay:-3s}
+@keyframes orbFloat{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(30px,-40px) scale(1.05)}
+  66%{transform:translate(-20px,20px) scale(.95)}
+}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ════════════════════════════
+   START SCREEN
+════════════════════════════ */
+#start{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2.5rem 1.5rem;text-align:center;gap:0;
+}
+
+/* Animated coin/rupee icon */
+.hero-icon{
+  position:relative;width:110px;height:110px;margin:0 auto 2.2rem;
+}
+.icon-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid var(--border2);
+  animation:ringPulse 3s ease-in-out infinite;
+}
+.icon-ring2{
+  position:absolute;inset:-14px;border-radius:50%;
+  border:1px solid rgba(0,212,161,.1);
+  animation:ringPulse 3s ease-in-out infinite .5s;
+}
+.icon-ring3{
+  position:absolute;inset:-26px;border-radius:50%;
+  border:1px solid rgba(0,212,161,.06);
+  animation:ringPulse 3s ease-in-out infinite 1s;
+}
+@keyframes ringPulse{
+  0%,100%{transform:scale(1);opacity:.8}
+  50%{transform:scale(1.1);opacity:.3}
+}
+.icon-core{
+  position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,212,161,.15),rgba(59,130,246,.1));
+  border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;
+  backdrop-filter:blur(10px);
+  animation:iconSpin 20s linear infinite;
+}
+@keyframes iconSpin{
+  0%,100%{transform:rotateY(0deg)}
+  50%{transform:rotateY(180deg)}
+}
+
+.eyebrow{
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:1.2rem;
+  opacity:0;animation:fadeUp .5s .2s ease forwards;
+  display:flex;align-items:center;gap:.6rem;
+}
+.eyebrow::before,.eyebrow::after{
+  content:'';display:block;width:30px;height:1px;background:var(--emerald);opacity:.4;
+}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.6rem,9vw,5.2rem);
+  font-weight:900;line-height:.95;
+  margin-bottom:.7rem;
+  opacity:0;animation:fadeUp .6s .35s ease forwards;
+}
+.ht1{
+  display:block;
+  background:linear-gradient(135deg,var(--emerald3),var(--emerald),#00a0ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ht2{
+  display:block;font-size:.38em;font-weight:400;font-style:italic;
+  color:var(--txt2);letter-spacing:.04em;margin-top:.4rem;
+  -webkit-text-fill-color:var(--txt2);
+}
+
+.hero-sub{
+  font-size:.875rem;color:var(--txt2);
+  max-width:440px;margin:1.5rem auto 2.5rem;
+  line-height:2;font-weight:300;
+  opacity:0;animation:fadeUp .5s .5s ease forwards;
+}
+
+/* Info strip */
+.info-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  margin-bottom:2.5rem;
+  border:1px solid var(--border2);border-radius:var(--r2);
+  overflow:hidden;background:rgba(0,212,161,.03);
+  backdrop-filter:blur(16px);
+  opacity:0;animation:fadeUp .5s .65s ease forwards;
+  max-width:520px;width:100%;
+}
+.info-item{
+  padding:1.2rem 1rem;border-right:1px solid var(--border2);
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;
+}
+.info-item:last-child{border-right:none}
+.info-ic{font-size:1.3rem}
+.info-v{
+  font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;
+  color:var(--emerald);
+}
+.info-l{font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--txt2)}
+
+/* Topic pills */
+.topic-row{
+  display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;
+  max-width:540px;margin:0 auto 2.8rem;
+  opacity:0;animation:fadeUp .5s .8s ease forwards;
+}
+.tp{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;padding:.3rem .9rem;border-radius:50px;
+  border:1px solid rgba(0,212,161,.18);background:rgba(0,212,161,.05);
+  color:var(--emerald);font-weight:500;letter-spacing:.04em;
+  transition:.2s;cursor:default;
+}
+.tp:hover{background:rgba(0,212,161,.12);border-color:var(--emerald)}
+
+/* CTA */
+.start-btn{
+  position:relative;overflow:hidden;
+  padding:1.05rem 3.5rem;border:none;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;
+  letter-spacing:.06em;cursor:pointer;transition:all .3s;
+  background:linear-gradient(135deg,var(--emerald2),#008a70,var(--blue));
+  color:#fff;
+  box-shadow:0 8px 32px rgba(0,212,161,.3),0 0 0 1px rgba(0,212,161,.15),inset 0 1px 0 rgba(255,255,255,.15);
+  opacity:0;animation:fadeUp .5s .95s ease forwards;
+}
+.start-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 50%);
+  opacity:0;transition:.3s;
+}
+.start-btn:hover::after{opacity:1}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,212,161,.45),0 0 0 1px rgba(0,212,161,.2)}
+.start-btn span{position:relative;z-index:1;display:flex;align-items:center;gap:.6rem}
+
+.save-note{
+  margin-top:1.2rem;font-size:.7rem;color:var(--txt2);
+  opacity:0;animation:fadeUp .4s 1.1s ease forwards;
+  font-family:'DM Mono',monospace;letter-spacing:.05em;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ════════════════════════════
+   QUIZ SCREEN
+════════════════════════════ */
+#quiz{
+  flex-direction:column;align-items:center;
+  padding:1.2rem 1rem 2rem;gap:.9rem;
+}
+.quiz-wrap{max-width:820px;width:100%;display:flex;flex-direction:column;gap:.9rem}
+
+/* Topbar */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+  padding:.85rem 1.2rem;
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:var(--r2);backdrop-filter:blur(14px);
+}
+.qcount{
+  font-family:'DM Mono',monospace;font-size:.78rem;
+  color:var(--txt2);letter-spacing:.05em;
+}
+.qcount em{color:var(--emerald);font-style:normal;font-weight:600}
+.timer{
+  font-family:'DM Mono',monospace;font-weight:500;font-size:.9rem;
+  padding:.4rem 1.1rem;border-radius:50px;
+  background:rgba(0,212,161,.08);border:1px solid rgba(0,212,161,.25);
+  color:var(--emerald);transition:.3s;letter-spacing:.08em;
+}
+.timer.danger{
+  background:rgba(244,63,94,.12);border-color:rgba(244,63,94,.4);
+  color:#fb7185;animation:blink .65s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.submit-early{
+  font-size:.72rem;padding:.38rem .9rem;border-radius:50px;
+  background:transparent;border:1px solid var(--border);
+  color:var(--txt2);cursor:pointer;transition:.2s;
+  font-family:'DM Sans',sans-serif;font-weight:500;
+}
+.submit-early:hover{border-color:var(--emerald);color:var(--emerald)}
+
+/* Progress bar */
+.pbar{
+  height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;
+  position:relative;
+}
+.pfill{
+  height:100%;
+  background:linear-gradient(90deg,var(--emerald2),var(--blue2),var(--emerald3));
+  border-radius:10px;transition:width .6s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 16px rgba(0,212,161,.6);
+  position:relative;
+}
+.pfill::after{
+  content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:6px;height:6px;border-radius:50%;background:var(--emerald3);
+  box-shadow:0 0 8px var(--emerald);
+}
+
+/* Question card */
+.qcard{
+  background:linear-gradient(145deg,rgba(17,24,39,.97),rgba(8,12,23,.98));
+  border:1px solid var(--border);border-radius:var(--r3);
+  padding:2.2rem;
+  box-shadow:0 12px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:slideIn .4s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,212,161,.3),transparent);
+}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(24px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+
+/* Meta row */
+.qmeta{display:flex;align-items:center;gap:.45rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.qnum-badge{
+  font-family:'DM Mono',monospace;font-size:.62rem;font-weight:500;
+  letter-spacing:.08em;padding:.3rem .85rem;border-radius:50px;
+  background:linear-gradient(135deg,rgba(0,212,161,.2),rgba(59,130,246,.15));
+  border:1px solid rgba(0,212,161,.3);
+  color:var(--emerald3);
+}
+.qyr{
+  font-size:.62rem;color:var(--amber2);background:rgba(245,158,11,.08);
+  padding:.28rem .72rem;border-radius:50px;border:1px solid rgba(245,158,11,.22);
+  font-family:'DM Mono',monospace;
+}
+.qtopic{
+  font-size:.62rem;color:var(--blue2);background:rgba(59,130,246,.08);
+  border:1px solid rgba(59,130,246,.18);padding:.28rem .72rem;border-radius:50px;
+}
+.qstatus{margin-left:auto;font-size:.6rem;font-weight:600;padding:.28rem .75rem;border-radius:50px;font-family:'DM Mono',monospace}
+.qs-none{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--border)}
+.qs-ans{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.25)}
+.qs-skp{background:rgba(245,158,11,.08);color:var(--amber2);border:1px solid rgba(245,158,11,.22)}
+
+/* Question text */
+.qtext{
+  font-size:.92rem;line-height:2;
+  color:var(--txt3);margin-bottom:1.6rem;
+  white-space:pre-wrap;
+}
+.qtext strong{color:var(--txt)}
+
+/* Statement block styling */
+.stmt-block{
+  margin:.4rem 0;padding:.7rem 1rem;
+  background:rgba(255,255,255,.025);border-radius:10px;
+  border-left:2px solid rgba(0,212,161,.3);
+  font-size:.88rem;line-height:1.75;color:var(--txt3);
+}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.9rem;
+  padding:.9rem 1.15rem;
+  background:rgba(255,255,255,.018);
+  border:1.5px solid rgba(255,255,255,.065);
+  border-radius:12px;cursor:pointer;transition:all .2s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:'DM Sans',sans-serif;font-size:.875rem;line-height:1.65;
+  position:relative;overflow:hidden;
+}
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,212,161,.06),transparent);
+  opacity:0;transition:.2s;
+}
+.opt:hover:not(.sel){
+  border-color:rgba(0,212,161,.35);
+  transform:translateX(5px);background:rgba(0,212,161,.04);
+}
+.opt:hover:not(.sel)::before{opacity:1}
+.opt.sel{
+  background:rgba(0,212,161,.07);
+  border-color:var(--emerald);
+}
+.opt.sel::before{opacity:1}
+.opt-key{
+  min-width:30px;height:30px;border-radius:8px;
+  background:rgba(0,212,161,.08);border:1px solid rgba(0,212,161,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;
+  color:var(--emerald);flex-shrink:0;transition:.2s;
+  position:relative;z-index:1;
+}
+.opt.sel .opt-key{
+  background:linear-gradient(135deg,var(--emerald),var(--blue));
+  color:#fff;border-color:transparent;
+  box-shadow:0 2px 12px rgba(0,212,161,.4);
+}
+.opt-txt{position:relative;z-index:1;color:var(--txt)}
+
+/* Nav buttons */
+.qnav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.6rem;flex-wrap:wrap}
+.btn{
+  padding:.65rem 1.4rem;border:none;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:all .2s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.25;cursor:not-allowed}
+.btn-ghost{background:rgba(255,255,255,.045);border:1px solid var(--border);color:var(--txt2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.09);color:var(--txt);border-color:rgba(255,255,255,.12)}
+.btn-skip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);color:var(--amber2)}
+.btn-skip:hover{background:rgba(245,158,11,.16)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--emerald2),#007a60);
+  color:#fff;box-shadow:0 4px 18px rgba(0,212,161,.28);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,212,161,.45)}
+.btn-submit{
+  background:linear-gradient(135deg,var(--blue),#2563eb);
+  color:#fff;box-shadow:0 4px 14px rgba(59,130,246,.3);
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,130,246,.5)}
+
+/* Dot navigator */
+.dotrow{display:flex;flex-wrap:wrap;gap:.28rem;max-width:820px;width:100%}
+.dot{
+  width:30px;height:30px;border-radius:8px;border:none;
+  font-size:.62rem;font-weight:600;cursor:pointer;transition:.15s;
+  font-family:'DM Mono',monospace;
+  background:rgba(255,255,255,.035);border:1px solid var(--border);
+  color:var(--txt2);
+}
+.dot:hover{border-color:var(--emerald);color:var(--emerald);background:rgba(0,212,161,.05)}
+.dot.cur{
+  background:linear-gradient(135deg,var(--emerald2),var(--blue));
+  color:#fff;border-color:transparent;
+  box-shadow:0 2px 14px rgba(0,212,161,.45);
+}
+.dot.d-ans{background:rgba(16,185,129,.12);color:#34d399;border-color:rgba(16,185,129,.3)}
+.dot.d-skp{background:rgba(245,158,11,.1);color:var(--amber2);border-color:rgba(245,158,11,.25)}
+
+/* ════ MODAL ════ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(3,5,12,.88);backdrop-filter:blur(20px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(145deg,var(--surface),var(--bg2));
+  border:1px solid rgba(0,212,161,.25);border-radius:var(--r3);
+  padding:2.8rem;max-width:420px;width:100%;text-align:center;
+  box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 50px rgba(0,212,161,.07);
+  animation:modalPop .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalPop{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-icon{font-size:3rem;margin-bottom:1rem;display:block}
+.modal h3{
+  font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;
+  color:var(--txt);margin-bottom:.7rem;
+}
+.modal p{color:var(--txt2);font-size:.84rem;line-height:1.9;margin-bottom:2rem;white-space:pre-wrap;font-family:'DM Mono',monospace}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+
+/* ════════════════════════════
+   RESULTS SCREEN
+════════════════════════════ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem 3rem}
+.res-wrap{max-width:880px;width:100%}
+
+/* Hero panel */
+.res-hero{
+  background:linear-gradient(145deg,rgba(17,24,39,.98),rgba(8,12,23,.99));
+  border:1px solid var(--border2);border-radius:var(--r3);
+  padding:3rem 2rem;text-align:center;margin-bottom:1.2rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--emerald),transparent);
+}
+.res-hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 100%,rgba(0,212,161,.06),transparent),
+    radial-gradient(ellipse 40% 60% at 10% 10%,rgba(59,130,246,.07),transparent);
+}
+
+/* Score ring */
+.score-display{
+  position:relative;width:170px;height:170px;margin:0 auto 1.8rem;
+}
+.score-display svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.04);stroke-width:7}
+.ring-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1)}
+.score-inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.score-num{
+  font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:1;
+  color:var(--emerald3);
+}
+.score-denom{font-size:.72rem;color:var(--txt2);font-family:'DM Mono',monospace}
+
+.res-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,4vw,2.2rem);
+  font-weight:900;font-style:italic;color:var(--txt);margin-bottom:.4rem;
+  position:relative;z-index:1;
+}
+.res-sub{color:var(--txt2);font-size:.84rem;margin-bottom:1.5rem;position:relative;z-index:1}
+.grade-chip{
+  display:inline-block;
+  font-family:'DM Mono',monospace;font-size:.82rem;font-weight:500;
+  padding:.45rem 1.6rem;border-radius:50px;margin-bottom:.5rem;
+  position:relative;z-index:1;letter-spacing:.04em;
+}
+.pct-tag{color:var(--txt2);font-size:.82rem;position:relative;z-index:1;font-family:'DM Mono',monospace}
+
+/* Stats */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.2rem;
+}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-box{
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:16px;padding:1.2rem .9rem;text-align:center;
+  backdrop-filter:blur(10px);transition:.2s;position:relative;overflow:hidden;
+}
+.stat-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,212,161,.2),transparent);
+}
+.stat-box:hover{transform:translateY(-3px);border-color:rgba(0,212,161,.2)}
+.stat-ico{font-size:1.4rem;margin-bottom:.4rem}
+.stat-val{
+  font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;
+  margin-bottom:.2rem;
+}
+.stat-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2);font-family:'DM Mono',monospace}
+
+/* Insights */
+.insights{
+  background:rgba(0,212,161,.03);border:1px solid rgba(0,212,161,.15);
+  border-radius:var(--r2);padding:1.6rem;margin-bottom:1.2rem;
+  backdrop-filter:blur(10px);
+}
+.ins-hd{
+  font-family:'DM Mono',monospace;font-size:.78rem;font-weight:500;
+  color:var(--emerald);margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:.5rem;letter-spacing:.08em;
+}
+.ins-line{
+  font-size:.8rem;color:var(--txt2);margin-bottom:.6rem;
+  line-height:1.85;padding-left:.9rem;
+  border-left:2px solid rgba(0,212,161,.2);
+}
+.ins-line strong{color:var(--emerald)}
+.weak-wrap{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem}
+.wchip{
+  font-size:.64rem;font-weight:500;padding:.22rem .68rem;border-radius:50px;
+  background:rgba(244,63,94,.08);color:#fda4af;
+  border:1px solid rgba(244,63,94,.18);font-family:'DM Mono',monospace;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;gap:.22rem;background:rgba(255,255,255,.025);
+  border:1px solid var(--border);border-radius:12px;padding:.28rem;
+  margin-bottom:.9rem;backdrop-filter:blur(10px);
+}
+.tab{
+  flex:1;padding:.48rem;border:none;border-radius:9px;
+  background:transparent;font-family:'DM Sans',sans-serif;
+  font-size:.72rem;font-weight:500;cursor:pointer;color:var(--txt2);transition:.2s;
+}
+.tab.on{
+  background:linear-gradient(135deg,rgba(0,212,161,.18),rgba(59,130,246,.12));
+  color:var(--txt);border:1px solid rgba(0,212,161,.2);
+}
+
+/* Review cards */
+.rev-card{
+  background:rgba(255,255,255,.02);border:1px solid var(--border);
+  border-radius:16px;padding:1.4rem;margin-bottom:.7rem;
+  border-left:3px solid transparent;backdrop-filter:blur(8px);
+  animation:slideIn .3s ease;transition:transform .2s;
+}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--wrong)}
+.rev-card.rs{border-left-color:var(--skip)}
+
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.8rem}
+.rv-n{font-family:'DM Mono',monospace;font-size:.62rem;padding:.22rem .58rem;border-radius:50px;background:rgba(255,255,255,.05);color:var(--txt2)}
+.rv-yr{font-size:.62rem;color:var(--amber2);background:rgba(245,158,11,.07);padding:.22rem .58rem;border-radius:50px;border:1px solid rgba(245,158,11,.18);font-family:'DM Mono',monospace}
+.rv-badge{font-size:.62rem;font-weight:600;padding:.22rem .62rem;border-radius:50px;font-family:'DM Mono',monospace}
+.rv-badge.rc{background:rgba(16,185,129,.1);color:#34d399}
+.rv-badge.rw{background:rgba(239,68,68,.1);color:#f87171}
+.rv-badge.rs{background:rgba(245,158,11,.08);color:var(--amber2)}
+.rv-topic{margin-left:auto;font-size:.62rem;color:var(--blue2);background:rgba(59,130,246,.07);padding:.22rem .58rem;border-radius:50px}
+
+.rv-q{font-size:.82rem;color:var(--txt2);margin-bottom:.9rem;line-height:1.8;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.78rem;margin-bottom:.3rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:116px;color:var(--txt2);flex-shrink:0;font-size:.74rem;font-family:'DM Mono',monospace}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#f87171}
+.rv-exp{
+  margin-top:.8rem;padding:.9rem 1.1rem;
+  background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.15);
+  border-radius:10px;font-size:.78rem;color:var(--txt2);line-height:1.8;
+}
+.rv-exp strong{color:var(--blue2)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-danger{
+  background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);
+  color:#fb7185;padding:.75rem 1.8rem;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;
+  cursor:pointer;transition:.2s;
+}
+.btn-danger:hover{background:rgba(244,63,94,.2)}
+
+/* Section label for dotmap */
+.dot-label{
+  width:100%;font-family:'DM Mono',monospace;font-size:.6rem;
+  color:var(--txt2);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:.2rem;opacity:.7;
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(0,212,161,.25);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,212,161,.5)}
+
+@media(max-width:600px){
+  .info-strip{grid-template-columns:1fr}
+  .info-item{border-right:none;border-bottom:1px solid var(--border2)}
+  .info-item:last-child{border-bottom:none}
+  .qcard{padding:1.4rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.5rem}
+  .submit-early{display:none}
+  .hero-title{font-size:clamp(2rem,12vw,3rem)}
+}
+</style>
+</head>
+<body>
+
+<div class="orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- ═══ START ═══ -->
+<div id="start" class="screen active">
+  <div class="hero-icon">
+    <div class="icon-ring3"></div>
+    <div class="icon-ring2"></div>
+    <div class="icon-ring"></div>
+    <div class="icon-core">₹</div>
+  </div>
+
+  <p class="eyebrow">UPSC Prelims · 1995 – 2022</p>
+  <h1 class="hero-title">
+    <span class="ht1">Arthneeti</span>
+    <span class="ht2">Economy & Public Finance</span>
+  </h1>
+  <p class="hero-sub">38 authentic UPSC Prelims questions on Government Budgeting, Fiscal Deficit, Debt Management, Parliamentary Finance Control, and Indian Public Accounts.</p>
+
+  <div class="info-strip">
+    <div class="info-item"><div class="info-ic">📋</div><div class="info-v">38</div><div class="info-l">Questions</div></div>
+    <div class="info-item"><div class="info-ic">⏱</div><div class="info-v">25 min</div><div class="info-l">Timer</div></div>
+    <div class="info-item"><div class="info-ic">📅</div><div class="info-v">1995–2022</div><div class="info-l">PYQ Era</div></div>
+  </div>
+
+  <div class="topic-row">
+    <span class="tp">💰 Fiscal Deficit</span>
+    <span class="tp">📊 Union Budget</span>
+    <span class="tp">🏛 Public Finance</span>
+    <span class="tp">🏦 Debt & Borrowings</span>
+    <span class="tp">⚖️ FRBM Act</span>
+    <span class="tp">🗳 Parliamentary Control</span>
+    <span class="tp">💹 Fiscal Stimulus</span>
+    <span class="tp">🔖 Revenue vs Capital</span>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">
+    <span>📈 Begin Quiz</span>
+  </button>
+  <p class="save-note">// progress auto-saved · resume anytime</p>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Q <em id="qCur">1</em> / <em id="qTot">38</em></div>
+      <div class="timer" id="timerEl">25:00</div>
+      <button class="submit-early" onclick="showMod()">Submit Early</button>
+    </div>
+
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qnum-badge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtopic" id="qTopic">—</span>
+        <span class="qstatus qs-none" id="qStat">Unanswered</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">Skip →</button>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotrow" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-display">
+        <svg viewBox="0 0 130 130">
+          <circle class="ring-bg" cx="65" cy="65" r="55"/>
+          <circle class="ring-fill" id="ringArc" cx="65" cy="65" r="55"
+            stroke-dasharray="345.58" stroke-dashoffset="345.58"/>
+        </svg>
+        <div class="score-inner">
+          <div class="score-num" id="rScore">0</div>
+          <div class="score-denom" id="rDen">/38</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="grade-chip" id="rGrade"></div>
+      <div class="pct-tag" id="rPct"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-ico">✓</div><div class="stat-val" id="stC" style="color:var(--correct)">0</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-box"><div class="stat-ico">✗</div><div class="stat-val" id="stW" style="color:var(--wrong)">0</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-box"><div class="stat-ico">—</div><div class="stat-val" id="stS" style="color:var(--skip)">0</div><div class="stat-lbl">Skipped</div></div>
+      <div class="stat-box"><div class="stat-ico">◎</div><div class="stat-val" id="stAcc">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-box"><div class="stat-ico">⏱</div><div class="stat-val" id="stTime">—</div><div class="stat-lbl">Time Used</div></div>
+      <div class="stat-box"><div class="stat-ico">∿</div><div class="stat-val" id="stAvg">—</div><div class="stat-lbl">Avg / Q</div></div>
+    </div>
+
+    <div class="insights">
+      <div class="ins-hd">// SMART ANALYSIS</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (38)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-danger" onclick="restartQuiz()">↺ Restart Quiz</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-icon">📊</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L=['a','b','c','d'];
+
+// ════ 38 QUESTIONS ════
+const Q=[
+  {id:1,yr:'2022',topic:'Household Finance & Debt',
+   text:'With reference to the Indian economy, consider the following statements:\n1. A share of the household financial savings goes towards government borrowings.\n2. Dated securities issued at market-related rates in auctions form a large component of internal debt.\n\nWhich of the above statements is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'Statement 1 is CORRECT — households invest in government securities, provident funds, insurance etc., which are used by the government for its borrowings. Statement 2 is CORRECT — dated government securities (G-Secs) issued through auctions at market-related rates form the largest component of internal debt of the Government of India. Hence both statements are correct.'},
+
+  {id:2,yr:'2020',topic:'Union Budget Documents',
+   text:'Along with the Budget, the Finance Minister places other documents before Parliament, including the "Macro Economic Framework Statement." This document is presented because it is mandated by:',
+   opts:['Long-standing parliamentary convention','Article 112 and Article 110(1) of the Constitution of India','Article 113 of the Constitution of India','Provisions of the Fiscal Responsibility and Budget Management Act, 2003'],
+   ans:3,
+   exp:'The Macro Economic Framework Statement, along with the Medium Term Fiscal Policy Statement and the Fiscal Policy Strategy Statement, is mandated under Section 3 of the FRBM Act, 2003. These are NOT constitutional mandates — they arise from the FRBM Act. This Act requires the Central Government to lay these statements before Parliament along with the Annual Financial Statement (Budget).'},
+
+  {id:3,yr:'2020',topic:'Non-Financial Debt',
+   text:'In the context of the Indian economy, non-financial debt includes which of the following?\n1. Housing loans owed by households\n2. Amounts outstanding on credit cards\n3. Treasury bills\n\nSelect the correct answer:',
+   opts:['1 only','1 and 2 only','3 only','1, 2 and 3'],
+   ans:3,
+   exp:'Non-financial debt refers to debt held by non-financial sectors — households, governments, and non-financial corporates. Housing loans (households) and credit card dues (households/individuals) are non-financial sector debt. Treasury bills are government debt — also part of non-financial debt (government is a non-financial sector). All three are components of non-financial debt. Hence all 1, 2, and 3 are correct.'},
+
+  {id:4,yr:'2019',topic:'External Debt',
+   text:'Consider the following statements:\n1. Most of India\'s external debt is owed by governmental entities.\n2. All of India\'s external debt is denominated in US dollars.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,
+   exp:'Statement 1 is WRONG — most of India\'s external debt is actually owed by non-governmental entities (private sector). The share of government (sovereign) external debt has been declining. Statement 2 is WRONG — India\'s external debt is denominated in multiple currencies: USD, SDR, Yen, Euro, INR (Rupee-denominated bonds/NRI deposits), etc. — not just US dollars. Both statements are incorrect, so "neither 1 nor 2" is correct.'},
+
+  {id:5,yr:'2018',topic:'FRBM & Fiscal Targets',
+   text:'Consider the following statements:\n1. The FRBM Review Committee has recommended a Debt/GDP ratio of 60% for the general government by 2023 (40% Centre + 20% States).\n2. The Central government has domestic liabilities of 21% of GDP vs 49% of GDP of the State Governments.\n3. As per the Constitution, it is mandatory for a State to take Central government\'s consent for raising loans if it owes liabilities to the Centre.\n\nWhich is/are correct?',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:2,
+   exp:'Statement 1: CORRECT — The N.K. Singh Committee (FRBM Review) recommended 60% Debt/GDP (40% Centre + 20% States) by 2023. Statement 2: WRONG — The liabilities are actually reversed: Central government has HIGHER domestic liabilities than states (around 49% for Centre vs 21% for states). Statement 3: CORRECT — Article 293(3) of the Constitution requires States to obtain Central consent for loans if they are indebted to the Centre. Statements 1 and 3 are correct.'},
+
+  {id:6,yr:'2016',topic:'Fiscal Deficit Reduction',
+   text:'There has been a persistent deficit budget year after year. Which actions can be taken by the Government to reduce the deficit?\n1. Reducing revenue expenditure\n2. Introducing new welfare schemes\n3. Rationalizing subsidies\n4. Reducing import duty\n\nSelect the correct answer:',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2, 3 and 4'],
+   ans:2,
+   exp:'To reduce fiscal deficit, the government must either increase revenue or decrease expenditure. Action 1 (reducing revenue expenditure) REDUCES deficit — CORRECT. Action 2 (introducing new welfare schemes) INCREASES expenditure → increases deficit — WRONG. Action 3 (rationalizing subsidies) REDUCES expenditure → reduces deficit — CORRECT. Action 4 (reducing import duty) REDUCES revenue → increases deficit — WRONG. Hence only 1 and 3 reduce deficit.'},
+
+  {id:7,yr:'2016',topic:'Capital Budget',
+   text:'Which of the following is/are included in the Capital Budget of the Government of India?\n1. Expenditure on acquisition of assets like roads, buildings, machinery, etc.\n2. Loans received from foreign governments\n3. Loans and advances granted to the States and Union Territories\n\nSelect the correct answer:',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:3,
+   exp:'The Capital Budget consists of capital receipts and capital expenditure. Capital Receipts include: loans from foreign governments (Statement 2), market borrowings, disinvestment proceeds. Capital Expenditure includes: creation/acquisition of assets (roads, buildings, machinery — Statement 1), and loans & advances given to states/UTs (Statement 3). All three items belong to the Capital Budget. Hence 1, 2 and 3 are all correct.'},
+
+  {id:8,yr:'2015',topic:'Union Budget & CFI',
+   text:'With reference to the Union Government, consider the following statements:\n1. The Department of Revenue is responsible for preparation of Union Budget.\n2. No amount can be withdrawn from the Consolidated Fund of India without Parliament\'s authorization.\n3. All disbursements from Public Account also need authorization from Parliament.\n\nWhich is/are correct?',
+   opts:['1 and 2 only','2 and 3 only','2 only','1, 2 and 3'],
+   ans:2,
+   exp:'Statement 1: WRONG — The Department of Economic Affairs (Budget Division) under the Ministry of Finance is responsible for preparing the Union Budget, NOT the Department of Revenue. Statement 2: CORRECT — Article 114 of the Constitution requires parliamentary authorization (Appropriation Act) before any withdrawal from the Consolidated Fund. Statement 3: WRONG — Public Account transactions (PF, small savings, etc.) do NOT require parliamentary vote; they are executive/administrative in nature. Only Statement 2 is correct.'},
+
+  {id:9,yr:'2015',topic:'Fiscal Deficit Reduction',
+   text:'There has been a persistent deficit budget year after year. Which of the following can reduce the deficit?\n1. Reducing revenue expenditure\n2. Introducing new welfare schemes\n3. Rationalizing subsidies\n4. Expanding industries\n\nSelect the correct answer:',
+   opts:['1 and 3 only','2 and 3 only','1 only','1, 2, 3 and 4'],
+   ans:0,
+   exp:'To reduce deficit: Action 1 (reducing revenue expenditure) — CORRECT, directly reduces expenditure. Action 2 (new welfare schemes) — WRONG, increases expenditure. Action 3 (rationalizing subsidies) — CORRECT, reduces subsidy outgo. Action 4 (expanding industries) — it may indirectly help through higher tax revenue in the long run, but as a direct government action it\'s not a fiscal consolidation measure. Only 1 and 3 directly reduce fiscal deficit.'},
+
+  {id:10,yr:'2014',topic:'Non-Plan Expenditure',
+   text:'With reference to Union Budget, which of the following is/are covered under Non-Plan Expenditure?\n1. Defence expenditure\n2. Interest payments\n3. Salaries and pensions\n4. Subsidies\n\nSelect the correct answer:',
+   opts:['1 only','2 and 3 only','1, 2, 3 and 4','None'],
+   ans:2,
+   exp:'Non-Plan Expenditure (now Revenue/Capital Expenditure post-2017 budget restructuring) covers all obligatory and routine expenditures not part of the Five-Year Plan. This includes: Defence expenditure (1), Interest payments on borrowings (2), Salaries and pensions of government employees (3), and Subsidies (food, fertilizer, fuel — 4). All four are classic components of Non-Plan Expenditure. Hence 1, 2, 3 and 4 are all correct.'},
+
+  {id:11,yr:'2013',topic:'Deficit Financing',
+   text:'In India, deficit financing is used for raising resources for:',
+   opts:['Economic development','Redemption of public debt','Adjusting the balance of payments','Reducing the foreign debt'],
+   ans:0,
+   exp:'Deficit financing in India primarily refers to the practice of the government spending more than its revenue to fund economic development — infrastructure, social sector spending, public investment, etc. It involves borrowing from the RBI (money creation) or the market. The goal in India\'s context has historically been to accelerate economic development and fill the resource gap in Five-Year Plans. Hence option (a) is correct.'},
+
+  {id:12,yr:'2012',topic:'Parliamentary Control',
+   text:'Which of the following are methods of Parliamentary control over public finance in India?\n1. Placing Annual Financial Statement before Parliament\n2. Withdrawal from CFI only after passing the Appropriation Bill\n3. Provisions of supplementary grants and vote-on-account\n4. A periodic mid-year review by a Parliamentary Budget Office\n5. Introducing Finance Bill in Parliament\n\nSelect:',
+   opts:['1, 2, 3 and 5 only','1, 2 and 4 only','3, 4 and 5 only','1, 2, 3, 4 and 5'],
+   ans:0,
+   exp:'Parliamentary control over finances works through: 1) Annual Financial Statement (Budget) presented to Parliament — CORRECT. 2) Appropriation Act required before CFI withdrawal — CORRECT. 3) Supplementary grants and vote-on-account are parliamentary instruments — CORRECT. 4) A Parliamentary Budget Office for mid-year review — this does NOT currently exist as a formal parliamentary instrument in India. 5) Finance Bill (for taxation) is introduced in Parliament — CORRECT. So 1, 2, 3 and 5 are correct methods; 4 is not an existing mechanism.'},
+
+  {id:13,yr:'2011',topic:'Vote-on-Account vs Interim Budget',
+   text:'What is the difference between "vote-on-account" and "interim budget"?\n1. Vote-on-account is used by a regular government; interim budget is used by a caretaker government.\n2. Vote-on-account only deals with expenditure; interim budget includes both expenditure and receipts.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1: WRONG — Both vote-on-account and interim budget can be presented by any government, including a caretaker government before elections. The distinction is NOT about who presents it. Statement 2: CORRECT — A vote-on-account is a parliamentary approval only for the government\'s expenditure needs (for a few months before the full budget). An interim budget, however, is a complete budget covering both receipts AND expenditure for the full year, though presented in an election year. Statement 2 correctly captures the key difference.'},
+
+  {id:14,yr:'2011',topic:'Green Budgeting',
+   text:'In the union budget 2011-12, full exemption from basic customs duty was extended to bio-based asphalt (biosphalt). What is the importance of this material?\n1. Unlike traditional asphalt, bio-asphalt is not based on fossil fuels.\n2. Biosphalt can be made from non-renewable resources.\n3. Bio-asphalt can be made from organic waste materials.\n4. It is eco-friendly to use bio-asphalt for road surfacing.\n\nSelect the correct answer:',
+   opts:['1, 2 and 3 only','1, 3 and 4 only','2 and 4 only','1, 2, 3 and 4'],
+   ans:1,
+   exp:'Bio-asphalt is an asphalt alternative made from non-petroleum-based renewable resources such as sugar, molasses, rice, corn starch, or petroleum waste (like lignin). Statement 1: CORRECT — bio-asphalt does not rely on fossil fuels like petroleum. Statement 2: WRONG — bio-asphalt is made from RENEWABLE resources, not non-renewable. Statement 3: CORRECT — it can be made from organic waste materials. Statement 4: CORRECT — it is more eco-friendly than conventional asphalt. Correct combination: 1, 3 and 4.'},
+
+  {id:15,yr:'2011',topic:'Fiscal Policy',
+   text:'Which one of the following appropriately describes "fiscal stimulus"?',
+   opts:[
+     'Massive government investment in manufacturing to meet demand surge from rapid economic growth',
+     'Intense affirmative action of the government to boost economic activity in the country',
+     'Government\'s intensive action on financial institutions to ensure agricultural loan disbursements',
+     'Extreme affirmative action by the government to pursue its policy of financial inclusion'
+   ],
+   ans:1,
+   exp:'Fiscal stimulus refers to government actions to stimulate a sluggish economy — typically during recession — through increased public spending, tax cuts, or transfers. The key idea is using fiscal policy (budget tools) to boost aggregate demand and economic activity. Option (b) — "intense affirmative action of the government to boost economic activity" — is the most accurate and comprehensive description. The 2008-09 global financial crisis led to fiscal stimulus packages worldwide, including in India (tax cuts + spending increases).'},
+
+  {id:16,yr:'2011',topic:'Consolidated Fund of India',
+   text:'The authorization for the withdrawal of funds from the Consolidated Fund of India must come from:',
+   opts:['The President of India','The Parliament of India','The Prime Minister of India','The Union Finance Minister'],
+   ans:1,
+   exp:'Article 114 of the Constitution of India states that no money shall be appropriated from the Consolidated Fund of India except in pursuance of law — specifically, an Appropriation Act passed by Parliament. The authorization MUST come from Parliament through the passage of the Appropriation Bill. The President gives assent to the bill, but the authorization is Parliament\'s. Neither the PM nor the Finance Minister independently authorize CFI withdrawals.'},
+
+  {id:17,yr:'2011',topic:'Government Accounts',
+   text:'All revenues received by the union government by way of taxes and other receipts for the conduct of government business are credited to the:',
+   opts:['Contingency Fund of India','Public Account','Consolidated Fund of India','Deposits and Advances Fund'],
+   ans:2,
+   exp:'Article 266(1) of the Constitution establishes the Consolidated Fund of India (CFI). All revenues received by the Government of India — tax revenues (income tax, GST, customs, excise) and non-tax revenues — are credited to the CFI. Similarly, all government expenditure is met from the CFI. The Public Account holds money where the government acts as a banker (provident funds, small savings). The Contingency Fund handles unforeseen expenditure.'},
+
+  {id:18,yr:'2011',topic:'Budget & Parliament',
+   text:'When the annual budget is not passed by the Lok Sabha:',
+   opts:[
+     'The budget is modified and presented again',
+     'The budget is referred to the Rajya Sabha for suggestions',
+     'The Union Finance Minister is asked to resign',
+     'The Prime Minister submits the resignation of the Council of Ministers'
+   ],
+   ans:3,
+   exp:'The defeat of the Union Budget in the Lok Sabha is treated as a vote of no-confidence against the government. Since the budget is a Money Bill and an essential function of the government, its defeat implies loss of majority. Constitutionally, the Council of Ministers is collectively responsible to the Lok Sabha. A defeat of such a critical government measure requires the PM and the entire Cabinet to resign. Hence option (d) is correct.'},
+
+  {id:19,yr:'2010',topic:'National Investment Fund',
+   text:'With reference to the National Investment Fund (NIF) to which disinvestment proceeds are routed, which statements are correct?\n1. Assets in NIF are managed by the Union Ministry of Finance.\n2. NIF is maintained within the Consolidated Fund of India.\n3. Certain Asset Management Companies are appointed as fund managers.\n4. A certain proportion of annual income is used for financing select social sectors.\n\nWhich is/are correct?',
+   opts:['1 and 2','2 only','3 and 4','3 only'],
+   ans:2,
+   exp:'The National Investment Fund (NIF) was set up in 2005. Statement 1: WRONG — NIF assets are NOT managed by the Ministry of Finance; professional fund managers (AMCs like UTI, SBI Mutual Fund, LIC MF) were appointed. Statement 2: WRONG — NIF was kept OUTSIDE the Consolidated Fund — it was a separate fund. Statement 3: CORRECT — Asset Management Companies were appointed as fund managers for NIF. Statement 4: CORRECT — 75% of NIF income was to fund social sector schemes (education, health, employment) and 25% for capital investment in PSUs. Statements 3 and 4 are correct.'},
+
+  {id:20,yr:'2010',topic:'Fiscal Deficit Control',
+   text:'In the context of governance, which of the following can be used as measures to CONTROL the fiscal deficit in India?\n1. Encouraging Foreign Direct Investment inflows\n2. Privatization of higher educational institutions\n3. Downsizing of bureaucracy\n4. Selling/offloading shares of Public Sector Undertakings\n\nSelect:',
+   opts:['1, 2 and 3','2, 3 and 4','1, 2 and 4','3 and 4 only'],
+   ans:3,
+   exp:'Fiscal deficit control requires reducing expenditure or increasing non-debt receipts. Action 1 (FDI) — FDI is private investment; it does not directly reduce government fiscal deficit. Action 2 (privatizing educational institutions) — this reduces government expenditure on education, helping reduce deficit. Action 3 (downsizing bureaucracy) — reduces government salary expenditure, directly reduces fiscal deficit. Action 4 (PSU disinvestment) — generates non-debt capital receipts for the government, reducing financing need. Options 3 and 4 are clear fiscal measures; option 2 is debatable but 3 and 4 are most direct. Answer: 3 and 4.'},
+
+  {id:21,yr:'2010',topic:'Budget Preparation',
+   text:'Which one of the following is responsible for the preparation and presentation of the Union Budget to Parliament?',
+   opts:['Department of Revenue','Department of Economic Affairs','Department of Financial Services','Department of Expenditure'],
+   ans:1,
+   exp:'The Union Budget is prepared by the Budget Division of the Department of Economic Affairs (DEA) under the Ministry of Finance. The DEA coordinates all aspects of budget preparation — revenue estimates, expenditure projections, fiscal targets, and finally the presentation to Parliament by the Finance Minister. The Department of Revenue handles tax policy; Department of Expenditure manages government spending; Department of Financial Services handles banking/insurance.'},
+
+  {id:22,yr:'2010',topic:'Fiscal Stimulus',
+   text:'Consider the following actions by the Government:\n1. Cutting the tax rates\n2. Increasing the government spending\n3. Abolishing the subsidies\n\nIn the context of economic recession, which can be considered part of the "fiscal stimulus" package?',
+   opts:['1 and 2 only','2 only','1 and 3 only','1, 2 and 3'],
+   ans:0,
+   exp:'A fiscal stimulus package during recession involves expansionary fiscal policy to boost demand. Action 1 (cutting tax rates) — puts more money in the hands of consumers/businesses, boosting spending — STIMULUS. Action 2 (increasing government spending) — directly boosts aggregate demand and economic activity — STIMULUS. Action 3 (abolishing subsidies) — this REDUCES transfer payments and could dampen demand; it is a contractionary or fiscal consolidation measure, NOT stimulus. Hence only 1 and 2 are part of a fiscal stimulus package.'},
+
+  {id:23,yr:'2010',topic:'FRBM Act',
+   text:'Which one of the following was NOT stipulated in the Fiscal Responsibility and Budget Management Act, 2003?',
+   opts:[
+     'Elimination of revenue deficit by end of fiscal year 2007-08',
+     'Non-borrowing by Central government from RBI except under certain circumstances',
+     'Elimination of Primary deficit by end of fiscal year 2008-09',
+     'Fixing government guarantees as a percentage of GDP'
+   ],
+   ans:2,
+   exp:'The FRBM Act 2003 stipulated: (a) Reduction of revenue deficit to nil by 2007-08 — this WAS in the Act. (b) Central government shall not borrow from RBI except by way of Ways and Means Advances — this WAS stipulated. (c) Elimination of primary deficit by 2008-09 — this was NOT specifically stipulated; the Act focused on revenue deficit and fiscal deficit targets, not explicitly primary deficit. (d) Fixing government guarantees as percentage of GDP — this WAS stipulated. So option (c) was NOT stipulated.'},
+
+  {id:24,yr:'2006',topic:'FRBM Act',
+   text:'The Fiscal Responsibility and Budget Management Act (FRBM Act) concerns:',
+   opts:['Fiscal deficit only','Revenue deficit only','Both fiscal and revenue deficit','Neither fiscal deficit nor revenue deficit'],
+   ans:2,
+   exp:'The FRBM Act, 2003 deals with BOTH fiscal deficit AND revenue deficit (along with effective revenue deficit). The Act mandated annual reduction targets for both. Revenue Deficit = Revenue Expenditure minus Revenue Receipts. Fiscal Deficit = Total Expenditure minus Total Receipts (excluding borrowings). The Act required the Centre to eliminate revenue deficit and reduce fiscal deficit to 3% of GDP. It covers both, so option (c) is correct.'},
+
+  {id:25,yr:'2004',topic:'Public Finance Fundamentals',
+   text:'With reference to Indian Public Finance, consider the following statements:\n1. Disbursements from Public Accounts of India are subject to the Vote of Parliament.\n2. The Indian Constitution provides for Consolidated Fund, Public Account and Contingency Fund for each State.\n3. Appropriations and disbursements under Railway Budget are subject to the same form of parliamentary control as other appropriations.\n\nWhich are correct?',
+   opts:['1 and 2','2 and 3','1 and 3','1, 2 and 3'],
+   ans:1,
+   exp:'Statement 1: WRONG — Disbursements from the Public Account (PF, small savings, etc.) are NOT subject to Parliamentary vote; they are executive transactions where the government acts as a custodian/banker. Statement 2: CORRECT — Articles 266 and 267 of the Constitution provide for Consolidated Fund, Public Account and Contingency Fund for both Centre and each State. Statement 3: CORRECT — Railway Budget (though merged with Union Budget in 2017) was subject to the same parliamentary financial controls. Statements 2 and 3 are correct.'},
+
+  {id:26,yr:'2004',topic:'RBI & Debt Management',
+   text:'Consider the following statements:\n1. Reserve Bank of India was nationalised on 26 January, 1950.\n2. The borrowing programme of the Government of India is handled by the Department of Expenditure, Ministry of Finance.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,
+   exp:'Statement 1: WRONG — RBI was nationalised (converted to full government ownership) on 1st January, 1949, NOT 26 January 1950. It was established in 1935 and nationalised in 1949. Statement 2: WRONG — The government\'s borrowing programme is managed by the Reserve Bank of India (RBI acts as the debt manager for the government) and coordinated by the Department of Economic Affairs, NOT the Department of Expenditure. Neither statement is correct.'},
+
+  {id:27,yr:'2002',topic:'External Debt',
+   text:'India\'s external debt increased from US $98,158 million (March 2000) to US $100,225 million (March 2001) due to increase in:',
+   opts:['Multilateral and bilateral debt','Rupee debt','Commercial borrowings and NRI deposits','Borrowing from International Monetary Fund'],
+   ans:0,
+   exp:'During 2000-01, the increase in India\'s external debt was primarily driven by an increase in multilateral debt (from institutions like World Bank, ADB) and bilateral debt (from government-to-government loans). NRI deposits and commercial borrowings did not see significant increase in that period. IMF borrowings were not a major factor. Multilateral and bilateral (government/official) debt was the main driver of the increase in this period.'},
+
+  {id:28,yr:'2002',topic:'Finance Commission',
+   text:'Which one of the following authorities recommends the principles governing the grants-in-aid of revenues to the States out of the Consolidated Fund of India?',
+   opts:['Finance Commission','Inter-State Council','Union Ministry of Finance','Public Accounts Committee'],
+   ans:0,
+   exp:'Article 275 of the Constitution provides for grants-in-aid to States from the Consolidated Fund of India. Article 280 establishes the Finance Commission, whose duties include recommending the principles that should govern the grants-in-aid to the States from the CFI. The Finance Commission (constituted every 5 years) is the constitutional authority for this. The Inter-State Council deals with coordination; Ministry of Finance implements; PAC is an audit/oversight body.'},
+
+  {id:29,yr:'2002',topic:'Public Finance Analysis',
+   text:'With reference to Indian Public Finance, consider the following:\n1. External liabilities in Union Budget are reported based on historical exchange rates.\n2. Continued high borrowing has kept real interest rates high in the economy.\n3. The upward trend in Fiscal Deficit to GDP ratio has an adverse effect on private investments.\n4. Interest payments are the single largest component of non-plan revenue expenditure of the Union Government.\n\nWhich statements are correct?',
+   opts:['1, 2 and 3','1 and 4','2, 3 and 4','1, 2, 3 and 4'],
+   ans:2,
+   exp:'Statement 1: WRONG — External liabilities in Union Budget are reported at CURRENT exchange rates, not historical rates. Statement 2: CORRECT — Higher government borrowing increases demand for funds, pushing up interest rates (crowding out). Statement 3: CORRECT — Rising fiscal deficit/GDP ratio crowds out private investment by consuming loanable funds and may signal economic mismanagement. Statement 4: CORRECT — Interest payments on accumulated debt have been the single largest item of non-plan revenue expenditure. Statements 2, 3, and 4 are correct.'},
+
+  {id:30,yr:'2002',topic:'Foreign Aid',
+   text:'In the year 2001, Germany approved a $32 million credit to India:',
+   opts:['To promote primary education in selected states','For Tehri dam project','To assist in the development of nuclear power','For oceanographic research'],
+   ans:1,
+   exp:'In 2001, Germany approved a $32 million credit (through KfW, the German development bank) for the Tehri Dam project in Uttarakhand. The Tehri Dam is one of the tallest dams in the world and a major hydroelectric project. Germany provided bilateral aid for this infrastructure project as part of Indo-German development cooperation.'},
+
+  {id:31,yr:'2001',topic:'Internal Debt Components',
+   text:'Consider the following:\nI. Market borrowing\nII. Treasury bills\nIII. Special securities issued to RBI\n\nWhich of these is/are component(s) of internal debt?',
+   opts:['I only','I and II','II only','I, II and III'],
+   ans:3,
+   exp:'Internal debt refers to all debt raised domestically by the Central Government. This includes: I. Market Borrowings (G-Secs sold in the open market) — YES, core internal debt. II. Treasury Bills (short-term government instruments auctioned in the market) — YES, internal debt. III. Special Securities issued to RBI (like MSS securities, or when RBI subscribes to government bonds) — YES, internal debt. All three are components of internal debt as they are obligations within the country. Hence I, II and III are all correct.'},
+
+  {id:32,yr:'2001',topic:'Deficit Concepts',
+   text:'Match the deficit terms with their definitions:\nI. Fiscal deficit — II. Budget deficit — III. Revenue deficit — IV. Primary deficit\n\nA. Excess of Total Expenditure over Total Receipts\nB. Excess of Revenue Expenditure over Revenue Receipts\nC. Excess of Total Expenditure over Total Receipts less borrowings\nD. Excess of Total Expenditure over Total Receipts less borrowings and Interest Payments',
+   opts:['I-C, II-A, III-B, IV-D','I-D, II-C, III-B, IV-A','I-A, II-C, III-B, IV-D','I-C, II-A, III-D, IV-B'],
+   ans:0,
+   exp:'Correct definitions: Fiscal Deficit = Total Expenditure − (Total Receipts excluding borrowings) = Excess of total expenditure over total receipts less borrowings → I-C. Budget Deficit = Total Expenditure − Total Receipts (including borrowings) = Excess of total expenditure over total receipts → II-A. Revenue Deficit = Revenue Expenditure − Revenue Receipts → III-B. Primary Deficit = Fiscal Deficit − Interest Payments = Total Expenditure − (Total Receipts less borrowings and interest payments) → IV-D. So: I-C, II-A, III-B, IV-D.'},
+
+  {id:33,yr:'2001',topic:'North-East Policy',
+   text:'The Union Budget 2000 awarded a Tax Holiday for the North-Eastern Region to promote industrialisation for:',
+   opts:['5 years','7 years','9 years','10 years'],
+   ans:3,
+   exp:'The Union Budget 2000-01 announced a 10-year tax holiday for new industrial units set up in North-Eastern states (including Sikkim) to promote industrialisation and economic development in the region. This was a significant fiscal incentive under the North East Industrial Policy. The 10-year tax holiday was meant to attract investment to these historically underdeveloped states.'},
+
+  {id:34,yr:'1999',topic:'Deficit Concepts',
+   text:'Assertion (A): Fiscal deficit is greater than budgetary deficit.\nReason (R): Fiscal deficit is the borrowings from RBI plus other liabilities of the Government to meet its expenditure.',
+   opts:[
+     'Both A and R are true, and R is the correct explanation of A',
+     'Both A and R are true, but R is NOT the correct explanation of A',
+     'A is true, but R is false',
+     'A is false, but R is true'
+   ],
+   ans:2,
+   exp:'Assertion A is TRUE: Fiscal deficit is generally GREATER than budget deficit. Budget Deficit = Total Expenditure − Total Receipts (including borrowings). Fiscal Deficit = Total Expenditure − Total Receipts EXCLUDING borrowings. Since fiscal deficit excludes borrowings from receipts, it is always larger than budget deficit. Reason R is FALSE: Fiscal deficit is NOT just RBI borrowings + other liabilities; it equals total expenditure minus total non-debt receipts (taxes + non-tax revenue + recovery of loans + other capital receipts). The RBI borrowings are how deficit is FINANCED, not its definition. A is true, R is false.'},
+
+  {id:35,yr:'1998',topic:'Economic Survey',
+   text:'Economic Survey in India is published officially, every year by the:',
+   opts:['Reserve Bank of India','Planning Commission of India','Ministry of Finance, Government of India','Ministry of Industries, Government of India'],
+   ans:2,
+   exp:'The Economic Survey is an annual document prepared by the Economic Division of the Ministry of Finance\'s Department of Economic Affairs, under the Chief Economic Adviser to the Government of India. It is presented to Parliament one day before the Union Budget and provides a comprehensive overview of the economy\'s performance in the previous year and outlook. It is NOT published by RBI (which publishes its own Annual Report and State of the Economy report).'},
+
+  {id:36,yr:'1997',topic:'Non-Plan Expenditure',
+   text:'Which of the following come under Non-plan expenditure?\nI. Subsidies\nII. Interest payments\nIII. Defence expenditure\nIV. Maintenance expenditure for infrastructure created in previous plans\n\nChoose the correct answer:',
+   opts:['I and II','I and III','II and IV','I, II, III and IV'],
+   ans:3,
+   exp:'Non-Plan Expenditure (now merged into the budgetary classification post-2017 but historically) covered: I. Subsidies (food, fertilizer, petroleum — obligatory transfers) — YES. II. Interest payments on accumulated debt — YES, the largest single non-plan item. III. Defence expenditure — YES, always classified as non-plan. IV. Maintenance of assets created in previous plans — YES, this was explicitly classified as non-plan (only creation is plan; maintenance is non-plan). All four — I, II, III and IV — are components of Non-Plan Expenditure.'},
+
+  {id:37,yr:'1996',topic:'Revenue Expenditure Analysis',
+   text:'Based on the table showing % distribution of Central Government revenue expenditure (1989-90 vs 1994-95), where interest payments rose from 27.7% to 38.7%, it can be said the Indian economy is under pressure because the Central Government continues to:',
+   opts:[
+     'Reduce expenditure on defence',
+     'Spend more and more on interest payments',
+     'Reduce expenditure on subsidies',
+     'Spend more and more as grants-in-aid to State Governments'
+   ],
+   ans:1,
+   exp:'The data clearly shows that interest payments grew from 27.7% to 38.7% of total revenue expenditure — the single largest increase among all expenditure heads. This reflects the compounding debt trap: high fiscal deficits lead to higher borrowings, which lead to higher interest obligations, which in turn force even more borrowings. This crowding out of productive expenditure (defence fell from 15.1% to 13.6%, subsidies fell from 16.3% to 8%) signals fiscal stress. The dominant trend — and the economic concern — is the rising burden of interest payments.'},
+
+  {id:38,yr:'1995',topic:'Non-Plan Expenditure',
+   text:'Which of the following are among the Non-plan Expenditures of the Government of India?\nI. Defence expenditure\nII. Subsidies\nIII. All expenditures linked with previous plan periods\nIV. Interest payment\n\nChoose the correct answer:',
+   opts:['I and II','I and III','II and IV','I, II, III and IV'],
+   ans:3,
+   exp:'All four items are components of Non-Plan Expenditure: I. Defence expenditure — always non-plan (operational/revenue expenditure). II. Subsidies — non-plan (food/fertilizer/energy subsidies are obligatory spending). III. Expenditures linked to previous plans — once a plan period ends, maintenance and running costs of those assets become non-plan expenditure. IV. Interest payments — the single largest non-plan item, obligatory payments on accumulated government debt. Hence all four: I, II, III and IV are Non-Plan Expenditures.'}
+];
+
+// ════ STATE ════
+let S={cur:0,ans:new Array(38).fill(null),skp:new Array(38).fill(false),start:null,tLeft:25*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('arthneeti_v1');
+  if(raw){
+    const d=JSON.parse(raw);
+    if(!d.done&&confirm('Resume your previous session?')){
+      S={...S,...d,tInt:null};
+    } else {localStorage.removeItem('arthneeti_v1');S.start=Date.now();}
+  } else {S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updTimer();
+    if(S.tLeft%15===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏱ Time is up! Submitting your answers…');submitQuiz();}
+  },1000);
+}
+function updTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='Skipped';sp.className='qstatus qs-skp';}
+  else if(S.ans[i]!==null){sp.textContent='Answered';sp.className='qstatus qs-ans';}
+  else{sp.textContent='Unanswered';sp.className='qstatus qs-none';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-key">${L[idx]}</span><span class="opt-txt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};
+    dm.appendChild(d);
+  });
+}
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-skp');
+    else if(S.ans[i]!==null)d.classList.add('d-ans');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modOv').classList.add('on');
+}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(25*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const attempted=cor+wr;
+  const pct=Math.round(cor/Q.length*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
+  const avg=Math.round(used/Q.length);
+
+  let grade,ringColor;
+  if(pct>=90){grade='◆ Exceptional';ringColor='#10b981';}
+  else if(pct>=75){grade='◆ Excellent';ringColor='#00d4a1';}
+  else if(pct>=60){grade='◆ Good';ringColor='#3b82f6';}
+  else if(pct>=45){grade='◆ Average';ringColor='#f59e0b';}
+  else{grade='◆ Keep Revising';ringColor='#f43f5e';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=ringColor;
+  setTimeout(()=>{arc.style.strokeDashoffset=345.58*(1-pct/100);},100);
+
+  document.getElementById('rScore').textContent=cor;
+  document.getElementById('rScore').style.color=ringColor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${ringColor}18;color:${ringColor};border:1px solid ${ringColor}38;`;
+
+  if(pct>=75){document.getElementById('rTitle').textContent='Outstanding Performance!';}
+  else if(pct>=50){document.getElementById('rTitle').textContent='Solid Attempt!';}
+  else{document.getElementById('rTitle').textContent='More Revision Needed';}
+
+  document.getElementById('rSub').textContent=`${pct}% accuracy · ${cor} correct out of ${Q.length} questions`;
+  document.getElementById('rPct').textContent=`Attempt Accuracy: ${acc}% (of ${attempted} attempted questions)`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  buildInsights(cor,wr,sk,pct,acc);
+  renderRev('all');
+  localStorage.removeItem('arthneeti_v1');
+  show('results');
+}
+
+function fmtT(s){return `${Math.floor(s/60)}m ${pad(s%60)}s`;}
+
+function buildInsights(cor,wr,sk,pct,acc){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('<strong>Exceptional!</strong> Near-perfect command over UPSC Economy & Public Finance. You are exam-ready.');
+  else if(pct>=75)lines.push('<strong>Strong performance!</strong> Revise 2-3 weak areas and you\'ll be fully exam-ready.');
+  else if(pct>=50)lines.push('Decent base. Focus on deficit concepts, FRBM Act provisions, and Constitutional finance articles (266, 280, 114).');
+  else lines.push('Start with NCERT Macroeconomics (Class 12) and revise Laxmikanth on Parliament & Finance. These are high-frequency areas.');
+
+  if(sk>6)lines.push(`<strong>${sk} skipped</strong> — For UPSC, use elimination strategy. Partial knowledge often leads to correct answers.`);
+  if(acc<55&&(cor+wr)>8)lines.push('Low accuracy on attempted questions. Avoid guessing — the negative marking formula makes random guessing costly.');
+
+  if(topErr['Deficit Concepts']||topErr['FRBM Act'])
+    lines.push('<strong>Deficit concepts:</strong> Fiscal Deficit > Budget Deficit. Primary Deficit = Fiscal Deficit − Interest. Revenue Deficit = Revenue Exp − Revenue Receipts. FRBM targets BOTH revenue + fiscal deficit.');
+  if(topErr['Union Budget Documents']||topErr['Budget Preparation'])
+    lines.push('<strong>Budget:</strong> Prepared by Dept. of Economic Affairs (not Dept. of Revenue). Macro Economic Framework Statement → mandated by FRBM Act 2003, not Constitution.');
+  if(topErr['Consolidated Fund of India']||topErr['Government Accounts'])
+    lines.push('<strong>CFI:</strong> All tax + non-tax revenues go to CFI. Withdrawal needs Parliament\'s authorization (Art. 114). Public Account = no parliamentary vote needed. Contingency Fund = unforeseen expenses.');
+  if(topErr['Parliamentary Control']||topErr['Budget & Parliament'])
+    lines.push('<strong>Parliamentary control:</strong> Budget defeat = PM must resign (collective responsibility). CFI withdrawal = Appropriation Act. Parliamentary Budget Office does NOT currently exist in India.');
+  if(topErr['Fiscal Policy']||topErr['Fiscal Stimulus'])
+    lines.push('<strong>Fiscal Stimulus:</strong> Tax cuts + spending increase = stimulus (expansionary). Abolishing subsidies + reducing expenditure = contractionary/consolidation. Used during recession (2008-09 crisis).');
+  if(topErr['Non-Plan Expenditure'])
+    lines.push('<strong>Non-plan expenditure:</strong> Defence + Interest + Subsidies + Salaries/Pensions + Grants to States + Maintenance of old plan assets — all are non-plan.');
+  if(topErr['External Debt'])
+    lines.push('<strong>External debt:</strong> Most is owed by private sector (not government). Denominated in multiple currencies (USD, Yen, Euro, SDR, INR — NOT just USD).');
+
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`<strong>Weak area → ${t}:</strong> ${c} wrong. Prioritise in next revision session.`));
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="weak-wrap">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const uaTxt=isSk?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${i+1}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rv-row"><span class="rv-lbl">Your answer:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-size:.85rem;font-family:\'DM Mono\',monospace">// No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('arthneeti_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+  }));
+}
+
+function restartQuiz(){
+  if(!confirm('Restart? All progress will be lost.'))return;
+  clearInterval(S.tInt);localStorage.removeItem('arthneeti_v1');
+  S={cur:0,ans:new Array(38).fill(null),skp:new Array(38).fill(false),start:null,tLeft:25*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
