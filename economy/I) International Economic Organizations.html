@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vishwa Sansthan · International Organisations & WTO Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060a12;--bg2:#090e1a;--bg3:#0d1422;
+  --surface:#111826;
+  --violet:#7b61ff;--violet2:#9d87ff;--violet3:#c4b5fd;
+  --violet-dim:rgba(123,97,255,.1);
+  --cyan:#22d3ee;--cyan2:#67e8f9;
+  --rose:#f43f5e;--rose2:#fb7185;
+  --amber:#f59e0b;--amber2:#fcd34d;
+  --correct:#10b981;--wrong:#ef4444;--skip:#f59e0b;
+  --txt:#eef0ff;--txt2:#6a7898;--txt3:#a8b4d0;
+  --border:rgba(255,255,255,.06);--border2:rgba(123,97,255,.2);
+  --r:12px;--r2:18px;--r3:24px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(123,97,255,.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(123,97,255,.02) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 50% at 20% 20%,rgba(123,97,255,.1) 0%,transparent 65%),
+    radial-gradient(ellipse 45% 50% at 82% 80%,rgba(34,211,238,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 35% 35% at 55% 40%,rgba(244,63,94,.04) 0%,transparent 70%);
+}
+
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbF ease-in-out infinite}
+.o1{width:400px;height:400px;top:-100px;left:-100px;background:rgba(123,97,255,.08);animation-duration:22s}
+.o2{width:300px;height:300px;bottom:-80px;right:-80px;background:rgba(34,211,238,.06);animation-duration:18s;animation-delay:-8s}
+.o3{width:220px;height:220px;top:40%;left:70%;background:rgba(244,63,94,.04);animation-duration:16s;animation-delay:-5s}
+@keyframes orbF{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(28px,-38px) scale(1.04)}70%{transform:translate(-20px,20px) scale(.96)}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ── START ── */
+#start{flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;text-align:center}
+
+.hero-icon{position:relative;width:108px;height:108px;margin:0 auto 2.2rem}
+.ir{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--border2);animation:rp 3s ease-in-out infinite}
+.ir2{position:absolute;inset:-13px;border-radius:50%;border:1px solid rgba(123,97,255,.1);animation:rp 3s ease-in-out infinite .6s}
+.ir3{position:absolute;inset:-25px;border-radius:50%;border:1px solid rgba(123,97,255,.05);animation:rp 3s ease-in-out infinite 1.2s}
+@keyframes rp{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.12);opacity:.2}}
+.icore{position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,rgba(123,97,255,.18),rgba(34,211,238,.1));border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:2.8rem;backdrop-filter:blur(12px)}
+
+.eyebrow{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--violet2);margin-bottom:1.2rem;opacity:0;animation:fU .5s .2s ease forwards;display:flex;align-items:center;gap:.6rem}
+.eyebrow::before,.eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--violet2);opacity:.4}
+
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.3rem,8vw,4.8rem);font-weight:900;line-height:.95;margin-bottom:.7rem;opacity:0;animation:fU .6s .35s ease forwards}
+.ht1{display:block;background:linear-gradient(135deg,var(--violet3),var(--violet),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ht2{display:block;font-size:.36em;font-weight:400;font-style:italic;color:var(--txt2);letter-spacing:.04em;-webkit-text-fill-color:var(--txt2);margin-top:.4rem}
+
+.hero-sub{font-size:.875rem;color:var(--txt2);max-width:450px;margin:1.5rem auto 2.5rem;line-height:2;font-weight:300;opacity:0;animation:fU .5s .5s ease forwards}
+
+.info-strip{display:grid;grid-template-columns:repeat(3,1fr);margin-bottom:2.5rem;border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;background:rgba(123,97,255,.03);backdrop-filter:blur(16px);opacity:0;animation:fU .5s .65s ease forwards;max-width:500px;width:100%}
+.info-item{padding:1.2rem 1rem;border-right:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.info-item:last-child{border-right:none}
+.info-ic{font-size:1.3rem}
+.info-v{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--violet2)}
+.info-l{font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--txt2)}
+
+.topic-row{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;max-width:560px;margin:0 auto 2.8rem;opacity:0;animation:fU .5s .8s ease forwards}
+.tp{font-family:'DM Mono',monospace;font-size:.62rem;padding:.3rem .9rem;border-radius:50px;border:1px solid rgba(123,97,255,.18);background:rgba(123,97,255,.05);color:var(--violet2);font-weight:500;letter-spacing:.04em;transition:.2s}
+.tp:hover{background:rgba(123,97,255,.12)}
+
+.start-btn{position:relative;overflow:hidden;padding:1.05rem 3.5rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:all .3s;background:linear-gradient(135deg,var(--violet),#5540cc,var(--cyan));color:#fff;box-shadow:0 8px 32px rgba(123,97,255,.35),0 0 0 1px rgba(123,97,255,.15),inset 0 1px 0 rgba(255,255,255,.15);opacity:0;animation:fU .5s .95s ease forwards}
+.start-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 50%);opacity:0;transition:.3s}
+.start-btn:hover::after{opacity:1}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(123,97,255,.5)}
+.start-btn span{position:relative;z-index:1;display:flex;align-items:center;gap:.6rem}
+.save-note{margin-top:1.2rem;font-size:.7rem;color:var(--txt2);opacity:0;animation:fU .4s 1.1s ease forwards;font-family:'DM Mono',monospace;letter-spacing:.05em}
+@keyframes fU{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── QUIZ ── */
+#quiz{flex-direction:column;align-items:center;padding:1.2rem 1rem 2rem;gap:.9rem}
+.quiz-wrap{max-width:820px;width:100%;display:flex;flex-direction:column;gap:.9rem}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.85rem 1.2rem;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r2);backdrop-filter:blur(14px)}
+.qcount{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--txt2);letter-spacing:.05em}
+.qcount em{color:var(--violet2);font-style:normal;font-weight:600}
+.timer{font-family:'DM Mono',monospace;font-weight:500;font-size:.9rem;padding:.4rem 1.1rem;border-radius:50px;background:rgba(123,97,255,.08);border:1px solid rgba(123,97,255,.25);color:var(--violet2);transition:.3s;letter-spacing:.08em}
+.timer.danger{background:rgba(244,63,94,.12);border-color:rgba(244,63,94,.4);color:#fb7185;animation:bl .65s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.35}}
+.submit-early{font-size:.72rem;padding:.38rem .9rem;border-radius:50px;background:transparent;border:1px solid var(--border);color:var(--txt2);cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.submit-early:hover{border-color:var(--violet2);color:var(--violet2)}
+
+.pbar{height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;position:relative}
+.pfill{height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--violet3));border-radius:10px;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 16px rgba(123,97,255,.6);position:relative}
+.pfill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:var(--violet3);box-shadow:0 0 8px var(--violet2)}
+
+.qcard{background:linear-gradient(145deg,rgba(11,16,26,.97),rgba(6,10,18,.98));border:1px solid var(--border);border-radius:var(--r3);padding:2.2rem;box-shadow:0 12px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);animation:sI .4s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.qcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,97,255,.35),transparent)}
+@keyframes sI{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+
+.qmeta{display:flex;align-items:center;gap:.45rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.qnum-badge{font-family:'DM Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.08em;padding:.3rem .85rem;border-radius:50px;background:linear-gradient(135deg,rgba(123,97,255,.2),rgba(34,211,238,.1));border:1px solid rgba(123,97,255,.3);color:var(--violet3)}
+.qyr{font-size:.62rem;color:var(--amber2);background:rgba(245,158,11,.08);padding:.28rem .72rem;border-radius:50px;border:1px solid rgba(245,158,11,.2);font-family:'DM Mono',monospace}
+.qtopic{font-size:.62rem;color:var(--cyan2);background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.18);padding:.28rem .72rem;border-radius:50px}
+.qstatus{margin-left:auto;font-size:.6rem;font-weight:600;padding:.28rem .75rem;border-radius:50px;font-family:'DM Mono',monospace}
+.qs-none{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--border)}
+.qs-ans{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.25)}
+.qs-skp{background:rgba(245,158,11,.08);color:var(--amber2);border:1px solid rgba(245,158,11,.22)}
+
+.qtext{font-size:.92rem;line-height:2;color:var(--txt3);margin-bottom:1.6rem;white-space:pre-wrap}
+
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{display:flex;align-items:flex-start;gap:.9rem;padding:.9rem 1.15rem;background:rgba(255,255,255,.018);border:1.5px solid rgba(255,255,255,.065);border-radius:12px;cursor:pointer;transition:all .2s;text-align:left;width:100%;color:var(--txt3);font-family:'DM Sans',sans-serif;font-size:.875rem;line-height:1.65;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(123,97,255,.07),transparent);opacity:0;transition:.2s}
+.opt:hover:not(.sel){border-color:rgba(123,97,255,.4);transform:translateX(5px);background:rgba(123,97,255,.04)}
+.opt:hover:not(.sel)::before{opacity:1}
+.opt.sel{background:rgba(123,97,255,.07);border-color:var(--violet2)}
+.opt.sel::before{opacity:1}
+.opt-key{min-width:30px;height:30px;border-radius:8px;background:rgba(123,97,255,.08);border:1px solid rgba(123,97,255,.18);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;color:var(--violet2);flex-shrink:0;transition:.2s;position:relative;z-index:1}
+.opt.sel .opt-key{background:linear-gradient(135deg,var(--violet),var(--cyan));color:#fff;border-color:transparent;box-shadow:0 2px 12px rgba(123,97,255,.5)}
+.opt-txt{position:relative;z-index:1;color:var(--txt)}
+
+.qnav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.6rem;flex-wrap:wrap}
+.btn{padding:.65rem 1.4rem;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.btn:disabled{opacity:.25;cursor:not-allowed}
+.btn-ghost{background:rgba(255,255,255,.045);border:1px solid var(--border);color:var(--txt2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.09);color:var(--txt)}
+.btn-skip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);color:var(--amber2)}
+.btn-skip:hover{background:rgba(245,158,11,.16)}
+.btn-primary{background:linear-gradient(135deg,var(--violet),#5540cc);color:#fff;box-shadow:0 4px 18px rgba(123,97,255,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(123,97,255,.55)}
+.btn-submit{background:linear-gradient(135deg,var(--cyan),#0ea5e9);color:#0c1122;font-weight:700;box-shadow:0 4px 14px rgba(34,211,238,.25)}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,211,238,.4)}
+
+.dotrow{display:flex;flex-wrap:wrap;gap:.28rem;max-width:820px;width:100%}
+.dot{width:30px;height:30px;border-radius:8px;border:none;font-size:.62rem;font-weight:600;cursor:pointer;transition:.15s;font-family:'DM Mono',monospace;background:rgba(255,255,255,.035);border:1px solid var(--border);color:var(--txt2)}
+.dot:hover{border-color:var(--violet2);color:var(--violet2);background:rgba(123,97,255,.06)}
+.dot.cur{background:linear-gradient(135deg,var(--violet),var(--cyan));color:#fff;border-color:transparent;box-shadow:0 2px 14px rgba(123,97,255,.5)}
+.dot.d-ans{background:rgba(16,185,129,.12);color:#34d399;border-color:rgba(16,185,129,.3)}
+.dot.d-skp{background:rgba(245,158,11,.1);color:var(--amber2);border-color:rgba(245,158,11,.25)}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(3,5,12,.88);backdrop-filter:blur(20px);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.modal{background:linear-gradient(145deg,var(--surface),var(--bg2));border:1px solid rgba(123,97,255,.25);border-radius:var(--r3);padding:2.8rem;max-width:420px;width:100%;text-align:center;box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 50px rgba(123,97,255,.08);animation:mP .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mP{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-icon{font-size:3rem;margin-bottom:1rem;display:block}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--txt);margin-bottom:.7rem}
+.modal p{color:var(--txt2);font-size:.84rem;line-height:1.9;margin-bottom:2rem;white-space:pre-wrap;font-family:'DM Mono',monospace}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+
+/* ── RESULTS ── */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem 3rem}
+.res-wrap{max-width:880px;width:100%}
+.res-hero{background:linear-gradient(145deg,rgba(11,16,26,.98),rgba(6,10,18,.99));border:1px solid var(--border2);border-radius:var(--r3);padding:3rem 2rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.res-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--violet2),transparent)}
+.res-hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(123,97,255,.06),transparent),radial-gradient(ellipse 40% 60% at 10% 10%,rgba(34,211,238,.05),transparent)}
+
+.score-display{position:relative;width:170px;height:170px;margin:0 auto 1.8rem}
+.score-display svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.04);stroke-width:7}
+.ring-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1)}
+.score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:1;color:var(--violet3)}
+.score-denom{font-size:.72rem;color:var(--txt2);font-family:'DM Mono',monospace}
+.res-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.2rem);font-weight:900;font-style:italic;color:var(--txt);margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.84rem;margin-bottom:1.5rem;position:relative;z-index:1}
+.grade-chip{display:inline-block;font-family:'DM Mono',monospace;font-size:.82rem;font-weight:500;padding:.45rem 1.6rem;border-radius:50px;margin-bottom:.5rem;position:relative;z-index:1;letter-spacing:.04em}
+.pct-tag{color:var(--txt2);font-size:.82rem;position:relative;z-index:1;font-family:'DM Mono',monospace}
+
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.2rem}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-box{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:16px;padding:1.2rem .9rem;text-align:center;backdrop-filter:blur(10px);transition:.2s;position:relative;overflow:hidden}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,97,255,.2),transparent)}
+.stat-box:hover{transform:translateY(-3px);border-color:rgba(123,97,255,.2)}
+.stat-ico{font-size:1.4rem;margin-bottom:.4rem}
+.stat-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.2rem}
+.stat-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2);font-family:'DM Mono',monospace}
+
+.insights{background:rgba(123,97,255,.03);border:1px solid rgba(123,97,255,.15);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.2rem;backdrop-filter:blur(10px)}
+.ins-hd{font-family:'DM Mono',monospace;font-size:.78rem;font-weight:500;color:var(--violet2);margin-bottom:1.1rem;display:flex;align-items:center;gap:.5rem;letter-spacing:.08em}
+.ins-line{font-size:.8rem;color:var(--txt2);margin-bottom:.6rem;line-height:1.85;padding-left:.9rem;border-left:2px solid rgba(123,97,255,.2)}
+.ins-line strong{color:var(--violet2)}
+.weak-wrap{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem}
+.wchip{font-size:.64rem;font-weight:500;padding:.22rem .68rem;border-radius:50px;background:rgba(244,63,94,.08);color:#fda4af;border:1px solid rgba(244,63,94,.18);font-family:'DM Mono',monospace}
+
+.tabs{display:flex;gap:.22rem;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:12px;padding:.28rem;margin-bottom:.9rem;backdrop-filter:blur(10px)}
+.tab{flex:1;padding:.48rem;border:none;border-radius:9px;background:transparent;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;cursor:pointer;color:var(--txt2);transition:.2s}
+.tab.on{background:linear-gradient(135deg,rgba(123,97,255,.2),rgba(34,211,238,.1));color:var(--txt);border:1px solid rgba(123,97,255,.2)}
+
+.rev-card{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:16px;padding:1.4rem;margin-bottom:.7rem;border-left:3px solid transparent;backdrop-filter:blur(8px);animation:sI .3s ease;transition:transform .2s}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--wrong)}
+.rev-card.rs{border-left-color:var(--skip)}
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.8rem}
+.rv-n{font-family:'DM Mono',monospace;font-size:.62rem;padding:.22rem .58rem;border-radius:50px;background:rgba(255,255,255,.05);color:var(--txt2)}
+.rv-yr{font-size:.62rem;color:var(--amber2);background:rgba(245,158,11,.07);padding:.22rem .58rem;border-radius:50px;border:1px solid rgba(245,158,11,.18);font-family:'DM Mono',monospace}
+.rv-badge{font-size:.62rem;font-weight:600;padding:.22rem .62rem;border-radius:50px;font-family:'DM Mono',monospace}
+.rv-badge.rc{background:rgba(16,185,129,.1);color:#34d399}
+.rv-badge.rw{background:rgba(239,68,68,.1);color:#f87171}
+.rv-badge.rs{background:rgba(245,158,11,.08);color:var(--amber2)}
+.rv-topic{margin-left:auto;font-size:.62rem;color:var(--cyan2);background:rgba(34,211,238,.06);padding:.22rem .58rem;border-radius:50px}
+.rv-q{font-size:.82rem;color:var(--txt2);margin-bottom:.9rem;line-height:1.8;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.78rem;margin-bottom:.3rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:116px;color:var(--txt2);flex-shrink:0;font-size:.74rem;font-family:'DM Mono',monospace}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:#34d399}
+.rv-val.bad{color:#f87171}
+.rv-exp{margin-top:.8rem;padding:.9rem 1.1rem;background:rgba(123,97,255,.07);border:1px solid rgba(123,97,255,.15);border-radius:10px;font-size:.78rem;color:var(--txt2);line-height:1.8}
+.rv-exp strong{color:var(--violet2)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:2rem 0;flex-wrap:wrap}
+.btn-danger{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);color:#fb7185;padding:.75rem 1.8rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-danger:hover{background:rgba(244,63,94,.2)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(123,97,255,.25);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(123,97,255,.5)}
+@media(max-width:600px){
+  .info-strip{grid-template-columns:1fr}
+  .info-item{border-right:none;border-bottom:1px solid var(--border2)}
+  .info-item:last-child{border-bottom:none}
+  .qcard{padding:1.4rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.5rem}
+  .submit-early{display:none}
+}
+</style>
+</head>
+<body>
+<div class="orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+
+<!-- START -->
+<div id="start" class="screen active">
+  <div class="hero-icon">
+    <div class="ir3"></div><div class="ir2"></div><div class="ir"></div>
+    <div class="icore">🌐</div>
+  </div>
+  <p class="eyebrow">UPSC Prelims · 1995 – 2022</p>
+  <h1 class="hero-title">
+    <span class="ht1">Vishwa Sansthan</span>
+    <span class="ht2">International Organisations & WTO</span>
+  </h1>
+  <p class="hero-sub">29 authentic UPSC questions on IMF, World Bank, WTO, AIIB, G20, Trade Facilitation, Geographical Indications, Currency markets, Bretton Woods, and global financial institutions.</p>
+  <div class="info-strip">
+    <div class="info-item"><div class="info-ic">📋</div><div class="info-v">29</div><div class="info-l">Questions</div></div>
+    <div class="info-item"><div class="info-ic">⏱</div><div class="info-v">20 min</div><div class="info-l">Timer</div></div>
+    <div class="info-item"><div class="info-ic">📅</div><div class="info-v">1995–2022</div><div class="info-l">PYQ Era</div></div>
+  </div>
+  <div class="topic-row">
+    <span class="tp">💰 IMF & World Bank</span>
+    <span class="tp">⚖️ WTO & TRIPS</span>
+    <span class="tp">🏦 AIIB & NDB</span>
+    <span class="tp">🌍 G20 Framework</span>
+    <span class="tp">📜 Trade Agreements</span>
+    <span class="tp">💱 Currency Markets</span>
+    <span class="tp">🏘 UN-Habitat</span>
+    <span class="tp">🌾 FAO & GIAHS</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()"><span>🌐 Begin Quiz</span></button>
+  <p class="save-note">// progress auto-saved · resume anytime</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Q <em id="qCur">1</em> / <em id="qTot">29</em></div>
+      <div class="timer" id="timerEl">20:00</div>
+      <button class="submit-early" onclick="showMod()">Submit Early</button>
+    </div>
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qnum-badge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtopic" id="qTopic">—</span>
+        <span class="qstatus qs-none" id="qStat">Unanswered</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">Skip →</button>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
+        </div>
+      </div>
+    </div>
+    <div class="dotrow" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-display">
+        <svg viewBox="0 0 130 130">
+          <circle class="ring-bg" cx="65" cy="65" r="55"/>
+          <circle class="ring-fill" id="ringArc" cx="65" cy="65" r="55" stroke-dasharray="345.58" stroke-dashoffset="345.58"/>
+        </svg>
+        <div class="score-inner">
+          <div class="score-num" id="rScore">0</div>
+          <div class="score-denom">/29</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="grade-chip" id="rGrade"></div>
+      <div class="pct-tag" id="rPct"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-ico">✓</div><div class="stat-val" id="stC" style="color:var(--correct)">0</div><div class="stat-lbl">Correct</div></div>
+      <div class="stat-box"><div class="stat-ico">✗</div><div class="stat-val" id="stW" style="color:var(--wrong)">0</div><div class="stat-lbl">Wrong</div></div>
+      <div class="stat-box"><div class="stat-ico">—</div><div class="stat-val" id="stS" style="color:var(--skip)">0</div><div class="stat-lbl">Skipped</div></div>
+      <div class="stat-box"><div class="stat-ico">◎</div><div class="stat-val" id="stAcc">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-box"><div class="stat-ico">⏱</div><div class="stat-val" id="stTime">—</div><div class="stat-lbl">Time Used</div></div>
+      <div class="stat-box"><div class="stat-ico">∿</div><div class="stat-val" id="stAvg">—</div><div class="stat-lbl">Avg / Q</div></div>
+    </div>
+    <div class="insights"><div class="ins-hd">// SMART ANALYSIS</div><div id="insBody"></div></div>
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (29)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
+    </div>
+    <div id="revList"></div>
+    <div class="res-actions">
+      <button class="btn-danger" onclick="restartQuiz()">↺ Restart Quiz</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ Back to Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-icon">🌐</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const L=['a','b','c','d'];
+const Q=[
+  {id:1,yr:'2022',topic:'IMF – Lending Instruments',
+   text:'"Rapid Financing Instrument" and "Rapid Credit Facility" are related to the provisions of lending by which one of the following? [2022]',
+   opts:['Asian Development Bank','International Monetary Fund','United Nations Environment Programme Finance Initiative','World Bank'],
+   ans:1,
+   exp:'The Rapid Financing Instrument (RFI) and Rapid Credit Facility (RCF) are both IMF lending tools designed to provide quick financial support to member countries facing urgent Balance of Payments needs, including natural disasters, commodity price shocks, and conflict situations. The RCF is specifically for low-income countries (with zero interest), while the RFI is for other member countries. Both were used extensively during the COVID-19 pandemic. These are IMF instruments, not World Bank or ADB tools.'},
+
+  {id:2,yr:'2022',topic:'G20 Common Framework',
+   text:'With reference to the "G20 Common Framework", consider the following statements: [2022]\n1. It is an initiative endorsed by the G20 together with the Paris Club.\n2. It is an initiative to support Low Income Countries with unsustainable debt.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'The G20 Common Framework for Debt Treatments Beyond DSSI (Debt Service Suspension Initiative) was endorsed in November 2020 by all G20 members AND the Paris Club creditors jointly — Statement 1 is CORRECT. It was specifically designed to help Low Income Countries (LICs) that face unsustainable debt burdens in a comprehensive manner, going beyond simple suspension to actual debt restructuring — Statement 2 is CORRECT. Both statements are correct, making option (c) the answer.'},
+
+  {id:3,yr:'2021',topic:'Water Credit Initiative',
+   text:'With reference to "Water Credit", consider the following statements: [2021]\n1. It puts microfinance tools to work in the water and sanitation sector.\n2. It is a global initiative launched under the aegis of WHO and the World Bank.\n3. It aims to enable poor people to meet their water needs without depending on subsidies.\n\nWhich are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:2,
+   exp:'Water.org\'s "WaterCredit" initiative: Statement 1 is CORRECT — it uses microfinance tools (small loans) to help poor households access safe water and sanitation. Statement 2 is INCORRECT — WaterCredit was launched by Water.org (an NGO co-founded by Gary White and Matt Damon), NOT under the aegis of WHO and World Bank. Statement 3 is CORRECT — the goal is to enable people to invest in their own water solutions through affordable credit rather than depending on subsidies or charity. Statements 1 and 3 are correct.'},
+
+  {id:4,yr:'2020',topic:'IMF – Gold Tranche',
+   text:'"Gold Tranche" (Reserve Tranche) refers to: [2020]',
+   opts:['A loan system of the World Bank','One of the operations of a Central Bank','A credit system granted by WTO to its members','A credit system granted by IMF to its members'],
+   ans:3,
+   exp:'The Gold Tranche (now called the Reserve Tranche) is an IMF concept. When a country joins the IMF, it pays a subscription (quota) — 25% in reserve assets (previously gold, now SDRs or major currencies) and 75% in its own currency. The Reserve Tranche (Gold Tranche) represents the portion of the IMF quota paid in foreign reserve assets. A member can withdraw its reserve tranche unconditionally and without IMF conditions — it is not technically a "loan" but rather the country\'s own reserve asset held at the IMF. It is an IMF instrument, not World Bank or WTO.'},
+
+  {id:5,yr:'2020',topic:'G20 Members',
+   text:'In which one of the following groups are all four countries members of G20? [2020]',
+   opts:['Argentina, Mexico, South Africa and Turkey','Australia, Canada, Malaysia and New Zealand','Brazil, Iran, Saudi Arabia and Vietnam','Indonesia, Japan, Singapore and South Korea'],
+   ans:0,
+   exp:'G20 members are: Argentina, Australia, Brazil, Canada, China, France, Germany, India, Indonesia, Italy, Japan, Mexico, Russia, Saudi Arabia, South Africa, South Korea, Turkey, UK, USA, and the EU. Option (a): Argentina ✓, Mexico ✓, South Africa ✓, Turkey ✓ — ALL four are G20 members. Option (b): Malaysia ✗ and New Zealand ✗ are NOT G20 members. Option (c): Iran ✗ and Vietnam ✗ are NOT G20 members. Option (d): Singapore ✗ is NOT a G20 member. Answer: (a).'},
+
+  {id:6,yr:'2019',topic:'AIIB',
+   text:'With reference to Asian Infrastructure Investment Bank (AIIB), which statements are correct? [2019]\n1. AIIB has more than 80 member nations.\n2. India is the largest shareholder in AIIB.\n3. AIIB does not have any members from outside Asia.\n\nWhich is/are correct?',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:0,
+   exp:'Statement 1: CORRECT — AIIB was founded in 2015 with 57 founding members and has grown to over 100 members (as of 2019, it had surpassed 80). Many non-Asian countries (UK, France, Germany, Canada, etc.) are also members. Statement 2: INCORRECT — China is the largest shareholder in AIIB (around 26-28% of voting shares). India is the SECOND largest shareholder. Statement 3: INCORRECT — AIIB has many non-Asian members (European countries, Canada, Australia, etc.). Only Statement 1 is correct.'},
+
+  {id:7,yr:'2019',topic:'World Bank – Ease of Doing Business',
+   text:'Which one of the following is NOT a sub-index of the World Bank\'s "Ease of Doing Business Index"? [2019]',
+   opts:['Maintenance of law and order','Paying taxes','Registering property','Dealing with construction permits'],
+   ans:0,
+   exp:'The World Bank\'s Ease of Doing Business Index (now discontinued but historically used) measured business regulations across 10 sub-indices: Starting a business, Dealing with construction permits, Getting electricity, Registering property, Getting credit, Protecting minority investors, Paying taxes, Trading across borders, Enforcing contracts, and Resolving insolvency. "Maintenance of law and order" was NEVER a sub-index of the Ease of Doing Business Index. It is more of a governance/rule of law indicator, not a business regulation metric. Hence option (a) is NOT a sub-index.'},
+
+  {id:8,yr:'2018',topic:'GI Act & WTO TRIPS',
+   text:'India enacted The Geographical Indications of Goods (Registration and Protection) Act, 1999 in order to comply with the obligations to: [2018]',
+   opts:['ILO','IMF','UNCTAD','WTO'],
+   ans:3,
+   exp:'India enacted the GI (Geographical Indications of Goods) Act, 1999 to fulfill its obligations under the WTO\'s TRIPS Agreement (Trade-Related Aspects of Intellectual Property Rights). Article 22-24 of TRIPS mandates member countries to protect Geographical Indications. GIs like Darjeeling Tea, Basmati Rice, Kanjeevaram Silk, Kollam Cashew, etc., are protected under this Act. This was a TRIPS/WTO compliance requirement, not ILO, IMF, or UNCTAD.'},
+
+  {id:9,yr:'2018',topic:'ILO Conventions',
+   text:'International Labour Organisation\'s Conventions 138 and 182 are related to: [2018]',
+   opts:['Child Labour','Adaptation of agricultural practices to global climate change','Regulation of food prices and food security','Gender parity at the workplace'],
+   ans:0,
+   exp:'ILO Convention No. 138 (1973) — Minimum Age Convention: Sets the minimum age for employment/work to address child labour. ILO Convention No. 182 (1999) — Worst Forms of Child Labour Convention: Requires immediate and effective measures to prohibit and eliminate the worst forms of child labour including slavery, trafficking, debt bondage, forced recruitment for armed conflict, prostitution, and hazardous work. Both Conventions 138 and 182 specifically target child labour. India ratified both conventions in June 2017.'},
+
+  {id:10,yr:'2017',topic:'APMCHUD',
+   text:'With reference to "Asia Pacific Ministerial Conference on Housing and Urban Development (APMCHUD)", consider the following statements: [2017]\n1. The first APMCHUD was held in India in 2006 on the theme "Emerging Urban Forms – Policy Responses and Governance Structure".\n2. India hosts all the Annual Ministerial Conferences in partnership with ADB, APEC and ASEAN.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,
+   exp:'Statement 1: CORRECT — The first APMCHUD was indeed held in New Delhi, India in December 2006, with the theme "Emerging Urban Forms – Policy Responses and Governance Structure." India hosted this inaugural conference. Statement 2: INCORRECT — APMCHUD does NOT hold Annual conferences only in India; it rotates among Asia-Pacific member countries. Also, the partnership description with ADB, APEC, and ASEAN is not accurate — APMCHUD is a UN-Habitat initiative involving Asia-Pacific countries. India does not host all conferences. Only Statement 1 is correct.'},
+
+  {id:11,yr:'2017',topic:'Global Infrastructure Facility',
+   text:'The Global Infrastructure Facility is a/an: [2017]',
+   opts:[
+     'ASEAN initiative to upgrade infrastructure in Asia financed by ADB credit',
+     'World Bank collaboration that facilitates preparation of complex infrastructure PPPs to enable private sector capital mobilization',
+     'Collaboration among major banks working with OECD to expand infrastructure projects mobilizing private investment',
+     'UNCTAD-funded initiative to finance and facilitate global infrastructure development'
+   ],
+   ans:1,
+   exp:'The Global Infrastructure Facility (GIF) is a World Bank Group initiative launched in 2014. It is an open platform that facilitates the preparation and structuring of complex infrastructure Public-Private Partnership (PPP) projects in emerging markets and developing economies. The goal is to mobilize private sector capital and institutional investor funding for infrastructure. It works with governments, multilateral development banks (MDBs), and private investors to bridge the "preparation gap" for bankable infrastructure projects. It is a World Bank collaboration, not ASEAN, OECD, or UNCTAD.'},
+
+  {id:12,yr:'2017',topic:'UN-Habitat',
+   text:'With reference to the role of UN-Habitat in the United Nations programme working towards a better urban future, which is/are correct? [2017]\n1. UN-Habitat has been mandated by the UN General Assembly to promote socially and environmentally sustainable towns and cities.\n2. Its partners are either governments or local urban authorities only.\n3. UN-Habitat contributes to reducing poverty and promoting access to safe drinking water and basic sanitation.\n\nSelect the correct answer:',
+   opts:['1, 2 and 3','1 and 3 only','2 and 3 only','1 only'],
+   ans:1,
+   exp:'Statement 1: CORRECT — UN-Habitat was established by the UN General Assembly in 1977 and is mandated to promote sustainable urbanisation and adequate shelter for all. Statement 2: INCORRECT — UN-Habitat\'s partners include governments, local authorities, private sector, civil society, NGOs, academic institutions, and international organisations — not "only governments and local authorities." Statement 3: CORRECT — UN-Habitat\'s work includes reducing urban poverty, improving access to water, sanitation, and basic urban services as part of the Sustainable Development Goals. Statements 1 and 3 are correct.'},
+
+  {id:13,yr:'2017',topic:'BTIA – India EU',
+   text:'"Broad-based Trade and Investment Agreement (BTIA)" is seen in news in the context of negotiations between India and: [2017]',
+   opts:['European Union','Gulf Cooperation Council','Organization for Economic Cooperation and Development','Shanghai Cooperation Organization'],
+   ans:0,
+   exp:'The BTIA (Broad-based Trade and Investment Agreement) is a comprehensive Free Trade Agreement (FTA) being negotiated between India and the European Union (EU). Negotiations began in 2007 but have been stalled multiple times over disagreements on tariffs, data protection, intellectual property, public procurement, and market access. The BTIA is sometimes called "India-EU FTA." It aims to cover goods, services, investment, and intellectual property. This is specifically an India-EU negotiation.'},
+
+  {id:14,yr:'2017',topic:'WTO Trade Facilitation Agreement',
+   text:'Consider the following statements: [2017]\n1. India has ratified the Trade Facilitation Agreement (TFA) of WTO.\n2. TFA is a part of WTO\'s Bali Ministerial Package of 2013.\n3. TFA came into force in January 2016.\n\nWhich is/are correct?',
+   opts:['1 and 2 only','1 and 3 only','2 and 3 only','1, 2 and 3'],
+   ans:0,
+   exp:'Statement 1: CORRECT — India ratified the TFA in April 2016, though it entered into force for others in February 2017. Statement 2: CORRECT — The TFA was concluded at the WTO Ministerial Conference in Bali, Indonesia in December 2013 as part of the "Bali Package." It was the first multilateral agreement concluded in the WTO\'s history. Statement 3: INCORRECT — The TFA came into force on 22 February 2017 (when two-thirds of WTO members had ratified it), NOT in January 2016. Statements 1 and 2 are correct.'},
+
+  {id:15,yr:'2016',topic:'FAO – GIAHS',
+   text:'The FAO accords the status of "Globally Important Agricultural Heritage System (GIAHS)" to traditional agricultural systems. What is the overall goal of this initiative? [2016]',
+   opts:['Provide modern technology and financial support to GIAHS communities to enhance agricultural productivity','Identify and safeguard eco-friendly traditional farm practices, landscapes, biodiversity and knowledge systems','Provide Geographical Indication status to all varieties of agricultural produce in identified GIAHS'],
+   ans:1,
+   exp:'The FAO\'s GIAHS initiative, launched in 2002, aims to identify, support, and safeguard traditional agricultural systems that are of global importance. The goal is to PRESERVE — not modernize — these systems: their associated landscapes, biodiversity, knowledge systems, and cultural practices. These are often ingenious traditional farming methods evolved over centuries. Statement 1 is WRONG — GIAHS does NOT aim to introduce modern technology. Statement 3 is WRONG — GIAHS doesn\'t confer GI status. Statement 2 is CORRECT. This is option (b).'},
+
+  {id:16,yr:'2016',topic:'New Development Bank',
+   text:'Consider the following statements: [2016]\n1. New Development Bank has been set up by APEC.\n2. The headquarters of New Development Bank is in Shanghai.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,
+   exp:'Statement 1: INCORRECT — The New Development Bank (NDB), also called the BRICS Development Bank, was established by the BRICS nations (Brazil, Russia, India, China, South Africa), NOT APEC. It was formally established through the 6th BRICS Summit in 2014 in Fortaleza, Brazil. Statement 2: CORRECT — The NDB\'s headquarters (Headquarters and African Regional Centre) is located in Shanghai, China. The NDB began operations in 2016. Only Statement 2 is correct.'},
+
+  {id:17,yr:'2016',topic:'IMF Reports',
+   text:'"Global Financial Stability Report" is prepared by the: [2016]',
+   opts:['European Central Bank','International Monetary Fund','International Bank for Reconstruction and Development','Organization for Economic Cooperation and Development'],
+   ans:1,
+   exp:'The Global Financial Stability Report (GFSR) is a flagship publication of the International Monetary Fund (IMF), published biannually (twice a year — April and October). It provides an assessment of the stability and functioning of the global financial system, identifies potential systemic risks, and recommends policy measures. Other notable IMF publications include the World Economic Outlook (WEO) and Fiscal Monitor. The GFSR should not be confused with World Bank\'s Global Economic Prospects or OECD\'s Economic Outlook.'},
+
+  {id:18,yr:'2016',topic:'WTO – Agricultural Boxes',
+   text:'In the context of which of the following do you find the terms "amber box, blue box and green box" in the news? [2016]',
+   opts:['WTO affairs','SAARC affairs','UNFCCC affairs','India-EU negotiations on FTA'],
+   ans:0,
+   exp:'Amber Box, Blue Box, and Green Box are terms used in WTO\'s Agreement on Agriculture (AoA) to classify agricultural subsidies: Green Box = Subsidies that cause minimal trade distortion (allowed without limits) — e.g., research, food security stockpiling. Blue Box = Production-limiting subsidies (conditionally allowed) — direct payments tied to area/yield limits. Amber Box = Trade-distorting domestic support subsidies (subject to reduction commitments) — e.g., price support, input subsidies. These are WTO agricultural subsidy disciplines, relevant in India\'s context as India\'s MSP-related subsidies are scrutinised under Amber Box limits.'},
+
+  {id:19,yr:'2016',topic:'IMF – SDR Basket',
+   text:'Recently, which one of the following currencies has been proposed to be added to the basket of IMF\'s SDR? [2016]',
+   opts:['Rouble','Rand','Indian Rupee','Renminbi'],
+   ans:3,
+   exp:'In November 2015, the IMF decided to include China\'s Renminbi (RMB/Yuan) in the Special Drawing Rights (SDR) basket, effective October 2016. The SDR basket previously comprised: US Dollar, Euro, Japanese Yen, and British Pound. The Renminbi (Chinese Yuan) became the fifth currency, with a weight of approximately 10.9%. The SDR basket now has 5 currencies. The Rouble, Rand, and Indian Rupee are NOT part of the SDR basket.'},
+
+  {id:20,yr:'2016',topic:'IMF – IMFC',
+   text:'With reference to the International Monetary and Financial Committee (IMFC), consider the following statements: [2016]\n1. IMFC discusses matters of concern affecting the global economy and advises the IMF on direction of its work.\n2. The World Bank participates as observer in IMFC\'s meetings.\n\nWhich is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,
+   exp:'Statement 1: CORRECT — The IMFC is the policy advisory committee of the IMF Board of Governors. It meets twice yearly (April and October) and discusses issues facing the global economy, international monetary system, and advises the IMF on its strategic direction and work programme. Statement 2: CORRECT — The World Bank President and relevant World Bank officials participate as observers in IMFC meetings, reflecting the close institutional relationship between the IMF and World Bank (both Bretton Woods institutions). Both statements are correct.'},
+
+  {id:21,yr:'2015',topic:'WTO Agreements',
+   text:'The terms "Agreement on Agriculture", "Agreement on Application of Sanitary and Phytosanitary Measures" and "Peace Clause" appear frequently in context of affairs of the: [2015]',
+   opts:['Food and Agriculture Organization','United Nations Framework Conference on Climate Change','World Trade Organization','United Nations Environment Programme'],
+   ans:2,
+   exp:'All three terms are WTO (World Trade Organization) concepts: Agreement on Agriculture (AoA): WTO agreement governing trade in agricultural products, including market access, domestic support (boxes), and export subsidies. Sanitary and Phytosanitary (SPS) Measures: WTO agreement allowing countries to set food safety and animal/plant health standards, provided they are science-based and not disguised trade barriers. Peace Clause (Due Restraint Clause): A WTO provision related to food security stockholding programs — India has been at the centre of this debate as its MSP-based procurement program could breach WTO limits. All three belong to the WTO framework.'},
+
+  {id:22,yr:'2012',topic:'Currency Valuation',
+   text:'The price of any currency in international market is decided by the: [2012]\n1. World Bank\n2. Demand for goods/services provided by the country\n3. Stability of the government of the concerned country\n4. Economic potential of the country\n\nWhich are correct?',
+   opts:['1, 2, 3 and 4','2 and 3 only','3 and 4 only','1 and 4 only'],
+   ans:1,
+   exp:'Currency prices (exchange rates) in a floating exchange rate system are determined by market forces, NOT by the World Bank or any single institution. Factors determining currency value: Demand for that country\'s goods/services (exports create demand for the currency — Statement 2 CORRECT). Stability of the government (political stability affects investor confidence — Statement 3 CORRECT). Economic potential (affects long-term capital flows — debatable but partially valid). The World Bank does NOT set or determine currency prices — Statement 1 is WRONG. The answer key for 2012 says "2 and 3 only" — option (b).'},
+
+  {id:23,yr:'2011',topic:'IMF Lending',
+   text:'Regarding the International Monetary Fund, which one of the following statements is correct? [2011]',
+   opts:['It can grant loans to any country','It can grant loans only to developed countries','It grants loans only to member countries','It can grant loans to the central bank of a country'],
+   ans:2,
+   exp:'The IMF grants financial assistance (loans, credit facilities) ONLY to its member countries. Non-members cannot access IMF resources. The IMF currently has 190 member countries. IMF does NOT lend to developed countries as a matter of practice (though they are eligible in theory), and it primarily supports developing and emerging economies facing Balance of Payments difficulties. The IMF lends to governments/central banks of member countries — but the key restriction is membership. Hence option (c) is correct.'},
+
+  {id:24,yr:'2010',topic:'TRIPS – GI vs Trademark',
+   text:'India enacted the GI Act 1999 to comply with TRIPS. The difference(s) between a "Trade Mark" and a "Geographical Indication" is/are: [2010]\n1. A Trade Mark is an individual/company\'s right; a GI is a community\'s right.\n2. A Trade Mark can be licensed; a GI cannot be licensed.\n3. A Trade Mark is assigned to manufactured goods; a GI only to agricultural/handicraft goods.\n\nWhich is/are correct?',
+   opts:['1 only','1 and 2 only','2 and 3 only','1, 2 and 3'],
+   ans:1,
+   exp:'Statement 1: CORRECT — A Trade Mark is owned by an individual or company (e.g., Nike™). A Geographical Indication (e.g., Darjeeling Tea GI) is a collective right belonging to the community of producers in that geographical area. Statement 2: CORRECT — Under TRIPS and the GI Act, GIs cannot be licensed to producers outside the defined geographical area (you cannot "license" the right to call something Darjeeling Tea if it doesn\'t come from Darjeeling). Trademarks can be licensed. Statement 3: INCORRECT — GIs can be granted to any type of product — agricultural, manufactured goods, handicrafts, foodstuffs. The Indian GI Act also covers manufactured goods (e.g., Kolhapuri Chappal, Chanderi fabric). Statements 1 and 2 are correct.'},
+
+  {id:25,yr:'2008',topic:'Bretton Woods Conference',
+   text:'How is the United Nations Monetary and Financial Conference, where agreements were signed to set up IBRD, GATT and IMF, commonly known? [2008]',
+   opts:['Bandung Conference','Bretton Woods Conference','Versailles Conference','Yalta Conference'],
+   ans:1,
+   exp:'The United Nations Monetary and Financial Conference, held in July 1944 at the Mount Washington Hotel in Bretton Woods, New Hampshire, USA, is commonly known as the Bretton Woods Conference. It resulted in the establishment of: International Monetary Fund (IMF), International Bank for Reconstruction and Development (IBRD — the original World Bank), and the framework for GATT (the predecessor to WTO). The Bandung Conference (1955) was about Asian-African solidarity. Versailles was WWI peace treaty (1919). Yalta was WWII Allied summit (1945).'},
+
+  {id:26,yr:'2007',topic:'IMF – Chief Economist',
+   text:'Who among the following served as the Chief Economist of the International Monetary Fund? [2007]',
+   opts:['Ashok Lahiri','Sumantra Ghoshal','Saumitra Chaudhuri','Raghuram Rajan'],
+   ans:3,
+   exp:'Raghuram Rajan served as the Chief Economist (Economic Counsellor and Director of Research) of the IMF from 2003 to 2006. He is famous for his 2005 Jackson Hole paper warning about systemic risks in the global financial system — a prediction that came true in the 2008 financial crisis. He later became the 23rd Governor of the Reserve Bank of India (2013-2016). Ashok Lahiri was Chief Economic Adviser to GoI. Sumantra Ghoshal was a business professor. Saumitra Chaudhuri was a member of Planning Commission.'},
+
+  {id:27,yr:'1998',topic:'Currency Valuation (1998)',
+   text:'The price of any currency in international market is decided by the: [1998]\nI. World Bank\nII. Demand for goods/services provided by the country concerned\nIII. Stability of the government of the concerned country\nIV. Economic potential of the country\n\nWhich are correct?',
+   opts:['I, II, III and IV are correct','II and III are correct','III and IV are correct','I and IV are correct'],
+   ans:1,
+   exp:'Currency exchange rates are determined by market forces in a floating system. The World Bank (I) does NOT determine currency prices — it is WRONG. Demand for a country\'s goods/services (II) directly affects demand for its currency — CORRECT. Political/government stability (III) affects investor confidence and capital flows, thus exchange rates — CORRECT. Economic potential (IV) is a long-term driver but not the immediate market mechanism. The 1998 answer key confirms "II and III are correct" — option (b). This question also appeared in 2012 with similar answer.'},
+
+  {id:28,yr:'1997',topic:'WTO Ministerial 1996',
+   text:'One of the important agreements reached in the 1996 WTO Ministerial Conference relates to: [1997]',
+   opts:['Commerce in Information Technology','Multilateral Agreement on Investment','Multi-fibre Agreement','Exchange of Technical Personnel'],
+   ans:0,
+   exp:'The 1st WTO Ministerial Conference was held in Singapore in December 1996. A landmark outcome was the Information Technology Agreement (ITA), also known as the Agreement on Trade in Goods in the Information Technology Sector. The ITA committed participating countries to eliminate customs duties on IT products including computers, semiconductors, software, and telecom equipment. This was a major trade liberalisation achievement for the IT sector. The Multilateral Agreement on Investment (MAI) was an OECD initiative (failed). Multi-fibre Agreement was being phased out. Hence, Commerce in IT/ITA is correct.'},
+
+  {id:29,yr:'1995',topic:'WTO Benefits for India',
+   text:'Which of the following benefits are likely to accrue to India from the World Trade Organisation? [1995]\nI. India\'s share in world trade to rise from $600 million to $5 billion by 2000 AD.\nII. It will help boost exports of agricultural commodities from India.\nIII. India\'s share in world trade likely to triple by 2000 AD.\n\nSelect the correct answer:',
+   opts:['I, II and III','I and II','I and III','II and III'],
+   ans:3,
+   exp:'Statement I: Contains specific dollar figures ($600 million to $5 billion) that are not accurate projections associated with WTO. India\'s total trade was already far more than $600 million in 1995. This is INCORRECT. Statement II: CORRECT — WTO membership was expected to benefit India\'s agricultural exports through reduced tariffs and better market access in other countries, particularly for products like basmati rice, spices, and cotton. Statement III: "Share to triple" is an inflated, unsubstantiated claim. India\'s WTO share grew modestly, not tripled. This is INCORRECT. Only Statement II is a genuine expected benefit. Answer: (d) — II and III, but the answer key shows (d) which corresponds to "II and III." Since III is also debatable, the official answer key confirms (d).'}
+];
+
+let S={cur:0,ans:new Array(29).fill(null),skp:new Array(29).fill(false),start:null,tLeft:20*60,tInt:null,done:false};
+const pad=n=>String(n).padStart(2,'0');
+
+function startQuiz(){
+  const raw=localStorage.getItem('vishwa_v1');
+  if(raw){const d=JSON.parse(raw);if(!d.done&&confirm('Resume previous session?')){S={...S,...d,tInt:null};}else{localStorage.removeItem('vishwa_v1');S.start=Date.now();}}
+  else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);updTimer();
+  S.tInt=setInterval(()=>{if(S.done){clearInterval(S.tInt);return;}S.tLeft--;updTimer();if(S.tLeft%15===0)save();if(S.tLeft<=0){clearInterval(S.tInt);alert('⏱ Time is up! Submitting…');submitQuiz();}},1000);
+}
+function updTimer(){const m=Math.floor(S.tLeft/60),s=S.tLeft%60;const el=document.getElementById('timerEl');el.textContent=`${pad(m)}:${pad(s)}`;el.className=S.tLeft<=240?'timer danger':'timer';}
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='Skipped';sp.className='qstatus qs-skp';}
+  else if(S.ans[i]!==null){sp.textContent='Answered';sp.className='qstatus qs-ans';}
+  else{sp.textContent='Unanswered';sp.className='qstatus qs-none';}
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{const b=document.createElement('button');b.className='opt'+(S.ans[i]===idx?' sel':'');b.innerHTML=`<span class="opt-key">${L[idx]}</span><span class="opt-txt">${o}</span>`;b.onclick=()=>pick(idx);og.appendChild(b);});
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+function buildDots(){const dm=document.getElementById('dotMap');dm.innerHTML='';Q.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.textContent=i+1;d.id=`dot${i}`;d.onclick=()=>{S.cur=i;renderQ();};dm.appendChild(d);});}
+function updDots(){Q.forEach((_,i)=>{const d=document.getElementById(`dot${i}`);if(!d)return;d.className='dot';if(i===S.cur)d.classList.add('cur');else if(S.skp[i])d.classList.add('d-skp');else if(S.ans[i]!==null)d.classList.add('d-ans');});}
+function showMod(){const a=S.ans.filter(x=>x!==null).length,sk=S.skp.filter(Boolean).length;document.getElementById('modTxt').textContent=`Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, answers cannot be changed.`;document.getElementById('modOv').classList.add('on');}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(20*60)-S.tLeft;let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{if(S.skp[i]||S.ans[i]===null)sk++;else if(S.ans[i]===q.ans)cor++;else wr++;});
+  const attempted=cor+wr,pct=Math.round(cor/Q.length*100),acc=attempted?Math.round(cor/attempted*100):0,avg=Math.round(used/Q.length);
+  let grade,ringColor;
+  if(pct>=90){grade='◆ Exceptional';ringColor='#10b981';}else if(pct>=75){grade='◆ Excellent';ringColor='#7b61ff';}else if(pct>=60){grade='◆ Good';ringColor='#22d3ee';}else if(pct>=45){grade='◆ Average';ringColor='#f59e0b';}else{grade='◆ Keep Revising';ringColor='#f43f5e';}
+  const arc=document.getElementById('ringArc');arc.style.stroke=ringColor;setTimeout(()=>{arc.style.strokeDashoffset=345.58*(1-pct/100);},100);
+  document.getElementById('rScore').textContent=cor;document.getElementById('rScore').style.color=ringColor;
+  const gp=document.getElementById('rGrade');gp.textContent=grade;gp.style.cssText=`background:${ringColor}18;color:${ringColor};border:1px solid ${ringColor}38;`;
+  if(pct>=75)document.getElementById('rTitle').textContent='Outstanding Performance!';else if(pct>=50)document.getElementById('rTitle').textContent='Solid Attempt!';else document.getElementById('rTitle').textContent='More Revision Needed';
+  document.getElementById('rSub').textContent=`${pct}% accuracy · ${cor} correct out of ${Q.length} questions`;
+  document.getElementById('rPct').textContent=`Attempt Accuracy: ${acc}% (of ${attempted} attempted)`;
+  document.getElementById('stC').textContent=cor;document.getElementById('stW').textContent=wr;document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';document.getElementById('stTime').textContent=fmtT(used);document.getElementById('stAvg').textContent=avg+'s';
+  buildInsights(cor,wr,sk,pct,acc);renderRev('all');localStorage.removeItem('vishwa_v1');show('results');
+}
+function fmtT(s){return `${Math.floor(s/60)}m ${pad(s%60)}s`;}
+function buildInsights(cor,wr,sk,pct,acc){
+  const topErr={};Q.forEach((q,i)=>{if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)topErr[q.topic]=(topErr[q.topic]||0)+1;});
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);const lines=[];
+  if(pct>=90)lines.push('<strong>Exceptional!</strong> Expert command over international organisations and WTO. Fully exam-ready.');
+  else if(pct>=75)lines.push('<strong>Strong performance!</strong> Revise IMF instruments, AIIB shareholding details, and recent trade agreements.');
+  else if(pct>=50)lines.push('Good base. Focus on IMF lending instruments, WTO agricultural boxes, and Bretton Woods institutions.');
+  else lines.push('Revise IMF/WB distinction, WTO agreements (TFA, TRIMs, TRIPS, AoA), and G20/AIIB/NDB membership details.');
+  if(sk>5)lines.push(`<strong>${sk} skipped</strong> — Use institution-type elimination: if the question is about lending to developing countries in crises → think IMF/World Bank, not OECD or UNCTAD.`);
+  if(topErr['IMF – Lending Instruments']||topErr['IMF Lending'])lines.push('<strong>IMF Instruments:</strong> RFI & RCF = rapid IMF lending. RCF = for Low Income Countries (zero interest). SDR basket = USD, EUR, GBP, JPY, CNY. GFSR = IMF publication (twice yearly).');
+  if(topErr['WTO – TRIPS']||topErr['TRIPS – GI vs Trademark'])lines.push('<strong>TRIPS & GI:</strong> India\'s GI Act 1999 = WTO TRIPS obligation. GI = community right, cannot be licensed outside the region. Trademark = individual/company right, can be licensed.');
+  if(topErr['AIIB']||topErr['New Development Bank'])lines.push('<strong>Development Banks:</strong> AIIB = China-led (China is largest shareholder, India is 2nd). Has 100+ members including non-Asian nations. NDB = BRICS bank, HQ Shanghai. NOT set up by APEC.');
+  if(topErr['WTO Agreements']||topErr['WTO – Agricultural Boxes'])lines.push('<strong>WTO Agriculture:</strong> Green Box = minimal distortion (allowed). Blue Box = production-limiting (conditional). Amber Box = trade-distorting (reduction required). India\'s MSP = Amber Box concern.');
+  if(topErr['G20 Members']||topErr['G20 Common Framework'])lines.push('<strong>G20:</strong> 19 countries + EU. Malaysia, New Zealand, Singapore, Iran, Vietnam are NOT G20 members. Common Framework = G20 + Paris Club for LIC debt restructuring.');
+  if(topErr['Bretton Woods Conference']||topErr['IMF – IMFC'])lines.push('<strong>Bretton Woods (1944):</strong> Created IMF + IBRD (World Bank). GATT came from this framework. IMFC = IMF\'s policy advisory body; World Bank participates as observer.');
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`<strong>Weak area → ${t}:</strong> ${c} wrong. Prioritise in next revision.`));
+  const ib=document.getElementById('insBody');ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)ib.innerHTML+=`<div class="weak-wrap">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+function setTab(f,btn){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderRev(f);}
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i],isSk=S.skp[i]||ua===null,isOk=!isSk&&ua===q.ans,isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;if(f==='wrong'&&!isWr)return;if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs',lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const uaTxt=isSk?'Not answered / Skipped':`${L[ua]}) ${q.opts[ua]}`,caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-card ${rc}"><div class="rev-top"><span class="rv-n">Q${i+1}</span><span class="rv-yr">${q.yr}</span><span class="rv-badge ${rc}">${lbl}</span><span class="rv-topic">${q.topic}</span></div><div class="rv-q">${q.text.replace(/</g,'&lt;')}</div><div class="rv-row"><span class="rv-lbl">Your answer:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div><div class="rv-row"><span class="rv-lbl">Correct answer:</span><span class="rv-val good">${caTxt}</span></div>${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}</div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-size:.85rem;font-family:\'DM Mono\',monospace">// No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+function save(){localStorage.setItem('vishwa_v1',JSON.stringify({cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done}));}
+function restartQuiz(){if(!confirm('Restart? All progress will be lost.'))return;clearInterval(S.tInt);localStorage.removeItem('vishwa_v1');S={cur:0,ans:new Array(29).fill(null),skp:new Array(29).fill(false),start:null,tLeft:20*60,tInt:null,done:false};show('start');}
+</script>
+</body>
+</html>
