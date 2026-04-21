@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC Capital Markets Quiz — Prelims PYQs 1995–2023</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07080f;
+  --bg2:#0e1018;
+  --bg3:#141620;
+  --card:#11131d;
+  --card2:#181b28;
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(100,160,255,.2);
+  --blue:#4f8ef7;
+  --blue2:#7fb3ff;
+  --blue3:#2a5fc8;
+  --cyan:#00d4ff;
+  --purple:#a855f7;
+  --purple2:#c084fc;
+  --green:#22d3a0;
+  --red:#f05a5a;
+  --amber:#f0b429;
+  --amber2:#fcd34d;
+  --txt:#e8eaf6;
+  --txt2:#6b7294;
+  --txt3:#9ba3d0;
+  --r:10px;
+  --r2:16px;
+  --r3:22px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 10% 5%,rgba(79,142,247,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 45% at 90% 95%,rgba(168,85,247,.1) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(0,212,255,.04) 0%,transparent 70%);
+}
+
+/* floating grid lines BG */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;
+  background-image:linear-gradient(rgba(79,142,247,1) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,1) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+/* particles */
+.pts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.pt{position:absolute;border-radius:50%;animation:fltUp linear infinite;opacity:0}
+@keyframes fltUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.9}90%{opacity:.2}100%{transform:translateY(-5vh) scale(1.5);opacity:0}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ═══════════ START ═══════════ */
+#start{flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem;text-align:center}
+
+.start-eyebrow{
+  font-size:.62rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:2.5rem;opacity:.8;
+  animation:fadeUp .4s .1s both;
+}
+
+.start-icon{
+  width:88px;height:88px;margin:0 auto 1.8rem;position:relative;
+  animation:fadeUp .4s .2s both;
+}
+.start-icon::before,.start-icon::after{
+  content:'';position:absolute;inset:-12px;border-radius:50%;
+  border:1px solid rgba(79,142,247,.2);
+  animation:ripple 3s ease-in-out infinite;
+}
+.start-icon::after{inset:-26px;border-color:rgba(79,142,247,.1);animation-delay:1s}
+@keyframes ripple{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.07);opacity:.3}}
+
+.start-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,7vw,4rem);font-weight:800;line-height:1.05;
+  margin-bottom:.75rem;animation:fadeUp .4s .3s both;
+}
+.st1{
+  display:block;
+  background:linear-gradient(120deg,var(--blue),var(--cyan),var(--blue2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.st2{
+  display:block;font-size:.42em;font-family:'Inter',sans-serif;font-weight:300;
+  letter-spacing:.05em;color:var(--txt2);-webkit-text-fill-color:var(--txt2);margin-top:.3rem;
+}
+
+.start-desc{
+  max-width:480px;margin:0 auto 2.5rem;font-size:.9rem;color:var(--txt2);
+  line-height:1.9;font-weight:300;animation:fadeUp .4s .4s both;
+}
+
+.info-row{
+  display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;
+  margin-bottom:2.5rem;animation:fadeUp .4s .5s both;
+}
+.info-chip{
+  display:flex;align-items:center;gap:.45rem;
+  padding:.5rem 1rem;border-radius:50px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  font-size:.78rem;font-weight:500;color:var(--txt3);
+}
+.info-chip b{color:var(--blue2);font-weight:600}
+
+.topics-row{
+  display:flex;flex-wrap:wrap;gap:.32rem;justify-content:center;
+  max-width:560px;margin:0 auto 2.8rem;animation:fadeUp .4s .6s both;
+}
+.tp{
+  font-size:.66rem;font-weight:500;padding:.27rem .78rem;border-radius:50px;
+  background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.18);
+  color:var(--blue2);transition:.18s;
+}
+.tp:hover{background:rgba(79,142,247,.18)}
+
+.start-btn{
+  position:relative;overflow:hidden;padding:1rem 3.5rem;border:none;border-radius:50px;
+  font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.03em;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--blue3),var(--blue),#3a7ce0);
+  color:#fff;
+  box-shadow:0 8px 32px rgba(79,142,247,.4),0 0 0 1px rgba(79,142,247,.15);
+  transition:.25s;animation:fadeUp .4s .7s both;
+}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(79,142,247,.6)}
+.start-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
+  opacity:0;transition:.25s;
+}
+.start-btn:hover::before{opacity:1}
+.start-btn:active{transform:translateY(-1px)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════ QUIZ ═══════════ */
+#quiz{flex-direction:column;align-items:center;padding:1.2rem 1rem 3rem;gap:.85rem}
+.qwrap{max-width:800px;width:100%;display:flex;flex-direction:column;gap:.8rem}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;
+  padding:.8rem 1.1rem;
+  background:rgba(255,255,255,.02);border:1px solid var(--border);
+  border-radius:var(--r3);backdrop-filter:blur(8px);
+}
+.qinfo{display:flex;flex-direction:column;gap:.05rem}
+.qinfo-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt2)}
+.qinfo-val{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--txt)}
+.qinfo-val em{color:var(--blue);font-style:normal}
+
+.timer{
+  font-weight:600;font-size:.95rem;padding:.38rem 1rem;border-radius:50px;
+  background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.22);
+  color:var(--blue2);min-width:76px;text-align:center;transition:.3s;
+}
+.timer.danger{
+  background:rgba(240,90,90,.14);border-color:rgba(240,90,90,.4);color:#f08080;
+  animation:blk .6s infinite;
+}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.35}}
+
+.sub-early{
+  font-size:.7rem;padding:.36rem .85rem;border-radius:50px;
+  background:transparent;border:1px solid var(--border);color:var(--txt2);
+  cursor:pointer;transition:.18s;font-family:'Inter',sans-serif;
+}
+.sub-early:hover{border-color:var(--blue);color:var(--blue2)}
+
+.pbar-row{display:flex;align-items:center;gap:.8rem}
+.pbar{flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pfill{
+  height:100%;background:linear-gradient(90deg,var(--blue3),var(--cyan));
+  border-radius:10px;transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(0,212,255,.5);
+}
+.ppct{font-size:.68rem;color:var(--txt2);min-width:28px;text-align:right}
+
+/* Question card */
+.qcard{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r3);
+  padding:2rem;
+  box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.03);
+  animation:cIn .35s cubic-bezier(.34,1.4,.64,1);position:relative;overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:-50px;right:-50px;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,142,247,.05),transparent 70%);pointer-events:none;
+}
+@keyframes cIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+
+.qmeta{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.tag{font-size:.6rem;font-weight:600;padding:.26rem .72rem;border-radius:50px;letter-spacing:.02em}
+.t-n{background:linear-gradient(135deg,var(--blue3),#1a3a8a);color:#fff}
+.t-y{background:rgba(240,180,41,.1);color:var(--amber);border:1px solid rgba(240,180,41,.2)}
+.t-tp{background:rgba(0,212,255,.08);color:var(--cyan);border:1px solid rgba(0,212,255,.15)}
+.t-st{margin-left:auto;font-size:.6rem;font-weight:600;padding:.24rem .68rem;border-radius:50px}
+.s-none{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--border)}
+.s-ans{background:rgba(34,211,160,.1);color:var(--green);border:1px solid rgba(34,211,160,.25)}
+.s-skip{background:rgba(240,180,41,.08);color:var(--amber);border:1px solid rgba(240,180,41,.22)}
+
+.qtxt{font-size:.93rem;line-height:1.9;color:var(--txt3);margin-bottom:1.4rem;white-space:pre-wrap}
+
+.opts{display:flex;flex-direction:column;gap:.48rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.85rem;
+  padding:.88rem 1.1rem;
+  background:rgba(255,255,255,.014);border:1.5px solid rgba(255,255,255,.055);
+  border-radius:var(--r);cursor:pointer;text-align:left;width:100%;
+  font-family:'Inter',sans-serif;font-size:.875rem;line-height:1.6;
+  color:var(--txt3);transition:all .16s;position:relative;overflow:hidden;
+}
+.opt::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(79,142,247,.06),transparent);
+  opacity:0;transition:.16s;
+}
+.opt:hover:not(.osel):not(.ocor):not(.owrg){border-color:rgba(79,142,247,.38);transform:translateX(5px)}
+.opt:hover:not(.osel):not(.ocor):not(.owrg)::after{opacity:1}
+.osel{background:rgba(79,142,247,.09);border-color:var(--blue)}
+.osel::after{opacity:1}
+.ocor{background:rgba(34,211,160,.08);border-color:var(--green);cursor:default}
+.owrg{background:rgba(240,90,90,.07);border-color:var(--red);cursor:default}
+.okey{
+  min-width:27px;height:27px;border-radius:7px;
+  background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:600;color:var(--blue2);
+  flex-shrink:0;transition:.16s;position:relative;z-index:1;
+}
+.osel .okey{background:var(--blue);color:#fff;border-color:transparent}
+.ocor .okey{background:var(--green);color:#fff;border-color:transparent}
+.owrg .okey{background:var(--red);color:#fff;border-color:transparent}
+.otxt{position:relative;z-index:1;color:var(--txt)}
+
+.exp-box{
+  margin-top:1rem;padding:.9rem 1.1rem;
+  background:rgba(79,142,247,.07);border-left:3px solid var(--blue);
+  border-radius:0 var(--r) var(--r) 0;
+  font-size:.82rem;color:var(--txt2);line-height:1.8;
+  display:none;animation:fadeUp .28s ease;
+}
+.exp-box.show{display:block}
+.exp-box strong{color:var(--blue2)}
+
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.4rem;gap:.5rem;flex-wrap:wrap}
+.nl,.nr{display:flex;gap:.45rem}
+.btn{
+  padding:.6rem 1.25rem;border:none;border-radius:50px;
+  font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:.16s;
+}
+.btn:disabled{opacity:.28;cursor:not-allowed;pointer-events:none}
+.bg{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--txt2)}
+.bg:hover{background:rgba(255,255,255,.09);color:var(--txt)}
+.bsk{background:rgba(240,180,41,.09);border:1px solid rgba(240,180,41,.23);color:var(--amber)}
+.bsk:hover{background:rgba(240,180,41,.18)}
+.bnx{
+  background:linear-gradient(135deg,var(--blue3),var(--blue));color:#fff;
+  box-shadow:0 4px 16px rgba(79,142,247,.35);
+}
+.bnx:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,142,247,.55)}
+.bsub{
+  background:linear-gradient(135deg,#0d7a5a,var(--green));color:#fff;
+  box-shadow:0 4px 14px rgba(34,211,160,.3);
+}
+.bsub:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(34,211,160,.5)}
+
+/* dot navigator */
+.dotrow{display:flex;flex-wrap:wrap;gap:.28rem;max-width:800px;width:100%}
+.dot{
+  width:27px;height:27px;border-radius:7px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  font-size:.6rem;font-weight:600;cursor:pointer;
+  color:var(--txt2);font-family:'Inter',sans-serif;transition:.14s;
+}
+.dot:hover{border-color:rgba(79,142,247,.4);color:var(--blue2)}
+.dot.dcur{background:linear-gradient(135deg,var(--blue3),var(--blue));color:#fff;border-color:transparent;box-shadow:0 2px 10px rgba(79,142,247,.5)}
+.dot.dans{background:rgba(34,211,160,.1);color:var(--green);border-color:rgba(34,211,160,.3)}
+.dot.dskp{background:rgba(240,180,41,.08);color:var(--amber);border-color:rgba(240,180,41,.25)}
+
+/* ═══ MODAL ═══ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(5,6,15,.88);backdrop-filter:blur(14px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:var(--card2);border:1px solid rgba(79,142,247,.22);border-radius:var(--r3);
+  padding:2.5rem;max-width:400px;width:100%;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+  animation:mPop .28s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes mPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-ico{font-size:2.3rem;margin-bottom:.8rem;display:block}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--txt);margin-bottom:.55rem}
+.modal p{color:var(--txt2);font-size:.84rem;line-height:1.8;margin-bottom:1.5rem;white-space:pre-wrap}
+.mbtns{display:flex;gap:.6rem;justify-content:center}
+
+/* ═══════════ RESULTS ═══════════ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem 4rem}
+.rwrap{max-width:860px;width:100%}
+
+.res-hero{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r3);
+  padding:3rem 2rem;text-align:center;margin-bottom:1rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(79,142,247,.07),transparent),
+             radial-gradient(ellipse 50% 50% at 5% 5%,rgba(168,85,247,.09),transparent);
+}
+.sring{position:relative;width:150px;height:150px;margin:0 auto 1.4rem}
+.sring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rbg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:8}
+.rfill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.sinr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.snum{
+  font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;line-height:1;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sden{font-size:.7rem;color:var(--txt2)}
+.rtitle{font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,2rem);font-weight:800;color:var(--txt);margin-bottom:.35rem;position:relative;z-index:1}
+.rsub{color:var(--txt2);font-size:.83rem;position:relative;z-index:1;margin-bottom:.65rem}
+.gbadge{display:inline-block;font-size:.82rem;font-weight:600;padding:.38rem 1.3rem;border-radius:50px;position:relative;z-index:1}
+
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1rem}
+@media(max-width:480px){.sgrid{grid-template-columns:repeat(2,1fr)}}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:1rem .75rem;text-align:center;transition:.18s}
+.scard:hover{transform:translateY(-3px);border-color:rgba(79,142,247,.2)}
+.sico{font-size:1.1rem;margin-bottom:.25rem}
+.sval{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.1rem}
+.slbl{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--txt2)}
+
+.ins-box{
+  background:rgba(255,255,255,.018);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:1.4rem;margin-bottom:1rem;
+}
+.ins-hd{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;color:var(--cyan);margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem}
+.ins-line{font-size:.81rem;color:var(--txt2);margin-bottom:.48rem;line-height:1.75;padding-left:.72rem;border-left:2px solid rgba(79,142,247,.2)}
+.wchips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.65rem}
+.wchip{font-size:.64rem;font-weight:600;padding:.2rem .62rem;border-radius:50px;background:rgba(240,90,90,.1);color:#f08080;border:1px solid rgba(240,90,90,.2)}
+
+.tabs{display:flex;gap:.2rem;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r);padding:.22rem;margin-bottom:.8rem}
+.tab{flex:1;padding:.42rem;border:none;border-radius:7px;background:transparent;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.16s}
+.tab.on{background:rgba(79,142,247,.1);color:var(--blue2);border:1px solid rgba(79,142,247,.2)}
+
+.rcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;margin-bottom:.65rem;border-left:3px solid transparent;transition:transform .16s;animation:cIn .28s ease}
+.rcard:hover{transform:translateX(4px)}
+.rcard.rc{border-left-color:var(--green)}
+.rcard.rw{border-left-color:var(--red)}
+.rcard.rs{border-left-color:var(--amber)}
+.rtop{display:flex;flex-wrap:wrap;align-items:center;gap:.38rem;margin-bottom:.65rem}
+.rq{font-size:.82rem;color:var(--txt2);margin-bottom:.75rem;line-height:1.75;white-space:pre-wrap}
+.rrow{display:flex;gap:.5rem;font-size:.79rem;margin-bottom:.25rem;align-items:flex-start}
+.rlbl{font-weight:600;min-width:120px;color:var(--txt2);flex-shrink:0}
+.rval{color:var(--txt)}.rval.good{color:var(--green)}.rval.bad{color:var(--red)}
+.rexp{margin-top:.65rem;padding:.75rem .95rem;background:rgba(79,142,247,.07);border:1px solid rgba(79,142,247,.15);border-radius:var(--r);font-size:.79rem;color:var(--txt2);line-height:1.7}
+.rexp strong{color:var(--blue2)}
+
+.ract{display:flex;gap:.75rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
+.brst{background:rgba(240,90,90,.1);border:1px solid rgba(240,90,90,.28);color:#f08080;padding:.72rem 1.7rem;border-radius:50px;font-family:'Inter',sans-serif;font-size:.83rem;font-weight:600;cursor:pointer;transition:.16s}
+.brst:hover{background:rgba(240,90,90,.2)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(79,142,247,.3);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(79,142,247,.6)}
+
+@media(max-width:600px){
+  .topbar{flex-direction:column;align-items:flex-start}
+  .sub-early{display:none}
+  .qcard{padding:1.3rem}
+  .nav{flex-direction:column}
+  .nl,.nr{width:100%;justify-content:space-between}
+  .mbtns{flex-direction:column}
+  .modal{padding:1.8rem 1.2rem}
+}
+</style>
+</head>
+<body>
+<div class="pts" id="pts"></div>
+
+<!-- START -->
+<div id="start" class="screen active">
+  <p class="start-eyebrow">UPSC Prelims · PYQ Series · 1995–2023</p>
+  <div class="start-icon">
+    <svg viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4f8ef7"/>
+          <stop offset="100%" stop-color="#00d4ff"/>
+        </linearGradient>
+      </defs>
+      <circle cx="44" cy="44" r="40" fill="none" stroke="url(#sg)" stroke-width="1.5"/>
+      <polyline points="14,55 28,38 38,46 52,28 62,36 74,22" fill="none" stroke="url(#sg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="74" cy="22" r="3.5" fill="#00d4ff"/>
+      <circle cx="14" cy="55" r="2.5" fill="#4f8ef7"/>
+    </svg>
+  </div>
+  <h1 class="start-title">
+    <span class="st1">Capital Markets &amp; FDI</span>
+    <span class="st2">UPSC Prelims PYQs · 1995–2023</span>
+  </h1>
+  <p class="start-desc">34 authentic previous year questions on stock markets, bonds, FDI, FII, mutual funds, money markets, and financial instruments — with full explanations.</p>
+  <div class="info-row">
+    <div class="info-chip"><b>34</b> Questions</div>
+    <div class="info-chip"><b>25</b> Minutes</div>
+    <div class="info-chip"><b>28</b> Years of PYQs</div>
+  </div>
+  <div class="topics-row">
+    <span class="tp">Capital Markets</span><span class="tp">Money Markets</span>
+    <span class="tp">FDI &amp; FII</span><span class="tp">Bonds &amp; Securities</span>
+    <span class="tp">Participatory Notes</span><span class="tp">Mutual Funds</span>
+    <span class="tp">Stock Exchanges</span><span class="tp">Venture Capital</span>
+    <span class="tp">Gold Bonds</span><span class="tp">SENSEX &amp; Indices</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin Quiz →</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+  <div class="qwrap">
+    <div class="topbar">
+      <div class="qinfo">
+        <div class="qinfo-lbl">Progress</div>
+        <div class="qinfo-val">Q <em id="qCur">1</em> / <em id="qTot">34</em></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <div class="timer" id="timerEl">25:00</div>
+        <button class="sub-early" onclick="showMod()">Submit Early</button>
+      </div>
+    </div>
+    <div class="pbar-row">
+      <div class="pbar"><div class="pfill" id="pFill" style="width:2.9%"></div></div>
+      <span class="ppct" id="pPct">3%</span>
+    </div>
+    <div class="qcard" id="qCard">
+      <div class="qmeta" id="qMeta"></div>
+      <div class="qtxt" id="qTxt"></div>
+      <div class="opts" id="optsEl"></div>
+      <div class="exp-box" id="expBox"></div>
+      <div class="nav">
+        <div class="nl">
+          <button class="btn bg" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn bsk" onclick="skipQ()">Skip</button>
+        </div>
+        <div class="nr">
+          <button class="btn bnx" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn bsub" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
+        </div>
+      </div>
+    </div>
+    <div class="dotrow" id="dotRow"></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="rwrap">
+    <div class="res-hero">
+      <div class="sring">
+        <svg viewBox="0 0 150 150">
+          <circle class="rbg" cx="75" cy="75" r="62"/>
+          <circle class="rfill" id="ringArc" cx="75" cy="75" r="62" stroke-dasharray="389.6" stroke-dashoffset="389.6"/>
+        </svg>
+        <div class="sinr">
+          <div class="snum" id="rScore">0</div>
+          <div class="sden">/34</div>
+        </div>
+      </div>
+      <div class="rtitle" id="rTitle">Quiz Complete!</div>
+      <div class="rsub" id="rSub"></div>
+      <div class="gbadge" id="rGrade"></div>
+    </div>
+    <div class="sgrid">
+      <div class="scard"><div class="sico">✓</div><div class="sval" id="stC" style="color:var(--green)">0</div><div class="slbl">Correct</div></div>
+      <div class="scard"><div class="sico">✗</div><div class="sval" id="stW" style="color:var(--red)">0</div><div class="slbl">Wrong</div></div>
+      <div class="scard"><div class="sico">—</div><div class="sval" id="stS" style="color:var(--amber)">0</div><div class="slbl">Skipped</div></div>
+      <div class="scard"><div class="sico">◎</div><div class="sval" id="stAcc">0%</div><div class="slbl">Accuracy</div></div>
+      <div class="scard"><div class="sico">⏱</div><div class="sval" id="stTime">—</div><div class="slbl">Time Used</div></div>
+      <div class="scard"><div class="sico">∿</div><div class="sval" id="stAvg">—</div><div class="slbl">Avg/Q</div></div>
+    </div>
+    <div class="ins-box">
+      <div class="ins-hd">✦ Smart Analysis</div>
+      <div id="insBody"></div>
+    </div>
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (34)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
+    </div>
+    <div id="revList"></div>
+    <div class="ract">
+      <button class="brst" onclick="restartQuiz()">↺ Restart Quiz</button>
+      <button class="btn bnx" onclick="window.scrollTo(0,0)">↑ Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlayEl">
+  <div class="modal">
+    <span class="modal-ico">📊</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modalTxt"></p>
+    <div class="mbtns">
+      <button class="btn bg" onclick="closeMod()">Cancel</button>
+      <button class="btn bsub" onclick="submitQuiz()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Particles
+(function(){
+  const c=document.getElementById('pts');
+  const cols=['rgba(79,142,247,.7)','rgba(0,212,255,.6)','rgba(168,85,247,.5)','rgba(34,211,160,.5)','rgba(240,180,41,.4)'];
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');p.className='pt';
+    const s=Math.random()*3+1.5;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${cols[i%cols.length]};animation-duration:${Math.random()*14+7}s;animation-delay:${Math.random()*12}s`;
+    c.appendChild(p);
+  }
+})();
+
+const L=['A','B','C','D'];
+const pad=n=>String(n).padStart(2,'0');
+
+// ═══════════ ALL 34 QUESTIONS ═══════════
+const Q=[
+  {
+    yr:'2023',topic:'Capital Markets',
+    text:'Consider the following markets:\n1. Government Bond Market\n2. Call Money Market\n3. Treasury Bill Market\n4. Stock Market\n\nHow many of the above are included in capital markets?',
+    opts:['Only one','Only two','Only three','All four'],
+    ans:1,
+    exp:'<strong>Capital markets</strong> deal with long-term funds (maturity > 1 year): Government Bond Market (long-term bonds) and Stock Market are capital markets. <strong>Money markets</strong> deal with short-term instruments (< 1 year): Call Money Market (overnight/very short-term) and Treasury Bill Market (91, 182, 364 days) are money markets. So only <strong>two</strong> (Government Bond Market + Stock Market) are capital markets. Answer: Only two.'
+  },
+  {
+    yr:'2023',topic:'Financial Terms',
+    text:'In the context of finance, the term \'beta\' refers to:',
+    opts:['The process of simultaneous buying and selling of an asset from different platforms','An investment strategy of a portfolio manager to balance risk versus reward','A type of systemic risk that arises where perfect hedging is not possible','A numeric value that measures the fluctuations of a stock to changes in the overall stock market'],
+    ans:3,
+    exp:'<strong>Beta (β)</strong> in finance is a measure of a stock\'s <strong>volatility relative to the overall market</strong>. Beta = 1 means the stock moves with the market. Beta > 1 means more volatile than market. Beta < 1 means less volatile. Beta < 0 means inverse movement. Option A describes "arbitrage." Option B describes "portfolio management." Option C describes "basis risk." Option D correctly defines Beta.'
+  },
+  {
+    yr:'2022',topic:'Inflation-Indexed Bonds',
+    text:'With reference to the Indian economy, what are the advantages of \'Inflation-Indexed Bonds (IIBs)\'?\n\n1. Government can reduce the coupon rates on its borrowing by way of IIBs.\n2. IIBs provide protection to the investors from uncertainty regarding inflation.\n3. The interest received as well as capital gains on IIBs are not taxable.',
+    opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+    ans:0,
+    exp:'<strong>Statement 1 CORRECT</strong>: Since IIBs protect against inflation, investors accept a lower nominal coupon rate (called real coupon). Govt saves on coupon payments. <strong>Statement 2 CORRECT</strong>: The principal and/or interest is linked to inflation (CPI/WPI), so investors are protected from inflation erosion — this is the primary purpose. <strong>Statement 3 WRONG</strong>: Interest and capital gains on IIBs are fully taxable under Indian tax laws. There is no special tax exemption. Ans: 1 and 2 only.'
+  },
+  {
+    yr:'2022',topic:'Indirect Transfers',
+    text:'Which one of the following situations best reflects "Indirect Transfers" often talked about in the media recently with reference to India?',
+    opts:['An Indian company investing in a foreign enterprise and paying taxes to the foreign country on the profits','A foreign company investing in India and paying taxes to the country of its base on the profits','An Indian company purchases tangible assets in a foreign country and sells such assets after value increases','A foreign company transfers shares and such shares derive their substantial value from assets located in India'],
+    ans:3,
+    exp:'"<strong>Indirect Transfer</strong>" refers to a situation where a <strong>foreign company sells shares of another foreign entity</strong>, but those shares derive substantial value from <strong>assets located in India</strong>. This became prominent after the Vodafone case (2012). India amended the Income Tax Act (Section 9) to tax such gains. The tax arises because the underlying asset being transferred is in India, even though the transaction happens between two foreign entities. Option D precisely describes this scenario.'
+  },
+  {
+    yr:'2022',topic:'Bonds',
+    text:'With reference to Convertible Bonds, consider the following statements:\n\n1. As there is an option to exchange the bond for equity, Convertible Bonds pay a lower rate of interest.\n2. The option to convert to equity affords the bondholder a degree of indexation to rising consumer prices.',
+    opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+    ans:2,
+    exp:'<strong>Statement 1 CORRECT</strong>: Convertible bonds carry an embedded option for the bondholder to convert to equity. This option has value, so investors accept a <strong>lower coupon rate</strong> in exchange for conversion rights. <strong>Statement 2 CORRECT</strong>: If the company does well during inflation (rising prices), its stock price may rise, and conversion to equity benefits the bondholder — providing <strong>indirect inflation protection</strong> (indexation to rising consumer prices). Both statements are correct.'
+  },
+  {
+    yr:'2021',topic:'Government Bond Yields',
+    text:'Indian Government Bond Yields are influenced by which of the following?\n\n1. Actions of the United States Federal Reserve\n2. Actions of the Reserve Bank of India\n3. Inflation and short-term interest rates',
+    opts:['1 and 2 only','2 only','3 only','1, 2 and 3'],
+    ans:3,
+    exp:'Government bond yields are influenced by <strong>all three factors</strong>: (1) <strong>US Fed actions</strong>: When the Fed raises rates, global investors move funds to the US, causing bond sell-offs in emerging markets like India, pushing up yields. (2) <strong>RBI actions</strong>: RBI\'s repo rate, OMO (open market operations), and monetary policy stance directly influence bond yields. (3) <strong>Inflation and short-term rates</strong>: Higher inflation erodes bond returns, pushing investors to demand higher yields. Short-term rates set the base. All three are valid influences.'
+  },
+  {
+    yr:'2021',topic:'FDI Components',
+    text:'Consider the following:\n1. Foreign currency convertible bonds\n2. Foreign institutional investment with certain conditions\n3. Global depository receipts\n4. Non-resident external deposits\n\nWhich of the above can be included in Foreign Direct Investments?',
+    opts:['1, 2 and 3','3 only','2 and 4','1 and 4'],
+    ans:0,
+    exp:'Under DIPP/FEMA definitions, <strong>FDI includes</strong>: (1) <strong>FCCBs (Foreign Currency Convertible Bonds)</strong> — as they may convert to equity, they qualify as FDI. (2) <strong>FII with certain conditions</strong> — when FII holds more than 10% in a company, it is reclassified as FDI. (3) <strong>GDRs (Global Depository Receipts)</strong> — are included in FDI. (4) NRE deposits — are debt instruments, NOT FDI. So 1, 2, and 3 can be included in FDI. Answer: (a).'
+  },
+  {
+    yr:'2021',topic:'Government Securities',
+    text:'With reference to India, consider the following statements:\n\n1. Retail investors through demat accounts can invest in Treasury Bills and Government of India Debt Bonds in the primary market.\n2. The Negotiated Dealing System-Order Matching is a government securities trading platform of the Reserve Bank of India.\n3. The Central Depository Services Ltd. is jointly promoted by the RBI and the Bombay Stock Exchange.',
+    opts:['1 only','1 and 2 only','3 only','2 and 3 only'],
+    ans:1,
+    exp:'<strong>Statement 1 CORRECT</strong>: RBI introduced the Retail Direct Scheme (2021) allowing retail investors to invest in G-secs, T-bills, and SDL through demat/RDG accounts directly in the primary market. <strong>Statement 2 CORRECT</strong>: NDS-OM is the <strong>electronic anonymous order matching platform</strong> for secondary market trading in G-secs, operated by the RBI. <strong>Statement 3 WRONG</strong>: CDSL is promoted by the <strong>Bombay Stock Exchange (BSE)</strong> along with banks — <strong>NOT the RBI</strong>. NSDL is associated with NSE/IDBI.'
+  },
+  {
+    yr:'2020',topic:'Money Market Instruments',
+    text:'With reference to the Indian economy, consider the following statements:\n\n1. Commercial Paper is a short-term unsecured promissory note.\n2. Certificate of Deposit is a long-term instrument issued by the Reserve Bank of India to a corporation.\n3. Call Money is a short-term finance used for interbank transactions.\n4. Zero-Coupon Bonds are the interest-bearing short-term bonds issued by Scheduled Commercial Banks to corporations.',
+    opts:['1 and 2 only','4 only','1 and 3 only','2, 3 and 4 only'],
+    ans:2,
+    exp:'<strong>Statement 1 CORRECT</strong>: Commercial Paper (CP) is a short-term (7 days to 1 year) unsecured promissory note issued by corporations to raise working capital. <strong>Statement 2 WRONG</strong>: Certificate of Deposit (CD) is a <strong>short-term</strong> instrument (7 days to 1 year) issued by <strong>banks (SCBs/FIs)</strong>, NOT the RBI, and NOT long-term. <strong>Statement 3 CORRECT</strong>: Call Money is overnight/short-term lending between banks for meeting CRR and liquidity needs. <strong>Statement 4 WRONG</strong>: Zero-Coupon Bonds are <strong>NOT interest-bearing</strong> — they are issued at a discount and redeemed at face value. Ans: 1 and 3.'
+  },
+  {
+    yr:'2020',topic:'FDI Characteristics',
+    text:'With reference to Foreign Direct Investment in India, which one of the following is considered its major characteristic?',
+    opts:['It is the investment through capital instruments essentially in a listed company','It is a largely non-debt creating capital flow','It is the investment which involves debt-servicing','It is the investment made by foreign institutional investors in the Government securities'],
+    ans:1,
+    exp:'The major characteristic of <strong>FDI</strong> is that it is a <strong>largely non-debt creating capital flow</strong>. This means the investor acquires ownership (equity) in the business — there is no obligation to repay the investment or service debt. This makes FDI more stable and preferred over FPI (Foreign Portfolio Investment) or ECBs (which create debt obligations). FDI also brings technology, management skills, and long-term commitment. Options A, C, D describe other instruments (portfolio investment, debt, FII).'
+  },
+  {
+    yr:'2019',topic:'Participatory Notes',
+    text:'Which of the following is issued by registered foreign portfolio investors to overseas investors who want to be part of the Indian stock market without registering themselves directly?',
+    opts:['Certificate of Deposit','Commercial Paper','Promissory Note','Participatory Note'],
+    ans:3,
+    exp:'<strong>Participatory Notes (P-Notes/PNs)</strong> are financial instruments issued by <strong>SEBI-registered Foreign Portfolio Investors (FPIs)</strong> to overseas investors who want to invest in Indian markets but do not want to register directly with SEBI. The FPI buys the Indian securities on behalf of the P-Note holder. P-Notes have been controversial as they allow anonymous investing. SEBI has tightened regulations on P-Notes multiple times to prevent money laundering and black money routing.'
+  },
+  {
+    yr:'2018',topic:'Treasury Bills & G-Secs',
+    text:'Consider the following statements:\n\n1. The Reserve Bank of India manages and services Government of India Securities but not any State Government Securities.\n2. Treasury bills are issued by the Government of India and there are no treasury bills issued by the State Governments.\n3. Treasury bill offers are issued at a discount from the par value.',
+    opts:['1 and 2 only','3 only','2 and 3 only','1, 2 and 3'],
+    ans:2,
+    exp:'<strong>Statement 1 WRONG</strong>: RBI manages securities of <strong>both the Central AND State Governments</strong>. State Development Loans (SDLs) are state securities managed by RBI. <strong>Statement 2 CORRECT</strong>: Treasury Bills are issued <strong>only by the Central Government</strong>. States raise short-term funds through Ways & Means Advances from RBI, not T-bills. <strong>Statement 3 CORRECT</strong>: T-Bills are zero-coupon instruments — they are <strong>issued at a discount</strong> (below face value) and redeemed at par. The difference is the return. Ans: 2 and 3.'
+  },
+  {
+    yr:'2016',topic:'Gold Schemes',
+    text:'What is/are the purpose/purposes of Government\'s \'Sovereign Gold Bond Scheme\' and \'Gold Monetization Scheme\'?\n\n1. To bring the idle gold lying with Indian households into the economy\n2. To promote FDI in the gold and jewellery sector\n3. To reduce India\'s dependence on gold imports',
+    opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+    ans:2,
+    exp:'<strong>Statement 1 CORRECT</strong>: Gold Monetization Scheme aims to mobilize idle gold (estimated 20,000+ tonnes with households & temples) into the banking system. <strong>Statement 2 WRONG</strong>: Neither scheme is designed to promote FDI in the gold sector. These are domestic savings/monetization schemes. <strong>Statement 3 CORRECT</strong>: By monetizing idle gold and offering gold bonds (paper gold), people are discouraged from buying physical gold, reducing gold imports which are a major contributor to India\'s CAD. Ans: 1 and 3.'
+  },
+  {
+    yr:'2016',topic:'Masala Bonds',
+    text:'With reference to \'IFC Masala Bonds\', sometimes seen in the news, which of the statements given below is/are correct?\n\n1. The International Finance Corporation, which offers these bonds, is an arm of the World Bank.\n2. They are the rupee-denominated bonds and are a source of debt financing for the public and private sector.',
+    opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+    ans:2,
+    exp:'<strong>Statement 1 CORRECT</strong>: The <strong>International Finance Corporation (IFC)</strong> is indeed the private sector lending arm (member) of the <strong>World Bank Group</strong>. IFC issued the first Masala Bond in 2013. <strong>Statement 2 CORRECT</strong>: <strong>Masala Bonds are rupee-denominated bonds</strong> issued in overseas markets (London, Singapore). The currency risk is borne by the investor (not the issuer). They are used by Indian entities to raise debt financing abroad. Both statements are correct.'
+  },
+  {
+    yr:'2014',topic:'Venture Capital',
+    text:'What does venture capital mean?',
+    opts:['A short-term capital provided to industries','A long-term start-up capital provided to new entrepreneurs','Funds provided to industries at times of incurring losses','Funds provided for replacement and renovation of industries'],
+    ans:1,
+    exp:'<strong>Venture Capital (VC)</strong> is <strong>long-term equity financing provided to start-up companies and small businesses</strong> with high growth potential but also high risk. VC investors (venture capitalists) provide capital in exchange for an ownership stake. They typically invest in early-stage companies that lack access to public capital markets or bank loans. In return they expect high returns when the company succeeds (via IPO or acquisition). Unlike short-term capital or loans, VC is patient, long-term capital for entrepreneurs with innovative ideas.'
+  },
+  {
+    yr:'2012',topic:'FDI Definition',
+    text:'Which of the following would include Foreign Direct Investment in India?\n\n1. Subsidiaries of foreign companies in India\n2. Majority foreign equity holding in Indian companies\n3. Companies exclusively financed by foreign companies\n4. Portfolio investment',
+    opts:['1, 2, 3 & 4','2 & 4 Only','1 & 3 Only','1, 2 & 3 Only'],
+    ans:3,
+    exp:'<strong>FDI includes</strong>: (1) <strong>Subsidiaries of foreign companies</strong> — 100% foreign-owned entities in India = FDI. (2) <strong>Majority foreign equity holding</strong> — owning >50% equity in Indian companies = FDI (since it implies control). (3) <strong>Companies exclusively financed by foreign companies</strong> = FDI. (4) <strong>Portfolio investment is NOT FDI</strong> — FPI/FII investments are portfolio investments (minority stakes without management control). FDI requires a certain level of ownership/control (10%+ per OECD definition). Ans: 1, 2, 3 only.'
+  },
+  {
+    yr:'2011',topic:'FDI vs FII',
+    text:'Both FDI and FII are related to investment in a country. Which one of the following statements best represents an important difference between the two?',
+    opts:['FII helps bring better management skills and technology, while FDI only brings in capital','FII helps in increasing capital availability in general, while FDI only targets specific sectors','FDI flows only into the secondary market, while FII only targets specific sectors','FII is considered to be more stable than FDI'],
+    ans:1,
+    exp:'The best statement: <strong>FII/FPI increases general capital availability</strong> (invests in stocks/bonds in secondary markets broadly), while <strong>FDI targets specific sectors</strong> (manufacturing, services, telecom etc.) with long-term ownership. Option A is reversed — FDI brings management skills/technology. Option C is wrong — FDI goes to PRIMARY assets (greenfield/brownfield), not secondary markets. Option D is WRONG — FDI is MORE stable (long-term, hard to exit), while FII is "hot money" that can exit quickly. Ans: B.'
+  },
+  {
+    yr:'2010',topic:'Financial Terms',
+    text:'In the parlance of financial investments, the term \'bear\' denotes:',
+    opts:['An investor who feels that the price of a particular security is going to fall','An investor who expects the price of a particular share to rise','A shareholder or bondholder who has an interest in a company','Any lender whether by making a loan or buying a bond'],
+    ans:0,
+    exp:'In stock market terminology: A <strong>"Bear"</strong> is an investor who believes the price of a security will <strong>fall</strong> and therefore sells (or short-sells) to profit from the decline. A <strong>"Bull"</strong> is an investor who expects prices to <strong>rise</strong>. A "Bear Market" is when prices are generally falling (>20% decline). A "Bull Market" is when prices are generally rising. The terms come from the way these animals attack: bears swipe downward, bulls thrust upward. Option B describes a "Bull."'
+  },
+  {
+    yr:'2010',topic:'FDI from Mauritius',
+    text:'A great deal of FDI to India comes from Mauritius than from many major economies like UK and France. Why?',
+    opts:['India has preference for certain countries as regards receiving FDI','India has a Double Taxation Avoidance Agreement with Mauritius','Most citizens of Mauritius have ethnic identity with India and invest here','Impending dangers of global climate change prompt Mauritius to invest in India'],
+    ans:1,
+    exp:'Large FDI from Mauritius was due to the <strong>India-Mauritius Double Tax Avoidance Agreement (DTAA)</strong> signed in 1982. Under this treaty, capital gains on sale of Indian shares by Mauritius-based entities were taxed ONLY in Mauritius (where the rate was effectively zero). This created a massive tax advantage — companies/investors round-tripped money through Mauritius shell companies to avoid Indian capital gains tax. India renegotiated the treaty in 2016 to plug this loophole, effective April 2017.'
+  },
+  {
+    yr:'2007',topic:'Participatory Notes',
+    text:'Participatory Notes (PNs) are associated with which one of the following?',
+    opts:['Consolidated Fund of India','Foreign Institutional Investors','United Nations Development Programme','Kyoto Protocol'],
+    ans:1,
+    exp:'<strong>Participatory Notes (P-Notes)</strong> are instruments issued by <strong>Foreign Institutional Investors (FIIs) / Foreign Portfolio Investors (FPIs)</strong> registered with SEBI, to overseas investors who wish to participate in Indian markets without direct registration. They are off-shore derivative instruments. SEBI has repeatedly tightened P-Note norms due to concerns about anonymous money flows. They have no connection to the Consolidated Fund, UNDP, or Kyoto Protocol.'
+  },
+  {
+    yr:'2006',topic:'Stock Exchanges',
+    text:'What is IndoNext which was launched in January 2005?',
+    opts:['A new scheme to promote Indian tourism','A new scheme to promote export of Indian handicrafts','An association of Non-Resident Indians to organize Pravasi Bhartiya Divas','An alternative trading platform being promoted by the Bombay Stock Exchange and Regional Stock Exchanges'],
+    ans:3,
+    exp:'<strong>IndoNext</strong> was launched in January 2005 as a <strong>joint trading platform by BSE (Bombay Stock Exchange) and Regional Stock Exchanges</strong> across India. It was created to provide an alternative trading platform for companies listed on regional exchanges that could not meet the listing requirements of NSE/BSE. This gave smaller companies better access to investors and trading. It was part of efforts to revitalize the Regional Stock Exchanges.'
+  },
+  {
+    yr:'2005',topic:'SENSEX',
+    text:'Consider the following statements:\n\n1. Sensex is based on 50 of the most important stocks available on the Bombay Stock Exchange.\n2. For calculating the Sensex, all the Sensex stocks are assigned proportional weightage.\n3. New York Stock Exchange is the oldest stock exchange in the world.',
+    opts:['2 only','1 and 3','2 and 3','None'],
+    ans:0,
+    exp:'<strong>Statement 1 WRONG</strong>: Sensex is based on <strong>30</strong> (not 50) select stocks of BSE. (Nifty 50 is NSE\'s index with 50 stocks.) <strong>Statement 2 CORRECT</strong>: Sensex uses <strong>free-float market capitalization</strong> weighting — stocks are assigned proportional weightage based on their free-float market cap. <strong>Statement 3 WRONG</strong>: The <strong>Amsterdam Stock Exchange (founded 1602)</strong> is considered the world\'s oldest. NYSE was founded in 1792. Only Statement 2 is correct.'
+  },
+  {
+    yr:'2004',topic:'FDI Sector Trends',
+    text:'In the last one decade (as of 2004), which one among the following sectors has attracted the highest Foreign Direct Investment inflows into India?',
+    opts:['Chemicals other than fertilisers','Services sector','Food processing','Telecommunication'],
+    ans:3,
+    exp:'During the period leading up to 2004, the <strong>Telecommunications sector</strong> attracted the highest FDI inflows into India. The liberalization of telecom in the 1990s and the massive expansion of mobile networks drove large FDI. Companies like Hutchison (later Vodafone), BT, and others made major investments. The services sector became dominant later (post-2005). At the time of this question, telecom was the single largest FDI recipient sector in India.'
+  },
+  {
+    yr:'2003',topic:'Financial Instruments',
+    text:'Debenture holders of a company are its:',
+    opts:['Shareholders','Creditors','Debtors','Directors'],
+    ans:1,
+    exp:'<strong>Debenture holders are creditors</strong> of the company — they have lent money to the company by purchasing debentures (debt instruments). The company owes them interest (coupon) and principal repayment. Unlike shareholders (who are owners/part-owners with voting rights and share in profits), debenture holders have no ownership rights but have a priority claim over shareholders in case of liquidation. Debentures are a form of long-term debt financing for companies.'
+  },
+  {
+    yr:'2003',topic:'FDI Policy',
+    text:'With reference to FDI decisions for 2001-02, consider the following:\n\n1. Out of the 100% FDI allowed in the tea sector, the foreign firm must disinvest 33% equity in favour of an Indian partner within four years.\n2. Regarding FDI in print media, the single largest Indian shareholder should have a holding higher than 26%.',
+    opts:['Only 1','Only 2','Both 1 and 2','Neither 1 nor 2'],
+    ans:2,
+    exp:'Both statements reflect the actual FDI policy of 2001-02: <strong>Statement 1 CORRECT</strong>: In the tea sector, while 100% FDI was permitted, the foreign company was required to <strong>disinvest 26% equity to the Indian public</strong> within 5 years (some versions of policy state 33% within 4 years — as per the question). <strong>Statement 2 CORRECT</strong>: In print media, FDI was capped and the <strong>single largest Indian shareholder was required to hold more than 26%</strong> to maintain editorial control and domestic character. Both are correct.'
+  },
+  {
+    yr:'2002',topic:'Stock Exchange Turnover',
+    text:'Among the following major stock exchanges of India, the exchange which recorded highest turnover during the year 2000-01 is:',
+    opts:['Bombay Stock Exchange','Calcutta Stock Exchange','Delhi Stock Exchange','National Stock Exchange'],
+    ans:0,
+    exp:'During 2000-01, the <strong>Bombay Stock Exchange (BSE)</strong> recorded the highest turnover among Indian stock exchanges. BSE, established in 1875, was the dominant exchange at the time. However, NSE was rapidly growing and surpassed BSE in equity turnover in subsequent years. Today NSE dominates equity trading while BSE leads in number of listed companies. Note: Some sources indicate NSE overtook BSE by 2001-02, but for 2000-01 BSE led.'
+  },
+  {
+    yr:'2001',topic:'FDI Sector Trends',
+    text:'The largest share of Foreign Direct Investment (1997-2000) went to:',
+    opts:['Food and food-product sector','Engineering sector','Electronics and electric equipment sector','Service sector'],
+    ans:1,
+    exp:'During 1997-2000, the <strong>Engineering sector</strong> attracted the largest share of FDI in India. This period saw significant investments in automobile manufacturing (Suzuki, Hyundai, Ford, General Motors), auto components, and heavy engineering. The liberalization of the auto sector in the 1990s drove massive FDI. Services sector dominance came later. The DIPP data for that period confirms engineering/auto as leading recipient of FDI flows.'
+  },
+  {
+    yr:'2000',topic:'Gilt-Edged Market',
+    text:'Gilt-edged market means:',
+    opts:['Bullion market','Market of Government securities','Market of guns','Market of pure metals'],
+    ans:1,
+    exp:'<strong>Gilt-edged market</strong> refers to the market for <strong>Government securities</strong> (G-secs, T-bills, State bonds). The term "gilt-edged" comes from the original gold-edged certificates used for British Government bonds in the 19th century — considered the safest, highest-quality (AAA) investments. Since government bonds carry no default risk (sovereign guarantee), they are called "gilt-edged." In India, RBI manages the gilt-edged market through its open market operations and bond auctions.'
+  },
+  {
+    yr:'2000',topic:'NRI Bonds',
+    text:'Resurgent India Bonds were issued in US Dollar, Pound Sterling and:',
+    opts:['Japanese Yen','Deutsche Mark','Euro','French Franc'],
+    ans:1,
+    exp:'<strong>Resurgent India Bonds (RIBs)</strong> were issued in August 1998 by the State Bank of India to raise foreign exchange after India faced capital outflows following the nuclear tests (Pokhran-II). They were issued in three currencies: <strong>US Dollar, Pound Sterling, and Deutsche Mark</strong> (Germany\'s currency before Euro was introduced; Euro notes/coins came into circulation in 2002). India raised ~$4.2 billion through RIBs. The Euro did not yet exist as a physical currency in 1998.'
+  },
+  {
+    yr:'2000',topic:'SENSEX Analysis',
+    text:'A hypothetical BSE Sensex graph shows large fluctuations, while automobile shares show a steady improvement in the same period. Which inference can be drawn?',
+    opts:['The automobile share market has been as unstable as BSE Sensex in that period','There has been a major political change in June/July','Automobile shares have shown a steady improvement in price, unaffected by large fluctuations in BSE Sensex','None of the above'],
+    ans:2,
+    exp:'Based on the hypothetical graph described: the BSE Sensex shows <strong>large fluctuations</strong> while automobile shares show <strong>steady improvement</strong>. The valid inference is that <strong>automobile shares moved independently</strong> of the overall market volatility — they showed resilience and sector-specific strength. This means the automobile sector had its own positive drivers (new models, growing demand) that were independent of the general market sentiment. Option A contradicts the description. Options B and C cannot be inferred from price data alone.'
+  },
+  {
+    yr:'2000',topic:'SENSEX Meaning',
+    text:'A rise in SENSEX means:',
+    opts:['A rise in prices of shares of all companies registered with Bombay Stock Exchange','A rise in prices of shares of all companies registered with National Stock Exchange','An overall rise in prices of shares of group of companies registered with Bombay Stock Exchange','A rise in prices of shares of all companies belonging to a group of companies registered with Bombay Stock Exchange'],
+    ans:2,
+    exp:'<strong>SENSEX</strong> (Sensitivity Index) is BSE\'s benchmark index comprising the <strong>30 most actively traded, financially sound stocks</strong> on BSE. A rise in Sensex means an <strong>overall rise in prices of that specific group (30 companies) of BSE-listed companies</strong> — NOT all BSE companies. Option A is wrong (not ALL BSE companies). Option B is wrong (NSE is unrelated). Option D implies the 30 companies are a separate "group" which is misleading. The correct interpretation: weighted average rise in the 30 constituent stocks.'
+  },
+  {
+    yr:'1997',topic:'Market Index Analysis',
+    text:'A stock market index (including MNCs) shows fluctuations over 15 days. On the 12th day there is a market revival, but MNC shares do not benefit. What is the valid conclusion?',
+    opts:['MNCs fell steeper in the period depicted','Share prices of every non-MNC company soared by over 5% on the 12th day','Government announced a policy disfavouring MNCs on the 11th day','Whatever be the reason favouring market revival on the 12th day, it appears to be relevant only to non-MNC companies'],
+    ans:3,
+    exp:'The valid conclusion from the graph is: the market revival on the 12th day <strong>benefited non-MNC companies but not MNCs</strong>. This means the factor driving the revival was <strong>specific to domestic/non-MNC companies</strong> — possibly a domestic policy announcement, sector-specific news, or currency movement that benefited local companies. Options A, B, C make specific quantitative or causal claims that <strong>cannot be conclusively inferred</strong> from price graphs alone. Only Option D is a safe, valid inference from the data shown.'
+  },
+  {
+    yr:'1995',topic:'Market Regulation',
+    text:'To prevent recurrence of scams in Indian Capital Market, the Government of India has assigned regulatory powers to:',
+    opts:['SEBI','RBI','SBI','IDBI'],
+    ans:0,
+    exp:'<strong>SEBI (Securities and Exchange Board of India)</strong> was established in 1988 and given statutory powers through the SEBI Act, 1992 — especially in response to the Harshad Mehta securities scam of 1992. SEBI is the <strong>primary regulator of India\'s capital markets</strong>, responsible for: regulating stock exchanges, protecting investor interests, preventing insider trading, regulating mutual funds, and overseeing FPI/FDI flows into securities. RBI regulates banking and money markets. SBI is a commercial bank.'
+  },
+  {
+    yr:'1995',topic:'Mutual Funds',
+    text:'Which one of the following is the largest mutual fund organisation in India? (as of 1995)',
+    opts:['SBI Mutual Fund','GIC Mutual Fund','Industrial Bank Mutual Fund','Unit Trust of India'],
+    ans:3,
+    exp:'The <strong>Unit Trust of India (UTI)</strong> was by far the largest mutual fund organization in India as of 1995. UTI was established in 1963 and its flagship scheme <strong>US-64 (Unit Scheme 1964)</strong> was the most popular retail investment product in India for decades. UTI managed assets worth lakhs of crores and had millions of unit holders. However, UTI faced a major crisis in 2001-02 (US-64 debacle) and was subsequently restructured into UTI AMC and SUUTI. Today HDFC AMC, SBI MF, and others lead.'
+  }
+];
+
+// ═══════════ STATE ═══════════
+let S={
+  cur:0,
+  ans:new Array(34).fill(null),
+  skp:new Array(34).fill(false),
+  tLeft:25*60,
+  tInt:null,
+  done:false
+};
+
+function startQuiz(){
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updateTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updateTimer();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏳ Time up! Submitting…');submitQuiz();}
+  },1000);
+}
+
+function updateTimer(){
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(Math.floor(S.tLeft/60))}:${pad(S.tLeft%60)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  const pct=Math.round((i+1)/Q.length*100);
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('pFill').style.width=pct+'%';
+  document.getElementById('pPct').textContent=pct+'%';
+
+  let sc='t-st s-none',st='Unanswered';
+  if(S.skp[i]){sc='t-st s-skip';st='Skipped';}
+  else if(S.ans[i]!==null){sc='t-st s-ans';st='Answered';}
+
+  document.getElementById('qMeta').innerHTML=`
+    <span class="tag t-n">Q${pad(i+1)}</span>
+    <span class="tag t-y">${q.yr}</span>
+    <span class="tag t-tp">${q.topic}</span>
+    <span class="tag ${sc}">${st}</span>`;
+
+  document.getElementById('qTxt').textContent=q.text;
+
+  const og=document.getElementById('optsEl');
+  og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' osel':'');
+    b.innerHTML=`<span class="okey">${L[idx]}</span><span class="otxt">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  const eb=document.getElementById('expBox');
+  eb.className='exp-box';eb.innerHTML='';
+  if(S.ans[i]!==null&&!S.skp[i])showExp(i);
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function showExp(i){
+  const eb=document.getElementById('expBox');
+  eb.innerHTML=`<strong>Explanation:</strong> ${Q[i].exp}`;
+  eb.classList.add('show');
+}
+
+function pick(idx){
+  if(S.done)return;
+  S.ans[S.cur]=idx;S.skp[S.cur]=false;
+  renderQ();showExp(S.cur);updDots();
+}
+
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotRow');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`d${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};
+    dm.appendChild(d);
+  });
+}
+
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`d${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('dcur');
+    else if(S.skp[i])d.classList.add('dskp');
+    else if(S.ans[i]!==null)d.classList.add('dans');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modalTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('overlayEl').classList.add('on');
+}
+function closeMod(){document.getElementById('overlayEl').classList.remove('on');}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(25*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const att=cor+wr;
+  const pct=Math.round(cor/Q.length*100);
+  const acc=att?Math.round(cor/att*100):0;
+
+  const arc=document.getElementById('ringArc');
+  arc.style.strokeDashoffset=389.6*(1-pct/100);
+
+  let grade,gc,rc;
+  if(pct>=90){grade='Exceptional ✦';gc='var(--green)';rc='rgba(34,211,160,.14)';}
+  else if(pct>=75){grade='Excellent ✦';gc='var(--cyan)';rc='rgba(0,212,255,.12)';}
+  else if(pct>=60){grade='Good ✦';gc='var(--blue2)';rc='rgba(79,142,247,.14)';}
+  else if(pct>=45){grade='Average ✦';gc='var(--amber)';rc='rgba(240,180,41,.12)';}
+  else{grade='Needs Revision ✦';gc='var(--red)';rc='rgba(240,90,90,.12)';}
+
+  arc.style.stroke=gc;
+  document.getElementById('rScore').textContent=cor;
+  document.getElementById('rTitle').textContent=pct>=75?'Excellent Performance!':pct>=50?'Good Attempt!':'More Revision Needed';
+  document.getElementById('rSub').textContent=`${pct}% · ${cor} correct out of 34`;
+
+  const gb=document.getElementById('rGrade');
+  gb.textContent=grade;gb.style.cssText=`background:${rc};color:${gc};border:1px solid ${gc}44`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=`${Math.floor(used/60)}:${pad(used%60)}`;
+  document.getElementById('stAvg').textContent=Math.round(used/Q.length)+'s';
+
+  buildInsights(cor,wr,sk,pct,acc);
+  renderRev('all');
+  show('results');
+}
+
+function buildInsights(cor,wr,sk,pct,acc){
+  const te={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)te[q.topic]=(te[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(te).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=90)lines.push('Exceptional command over Capital Markets and FDI concepts. UPSC-ready!');
+  else if(pct>=75)lines.push('Strong performance. Polish a few weak areas and you will ace this topic in the exam.');
+  else if(pct>=50)lines.push('Decent base. Focus on money market vs capital market distinctions, and FDI/FII differences.');
+  else lines.push('Start with NCERT Class 12 Macroeconomics, then read RBI publications and SEBI annual reports.');
+
+  if(sk>6)lines.push(`You skipped ${sk} questions. For UPSC, use elimination — even partial knowledge of 1-2 wrong options improves odds significantly.`);
+  if(acc<55&&(cor+wr)>6)lines.push('Accuracy needs work. Be careful about statement-based questions — check each statement independently before picking your answer.');
+
+  if(te['Capital Markets']||te['Money Market Instruments'])
+    lines.push('Key distinction: Capital Markets = long-term (G-Bonds, Stocks). Money Markets = short-term (T-Bills, Call Money, CDs, CPs). T-Bills are money market, NOT capital market.');
+  if(te['FDI vs FII']||te['FDI Characteristics']||te['FDI Definition'])
+    lines.push('FDI vs FII: FDI = long-term, non-debt, brings management/tech, sector-specific. FII = portfolio, short-term, "hot money", general capital availability. FDI is more stable.');
+  if(te['Government Securities']||te['Treasury Bills & G-Secs'])
+    lines.push('G-Secs: RBI manages BOTH Centre and State securities. T-Bills = only Central Govt. T-Bills issued at discount. NDS-OM = RBI platform for G-sec trading. CDSL = promoted by BSE (not RBI).');
+  if(te['SENSEX']||te['SENSEX Meaning']||te['SENSEX Analysis'])
+    lines.push('SENSEX = 30 stocks (not 50) of BSE. Nifty 50 = NSE. Sensex rise = weighted average rise of those 30 stocks, NOT all BSE companies. Amsterdam SE (1602) = world\'s oldest exchange.');
+  if(te['Participatory Notes'])
+    lines.push('P-Notes: Issued by SEBI-registered FPIs to offshore investors wanting to invest in India without direct SEBI registration. SEBI has tightened norms multiple times.');
+  if(te['Masala Bonds']||te['Gold Schemes'])
+    lines.push('Masala Bonds = rupee-denominated bonds issued abroad (currency risk on investor). IFC is World Bank arm. Gold Monetization = mobilize idle household gold to reduce imports.');
+
+  ranked.slice(0,3).forEach(([t,c])=>
+    lines.push(`Weak Area → ${t}: ${c} wrong answer${c>1?'s':''}. Revise this in your next session.`)
+  );
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const lc=isOk?'good':isWr?'bad':'';
+    const uaTxt=isSk?'Not answered':`${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rcard ${rc}">
+      <div class="rtop">
+        <span class="tag t-n">Q${pad(i+1)}</span>
+        <span class="tag t-y">${q.yr}</span>
+        <span class="tag ${rc==='rc'?'t-tp':rc==='rw'?'t-n':'s-skip'}">${lbl}</span>
+        <span class="tag t-tp" style="margin-left:auto">${q.topic}</span>
+      </div>
+      <div class="rq">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rrow"><span class="rlbl">Your answer:</span><span class="rval ${lc}">${uaTxt}</span></div>
+      <div class="rrow"><span class="rlbl">Correct answer:</span><span class="rval good">${caTxt}</span></div>
+      <div class="rexp"><strong>Explanation:</strong> ${q.exp}</div>
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-size:.84rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function restartQuiz(){
+  if(!confirm('Restart quiz? All progress will be lost.'))return;
+  clearInterval(S.tInt);
+  S={cur:0,ans:new Array(34).fill(null),skp:new Array(34).fill(false),tLeft:25*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
