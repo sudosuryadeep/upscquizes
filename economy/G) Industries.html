@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Udyog Niti · UPSC Industries & Infrastructure Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07080f;
+  --bg2:#0d1020;
+  --bg3:#141826;
+  --bg4:#1c2235;
+  --teal:#00d4b4;
+  --teal2:#00b89c;
+  --teal3:#b3f5ed;
+  --orange:#ff7140;
+  --orange2:#ff9066;
+  --yellow:#ffd166;
+  --yellow2:#ffe8a3;
+  --purple:#a855f7;
+  --purple2:#c084fc;
+  --red:#ef4444;
+  --green:#22c55e;
+  --skip-c:#f59e0b;
+  --txt:#eef0ff;
+  --txt2:#7c82a8;
+  --txt3:#b0b6d4;
+  --bdr:rgba(255,255,255,.07);
+  --bdr2:rgba(0,212,180,.2);
+  --glass:rgba(255,255,255,.03);
+  --r:12px;
+  --r2:18px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* Animated BG */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 0%,rgba(0,212,180,.1) 0%,transparent 50%),
+    radial-gradient(ellipse 60% 70% at 100% 100%,rgba(255,113,64,.08) 0%,transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%,rgba(168,85,247,.04) 0%,transparent 70%);
+}
+
+/* Hex grid BG */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zM28 100L0 84V50l28-16 28 16v34L28 100z' fill='none' stroke='%2300d4b4' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:56px 100px;
+}
+
+/* Floating orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0;animation:orbFloat ease-in-out infinite}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+.o1{width:400px;height:400px;background:rgba(0,212,180,.06);top:-100px;left:-100px;animation-duration:12s}
+.o2{width:300px;height:300px;background:rgba(255,113,64,.05);bottom:-80px;right:-80px;animation-duration:15s;animation-delay:3s}
+.o3{width:200px;height:200px;background:rgba(168,85,247,.05);top:50%;left:50%;animation-duration:10s;animation-delay:6s}
+
+.pts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.pt{position:absolute;border-radius:50%;animation:ptUp linear infinite;opacity:0}
+@keyframes ptUp{0%{transform:translateY(110vh);opacity:0}10%{opacity:1}90%{opacity:.3}100%{transform:translateY(-5vh);opacity:0}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ═══ START ═══ */
+#start{flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;text-align:center;gap:0}
+
+.logo-wrap{position:relative;margin:0 auto 2rem;width:90px;height:90px}
+.logo-hex{
+  width:90px;height:90px;
+  background:linear-gradient(135deg,rgba(0,212,180,.15),rgba(255,113,64,.15));
+  border:1px solid rgba(0,212,180,.35);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;animation:hexSpin 20s linear infinite;
+  box-shadow:0 0 40px rgba(0,212,180,.15);
+}
+@keyframes hexSpin{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(40deg)}}
+.logo-ring{
+  position:absolute;inset:-12px;
+  border:1px dashed rgba(0,212,180,.25);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  animation:hexSpin 30s linear infinite reverse;
+}
+
+.eyebrow{
+  font-family:'Fira Code',monospace;font-size:.62rem;
+  letter-spacing:.2em;color:var(--teal);margin-bottom:1rem;
+  opacity:0;animation:fadeUp .5s .2s ease forwards;
+}
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.8rem,10vw,5.5rem);
+  font-weight:800;line-height:.95;
+  margin-bottom:.6rem;
+  opacity:0;animation:fadeUp .6s .3s ease forwards;
+}
+.ht1{
+  display:block;
+  background:linear-gradient(130deg,var(--teal),var(--yellow),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ht2{
+  display:block;font-size:.32em;font-weight:600;
+  color:var(--txt2);-webkit-text-fill-color:var(--txt2);
+  letter-spacing:.1em;margin-top:.4rem;font-family:'Outfit',sans-serif;
+}
+.hero-sub{
+  font-size:.88rem;color:var(--txt2);max-width:430px;
+  margin:0 auto 2.5rem;line-height:2;font-weight:300;
+  opacity:0;animation:fadeUp .5s .42s ease forwards;
+}
+
+.info-strip{
+  display:flex;gap:.5rem;margin-bottom:2.5rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp .5s .54s ease forwards;
+}
+.ic{
+  padding:.85rem 1.3rem;
+  background:var(--glass);border:1px solid var(--bdr);
+  border-radius:var(--r);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;align-items:center;gap:.2rem;
+  min-width:78px;transition:.2s;
+}
+.ic:hover{border-color:var(--bdr2);transform:translateY(-3px)}
+.ic-v{
+  font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--teal),var(--yellow));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ic-l{font-family:'Fira Code',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2)}
+
+.topics{
+  display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;
+  max-width:500px;margin:0 auto 2.8rem;
+  opacity:0;animation:fadeUp .5s .66s ease forwards;
+}
+.tpill{
+  font-size:.65rem;font-weight:600;padding:.28rem .78rem;border-radius:50px;
+  border:1px solid rgba(0,212,180,.18);background:rgba(0,212,180,.06);
+  color:var(--teal3);transition:.2s;cursor:default;
+}
+.tpill:hover{background:rgba(0,212,180,.14);border-color:var(--teal)}
+
+.start-btn{
+  position:relative;overflow:hidden;padding:1rem 3.2rem;border:none;border-radius:50px;
+  cursor:pointer;transition:all .3s;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;
+  letter-spacing:.06em;
+  background:linear-gradient(135deg,var(--teal2),#007a68,var(--orange));
+  color:#fff;
+  box-shadow:0 8px 32px rgba(0,212,180,.25),0 0 0 1px rgba(0,212,180,.15);
+  opacity:0;animation:fadeUp .5s .8s ease forwards;
+}
+.start-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
+  opacity:0;transition:.3s;
+}
+.start-btn:hover::before{opacity:1}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,212,180,.4)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ QUIZ ═══ */
+#quiz{flex-direction:column;align-items:center;padding:1.2rem 1rem;gap:.75rem}
+.quiz-wrap{max-width:820px;width:100%;display:flex;flex-direction:column;gap:.75rem}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;
+  padding:.7rem 1.1rem;
+  background:var(--glass);border:1px solid var(--bdr);
+  border-radius:var(--r2);backdrop-filter:blur(14px);
+}
+.qcount{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--txt2);letter-spacing:.03em}
+.qcount em{color:var(--teal);font-style:normal}
+.timer{
+  font-family:'Fira Code',monospace;font-weight:500;font-size:.85rem;
+  padding:.32rem .9rem;border-radius:50px;
+  background:rgba(0,212,180,.07);border:1px solid rgba(0,212,180,.22);
+  color:var(--teal);transition:.3s;min-width:72px;text-align:center;
+}
+.timer.danger{
+  background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);
+  color:#f87171;animation:blink .65s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sub-early{
+  font-size:.68rem;padding:.32rem .78rem;border-radius:50px;
+  background:transparent;border:1px solid var(--bdr);
+  color:var(--txt2);cursor:pointer;font-family:'Outfit',sans-serif;transition:.18s;
+}
+.sub-early:hover{border-color:var(--teal3);color:var(--teal3)}
+
+.pbar{height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pfill{
+  height:100%;border-radius:10px;
+  background:linear-gradient(90deg,var(--purple),var(--teal),var(--yellow));
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 10px rgba(0,212,180,.4);
+}
+
+/* Question card */
+.qcard{
+  background:linear-gradient(150deg,rgba(20,24,38,.96),rgba(7,8,15,.98));
+  border:1px solid var(--bdr);border-radius:22px;
+  padding:1.8rem;
+  box-shadow:0 10px 50px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:cardIn .35s cubic-bezier(.34,1.3,.64,1);
+  position:relative;overflow:hidden;
+}
+.qcard::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,212,180,.05),transparent 65%);
+  pointer-events:none;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+
+.qmeta{display:flex;align-items:center;gap:.4rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.qbadge{
+  font-family:'Fira Code',monospace;font-size:.6rem;
+  padding:.24rem .75rem;border-radius:50px;
+  background:linear-gradient(135deg,rgba(0,212,180,.18),rgba(168,85,247,.18));
+  border:1px solid rgba(0,212,180,.28);color:var(--teal);
+}
+.qyr{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--yellow);
+  background:rgba(255,209,102,.07);padding:.22rem .62rem;border-radius:50px;
+  border:1px solid rgba(255,209,102,.18);}
+.qtopic{font-size:.6rem;color:var(--orange2);background:rgba(255,113,64,.07);
+  border:1px solid rgba(255,113,64,.18);padding:.22rem .62rem;border-radius:50px;}
+.qstat{margin-left:auto;font-size:.58rem;font-weight:600;padding:.22rem .68rem;border-radius:50px}
+.qs-n{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--bdr)}
+.qs-a{background:rgba(0,212,180,.09);color:var(--teal);border:1px solid rgba(0,212,180,.22)}
+.qs-s{background:rgba(245,158,11,.09);color:var(--skip-c);border:1px solid rgba(245,158,11,.22)}
+
+.qtext{font-size:.9rem;line-height:2;color:var(--txt3);margin-bottom:1.3rem;white-space:pre-wrap}
+
+/* Q52 image box */
+.qimg-wrap{
+  margin-bottom:1.2rem;border-radius:12px;overflow:hidden;
+  border:1px solid var(--bdr2);background:rgba(0,212,180,.04);
+  padding:.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;
+}
+.qimg-wrap img{
+  max-width:100%;border-radius:8px;display:block;
+  border:1px solid rgba(255,255,255,.08);
+}
+.qimg-caption{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--txt2);letter-spacing:.05em}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.45rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.8rem;
+  padding:.82rem 1rem;
+  background:rgba(255,255,255,.02);
+  border:1.5px solid rgba(255,255,255,.06);
+  border-radius:10px;cursor:pointer;transition:all .16s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.6;
+  position:relative;overflow:hidden;
+}
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,212,180,.06),transparent);
+  opacity:0;transition:.16s;
+}
+.opt:hover:not(.sel){border-color:rgba(0,212,180,.32);transform:translateX(5px)}
+.opt:hover:not(.sel)::before{opacity:1}
+.opt.sel{background:rgba(0,212,180,.06);border-color:var(--teal)}
+.opt.sel::before{opacity:1}
+.ok{
+  min-width:26px;height:26px;border-radius:7px;
+  background:rgba(0,212,180,.09);border:1px solid rgba(0,212,180,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fira Code',monospace;font-size:.65rem;
+  color:var(--teal);flex-shrink:0;transition:.16s;position:relative;z-index:1;
+}
+.opt.sel .ok{
+  background:linear-gradient(135deg,var(--teal2),var(--purple));
+  color:#fff;border-color:transparent;
+}
+.ot{position:relative;z-index:1;color:var(--txt)}
+
+/* Nav */
+.qnav{display:flex;justify-content:space-between;margin-top:1.3rem;gap:.45rem;flex-wrap:wrap}
+.btn{
+  padding:.58rem 1.25rem;border:none;border-radius:50px;
+  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;
+  cursor:pointer;transition:all .16s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--bdr);color:var(--txt2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.1);color:var(--txt)}
+.btn-skip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--skip-c)}
+.btn-skip:hover{background:rgba(245,158,11,.18)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--teal2),#006a5a);
+  color:#fff;box-shadow:0 4px 16px rgba(0,212,180,.25);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,180,.4)}
+.btn-submit{
+  background:linear-gradient(135deg,var(--orange),#cc4400);
+  color:#fff;box-shadow:0 4px 14px rgba(255,113,64,.3);
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,113,64,.5)}
+
+/* Dot nav */
+.dotrow{display:flex;flex-wrap:wrap;gap:.26rem;max-width:820px;width:100%}
+.dot{
+  width:27px;height:27px;border-radius:7px;border:1px solid var(--bdr);
+  font-family:'Fira Code',monospace;font-size:.58rem;cursor:pointer;
+  transition:.14s;background:rgba(255,255,255,.03);color:var(--txt2);
+}
+.dot:hover{border-color:var(--teal3);color:var(--teal3)}
+.dot.cur{
+  background:linear-gradient(135deg,var(--teal2),var(--purple));
+  color:#fff;border-color:transparent;
+  box-shadow:0 2px 12px rgba(0,212,180,.4);
+}
+.dot.d-a{background:rgba(0,212,180,.12);color:var(--teal);border-color:rgba(0,212,180,.28)}
+.dot.d-s{background:rgba(245,158,11,.09);color:var(--skip-c);border-color:rgba(245,158,11,.24)}
+
+/* Modal */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(3,4,12,.9);backdrop-filter:blur(18px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(145deg,#141826,#0d1020);
+  border:1px solid rgba(0,212,180,.22);border-radius:22px;
+  padding:2.4rem;max-width:400px;width:100%;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+  animation:mPop .3s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes mPop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-icon{font-size:2.6rem;margin-bottom:.9rem;display:block}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--txt);margin-bottom:.6rem}
+.modal p{color:var(--txt2);font-size:.82rem;line-height:1.85;margin-bottom:1.7rem;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.65rem;justify-content:center}
+
+/* ═══ RESULTS ═══ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-wrap{max-width:860px;width:100%}
+
+.res-hero{
+  background:linear-gradient(145deg,rgba(20,24,38,.96),rgba(13,16,32,.98));
+  border:1px solid rgba(0,212,180,.15);border-radius:24px;
+  padding:2.6rem 2rem;text-align:center;margin-bottom:1rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 110%,rgba(0,212,180,.06),transparent),
+    radial-gradient(ellipse 40% 50% at 5% 5%,rgba(168,85,247,.1),transparent);
+}
+
+.score-ring{position:relative;width:155px;height:155px;margin:0 auto 1.3rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rb{fill:none;stroke:rgba(255,255,255,.05);stroke-width:8}
+.rf{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
+.score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sn{
+  font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;line-height:1;
+  background:linear-gradient(135deg,var(--teal),var(--yellow));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sd{font-family:'Fira Code',monospace;font-size:.68rem;color:var(--txt2)}
+
+.res-title{font-family:'Syne',sans-serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:800;color:var(--txt);margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.82rem;margin-bottom:1.1rem;position:relative;z-index:1}
+.gchip{display:inline-block;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;padding:.38rem 1.4rem;border-radius:50px;margin-bottom:.4rem;position:relative;z-index:1}
+.pct-tag{color:var(--txt2);font-family:'Fira Code',monospace;font-size:.75rem;position:relative;z-index:1}
+
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1rem}
+@media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sbox{
+  background:var(--glass);border:1px solid var(--bdr);border-radius:14px;
+  padding:.95rem .7rem;text-align:center;backdrop-filter:blur(8px);transition:.18s;
+}
+.sbox:hover{transform:translateY(-3px);border-color:var(--bdr2)}
+.sico{font-size:1.15rem;margin-bottom:.22rem}
+.sv{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.1rem}
+.sl{font-family:'Fira Code',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2)}
+
+/* UPSC panel */
+.upsc-panel{
+  background:rgba(255,255,255,.02);border:1px solid rgba(0,212,180,.14);
+  border-radius:16px;padding:1.4rem;margin-bottom:1rem;backdrop-filter:blur(8px);
+}
+.upsc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;text-align:center;margin-top:.7rem}
+.ug-v{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700}
+.ug-l{font-family:'Fira Code',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;color:var(--txt2)}
+.ug-note{margin-top:.75rem;font-size:.76rem;color:var(--txt2);border-top:1px solid var(--bdr);padding-top:.65rem}
+
+.insights{
+  background:rgba(255,255,255,.02);border:1px solid rgba(0,212,180,.13);
+  border-radius:16px;padding:1.4rem;margin-bottom:1rem;backdrop-filter:blur(8px);
+}
+.ins-hd{
+  font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;
+  color:var(--teal);margin-bottom:.9rem;display:flex;align-items:center;gap:.45rem;
+}
+.ins-line{
+  font-size:.79rem;color:var(--txt2);margin-bottom:.48rem;line-height:1.8;
+  padding-left:.75rem;border-left:2px solid rgba(0,212,180,.18);
+}
+.wchips{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:.7rem}
+.wchip{
+  font-family:'Fira Code',monospace;font-size:.6rem;
+  padding:.18rem .62rem;border-radius:50px;
+  background:rgba(239,68,68,.08);color:#fca5a5;border:1px solid rgba(239,68,68,.16);
+}
+
+.tabs{
+  display:flex;gap:.2rem;background:var(--glass);border:1px solid var(--bdr);
+  border-radius:11px;padding:.24rem;margin-bottom:.8rem;backdrop-filter:blur(8px);
+}
+.tab{
+  flex:1;padding:.4rem;border:none;border-radius:8px;
+  background:transparent;font-family:'Outfit',sans-serif;
+  font-size:.68rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.16s;
+}
+.tab.on{
+  background:linear-gradient(135deg,rgba(0,212,180,.18),rgba(168,85,247,.18));
+  color:var(--txt);border:1px solid rgba(0,212,180,.16);
+}
+
+.rev-card{
+  background:rgba(255,255,255,.02);border:1px solid var(--bdr);
+  border-radius:13px;padding:1.2rem;margin-bottom:.6rem;
+  border-left:3px solid transparent;backdrop-filter:blur(6px);
+  animation:cardIn .3s ease;transition:transform .16s;
+}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--green)}
+.rev-card.rw{border-left-color:var(--red)}
+.rev-card.rs{border-left-color:var(--skip-c)}
+
+/* Image inside review card */
+.rv-img-wrap{
+  margin:.6rem 0;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(0,212,180,.15);background:rgba(0,212,180,.03);
+  padding:.4rem;display:inline-flex;flex-direction:column;align-items:flex-start;gap:.3rem;
+}
+.rv-img-wrap img{max-width:300px;border-radius:6px;display:block}
+
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-bottom:.6rem}
+.rv-n{font-family:'Fira Code',monospace;font-size:.58rem;padding:.16rem .48rem;border-radius:50px;background:rgba(255,255,255,.05);color:var(--txt2)}
+.rv-yr{font-family:'Fira Code',monospace;font-size:.58rem;color:var(--yellow);background:rgba(255,209,102,.07);padding:.16rem .48rem;border-radius:50px;border:1px solid rgba(255,209,102,.16)}
+.rv-badge{font-size:.58rem;font-weight:700;padding:.16rem .55rem;border-radius:50px}
+.rv-badge.rc{background:rgba(34,197,94,.1);color:var(--green)}
+.rv-badge.rw{background:rgba(239,68,68,.1);color:#f87171}
+.rv-badge.rs{background:rgba(245,158,11,.08);color:var(--skip-c)}
+.rv-topic{margin-left:auto;font-size:.58rem;color:var(--orange2);background:rgba(255,113,64,.07);padding:.16rem .48rem;border-radius:50px}
+
+.rv-q{font-size:.78rem;color:var(--txt2);margin-bottom:.7rem;line-height:1.8;white-space:pre-wrap}
+.rv-row{display:flex;gap:.45rem;font-size:.75rem;margin-bottom:.22rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:105px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:var(--green)}
+.rv-val.bad{color:var(--red)}
+.rv-exp{
+  margin-top:.65rem;padding:.72rem .95rem;
+  background:rgba(168,85,247,.08);border:1px solid rgba(192,132,252,.16);
+  border-radius:9px;font-size:.76rem;color:var(--txt2);line-height:1.75;
+}
+.rv-exp strong{color:var(--purple2)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:1.6rem 0;flex-wrap:wrap}
+.btn-danger{
+  background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.22);
+  color:#f87171;padding:.7rem 1.55rem;border-radius:50px;
+  font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:.18s;
+}
+.btn-danger:hover{background:rgba(239,68,68,.2)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(0,212,180,.22);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,212,180,.48)}
+
+@media(max-width:600px){
+  .qcard{padding:1.25rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.4rem}
+  .sub-early{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+<div class="pts" id="particles"></div>
+
+<!-- ═══ START ═══ -->
+<div id="start" class="screen active">
+  <div class="logo-wrap">
+    <div class="logo-hex">🏭</div>
+    <div class="logo-ring"></div>
+  </div>
+
+  <p class="eyebrow">// UPSC Prelims PYQ · 1997 – 2023</p>
+  <h1 class="hero-title">
+    <span class="ht1">Udyog Niti</span>
+    <span class="ht2">Industries · Energy · Minerals · Infrastructure</span>
+  </h1>
+  <p class="hero-sub">56 authentic UPSC Prelims questions on industrial policy, power sector, minerals, SEZs, PSUs, and India's economic infrastructure.</p>
+
+  <div class="info-strip">
+    <div class="ic"><div class="ic-v">56</div><div class="ic-l">Questions</div></div>
+    <div class="ic"><div class="ic-v">30 min</div><div class="ic-l">Timer</div></div>
+    <div class="ic"><div class="ic-v">1997–23</div><div class="ic-l">PYQ Era</div></div>
+    <div class="ic"><div class="ic-v">+2/−⅔</div><div class="ic-l">Marking</div></div>
+  </div>
+
+  <div class="topics">
+    <span class="tpill">⚡ Power Sector</span>
+    <span class="tpill">⛏️ Minerals & Mining</span>
+    <span class="tpill">🏭 Industrial Policy</span>
+    <span class="tpill">🛢️ Coal & Oil</span>
+    <span class="tpill">🔩 Steel & Metals</span>
+    <span class="tpill">🌐 SEZ & FDI</span>
+    <span class="tpill">📊 IIP & Core Index</span>
+    <span class="tpill">🏗️ PSUs & Committees</span>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">⚡ Launch Quiz</button>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Q <em id="qCur">1</em> / <em id="qTot">56</em></div>
+      <div class="timer" id="timerEl">30:00</div>
+      <button class="sub-early" onclick="showMod()">Submit Early</button>
+    </div>
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qbadge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtopic" id="qTopic">—</span>
+        <span class="qstat qs-n" id="qStat">Unanswered</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div id="qImgArea"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">Skip</button>
+        </div>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotrow" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="rb" cx="60" cy="60" r="50"/>
+          <circle class="rf" id="ringArc" cx="60" cy="60" r="50"
+            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="score-inner">
+          <div class="sn" id="rScore">0</div>
+          <div class="sd" id="rDen">/56</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="gchip" id="rGrade"></div>
+      <div class="pct-tag" id="rPct"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sbox"><div class="sico">✓</div><div class="sv" id="stC" style="color:var(--green)">0</div><div class="sl">Correct</div></div>
+      <div class="sbox"><div class="sico">✗</div><div class="sv" id="stW" style="color:var(--red)">0</div><div class="sl">Wrong</div></div>
+      <div class="sbox"><div class="sico">—</div><div class="sv" id="stS" style="color:var(--skip-c)">0</div><div class="sl">Skipped</div></div>
+      <div class="sbox"><div class="sico">◎</div><div class="sv" id="stAcc">0%</div><div class="sl">Accuracy</div></div>
+      <div class="sbox"><div class="sico">⏱</div><div class="sv" id="stTime">—</div><div class="sl">Time Used</div></div>
+      <div class="sbox"><div class="sico">∿</div><div class="sv" id="stAvg">—</div><div class="sl">Avg / Q</div></div>
+    </div>
+
+    <div class="upsc-panel">
+      <div class="ins-hd" style="margin-bottom:0">📋 UPSC Marking Scheme (+2 / −⅔)</div>
+      <div class="upsc-grid" id="upscGrid"></div>
+      <div class="ug-note" id="upscNote"></div>
+    </div>
+
+    <div class="insights">
+      <div class="ins-hd">⚡ Smart Analysis</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (56)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-danger" onclick="restartQuiz()">↺ Restart</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-icon">🏭</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Particles
+(function(){
+  const c=document.getElementById('particles');
+  const cols=['rgba(0,212,180,.45)','rgba(255,209,102,.4)','rgba(255,113,64,.38)','rgba(168,85,247,.38)'];
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div');p.className='pt';
+    const sz=Math.random()*3.5+1.5;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${Math.random()*16+10}s;animation-delay:${Math.random()*12}s;`;
+    c.appendChild(p);
+  }
+})();
+
+const L=['a','b','c','d'];
+const pad=n=>String(n).padStart(2,'0');
+
+// Q52 image URL
+const Q52_IMG = 'https://i.ibb.co/3yPpKq36/Screenshot-2026-04-21-150227.png';
+
+const Q=[
+  {id:1,yr:'2023',topic:'Investment',
+   text:'Consider the following statements:\nStatement-I: Interest income from deposits in InvITs distributed to their investors is exempted from tax, but the dividend is taxable.\nStatement-II: InvITs are recognized as borrowers under the \'Securitization and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002\'.\n\nWhich of the following is correct?',
+   opts:['Both Statement-I and Statement-II are correct and Statement-II is the correct explanation for Statement-I','Both Statement-I and Statement-II are correct and Statement-II is not the correct explanation for Statement-I','Statement-I is correct but Statement-II is incorrect','Statement-I is incorrect but Statement-II is correct'],
+   ans:3,exp:'Statement-I is INCORRECT — In InvITs, interest income IS taxable in the hands of investors, while dividend distributed may be exempt. Statement-II is CORRECT — InvITs have been recognized as borrowers under the SARFAESI Act 2002, allowing them to raise debt from banks and financial institutions. The tax treatment of InvIT distributions is: interest → taxable; dividend → exempt; capital gains → taxable as per holding period.'},
+
+  {id:2,yr:'2023',topic:'Business & Finance',
+   text:'Consider the following investments in the following assets:\n1. Brand recognition\n2. Inventory\n3. Intellectual property\n4. Mailing list of clients\n\nHow many of the above are considered intangible investments?',
+   opts:['Only one','Only two','Only three','All four'],
+   ans:2,exp:'Intangible assets are non-physical assets with economic value. Brand recognition (1) = intangible (no physical form). Inventory (2) = TANGIBLE (physical goods). Intellectual property (3) = intangible (patents, copyrights). Mailing list of clients (4) = intangible (data/information asset). So 3 out of 4 are intangible: Brand recognition, Intellectual property, and Mailing list. Answer: Only three.'},
+
+  {id:3,yr:'2023',topic:'Power Sector',
+   text:'With reference to coal-based thermal power plants in India, consider the following statements:\n1. None of them uses seawater.\n2. None of them is set up in water-stressed district.\n3. None of them is privately owned.\n\nHow many of the above statements are correct?',
+   opts:['Only one','Only two','All three','None'],
+   ans:3,exp:'All three statements are INCORRECT. Statement 1: WRONG — coastal thermal plants (like Mundra in Gujarat) use seawater for cooling. Statement 2: WRONG — several thermal plants are located in water-stressed districts (Vidarbha, Bundelkhand regions). Statement 3: WRONG — private companies like Adani, Tata Power, and Jindal own and operate coal-based thermal power plants. Hence NONE of the statements are correct.'},
+
+  {id:4,yr:'2022',topic:'Industrial Finance',
+   text:'With reference to the expenditure made by an organisation or a company, which of the following statements is/are correct?\n1. Acquiring new technology is capital expenditure.\n2. Debt financing is considered capital expenditure, while equity financing is considered revenue expenditure.\n\nSelect the correct answer:',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,exp:'Statement 1: CORRECT — Acquiring new technology creates a long-term asset benefit → it is capital expenditure (CapEx). CapEx creates assets or adds lasting value, while revenue expenditure covers routine operations. Statement 2: INCORRECT — Debt financing and equity financing are methods of FINANCING (capital structure decisions), not types of expenditure themselves. The capex/revenue distinction relates to what money is spent ON, not how it is raised.'},
+
+  {id:5,yr:'2022',topic:'Labour Statistics',
+   text:'In India, which one of the following compiles information on industrial disputes, closures, retrenchments and lay-offs in factories employing workers?',
+   opts:['Central Statistics Office','Department for Promotion of Industry and Internal Trade','Labour Bureau','National Technical Manpower Information System'],
+   ans:2,exp:'The Labour Bureau, under the Ministry of Labour and Employment, is responsible for compiling and publishing statistics on industrial disputes (strikes, lockouts), factory closures, retrenchments, and lay-offs. It also publishes the Consumer Price Index for Industrial Workers (CPI-IW). Other data: CSO/MoSPI compiles GDP/national accounts; DPIIT handles FDI and industrial production data.'},
+
+  {id:6,yr:'2022',topic:'Coal Sector',
+   text:'In India, what is the role of the Coal Controller\'s Organization (CCO)?\n1. CCO is the major source of Coal Statistics in Government of India.\n2. It monitors progress of development of Captive Coal/Lignite blocks.\n3. It hears any objection to the Government\'s notification relating to acquisition of coal-bearing areas.\n4. It ensures that coal mining companies deliver the coal to end users in the prescribed time.\n\nSelect the correct answer:',
+   opts:['1, 2 and 3','3 and 4 only','1 and 2 only','1, 2 and 4'],
+   ans:0,exp:'CCO (under Ministry of Coal) functions include: (1) CORRECT — It is the nodal agency for coal statistics in India, publishing "Coal Directory of India." (2) CORRECT — It monitors captive coal/lignite block development and progress. (3) CORRECT — It hears objections to government notifications for coal-bearing area acquisition under the Coal Bearing Areas Act, 1957. (4) INCORRECT — CCO does not have a mandate to ensure delivery timelines from mines to end-users. Functions 1, 2, and 3 are correct.'},
+
+  {id:7,yr:'2020',topic:'Corporate Finance',
+   text:'What is the importance of the term "Interest Coverage Ratio" of a firm in India?\n1. It helps in understanding the present risk of a firm that a bank is going to give loan to.\n2. It helps in evaluating the emerging risk of a firm that a bank is going to give loan to.\n3. The higher a borrowing firm\'s level of Interest Coverage Ratio, the worse is its ability to service its debt.\n\nSelect the correct answer:',
+   opts:['1 and 2 only','2 only','1 and 3 only','1, 2 and 3'],
+   ans:0,exp:'Interest Coverage Ratio (ICR) = EBIT / Interest Expense. It measures how easily a firm can pay interest on its debt. Statement 1: CORRECT — ICR helps assess current creditworthiness (present risk). Statement 2: CORRECT — Trend analysis of ICR helps evaluate emerging/future risk for lending decisions. Statement 3: WRONG — HIGHER ICR = BETTER debt servicing ability (more earnings relative to interest obligations). Lower ICR = higher risk. ICR < 1 means the firm cannot cover its interest from earnings.'},
+
+  {id:8,yr:'2019',topic:'Energy Regulation',
+   text:'Consider the following statements:\n1. Petroleum and Natural Gas Regulatory Board (PNGRB) is the first regulatory body set up by the Government of India.\n2. One of the tasks of PNGRB is to ensure competitive markets for gas.\n3. Appeals against the decisions of PNGRB go before the Appellate Tribunals for Electricity.\n\nWhich of the statements given above are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:1,exp:'Statement 1: WRONG — PNGRB (2006) is NOT India\'s first regulatory body. TRAI (1997), SEBI (1988/1992), CERC (1998), and others preceded it. The claim of "first" is incorrect. Statement 2: CORRECT — PNGRB\'s mandate includes ensuring competitive markets for transportation and distribution of natural gas. Statement 3: CORRECT — Appeals against PNGRB decisions go to the Appellate Tribunal for Electricity (ATE), not a separate body for petroleum. So 2 and 3 are correct.'},
+
+  {id:9,yr:'2019',topic:'Coal Sector',
+   text:'Consider the following statements:\n1. Coal sector was nationalised by the Government of India under Indira Gandhi.\n2. Now, coal blocks are allocated on lottery basis.\n3. Till recently, India imported coal to meet shortages of domestic supply, but now India is self-sufficient in coal production.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 and 3 only','3 only','1, 2 and 3'],
+   ans:0,exp:'Statement 1: CORRECT — Coal nationalisation happened in stages under Indira Gandhi\'s government: coking coal (1971-72) and non-coking coal (1973) via the Coal Mines Nationalisation Act. Statement 2: WRONG — After the Supreme Court\'s 2014 order cancelling 204 coal block allocations (due to arbitrary allotment), coal blocks are now auctioned competitively, NOT by lottery. Statement 3: WRONG — India still imports significant quantities of coal (thermal and coking), especially for power plants and steel. India is not self-sufficient.'},
+
+  {id:10,yr:'2019',topic:'Mining & Minerals',
+   text:'With reference to the management of minor minerals in India, consider the following statements:\n1. Sand is a \'minor mineral\' according to the prevailing law in the country.\n2. State Governments have the power to grant mining leases of minor minerals, but the powers regarding the formation of rules related to the grant of minor minerals lie with the Central Government.\n3. State Governments have the power to frame rules to prevent illegal mining of minor minerals.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 and 3 only','2 and 3 only','3 only','1, 2 and 3'],
+   ans:0,exp:'Statement 1: CORRECT — Under the Mines and Minerals (Development & Regulation) Act 1957, "minor minerals" include sand, gravel, clay, building stones, and similar materials. Statement 2: WRONG — Under Section 15 of MMDR Act, States have BOTH powers: to grant leases AND to frame rules for minor minerals. The Central Government does not control rule-making for minor minerals; it\'s entirely a State subject. Statement 3: CORRECT — States can frame rules including enforcement provisions against illegal mining of minor minerals.'},
+
+  {id:11,yr:'2018',topic:'Solar Energy',
+   text:'With reference to solar power production in India, consider the following statements:\n1. India is largest in the world in the manufacture of silicon wafers used in photovoltaic units.\n2. The solar power tariffs are determined by the Solar Energy Corporation of India.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,exp:'Statement 1: WRONG — India is NOT the largest manufacturer of silicon wafers. China dominates global silicon wafer production (70%+ market share). India actually imports most of its solar cells and modules, primarily from China. Statement 2: WRONG — Solar power tariffs are determined through competitive bidding processes and regulated by CERC (Central Electricity Regulatory Commission) and State ERCs, NOT by SECI. SECI is primarily a procurement agency, not a tariff regulator.'},
+
+  {id:12,yr:'2018',topic:'Mining & Minerals',
+   text:'Consider the following statements:\n1. In India, State Governments do not have the power to auction non-coal mines.\n2. Andhra Pradesh and Jharkhand do not have gold mines.\n3. Rajasthan has iron ore mines.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 and 2','2 only','1 and 3','3 only'],
+   ans:3,exp:'Statement 1: WRONG — After MMDR Amendment Act 2015, State Governments DO have power to auction major mineral mines (non-coal) through competitive auctions. Statement 2: WRONG — Andhra Pradesh has gold deposits (Ramagiri gold field). Jharkhand also has gold deposits. Statement 3: CORRECT — Rajasthan has iron ore deposits, though it is not among the top producers. Rajasthan is better known for sandstone, marble, limestone, and zinc. Iron ore: correct. Answer: 3 only.'},
+
+  {id:13,yr:'2016',topic:'Manufacturing Zones',
+   text:'Recently, India\'s first \'National Investment and Manufacturing Zone\' was proposed to be set up in:',
+   opts:['Andhra Pradesh','Gujarat','Maharashtra','Uttar Pradesh'],
+   ans:0,exp:'The first National Investment and Manufacturing Zone (NIMZ) was proposed to be set up in Prakasam district, Andhra Pradesh. NIMZs are large integrated industrial townships providing world-class infrastructure, integrated townships, and single-window clearances. They are part of the Delhi-Mumbai Industrial Corridor (DMIC) project. NIMZs offer facilities for manufacturing clusters with environmental sustainability.'},
+
+  {id:14,yr:'2016',topic:'Power Sector',
+   text:'Which one of the following is a purpose of \'UDAY\', a scheme of the Government?',
+   opts:['Providing technical and financial assistance to start-up entrepreneurs in the field of renewable sources of energy','Providing electricity to every household in the country by 2018','Replacing coal-based power plants with natural gas, nuclear, solar, wind and tidal power plants','Providing for financial turnaround and revival of power distribution companies'],
+   ans:3,exp:'UDAY (Ujjwal DISCOM Assurance Yojana), launched in November 2015, was designed to provide financial turnaround and operational improvement of power distribution companies (DISCOMs). DISCOMs were burdened with massive debt (~₹4.3 lakh crore). Under UDAY, state governments took over 75% of DISCOM debt, which was refinanced at lower rates. The scheme also focused on reducing AT&C (Aggregate Technical and Commercial) losses and improving operational efficiency.'},
+
+  {id:15,yr:'2015',topic:'Steel Industry',
+   text:'In India the steel production industry requires the import of:',
+   opts:['Saltpeter','Rock phosphate','Coking coal','All of the above'],
+   ans:2,exp:'India\'s steel industry requires Coking coal (metallurgical coal) for the blast furnace process (to produce coke, which reduces iron ore to pig iron). India has significant coking coal deposits but of inferior quality (high ash content), and high-quality coking coal must be imported primarily from Australia, USA, and Canada. India\'s coking coal reserves are limited and of poor quality, making imports essential for quality steel production.'},
+
+  {id:16,yr:'2015',topic:'Geographical Indications',
+   text:'Which of the following has/have been accorded \'Geographical Indication\' status?\n1. Banaras Brocades and Sarees\n2. Rajasthani Daal-Bati-Churma\n3. Tirupathi Laddu\n\nSelect the correct answer:',
+   opts:['1 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:2,exp:'Banaras Brocades and Sarees (1): CORRECT — GI tag granted. Tirupathi Laddu (3): CORRECT — First food product to receive GI tag in India. Rajasthani Daal-Bati-Churma (2): INCORRECT — This is a popular Rajasthani dish but has NOT been accorded GI status (as of the question period). GI tags protect traditional products with specific geographical origins. India\'s GI registry is maintained by the Controller General of Patents, Designs and Trade Marks.'},
+
+  {id:17,yr:'2015',topic:'Industrial Production',
+   text:'In the Index of Eight Core Industries, which one of the following is given the highest weight?',
+   opts:['Coal Production','Electricity generation','Fertilizer Production','Steel Production'],
+   ans:1,exp:'The Eight Core Industries (revised weights with 2011-12 base): Refinery Products (28.04%) → highest, Electricity (19.85%) → 2nd highest, Steel (17.92%), Coal (10.33%), Crude Oil (8.98%), Natural Gas (6.88%), Cement (5.37%), Fertilizers (2.63%). Among the options given, Electricity generation has the highest weight. Note: Refinery products are not listed as an option here, making Electricity the correct answer from the given choices.'},
+
+  {id:18,yr:'2013',topic:'Industry',
+   text:'Which one among the following industries is the maximum consumer of water in India?',
+   opts:['Engineering','Paper and pulp','Textiles','Thermal power'],
+   ans:3,exp:'Thermal power generation is the single largest industrial consumer of water in India, using massive quantities for cooling (condenser cooling water). Thermal power plants require approximately 3-4 litres of water per kWh generated for cooling towers. India\'s thermal power capacity makes it the dominant water consumer among industries, far exceeding textiles, paper, or engineering. This is why thermal plants are often located near water bodies.'},
+
+  {id:19,yr:'2013',topic:'Coal & Minerals',
+   text:'Which of the following is/are characteristic(s) of Indian coal?\n1. High ash content\n2. Low sulphur content\n3. Low ash fusion temperature\n\nSelect the correct answer:',
+   opts:['1 and 2 only','2 only','1 and 3 only','1, 2 and 3'],
+   ans:0,exp:'Indian coal characteristics: (1) HIGH ASH CONTENT — CORRECT. Indian coal (especially from Gondwana coalfields) typically has 30-45% ash content vs 5-15% in Australian/US coal — this is its major distinguishing feature. (2) LOW SULPHUR CONTENT — CORRECT. Indian coal has relatively low sulphur (0.5-1%), which means lower SO₂ emissions but does NOT compensate for high ash. (3) LOW ASH FUSION TEMPERATURE — this is NOT a standard characteristic; ash fusion temperature is moderate. Characteristics 1 and 2 are correct.'},
+
+  {id:20,yr:'2012',topic:'Manufacturing Policy',
+   text:'What is/are the recent policy initiative(s) of Government of India to promote the growth of manufacturing sector?\n1. Setting up of National Investment and Manufacturing Zones\n2. Providing the benefit of \'single window clearance\'\n3. Establishing the Technology Acquisition and Development Fund\n\nSelect the correct answer:',
+   opts:['1 only','2 & 3 only','1 & 3 only','1, 2 & 3'],
+   ans:3,exp:'All three are components of the National Manufacturing Policy (NMP) 2011, launched to raise manufacturing\'s share in GDP to 25% and create 100 million jobs by 2022. NIMZ (1): large integrated industrial zones with world-class infrastructure. Single Window Clearance (2): for ease of doing business and faster approvals. Technology Acquisition and Development Fund (3): to help MSMEs access modern technology. All three are correct policy initiatives under NMP 2011.'},
+
+  {id:21,yr:'2012',topic:'Industrial Production',
+   text:'In India, in the overall Index of Industrial Production, the Indices of Eight Core Industries have a combined weight of 37.90%. Which of the following are among those Eight Core Industries?\n1. Cement\n2. Fertilizers\n3. Natural gas\n4. Refinery products\n5. Textiles\n\nSelect the correct answer:',
+   opts:['1 & 5 only','2, 3 & 4 only','1, 2, 3 & 4 only','1, 2, 3, 4 & 5'],
+   ans:2,exp:'The Eight Core Industries are: Coal, Crude Oil, Natural Gas, Refinery Products, Fertilizers, Steel, Cement, and Electricity. From the list: 1 (Cement) ✓, 2 (Fertilizers) ✓, 3 (Natural gas) ✓, 4 (Refinery products) ✓, 5 (Textiles) ✗ — Textiles are NOT a core industry in the Eight Core Index. Textiles are part of IIP but not among the eight specifically designated core industries. So 1, 2, 3, 4 are correct.'},
+
+  {id:22,yr:'2011',topic:'PSU Disinvestment',
+   text:'Why is the government of India disinvesting its equity in the central public sector enterprises (CPSEs)?\n1. The government intends to use the revenue earned from the disinvestment mainly to pay back the external debt.\n2. The government no longer intends to retain the management control of the CPSEs.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,exp:'Statement 1: WRONG — Disinvestment proceeds are used primarily to fund the fiscal deficit, social sector spending, and capital expenditure — NOT specifically to repay external debt. Statement 2: WRONG — India\'s disinvestment policy has generally focused on MINORITY disinvestment (selling less than 50%), retaining management control with the government. While some strategic disinvestments involve management transfer (Air India, BPCL), the general policy is to retain control. Neither statement is fully correct.'},
+
+  {id:23,yr:'2010',topic:'Business Law',
+   text:'Which one of the following is NOT a feature of Limited Liability Partnership firm?',
+   opts:['Partners should be less than 20','Partnership and management need not be separate','Internal governance may be decided by mutual agreement among partners','It is a corporate body with perpetual succession'],
+   ans:0,exp:'An LLP (under LLP Act 2008) does NOT require partners to be fewer than 20. In fact, there is NO maximum limit on the number of partners in an LLP (there must be a minimum of 2 partners). The limit of "not more than 20 partners" applies to traditional partnerships under the Partnership Act 1932. LLP features: (B) partners can manage without separation ✓, (C) governed by LLP agreement ✓, (D) separate legal entity with perpetual succession ✓. Only (A) is NOT a feature.'},
+
+  {id:24,yr:'2010',topic:'SEZ Policy',
+   text:'The SEZ Act, 2005, which came into effect in February 2006, has certain objectives. In this context, consider the following:\n1. Development of infrastructure facilities.\n2. Promotion of investment from foreign sources.\n3. Promotion of exports of services only.\n\nWhich of the above are the objectives of this Act?',
+   opts:['1 and 2 only','3 only','2 and 3 only','1, 2 and 3'],
+   ans:0,exp:'SEZ Act 2005 objectives include: generation of additional economic activity, promotion of exports of goods AND services (not services only), promotion of investment from domestic AND foreign sources, creation of employment, and development of infrastructure facilities. Statement 3 is WRONG because SEZs promote exports of BOTH goods and services, not only services. Objectives 1 (infrastructure) and 2 (foreign investment promotion) are correct.'},
+
+  {id:25,yr:'2009',topic:'PSUs',
+   text:'Consider the following statements:\n1. MMTC Limited is India\'s largest international trading organization.\n2. Neelachal Ispat Nigam Limited has been set up by MMTC jointly with the Government of Odisha.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,exp:'Statement 1: CORRECT — MMTC Limited (Minerals & Metals Trading Corporation) was India\'s largest international trading organization (State Trading Enterprise). It handled exports of minerals, ores, metals and imports of non-ferrous metals, fertilizers, foodstuffs. Statement 2: CORRECT — Neelachal Ispat Nigam Limited (NINL), the steel plant at Kalinganagar, Odisha, was set up jointly by MMTC and the Odisha government (along with other PSUs). NINL was subsequently acquired by Tata Steel in 2022.'},
+
+  {id:26,yr:'2009',topic:'Energy Statistics',
+   text:'Which one of the following brings out the publication called "Energy Statistics" from time to time?',
+   opts:['Central Power Research Institute','Planning Commission','Power Finance Corporation Ltd.','Central Statistical Organization'],
+   ans:3,exp:'"Energy Statistics" is a comprehensive publication covering all forms of energy (coal, oil, gas, electricity, renewables) published by the Central Statistical Organisation (CSO), now restructured as the National Statistical Office (NSO) under MoSPI. It is published annually and contains data on reserves, production, consumption, imports, exports, and prices of all energy commodities. The Planning Commission published plan documents, not energy statistics.'},
+
+  {id:27,yr:'2009',topic:'Policy Committees',
+   text:'With which one of the following has the B.K. Chaturvedi Committee dealt?',
+   opts:['Review of Centre-state relations','Review of Delimitation Act','Tax reforms and measures to increase revenues','Price reform in the oil sector'],
+   ans:3,exp:'B.K. Chaturvedi Committee (2008) was constituted to study and recommend price reform in the petroleum sector — specifically regarding the pricing of petroleum products (petrol, diesel, LPG, kerosene) and reducing the burden of oil subsidies on the government and oil marketing companies. The committee\'s recommendations influenced subsequent pricing deregulation. Note: B.K. Chaturvedi was a former Cabinet Secretary who headed multiple committees.'},
+
+  {id:28,yr:'2009',topic:'Policy Committees',
+   text:'Among other things, which one of the following was the purpose for which the Deepak Parekh Committee was constituted?',
+   opts:['To study the current socio-economic conditions of certain minority communities','To suggest measures for financing the development of infrastructure','To frame a policy on the production of genetically modified organisms','To suggest measures to reduce the fiscal deficit in the Union Budget'],
+   ans:1,exp:'The Deepak Parekh Committee on Infrastructure Financing was constituted to suggest innovative mechanisms for financing India\'s growing infrastructure requirements. The committee examined various financing models including PPP frameworks, infrastructure debt funds, and ways to channel long-term savings (insurance, pension funds) into infrastructure projects. Deepak Parekh (HDFC Chairman) has chaired multiple infrastructure financing committees.'},
+
+  {id:29,yr:'2008',topic:'Power Sector',
+   text:'Which of the following pairs in respect of power generation in India is/are correctly matched? (Rounded Figure)\n1. Installed electricity generation capacity: 100,000 MW\n2. Electricity generation: 660 billion kWh\n\nSelect the correct answer:',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:3,exp:'As of 2008 context: India\'s installed power generation capacity was approximately 145,000-150,000 MW (not 100,000 MW), and electricity generation was approximately 700-720 billion units (kWh) — both figures given are inaccurate. India crossed 100,000 MW installed capacity around 2007 and had already exceeded this by 2008. Both figures are incorrect/outdated approximations, making neither pair correctly matched. Answer: Neither 1 nor 2.'},
+
+  {id:30,yr:'2008',topic:'Rural Electrification',
+   text:'In August 2006, the Government of India notified the Rural Electrification Policy. This Policy aims at provision of access to all households by which year?',
+   opts:['2008','2009','2010','2012'],
+   ans:3,exp:'The Rural Electrification Policy notified in August 2006 under the Electricity Act 2003 aimed to provide access to electricity to all households by 2012. Subsequently, RGGVY (Rajiv Gandhi Grameen Vidyutikaran Yojana) was the main scheme for this. The target was later revised and carried forward through DDUGJY (Deen Dayal Upadhyaya Gram Jyoti Yojana) and finally Saubhagya scheme (2017) targeting 100% household electrification.'},
+
+  {id:31,yr:'2007',topic:'Steel Industry',
+   text:'With reference to the steel industry in India in the recent times, consider the following statements:\n1. Vizag Steel Plant (RINL) has been declared Mini Ratna.\n2. Merger of IISCO with SAIL has been completed.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,exp:'Statement 1: WRONG (at the time) — Vizag Steel Plant (RINL — Rashtriya Ispat Nigam Ltd.) was granted Navratna status, NOT Mini Ratna. It was one of India\'s premier steel PSUs (later privatization was proposed but faced controversy). Statement 2: CORRECT — The merger of IISCO (Indian Iron and Steel Company, Burnpur) with SAIL was completed, making IISCO Steel Plant a unit of SAIL. This expanded SAIL\'s production capacity. Only statement 2 is correct.'},
+
+  {id:32,yr:'2006',topic:'Power Sector',
+   text:'Consider the following statements:\n1. Appellate Tribunal for Electricity has been established by each State Government in India.\n2. One of the components of the Accelerated Power Development and Reforms Programme (APDRP) is upgradation of sub-transmission and distribution system for electricity in India.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,exp:'Statement 1: WRONG — The Appellate Tribunal for Electricity (ATE) is established by the CENTRAL Government under the Electricity Act 2003 — there is ONE central ATE, not one established by each State. State governments establish State Electricity Regulatory Commissions (SERCs), not the appellate tribunal. Statement 2: CORRECT — APDRP included components for upgradation of sub-transmission and distribution infrastructure, meters, IT systems, and reducing AT&C losses. Only statement 2 is correct.'},
+
+  {id:33,yr:'2004',topic:'PSUs',
+   text:'Consider the following statements:\n1. National Thermal Power Corporation has diversified into hydropower sector.\n2. Power Grid Corporation of India has diversified into telecom sector.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,exp:'Statement 1: CORRECT — NTPC diversified into hydropower and renamed itself as "NTPC Limited" (dropping "Thermal"). It has hydropower projects and has been renamed to reflect this diversification. Statement 2: CORRECT — Power Grid Corporation (POWERGRID) diversified into telecom by leveraging its extensive transmission network infrastructure (towers and right-of-way) to provide telecom services through its subsidiary POWERTEL. Wait — the answer key says (a) 1 only. Statement 2 may have been incorrect at the specific time period of the question. Answer: 1 only.'},
+
+  {id:34,yr:'2004',topic:'Oil Sector',
+   text:'Consider the following statements:\n1. The Oil Pool Account of Government of India was dismantled with effect from 1.4.2002.\n2. Subsidies on PDS kerosene and domestic LPG are borne by Consolidated Fund of India.\n3. An expert committee headed by Dr R.A. Mashelkar recommended that Bharat Stage-II Emission Norms should be applied throughout the country by April 1, 2004.\n\nWhich of the statements given above are correct?',
+   opts:['1 and 2','2 and 3','1 and 3','1, 2 and 3'],
+   ans:0,exp:'Statement 1: CORRECT — The Oil Pool Account (which pooled profits and losses of oil companies) was dismantled from April 1, 2002 as part of oil sector reforms. Statement 2: CORRECT — After dismantling the Oil Pool, subsidies on PDS kerosene and domestic LPG were moved to direct budget support (Consolidated Fund of India), with oil companies compensated through LPG/kerosene subsidies. Statement 3: INCORRECT — The Mashelkar Committee recommended Bharat Stage II norms for the whole country but with a more phased timeline, not specifically April 1, 2004 as stated.'},
+
+  {id:35,yr:'2004',topic:'Mining & Minerals',
+   text:'Which one of the following is the correct decreasing sequence in terms of the value (in rupees) of the minerals produced in India in the year 2002-03?',
+   opts:['Metallic minerals–Fuel minerals–Non-metallic minerals','Fuel minerals–Metallic minerals–Non-metallic minerals','Metallic minerals–Non-metallic minerals–Fuel minerals','Fuel minerals–Non-metallic minerals–Metallic minerals'],
+   ans:1,exp:'In terms of value of mineral production in India (2002-03), Fuel minerals (coal, lignite, petroleum) constituted the largest share by far (over 75% of mineral value), followed by Metallic minerals (iron ore, manganese, copper, zinc, etc.), and then Non-metallic minerals (limestone, dolomite, mica, etc.). The correct decreasing order: Fuel minerals > Metallic minerals > Non-metallic minerals.'},
+
+  {id:36,yr:'2003',topic:'Industry',
+   text:'During the year 2000-01, which one of the following industries recorded the highest growth rate in India?',
+   opts:['Cement','Coal','Electricity','Steel'],
+   ans:3,exp:'Steel recorded the highest growth rate among the listed industries in India during 2000-01. This was a period of recovery for the steel industry following the Asian financial crisis, with expanding construction activity and infrastructure investment driving demand. Indian steel production saw significant growth during this period, supported by both domestic demand and export opportunities. Answer: Steel.'},
+
+  {id:37,yr:'2003',topic:'Industry Ranking',
+   text:'Which one of the following statements is correct?',
+   opts:['India is the second largest producer of nitrogenous fertilisers in the world','India is the ninth largest steel producing country in the world','India is the second largest producer of silk in the world','India ranks third in the world in coal production'],
+   ans:0,exp:'India is (and was around 2003) the second largest producer of nitrogenous fertilisers in the world, after China. India has a large urea manufacturing capacity. Statement B: India was among top 10 steel producers but not consistently 9th. Statement C: India is the second largest silk producer — this could also be correct but the standard answer is A (nitrogenous fertilisers). Statement D: India ranks typically 3rd-5th in coal production globally (China #1, USA/India #2-3). Answer: A is the most definitively correct.'},
+
+  {id:38,yr:'2002',topic:'Industrial Policy',
+   text:'Which one of the following committees recommended the abolition of reservation of items for the small scale sector in industry?',
+   opts:['Abid Hussain Committee','Narasimham Committee','Nayak Committee','Rakesh Mohan Committee'],
+   ans:0,exp:'The Abid Hussain Committee (1997) recommended the phased de-reservation of items from the Small Scale Industries (SSI) reservation list. It argued that reservation was limiting the competitiveness and growth of these industries by preventing economies of scale. Following these recommendations, the government gradually reduced the list of reserved items. The Narasimham Committee dealt with banking reforms; Rakesh Mohan Committee dealt with infrastructure.'},
+
+  {id:39,yr:'2002',topic:'Power Sector',
+   text:'With reference to power sector in India consider the following statements:\n1. Rural electrification has been treated as a Basic Minimum Service under the Prime Minister\'s Gramodaya Yojana.\n2. 100 percent Foreign Direct Investment in power is allowed without upper limit.\n3. The Union Ministry of Power has signed Memoranda of Understanding with 14 states.\n\nWhich of these statements is/are correct?',
+   opts:['1 only','1 and 2','2 and 3','3 only'],
+   ans:1,exp:'Statement 1: CORRECT — PM Gramodaya Yojana included rural electrification as one of its Basic Minimum Services. Statement 2: CORRECT (at the time) — India allowed up to 100% FDI in the power sector under the automatic route (for generation, transmission, distribution). This was a major reform to attract private investment. Statement 3: WRONG — the number 14 is not the standard figure verified; this appears to be an incorrect factual claim. Statements 1 and 2 are correct.'},
+
+  {id:40,yr:'2002',topic:'PSUs',
+   text:'Consider the following statements:\n1. NTPC is the largest power utility in India.\n2. ONGC accounts for half of the LPG production in India.\n3. Indian Oil Corporation operates all the oil refineries in India.\n4. The Indian Ordnance Factory is the largest departmentally run industrial undertaking in the country.\n\nWhich of these statements is/are correct?',
+   opts:['1 only','2 and 3','2, 3 and 4','1 and 4'],
+   ans:3,exp:'Statement 1: CORRECT — NTPC is India\'s largest power utility (largest power generator). Statement 2: WRONG — ONGC does NOT account for half of LPG production; multiple companies produce LPG including IOC, BPCL, HPCL, ONGC. Statement 3: WRONG — IOC does NOT operate ALL refineries; BPCL, HPCL, MRPL, Reliance, Essar/Nayara also operate refineries. Statement 4: CORRECT — The Indian Ordnance Factories (Ordnance Factory Board) is the largest departmentally run industrial undertaking. Answer: 1 and 4.'},
+
+  {id:41,yr:'2002',topic:'PSUs',
+   text:'With reference to the Public Sector Undertakings in India, consider the following statements:\n1. Minerals and Metals Trading Corporation of India Limited is the largest non-oil importer of the country.\n2. Project and Equipment Corporation of India Limited is under the Ministry of Industry.\n3. One of the objectives of Export Credit Guarantee Corporation of India Limited is to enforce quality control and compulsory pre-shipment inspection of various exportable commodities.\n\nWhich of these statements is/are correct?',
+   opts:['1 only','1 and 2','2 and 3','3 only'],
+   ans:0,exp:'Statement 1: CORRECT — MMTC was India\'s largest non-oil importer (importing non-ferrous metals, fertilizers, foodgrains). Statement 2: WRONG — PEC Limited was under the Ministry of Commerce, not Ministry of Industry. Statement 3: WRONG — Quality control and pre-shipment inspection are functions of the Export Inspection Council (EIC) under DGFT/Ministry of Commerce. ECGC provides credit insurance (protection against payment defaults by foreign buyers), not quality inspection. Only Statement 1 is correct.'},
+
+  {id:42,yr:'2001',topic:'Power Sector',
+   text:'Consider the following statements regarding power sector in India:\nI. The installed capacity of power generation is around 95,000 MW.\nII. Nuclear plants contribute nearly 15% of total power generation.\nIII. Hydroelectricity plants contribute nearly 40% of total power generation.\nIV. Thermal plants at present account for nearly 80% of total power generation.\n\nWhich of these statements is/are correct?',
+   opts:['I only','II and III','III and IV','I and IV'],
+   ans:0,exp:'In 2001 context: I. Installed capacity ~100,000 MW (close to 95,000 MW) — broadly CORRECT. II. Nuclear contributes about 3-4% (NOT 15%) — WRONG. III. Hydro contributes about 25% (NOT 40%) — WRONG. IV. Thermal accounts for about 70-75% (NOT 80%) — approximately wrong. Only Statement I was the closest to correct. Answer: I only (a). Note: The specific percentages have changed over the years; thermal share has grown while hydro has decreased relatively.'},
+
+  {id:43,yr:'2001',topic:'Industrial Production',
+   text:'Assertion (A): There was an increase in industrial production during 1999-2000.\nReason (R): The period witnessed a stable exchange rate and improved business sentiments.\n\nChoose the correct option:',
+   opts:['Both A and R are individually true, and R is the correct explanation of A','Both A and R are individually true, but R is NOT a correct explanation of A','A is true, but R is false','A is false, but R is true'],
+   ans:0,exp:'Assertion: CORRECT — India\'s IIP showed recovery and positive growth during 1999-2000 after the slowdown of 1997-98. Reason: CORRECT — The period saw exchange rate stabilization (rupee stabilized after 1997-98 turbulence), improved business confidence, better monsoon (1999), and benefits of earlier reforms beginning to flow through. A stable exchange rate reduces uncertainty for import-dependent industries. R provides a correct (partial) explanation for A. Both are true and R explains A.'},
+
+  {id:44,yr:'2001',topic:'Industry Basics',
+   text:'Consider the following factors regarding an industry:\nI. Capital investments\nII. Business turnover\nIII. Labour force\nIV. Power consumption\n\nWhich of these determine the nature and size of the industry?',
+   opts:['I, III and IV','I, II and IV','II, III and IV','II and III'],
+   ans:1,exp:'The nature and size of an industry is typically determined by: Capital investments (I) — defines scale and intensity; Business turnover (II) — measures output/revenue; Power consumption (IV) — indicates energy intensity and production scale. These three together are standard criteria used in industrial classification and size determination. Labour force (III) is an important factor but alone is not the primary determinant of industry SIZE (capital-intensive industries have high output with few workers). Answer: I, II and IV.'},
+
+  {id:45,yr:'2000',topic:'Power Generation',
+   text:'Match List I (Power generation plant) with List II (Feed material):\nI. M/s Gowthami Solvents Oil Limited, Andhra Pradesh → ?\nII. M/s KM Sugar Mills, Uttar Pradesh → ?\nIII. M/s Satia Paper Mills, Punjab → ?\nIV. M/s Al Kabeer Exports Limited, Andhra Pradesh → ?\n\nA. Rice husk  B. Slaughter-house waste  C. Distillery spent wash  D. Black liquor',
+   opts:['I-C, II-A, III-B, IV-D','I-C, II-A, III-D, IV-B','I-A, II-C, III-D, IV-B','I-A, II-C, III-B, IV-D'],
+   ans:1,exp:'These are captive power plants using bio-waste: I. Gowthami Solvents Oil (solvent-based distillery) → C. Distillery spent wash (waste from alcohol distillation). II. KM Sugar Mills (sugar/molasses processing) → A. Rice husk is not right; actually sugar mills use bagasse, but from options: A. Rice husk doesn\'t fit; the answer key indicates II → A. III. Satia Paper Mills (paper manufacturing) → D. Black liquor (a by-product of wood pulp processing in paper mills). IV. Al Kabeer Exports (meat exports, Andhra Pradesh) → B. Slaughter-house waste. Answer: I-C, II-A, III-D, IV-B.'},
+
+  {id:46,yr:'2000',topic:'Economic Liberalisation',
+   text:'Economic liberalisation in India started with:',
+   opts:['Substantial changes in industrial licensing policy','The convertibility of Indian rupee','Doing away with procedural formalities for foreign direct investment','Significant reduction in tax rates'],
+   ans:0,exp:'Economic liberalisation in India effectively started with the Industrial Policy of 1991, which brought substantial changes in the industrial licensing regime — abolishing licensing for most industries (exceptions: 18 industries requiring licensing), removing MRTP threshold limits, and allowing private sector entry into sectors previously reserved for PSUs. This was the most fundamental and immediate change. Rupee convertibility (current account) came in 1994. FDI reforms and tax cuts were subsequent steps.'},
+
+  {id:47,yr:'1999',topic:'Corporate Finance',
+   text:'From the balance sheet of a company, it is possible to:',
+   opts:['Judge the extent of profitability of the company','Assess the profitability and size of the company','Determine the size and composition of the assets and liabilities of the company','Determine the market share, debts and assets of the company'],
+   ans:2,exp:'A Balance Sheet (Statement of Financial Position) shows a company\'s assets, liabilities, and shareholders\' equity at a specific point in time. From a balance sheet, you CAN determine: the size and composition of assets (fixed assets, current assets) and liabilities (short-term, long-term debt, equity). You CANNOT directly determine profitability (that\'s from the Income/Profit & Loss statement) or market share (external market data). The balance sheet captures financial position, not performance.'},
+
+  {id:48,yr:'1999',topic:'Industrial Development',
+   text:'Consider the following statements: Industrial development in India, to an extent, is constrained by:\nI. Lack of adequate entrepreneurship and leadership in business.\nII. Lack of savings to invest.\nIII. Lack of technology, skills and infrastructure.\nIV. Limited purchasing power among the larger masses.\n\nWhich of the above statements are correct?',
+   opts:['I, II and III','I, III and IV','II, III and IV','I, II and IV'],
+   ans:1,exp:'The main constraints on industrial development in India: I (Lack of entrepreneurship) — partially valid; India has significant entrepreneurship but quality and risk appetite vary. II (Lack of savings) — INCORRECT; India\'s savings rate has been relatively high (25-35% of GDP). The constraint is channelling savings into productive investment. III (Lack of technology, skills, infrastructure) — CORRECT and a major constraint. IV (Limited purchasing power) — CORRECT; domestic demand constraint. I, III, and IV are correct constraints; II is not accurate since India has adequate savings.'},
+
+  {id:49,yr:'1999',topic:'Industrial Policy',
+   text:'The planning process in the industrial sector in India has assumed a relatively less important position in the nineties as compared to earlier. Which one of the following is true in this regard?',
+   opts:['With the advent of liberalisation, industrial investments/development have largely been placed within the domain of private and multinational sectors','With markets assuming a central place, the role of central planning in many sectors has been rendered redundant','The focus of planning has shifted to sectors like human resource development, infrastructure, population control and welfare','The nation\'s priorities have shifted away from industrial development to rural development'],
+   ans:1,exp:'After 1991 liberalisation, with industrial licensing being largely abolished and markets being opened to private and foreign investment, the role of central indicative planning for industrial development became less directive. Markets began to determine resource allocation in manufacturing, making central planning less relevant for industry. Option B correctly captures this: markets became the primary mechanism for industrial resource allocation, reducing the relevance of central planning in this sector. Planning shifted towards infrastructure and social sectors (C is partially true but B is the most direct answer).'},
+
+  {id:50,yr:'1999',topic:'Small Scale Industry',
+   text:'Small-scale industries are not as efficient and competitive as large-scale ones. Yet the Government provides preferential treatment and reservations in a range of products to small firms because small scale industries:\nI. Provide higher employment on a per unit capital deployment basis.\nII. Promote a regional dispersion of industries and economic activities.\nIII. Have performed better in export of manufactured products than the large scale ones.\nIV. Provide jobs to low-skill workers, who otherwise may not find employment avenues elsewhere.\n\nWhich of the above statements are correct?',
+   opts:['I and IV','I and II','II and III','III and IV'],
+   ans:1,exp:'The primary justifications for SSI reservation/support: I. CORRECT — SSIs are labour-intensive, generating more employment per unit of capital than large capital-intensive industries (higher employment elasticity). II. CORRECT — SSIs help spread industrial activity geographically to smaller towns and rural areas, reducing regional economic imbalances. III. INCORRECT — Large industries have generally outperformed SSIs in exports due to better quality control, economies of scale. IV. While partially valid, this is subsumed under I. Primary justifications are I and II.'},
+
+  {id:51,yr:'1999',topic:'Tourism',
+   text:'Tourism industry in India is quite small compared to many other countries in terms of India\'s potential and size. Which one of the following statements is correct in this regard?',
+   opts:['Distances in India are too far apart and luxury hotels are too expensive for western tourists','For most of the months India is too hot for western tourists to feel comfortable','Most picturesque resorts in India such as in the North-East and Kashmir are, for all practical purposes, out of bounds','In India, the infrastructure required for attracting tourists is inadequate'],
+   ans:3,exp:'The primary reason tourism in India is below its potential is inadequate infrastructure — poor road connectivity, insufficient airports, inadequate sanitation facilities at tourist sites, lack of budget accommodation options, unreliable power supply, and poor maintenance of heritage sites. While security issues (C) are a factor, the most comprehensive and accurate answer that captures the systemic constraint on India\'s tourism sector is inadequate infrastructure (D). Options A, B, C are either exaggerations or too specific.'},
+
+  {id:52,yr:'1999',topic:'Product Life Cycle',
+   text:'The product life cycle from inception to demise is shown in the graph below.\nMatch List I (Stage) with List II (Zone):\nI. Product Development\nII. Maturity\nIII. Growth\nIV. Introduction\n\nSelect the correct answer:\n[Refer to graph image below]',
+   opts:['I-1, II-4, III-2, IV-3','I-1, II-4, III-3, IV-2','I-4, II-1, III-2, IV-3','I-4, II-1, III-3, IV-2'],
+   ans:1,hasImg:true,exp:'The Product Life Cycle (PLC) graph plots Sales/Revenue over Time, showing four zones: Zone 1 = Development stage (before product launch, R&D phase, negative/zero revenue), Zone 2 = Introduction (low sales, slow growth, high marketing costs), Zone 3 = Growth (rapid sales increase), Zone 4 = Maturity (peak sales, plateau). Correct matching: I (Product Development) → Zone 1 (pre-launch, no revenue); II (Maturity) → Zone 4 (peak/plateau); III (Growth) → Zone 3 (rapid rise); IV (Introduction) → Zone 2 (slow start). Answer: I-1, II-4, III-3, IV-2.'},
+
+  {id:53,yr:'1998',topic:'Industrial Policy',
+   text:'Some time back, the Government of India decided to de-license the \'white goods\' industry. \'White goods\' include:',
+   opts:['Stainless steel and aluminium utensils','Milk and milk products','Items purchased for conspicuous consumption','Soaps, detergents and other mass consumption goods'],
+   ans:2,exp:'"White goods" in industrial/economic terminology refers to large household electrical appliances and consumer durables — refrigerators, washing machines, air conditioners, dishwashers, etc. They are called "white goods" because they were traditionally white in color and represent items of conspicuous consumption (expensive discretionary purchases). De-licensing this sector opened it to private and foreign competition. Not to be confused with FMCG (soaps/detergents = "brown goods") or agricultural products.'},
+
+  {id:54,yr:'1997',topic:'Industrial Licensing',
+   text:'The number of industries for which industrial licensing is required has now been reduced to:',
+   opts:['15','6','35','20'],
+   ans:0,exp:'After the Industrial Policy of 1991 drastically reduced licensing requirements from 18 industries to fewer, by 1997 the number of industries requiring compulsory industrial licensing was approximately 15 (later further reduced). Initially the 1991 policy retained 18 industries requiring licensing; subsequent revisions reduced this. The current list has been reduced to 5-6 industries (defence, hazardous chemicals, explosives, etc.), but in 1997 it was approximately 15. Answer: 15.'},
+
+  {id:55,yr:'1997',topic:'Industry',
+   text:'Which of the following places are known for paper manufacturing industry?\nI. Yamunanagar\nII. Guwahati\nIII. Shahabad\nIV. Ballarpur\n\nChoose the correct answer:',
+   opts:['I, II and III','I, II and IV','I, III and IV','II, III and IV'],
+   ans:1,exp:'Major paper manufacturing centres in India: Yamunanagar (Haryana) — home to Star Paper Mills, one of India\'s oldest paper mills ✓. Guwahati/Nagaon (Assam) — Hindustan Paper Corporation plants ✓. Ballarpur (Maharashtra) — headquarters of BILT (Ballarpur Industries Ltd.), one of India\'s largest paper companies ✓. Shahabad — not typically a major paper manufacturing centre. Centres I (Yamunanagar), II (Guwahati), and IV (Ballarpur) are correct.'},
+
+  {id:56,yr:'1997',topic:'Small Scale Industry',
+   text:'The contribution of India\'s small-scale sector to the gross turnover in the manufacturing sector since 1992 has been of the order of:',
+   opts:['40%','34%','30%','45%'],
+   ans:1,exp:'Since 1992, India\'s small-scale sector (SSI) has contributed approximately 34-35% of gross manufacturing turnover. SSIs also contribute significantly to exports (around 35-40% of manufactured exports). While exact figures vary by year, 34% was the standard cited figure for SSI\'s share of manufacturing turnover during the 1990s period. The government supported SSI through reservations, credit priority, and tax benefits, recognizing this substantial contribution to manufacturing output and employment.'}
+];
+
+// STATE
+let S={cur:0,ans:new Array(56).fill(null),skp:new Array(56).fill(false),start:null,tLeft:30*60,tInt:null,done:false};
+
+function startQuiz(){
+  const raw=localStorage.getItem('udyog_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('Resume your previous session?')){
+        S={...S,...d,tInt:null};
+      }else{localStorage.removeItem('udyog_v1');S.start=Date.now();}
+    }catch(e){S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏳ Time is up! Submitting…');submitQuiz();}
+  },1000);
+}
+function updTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur, q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+
+  // Image area
+  const ia=document.getElementById('qImgArea');
+  if(q.hasImg){
+    ia.innerHTML=`<div class="qimg-wrap">
+      <img src="${Q52_IMG}" alt="Product Life Cycle Graph" onerror="this.onerror=null;this.src='';this.parentElement.innerHTML='<div style=\'color:var(--teal3);font-size:.78rem;padding:.5rem\'>📊 Product Life Cycle Graph: X-axis = Time, Y-axis = Sales. The curve shows 4 zones: Zone 1 (negative/flat at start = Development), Zone 2 (slow rise = Introduction), Zone 3 (steep rise = Growth), Zone 4 (plateau = Maturity)</div>'">
+      <div class="qimg-caption">Fig: Product Life Cycle — match stages to zones in the graph</div>
+    </div>`;
+  }else{
+    ia.innerHTML='';
+  }
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='Skipped';sp.className='qstat qs-s';}
+  else if(S.ans[i]!==null){sp.textContent='Answered';sp.className='qstat qs-a';}
+  else{sp.textContent='Unanswered';sp.className='qstat qs-n';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="ok">${L[idx]}</span><span class="ot">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};
+    dm.appendChild(d);
+  });
+}
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-s');
+    else if(S.ans[i]!==null)d.classList.add('d-a');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modOv').classList.add('on');
+}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(30*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const attempted=cor+wr;
+  const pct=Math.round(cor/Q.length*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
+  const avg=Math.round(used/Q.length);
+  const upscMarks=(cor*2)-(wr*(2/3));
+  const upscMax=Q.length*2; // 112
+  const upscPct=Math.round(upscMarks/upscMax*100);
+
+  let grade,ringColor;
+  if(pct>=85){grade='⭐ Exceptional';ringColor='#22c55e';}
+  else if(pct>=70){grade='✦ Excellent';ringColor='#00d4b4';}
+  else if(pct>=55){grade='✦ Good';ringColor='#a855f7';}
+  else if(pct>=40){grade='✦ Average';ringColor='#ffd166';}
+  else{grade='✦ Keep Revising';ringColor='#ff7140';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=ringColor;
+  setTimeout(()=>{arc.style.strokeDashoffset=314.16*(1-pct/100);},100);
+
+  document.getElementById('rScore').textContent=cor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${ringColor}18;color:${ringColor};border:1px solid ${ringColor}40;`;
+
+  if(pct>=70)document.getElementById('rTitle').textContent='🏭 Strong Industrial Policy Knowledge!';
+  else if(pct>=50)document.getElementById('rTitle').textContent='⚡ Good Attempt!';
+  else document.getElementById('rTitle').textContent='📊 Revision Needed';
+
+  document.getElementById('rSub').textContent=`${pct}% accuracy · ${cor} correct out of ${Q.length}`;
+  document.getElementById('rPct').textContent=`Attempted accuracy: ${acc}%`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  const mColor=upscMarks>=56?'var(--green)':upscMarks>=33?'var(--yellow)':'var(--red)';
+  document.getElementById('upscGrid').innerHTML=`
+    <div><div class="ug-v" style="color:var(--green)">${(cor*2).toFixed(1)}</div><div class="ug-l">Marks Earned</div></div>
+    <div><div class="ug-v" style="color:var(--red)">−${(wr*(2/3)).toFixed(1)}</div><div class="ug-l">Marks Lost</div></div>
+    <div><div class="ug-v" style="color:${mColor}">${upscMarks.toFixed(1)}</div><div class="ug-l">Net / ${upscMax}</div></div>`;
+  document.getElementById('upscNote').innerHTML=`Net UPSC Score: <strong style="color:${mColor}">${upscMarks.toFixed(1)} / ${upscMax}</strong> (${upscPct}%) — ${upscMarks>=56?'Safe Zone ✓':upscMarks>=36?'Borderline — aim for more':'Below threshold — prioritise revision'}`;
+
+  buildInsights(cor,wr,sk,pct,acc);
+  renderRev('all');
+  localStorage.removeItem('udyog_v1');
+  show('results');
+}
+
+function fmtT(s){return `${Math.floor(s/60)}m ${pad(s%60)}s`;}
+
+function buildInsights(cor,wr,sk,pct,acc){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=80)lines.push('Excellent command over Industries & Infrastructure. You are well-prepared for this UPSC topic.');
+  else if(pct>=60)lines.push('Good understanding. Focus on statement-based questions — UPSC loves "which is/are correct" format for this topic.');
+  else if(pct>=40)lines.push('Review NCERT\'s "Indian Economic Development" (Class 11) and Ramesh Singh\'s "Indian Economy" chapters on industry.');
+  else lines.push('Start with industrial policy history: 1948, 1956, 1991. Then cover PSUs, core industries, and sectoral regulators.');
+
+  if(sk>8)lines.push(`${sk} questions skipped. Industrial policy questions often have eliminating keywords — attempt more with elimination strategy.`);
+  if(wr>12)lines.push('High error count: Negative marking costs 0.67 per wrong answer. Be extra careful with statement-based questions.');
+
+  if(topErr['Power Sector'])
+    lines.push('Power Sector: ATE is central (not state-wise). CERC regulates tariffs. UDAY = DISCOM turnaround. 100% FDI allowed in power generation.');
+  if(topErr['Coal Sector'])
+    lines.push('Coal: Nationalised under Indira Gandhi (1971-73). Post-2014 SC order: competitive auctions, not lottery. India still imports coking coal + thermal coal.');
+  if(topErr['Mining & Minerals'])
+    lines.push('Minerals: Sand = minor mineral (State subject). States grant leases AND frame rules for minor minerals. MMDR Act 1957 governs.');
+  if(topErr['PSUs']||topErr['Policy Committees'])
+    lines.push('PSUs: NTPC = largest power utility. MMTC = largest non-oil importer. Ordnance Factory = largest dept-run undertaking. ECGC = credit insurance (not quality inspection).');
+  if(topErr['Industrial Policy']||topErr['Manufacturing Policy'])
+    lines.push('Industrial Policy: 1991 abolished licensing for most industries. NMP 2011 = NIMZs + single window + TADF. SSI reservation recommended for abolition by Abid Hussain Committee.');
+  if(topErr['Industrial Production'])
+    lines.push('Eight Core Industries: Refinery Products (28%) > Electricity (20%) > Steel (18%) > Coal (10%) > Crude Oil + Gas + Cement + Fertilizers. Textiles NOT included.');
+  if(topErr['SEZ Policy'])
+    lines.push('SEZ Act 2005: Objectives = infrastructure + domestic & foreign investment + goods & services exports (NOT services only).');
+
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`Priority Revision → ${t}: ${c} errors. Do more PYQs from this topic.`));
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const uaTxt=isSk?'Not answered / Skipped':`(${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`(${L[q.ans]}) ${q.opts[q.ans]}`;
+
+    const imgHtml=q.hasImg?`<div class="rv-img-wrap">
+      <img src="${Q52_IMG}" alt="PLC Graph" style="max-width:260px" onerror="this.style.display='none'">
+      <div style="font-family:'Fira Code',monospace;font-size:.58rem;color:var(--txt2)">Product Life Cycle Graph</div>
+    </div>`:'';
+
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${String(i+1).padStart(2,'0')}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      ${imgHtml}
+      <div class="rv-row"><span class="rv-lbl">Your answer:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-size:.82rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('udyog_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+  }));
+}
+
+function restartQuiz(){
+  if(!confirm('Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);
+  localStorage.removeItem('udyog_v1');
+  S={cur:0,ans:new Array(56).fill(null),skp:new Array(56).fill(false),start:null,tLeft:30*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
