@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arthashastra · UPSC Economics Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0a0c14;
+  --ink2:#111420;
+  --ink3:#1a1f32;
+  --ink4:#232840;
+  --emerald:#00c896;
+  --emerald2:#00a87d;
+  --emerald3:#b3f0e0;
+  --amber:#f5a623;
+  --amber2:#ffc85a;
+  --crimson:#e63946;
+  --sapphire:#3a7bd5;
+  --sapphire2:#5b9ef5;
+  --gold:#d4af37;
+  --gold2:#f0d060;
+  --paper:#f5f0e8;
+  --correct:#00c896;
+  --wrong:#e63946;
+  --skip:#f5a623;
+  --txt:#e8eaf5;
+  --txt2:#8b90b0;
+  --txt3:#bcc0d8;
+  --border:rgba(255,255,255,.07);
+  --glass:rgba(255,255,255,.04);
+  --r:12px;
+  --r2:20px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--ink);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* BG Grid */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,200,150,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,200,150,.04) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 70% at 20% 10%,rgba(58,123,213,.18) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 60% at 80% 90%,rgba(0,200,150,.12) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(212,175,55,.04) 0%,transparent 70%);
+}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:flex}
+
+/* ═══ PARTICLES ═══ */
+.pts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.pt{position:absolute;border-radius:50%;animation:ptFloat linear infinite;opacity:0}
+@keyframes ptFloat{
+  0%{transform:translateY(105vh);opacity:0}
+  8%{opacity:1}
+  92%{opacity:.4}
+  100%{transform:translateY(-5vh);opacity:0}
+}
+
+/* ════ START ════ */
+#start{
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2.5rem 1.5rem;text-align:center;gap:0;
+}
+
+/* ₹ symbol ring */
+.hero-ring{
+  width:96px;height:96px;margin:0 auto 2rem;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-ring::before,.hero-ring::after{
+  content:'';position:absolute;border-radius:50%;
+  border:1px solid rgba(0,200,150,.4);
+  animation:ringPulse 3s ease-in-out infinite;
+}
+.hero-ring::before{inset:-10px;}
+.hero-ring::after{inset:-24px;border-color:rgba(0,200,150,.2);animation-delay:.8s;}
+.ring-inner{
+  width:96px;height:96px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,200,150,.15),rgba(58,123,213,.15));
+  border:1px solid rgba(0,200,150,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;
+  animation:ringRotBG 20s linear infinite;
+  box-shadow:0 0 30px rgba(0,200,150,.2),inset 0 0 20px rgba(0,200,150,.05);
+}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.15);opacity:0.2}}
+@keyframes ringRotBG{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+
+.eyebrow{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:.25em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:1.1rem;
+  opacity:0;animation:slideUp .5s .2s ease forwards;
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,11vw,5.5rem);
+  font-weight:900;line-height:1;
+  margin-bottom:.5rem;
+  opacity:0;animation:slideUp .6s .32s ease forwards;
+}
+.ht1{
+  display:block;
+  background:linear-gradient(145deg,var(--emerald),var(--gold2),var(--sapphire2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ht2{
+  display:block;font-size:.38em;font-style:italic;
+  color:var(--txt2);-webkit-text-fill-color:var(--txt2);
+  letter-spacing:.04em;font-weight:400;
+}
+.hero-sub{
+  font-size:.88rem;color:var(--txt2);max-width:420px;margin:0 auto 2.5rem;
+  line-height:2;font-weight:300;
+  opacity:0;animation:slideUp .6s .44s ease forwards;
+}
+
+/* Cards row */
+.info-strip{
+  display:flex;gap:.6rem;margin-bottom:2.6rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:slideUp .5s .56s ease forwards;
+}
+.ic{
+  padding:.9rem 1.4rem;
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;align-items:center;gap:.2rem;
+  min-width:80px;
+}
+.ic-v{
+  font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;
+  background:linear-gradient(135deg,var(--emerald),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ic-l{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2)}
+
+/* Topic pills */
+.topics{
+  display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;
+  max-width:520px;margin:0 auto 2.8rem;
+  opacity:0;animation:slideUp .5s .68s ease forwards;
+}
+.tpill{
+  font-size:.66rem;font-weight:600;padding:.3rem .8rem;border-radius:50px;
+  border:1px solid rgba(0,200,150,.2);background:rgba(0,200,150,.06);
+  color:var(--emerald3);letter-spacing:.02em;transition:.2s;cursor:default;
+}
+.tpill:hover{background:rgba(0,200,150,.14);border-color:var(--emerald)}
+
+/* CTA */
+.start-btn{
+  position:relative;overflow:hidden;padding:1rem 3.2rem;
+  border:none;border-radius:50px;cursor:pointer;transition:all .3s;
+  background:linear-gradient(135deg,var(--emerald2),var(--sapphire));
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;
+  letter-spacing:.04em;
+  box-shadow:0 8px 32px rgba(0,200,150,.3),0 0 0 1px rgba(0,200,150,.15);
+  opacity:0;animation:slideUp .5s .82s ease forwards;
+}
+.start-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);
+  opacity:0;transition:.3s;
+}
+.start-btn:hover::before{opacity:1}
+.start-btn:hover{transform:translateY(-4px);box-shadow:0 14px 44px rgba(0,200,150,.45)}
+
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ════ QUIZ ════ */
+#quiz{flex-direction:column;align-items:center;padding:1.2rem 1rem;gap:.8rem}
+.quiz-wrap{max-width:800px;width:100%;display:flex;flex-direction:column;gap:.8rem}
+
+/* Topbar */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.75rem 1.1rem;
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r2);backdrop-filter:blur(14px);flex-wrap:wrap;
+}
+.qcount{
+  font-family:'DM Mono',monospace;font-size:.75rem;color:var(--txt2);letter-spacing:.04em;
+}
+.qcount em{color:var(--emerald);font-style:normal;font-weight:500}
+.timer{
+  font-family:'DM Mono',monospace;font-weight:500;font-size:.88rem;
+  padding:.35rem .95rem;border-radius:50px;
+  background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.25);
+  color:var(--emerald);transition:.3s;
+}
+.timer.danger{
+  background:rgba(230,57,70,.12);border-color:rgba(230,57,70,.35);
+  color:#f87171;animation:timerBlink .7s infinite;
+}
+@keyframes timerBlink{0%,100%{opacity:1}50%{opacity:.3}}
+.sub-early{
+  font-size:.7rem;padding:.35rem .8rem;border-radius:50px;
+  background:transparent;border:1px solid var(--border);
+  color:var(--txt2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;
+}
+.sub-early:hover{border-color:var(--emerald3);color:var(--emerald3)}
+
+/* Progress bar */
+.pbar{height:2px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden}
+.pfill{
+  height:100%;border-radius:10px;
+  background:linear-gradient(90deg,var(--sapphire),var(--emerald),var(--gold));
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 10px rgba(0,200,150,.4);
+}
+
+/* Question card */
+.qcard{
+  background:linear-gradient(145deg,rgba(26,31,50,.95),rgba(10,12,20,.98));
+  border:1px solid var(--border);border-radius:22px;
+  padding:2rem;
+  box-shadow:0 8px 48px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  animation:cardIn .35s cubic-bezier(.34,1.4,.64,1);
+  position:relative;overflow:hidden;
+}
+.qcard::after{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,200,150,.05),transparent 65%);
+  pointer-events:none;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+
+/* Meta row */
+.qmeta{display:flex;align-items:center;gap:.45rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.qbadge{
+  font-family:'DM Mono',monospace;font-size:.62rem;font-weight:500;
+  padding:.26rem .8rem;border-radius:50px;
+  background:linear-gradient(135deg,rgba(0,200,150,.2),rgba(58,123,213,.2));
+  border:1px solid rgba(0,200,150,.3);color:var(--emerald);
+}
+.qyr{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold2);
+  background:rgba(212,175,55,.08);padding:.24rem .65rem;border-radius:50px;
+  border:1px solid rgba(212,175,55,.2);}
+.qtopic{font-size:.62rem;color:var(--sapphire2);background:rgba(58,123,213,.08);
+  border:1px solid rgba(91,158,245,.18);padding:.24rem .65rem;border-radius:50px;}
+.qstat{margin-left:auto;font-size:.6rem;font-weight:600;padding:.24rem .7rem;border-radius:50px}
+.qs-n{background:rgba(255,255,255,.04);color:var(--txt2);border:1px solid var(--border)}
+.qs-a{background:rgba(0,200,150,.1);color:var(--emerald);border:1px solid rgba(0,200,150,.25)}
+.qs-s{background:rgba(245,166,35,.1);color:var(--amber);border:1px solid rgba(245,166,35,.25)}
+
+/* Question text */
+.qtext{font-size:.92rem;line-height:2;color:var(--txt3);margin-bottom:1.4rem;white-space:pre-wrap}
+.qtext strong{color:var(--txt);font-weight:600}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:.5rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.85rem;
+  padding:.85rem 1.05rem;background:rgba(255,255,255,.02);
+  border:1.5px solid rgba(255,255,255,.06);
+  border-radius:11px;cursor:pointer;transition:all .18s;
+  text-align:left;width:100%;color:var(--txt3);
+  font-family:'DM Sans',sans-serif;font-size:.87rem;line-height:1.6;
+  position:relative;overflow:hidden;
+}
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,200,150,.07),transparent);
+  opacity:0;transition:.18s;
+}
+.opt:hover:not(.sel){border-color:rgba(0,200,150,.35);transform:translateX(5px)}
+.opt:hover:not(.sel)::before{opacity:1}
+.opt.sel{background:rgba(0,200,150,.07);border-color:var(--emerald)}
+.opt.sel::before{opacity:1}
+.ok{
+  min-width:27px;height:27px;border-radius:7px;
+  background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;
+  color:var(--emerald);flex-shrink:0;transition:.18s;position:relative;z-index:1;
+}
+.opt.sel .ok{
+  background:linear-gradient(135deg,var(--emerald2),var(--sapphire));
+  color:#fff;border-color:transparent;
+}
+.ot{position:relative;z-index:1;color:var(--txt)}
+
+/* Nav buttons */
+.qnav{display:flex;justify-content:space-between;margin-top:1.4rem;gap:.5rem;flex-wrap:wrap}
+.btn{
+  padding:.6rem 1.3rem;border:none;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:all .18s;letter-spacing:.02em;
+}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--txt2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.1);color:var(--txt)}
+.btn-skip{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);color:var(--amber)}
+.btn-skip:hover{background:rgba(245,166,35,.18)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--emerald2),var(--sapphire));
+  color:#fff;box-shadow:0 4px 16px rgba(0,200,150,.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,200,150,.45)}
+.btn-submit{
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  color:var(--ink);font-weight:700;
+  box-shadow:0 4px 14px rgba(212,175,55,.3);
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,.5)}
+
+/* Dot map */
+.dotrow{display:flex;flex-wrap:wrap;gap:.28rem;max-width:800px;width:100%}
+.dot{
+  width:28px;height:28px;border-radius:7px;border:1px solid var(--border);
+  font-family:'DM Mono',monospace;font-size:.6rem;font-weight:500;cursor:pointer;
+  transition:.15s;background:rgba(255,255,255,.03);color:var(--txt2);
+}
+.dot:hover{border-color:var(--emerald3);color:var(--emerald3)}
+.dot.cur{
+  background:linear-gradient(135deg,var(--emerald2),var(--sapphire));
+  color:#fff;border-color:transparent;
+  box-shadow:0 2px 12px rgba(0,200,150,.45);
+}
+.dot.d-a{background:rgba(0,200,150,.14);color:var(--emerald);border-color:rgba(0,200,150,.3)}
+.dot.d-s{background:rgba(245,166,35,.1);color:var(--amber);border-color:rgba(245,166,35,.25)}
+
+/* ════ MODAL ════ */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(5,7,16,.88);backdrop-filter:blur(18px);
+  z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.overlay.on{display:flex}
+.modal{
+  background:linear-gradient(145deg,#1a1f32,#111420);
+  border:1px solid rgba(0,200,150,.25);border-radius:22px;
+  padding:2.5rem;max-width:400px;width:100%;text-align:center;
+  box-shadow:0 28px 70px rgba(0,0,0,.7),0 0 40px rgba(0,200,150,.08);
+  animation:mPop .3s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes mPop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-icon{font-size:2.6rem;margin-bottom:1rem;display:block}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--txt);margin-bottom:.6rem}
+.modal p{color:var(--txt2);font-size:.83rem;line-height:1.85;margin-bottom:1.8rem;white-space:pre-wrap}
+.modal-btns{display:flex;gap:.7rem;justify-content:center}
+
+/* ════ RESULTS ════ */
+#results{flex-direction:column;align-items:center;padding:2rem 1rem}
+.res-wrap{max-width:860px;width:100%}
+
+/* Hero */
+.res-hero{
+  background:linear-gradient(145deg,rgba(26,31,50,.95),rgba(16,18,30,.98));
+  border:1px solid rgba(0,200,150,.18);border-radius:24px;
+  padding:2.8rem 2rem;text-align:center;margin-bottom:1.1rem;
+  position:relative;overflow:hidden;
+}
+.res-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 110%,rgba(0,200,150,.07),transparent),
+    radial-gradient(ellipse 40% 50% at 5% 5%,rgba(58,123,213,.12),transparent);
+}
+
+/* Score ring */
+.score-ring{position:relative;width:158px;height:158px;margin:0 auto 1.4rem}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rb{fill:none;stroke:rgba(255,255,255,.05);stroke-width:8}
+.rf{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
+.score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sn{
+  font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--emerald),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sd{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--txt2)}
+
+.res-title{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,2rem);font-weight:900;color:var(--txt);margin-bottom:.4rem;position:relative;z-index:1}
+.res-sub{color:var(--txt2);font-size:.83rem;margin-bottom:1.2rem;position:relative;z-index:1}
+.gchip{display:inline-block;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;padding:.4rem 1.4rem;border-radius:50px;margin-bottom:.4rem;position:relative;z-index:1}
+.pct-tag{color:var(--txt2);font-family:'DM Mono',monospace;font-size:.78rem;position:relative;z-index:1}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.1rem}
+@media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.sbox{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:14px;padding:1rem .75rem;text-align:center;
+  backdrop-filter:blur(8px);transition:.2s;
+}
+.sbox:hover{transform:translateY(-3px);border-color:rgba(0,200,150,.2)}
+.sico{font-size:1.2rem;margin-bottom:.25rem}
+.sv{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;margin-bottom:.12rem}
+.sl{font-family:'DM Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2)}
+
+/* Insights */
+.insights{
+  background:rgba(255,255,255,.02);border:1px solid rgba(0,200,150,.15);
+  border-radius:16px;padding:1.5rem;margin-bottom:1.1rem;backdrop-filter:blur(8px);
+}
+.ins-hd{
+  font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;
+  color:var(--emerald);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;
+}
+.ins-line{
+  font-size:.8rem;color:var(--txt2);margin-bottom:.5rem;line-height:1.8;
+  padding-left:.8rem;border-left:2px solid rgba(0,200,150,.2);
+}
+.wchips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.75rem}
+.wchip{
+  font-family:'DM Mono',monospace;font-size:.62rem;font-weight:500;
+  padding:.2rem .65rem;border-radius:50px;
+  background:rgba(230,57,70,.08);color:#fca5a5;border:1px solid rgba(230,57,70,.18);
+}
+
+/* Tabs */
+.tabs{
+  display:flex;gap:.22rem;background:var(--glass);
+  border:1px solid var(--border);border-radius:11px;padding:.25rem;
+  margin-bottom:.85rem;backdrop-filter:blur(8px);
+}
+.tab{
+  flex:1;padding:.42rem;border:none;border-radius:8px;
+  background:transparent;font-family:'DM Sans',sans-serif;
+  font-size:.7rem;font-weight:600;cursor:pointer;color:var(--txt2);transition:.18s;
+}
+.tab.on{
+  background:linear-gradient(135deg,rgba(0,200,150,.2),rgba(58,123,213,.2));
+  color:var(--txt);border:1px solid rgba(0,200,150,.18);
+}
+
+/* Review */
+.rev-card{
+  background:rgba(255,255,255,.02);border:1px solid var(--border);
+  border-radius:14px;padding:1.25rem;margin-bottom:.65rem;
+  border-left:3px solid transparent;backdrop-filter:blur(6px);
+  animation:cardIn .3s ease;transition:transform .18s;
+}
+.rev-card:hover{transform:translateX(4px)}
+.rev-card.rc{border-left-color:var(--correct)}
+.rev-card.rw{border-left-color:var(--wrong)}
+.rev-card.rs{border-left-color:var(--skip)}
+
+.rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:.38rem;margin-bottom:.65rem}
+.rv-n{font-family:'DM Mono',monospace;font-size:.6rem;padding:.18rem .5rem;border-radius:50px;background:rgba(255,255,255,.05);color:var(--txt2)}
+.rv-yr{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--gold2);background:rgba(212,175,55,.07);padding:.18rem .5rem;border-radius:50px;border:1px solid rgba(212,175,55,.18)}
+.rv-badge{font-size:.6rem;font-weight:700;padding:.18rem .58rem;border-radius:50px}
+.rv-badge.rc{background:rgba(0,200,150,.1);color:var(--emerald)}
+.rv-badge.rw{background:rgba(230,57,70,.1);color:#f87171}
+.rv-badge.rs{background:rgba(245,166,35,.08);color:var(--amber)}
+.rv-topic{margin-left:auto;font-size:.6rem;color:var(--sapphire2);background:rgba(58,123,213,.07);padding:.18rem .5rem;border-radius:50px}
+
+.rv-q{font-size:.8rem;color:var(--txt2);margin-bottom:.75rem;line-height:1.8;white-space:pre-wrap}
+.rv-row{display:flex;gap:.5rem;font-size:.76rem;margin-bottom:.25rem;align-items:flex-start}
+.rv-lbl{font-weight:600;min-width:108px;color:var(--txt2);flex-shrink:0}
+.rv-val{color:var(--txt)}
+.rv-val.good{color:var(--correct)}
+.rv-val.bad{color:var(--wrong)}
+.rv-exp{
+  margin-top:.7rem;padding:.75rem 1rem;
+  background:rgba(58,123,213,.09);border:1px solid rgba(91,158,245,.18);
+  border-radius:9px;font-size:.77rem;color:var(--txt2);line-height:1.75;
+}
+.rv-exp strong{color:var(--sapphire2)}
+
+.res-actions{display:flex;gap:.8rem;justify-content:center;margin:1.8rem 0;flex-wrap:wrap}
+.btn-danger{
+  background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.25);
+  color:#f87171;padding:.72rem 1.6rem;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:.18s;
+}
+.btn-danger:hover{background:rgba(230,57,70,.2)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:rgba(0,200,150,.25);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,200,150,.5)}
+
+@media(max-width:600px){
+  .qcard{padding:1.3rem}
+  .qnav{flex-direction:column}
+  .modal-btns{flex-direction:column}
+  .topbar{flex-wrap:wrap;gap:.4rem}
+  .sub-early{display:none}
+  .info-strip{gap:.4rem}
+  .ic{min-width:70px;padding:.75rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="pts" id="particles"></div>
+
+<!-- ═══ START SCREEN ═══ -->
+<div id="start" class="screen active">
+  <div class="hero-ring"><div class="ring-inner">₹</div></div>
+
+  <p class="eyebrow">UPSC Prelims PYQ · 1995 – 2023</p>
+  <h1 class="hero-title">
+    <span class="ht1">Arthashastra</span>
+    <span class="ht2">Indian Economy & Monetary Policy</span>
+  </h1>
+  <p class="hero-sub">66 authentic UPSC questions covering monetary policy, inflation, forex, banking, balance of payments, and macroeconomic concepts.</p>
+
+  <div class="info-strip">
+    <div class="ic"><div class="ic-v">66</div><div class="ic-l">Questions</div></div>
+    <div class="ic"><div class="ic-v">35 min</div><div class="ic-l">Timer</div></div>
+    <div class="ic"><div class="ic-v">1995–23</div><div class="ic-l">PYQ Era</div></div>
+    <div class="ic"><div class="ic-v">+2/−⅔</div><div class="ic-l">Marking</div></div>
+  </div>
+
+  <div class="topics">
+    <span class="tpill">💹 Monetary Policy</span>
+    <span class="tpill">📊 Inflation</span>
+    <span class="tpill">🏦 RBI & Banking</span>
+    <span class="tpill">💱 Forex & BoP</span>
+    <span class="tpill">📈 Money Supply</span>
+    <span class="tpill">🌐 Convertibility</span>
+    <span class="tpill">📉 Exchange Rates</span>
+    <span class="tpill">📋 WPI & CPI</span>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">⚡ Begin Quiz</button>
+</div>
+
+<!-- ═══ QUIZ SCREEN ═══ -->
+<div id="quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="topbar">
+      <div class="qcount">Q <em id="qCur">1</em> / <em id="qTot">66</em></div>
+      <div class="timer" id="timerEl">35:00</div>
+      <button class="sub-early" onclick="showMod()">Submit Early</button>
+    </div>
+    <div class="pbar"><div class="pfill" id="pFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="qbadge" id="qBadge">Q01</span>
+        <span class="qyr" id="qYr">—</span>
+        <span class="qtopic" id="qTopic">—</span>
+        <span class="qstat qs-n" id="qStat">Unanswered</span>
+      </div>
+      <div class="qtext" id="qBody"></div>
+      <div class="opts" id="optsGrid"></div>
+      <div class="qnav">
+        <div style="display:flex;gap:.45rem">
+          <button class="btn btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+          <button class="btn btn-skip" onclick="skipQ()">Skip</button>
+        </div>
+        <div style="display:flex;gap:.45rem">
+          <button class="btn btn-primary" id="btnNext" onclick="go(1)">Next →</button>
+          <button class="btn btn-submit" id="btnSub" style="display:none" onclick="showMod()">Submit ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dotrow" id="dotMap"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS SCREEN ═══ -->
+<div id="results" class="screen">
+  <div class="res-wrap">
+    <div class="res-hero">
+      <div class="score-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="rb" cx="60" cy="60" r="50"/>
+          <circle class="rf" id="ringArc" cx="60" cy="60" r="50"
+            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+        </svg>
+        <div class="score-inner">
+          <div class="sn" id="rScore">0</div>
+          <div class="sd" id="rDen">/66</div>
+        </div>
+      </div>
+      <div class="res-title" id="rTitle">Quiz Complete!</div>
+      <div class="res-sub" id="rSub"></div>
+      <div class="gchip" id="rGrade"></div>
+      <div class="pct-tag" id="rPct"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="sbox"><div class="sico">✓</div><div class="sv" id="stC" style="color:var(--correct)">0</div><div class="sl">Correct</div></div>
+      <div class="sbox"><div class="sico">✗</div><div class="sv" id="stW" style="color:var(--wrong)">0</div><div class="sl">Wrong</div></div>
+      <div class="sbox"><div class="sico">—</div><div class="sv" id="stS" style="color:var(--skip)">0</div><div class="sl">Skipped</div></div>
+      <div class="sbox"><div class="sico">◎</div><div class="sv" id="stAcc">0%</div><div class="sl">Accuracy</div></div>
+      <div class="sbox"><div class="sico">⏱</div><div class="sv" id="stTime">—</div><div class="sl">Time Used</div></div>
+      <div class="sbox"><div class="sico">∿</div><div class="sv" id="stAvg">—</div><div class="sl">Avg/Q</div></div>
+    </div>
+
+    <!-- UPSC Score Panel -->
+    <div class="insights" id="upscPanel"></div>
+
+    <div class="insights">
+      <div class="ins-hd">⚡ Smart Analysis</div>
+      <div id="insBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="setTab('all',this)">All (66)</button>
+      <button class="tab" onclick="setTab('correct',this)">✓ Correct</button>
+      <button class="tab" onclick="setTab('wrong',this)">✗ Wrong</button>
+      <button class="tab" onclick="setTab('skipped',this)">— Skipped</button>
+    </div>
+    <div id="revList"></div>
+
+    <div class="res-actions">
+      <button class="btn-danger" onclick="restartQuiz()">↺ Restart</button>
+      <button class="btn btn-primary" onclick="window.scrollTo(0,0)">↑ Top</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modOv">
+  <div class="modal">
+    <span class="modal-icon">📊</span>
+    <h3>Submit Quiz?</h3>
+    <p id="modTxt"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeMod()">Cancel</button>
+      <button class="btn btn-submit" onclick="submitQuiz()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Particles
+(function(){
+  const c=document.getElementById('particles');
+  const colors=['rgba(0,200,150,.5)','rgba(212,175,55,.45)','rgba(91,158,245,.45)','rgba(245,166,35,.35)'];
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');p.className='pt';
+    const sz=Math.random()*4+2;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*18+10}s;animation-delay:${Math.random()*12}s;`;
+    c.appendChild(p);
+  }
+})();
+
+const L=['a','b','c','d'];
+const pad=n=>String(n).padStart(2,'0');
+
+// ════ ALL 66 QUESTIONS ════
+const Q=[
+  {id:1,yr:'2023',topic:'Monetary Policy',
+   text:'Which of the following activities of Reserve Bank of India is considered to be part of \'Sterilization\'?',
+   opts:['Conducting \'Open Market Operations\'','Oversight of settlement and payment systems','Debt and cash management for Central and State Governments','Regulating the functions of Non-banking Financial Institutions'],
+   ans:0,exp:'Sterilization refers to the process by which a central bank offsets the impact of capital flows on domestic money supply. RBI achieves sterilization through Open Market Operations (OMO) — buying or selling government securities to absorb or inject liquidity, thereby neutralizing the monetary impact of forex interventions.'},
+
+  {id:2,yr:'2022',topic:'Price Stability',
+   text:'In India, which one of the following is responsible for maintaining price stability by controlling inflation?',
+   opts:['Department of Consumer Affairs','Expenditure Management Commission','Financial Stability and Development Council','Reserve Bank of India'],
+   ans:3,exp:'The Reserve Bank of India (RBI) is the primary authority responsible for monetary policy and price stability in India. Under the Monetary Policy Framework Agreement (2015) and the RBI Act (amended 2016), RBI targets CPI inflation within a band of 4% ±2%, with the Monetary Policy Committee (MPC) setting the policy repo rate.'},
+
+  {id:3,yr:'2022',topic:'Exchange Rates',
+   text:'Consider the following statements:\n1. Tight monetary policy of US Federal Reserve could lead to capital flight.\n2. Capital flight may increase the interest cost of firms with existing External Commercial Borrowings (ECBs).\n3. Devaluation of domestic currency decreases the currency risk associated with ECBs.\n\nWhich of the statements is/are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:0,exp:'Statement 1: CORRECT — US Fed tightening increases US interest rates, attracting capital away from emerging markets like India (capital flight). Statement 2: CORRECT — capital flight weakens the rupee; since ECBs are in foreign currency, rupee depreciation raises effective interest cost. Statement 3: WRONG — devaluation INCREASES currency risk on ECBs (you need more rupees to repay the same foreign currency debt), not decreases.'},
+
+  {id:4,yr:'2022',topic:'Exchange Rates',
+   text:'With reference to the Indian economy, consider the following statements:\n1. An increase in Nominal Effective Exchange Rate (NEER) indicates the appreciation of rupee.\n2. An increase in the Real Effective Exchange Rate (REER) indicates an improvement in trade competitiveness.\n3. An increasing trend in domestic inflation relative to inflation in other countries is likely to cause an increasing divergence between NEER and REER.\n\nWhich of the above statements are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:2,exp:'Statement 1: CORRECT — NEER is a trade-weighted average of exchange rates; an increase means rupee appreciates against a basket of currencies. Statement 2: WRONG — an increase in REER means domestic goods become relatively more expensive → WORSENS competitiveness, not improves. Statement 3: CORRECT — REER adjusts NEER for inflation differential. If domestic inflation is higher, REER rises faster than NEER, causing divergence.'},
+
+  {id:5,yr:'2022',topic:'Monetary Policy',
+   text:'With reference to the Indian economy, consider the following statements:\n1. If inflation is too high, RBI is likely to buy government securities.\n2. If the rupee is rapidly depreciating, RBI is likely to sell dollars in the market.\n3. If interest rates in the USA or European Union were to fall, that is likely to induce RBI to buy dollars.\n\nWhich of the statements given above are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:1,exp:'Statement 1: WRONG — to control high inflation, RBI would SELL government securities (OMO sell = liquidity absorption), not buy. Buying securities injects money into economy, which would worsen inflation. Statement 2: CORRECT — RBI sells dollars to support the rupee (increases dollar supply in market). Statement 3: CORRECT — if US/EU rates fall, capital flows into India chasing higher returns; RBI buys dollars to prevent excessive rupee appreciation and build forex reserves.'},
+
+  {id:6,yr:'2021',topic:'Exchange Rates',
+   text:'The effect of devaluation of a currency is that it necessarily:\n1. Improves the competitiveness of domestic exports in foreign markets.\n2. Increases the foreign value of domestic currency.\n3. Improves the trade balance.\n\nWhich of the above statement(s) is/are correct?',
+   opts:['1 only','1 and 2','3 only','2 and 3'],
+   ans:0,exp:'Devaluation makes domestic currency cheaper relative to foreign currencies. Statement 1: CORRECT — exports become cheaper for foreign buyers, improving competitiveness. Statement 2: WRONG — devaluation DECREASES the foreign value of domestic currency (that is what devaluation means). Statement 3: WRONG — trade balance improvement is not guaranteed; it depends on the Marshall-Lerner condition (sum of demand elasticities > 1). In the short run, J-curve effect may worsen trade balance.'},
+
+  {id:7,yr:'2021',topic:'Inflation',
+   text:'Which one of the following is likely to be the most inflationary in its effects?',
+   opts:['Repayment of public debt','Borrowing from the public to finance a budget deficit','Borrowing from the banks to finance a budget deficit','Creation of new money to finance a budget deficit'],
+   ans:3,exp:'Creating new money (monetization of deficit / deficit financing through currency creation) is the most inflationary because it directly increases money supply without any offsetting reduction. Borrowing from public/banks shifts purchasing power but doesn\'t create new money. Repaying public debt can be inflationary but less so. Direct money printing is the most extreme form of monetary expansion.'},
+
+  {id:8,yr:'2019',topic:'Forex',
+   text:'In the context of India, which of the following factors is/are contributor(s) to reducing the risk of a currency crisis?\n1. The foreign currency earnings of India\'s IT sector.\n2. Increasing the government expenditure.\n3. Remittances from Indians abroad.\n\nSelect the correct answer:',
+   opts:['1 only','1 and 3 only','2 only','1, 2 and 3'],
+   ans:1,exp:'IT sector foreign currency earnings (factor 1) and remittances from abroad (factor 3) both increase India\'s forex reserves, providing a cushion against currency crisis. Higher forex reserves reduce vulnerability to speculative attacks. Factor 2 (increasing government expenditure) tends to widen fiscal deficit and current account deficit, which can INCREASE currency crisis risk, not reduce it.'},
+
+  {id:9,yr:'2021',topic:'Money Supply',
+   text:'The money multiplier in an economy increases with which one of the following?',
+   opts:['Increase in the Cash Reserve Ratio in the banks','Increase in the Statutory Liquidity Ratio in the banks','Increase in the banking habit of the people','Increase in the population of the country'],
+   ans:2,exp:'Money multiplier = 1/reserve ratio. When people increase their banking habits, they deposit more cash in banks rather than holding currency. This reduces the currency-deposit ratio, increases the money multiplier, and allows banks to create more credit. Higher CRR or SLR increases reserve requirements, reducing the multiplier. Population increase alone doesn\'t directly affect the multiplier.'},
+
+  {id:10,yr:'2021',topic:'Inflation',
+   text:'With reference to Indian economy, demand-pull inflation can be caused/increased by which of the following?\n1. Expansionary policies\n2. Fiscal stimulus\n3. Inflation-indexing wages\n4. Higher purchasing power\n5. Rising interest rates\n\nSelect the correct answer:',
+   opts:['1, 2 and 4 only','3, 4 and 5 only','1, 2, 3 and 5 only','1, 2, 3, 4 and 5'],
+   ans:0,exp:'Demand-pull inflation occurs when aggregate demand exceeds aggregate supply. Expansionary policies (1), fiscal stimulus (2), and higher purchasing power (4) all increase aggregate demand → demand-pull inflation. Inflation-indexing wages (3) creates a wage-price spiral (more cost-push than demand-pull). Rising interest rates (5) are a tool to REDUCE inflation, not cause it — they reduce borrowing and spending.'},
+
+  {id:11,yr:'2020',topic:'Financial Crisis',
+   text:'If another global financial crisis happens, which of the following actions/policies are most likely to give some immunity to India?\n1. Not depending on short-term foreign borrowings.\n2. Opening up to more foreign banks.\n3. Maintaining full capital account convertibility.\n\nSelect the correct answer:',
+   opts:['1 only','1 and 2 only','3 only','1, 2 and 3'],
+   ans:0,exp:'Short-term foreign borrowings (hot money) are highly volatile and can flee rapidly during a crisis, causing a currency crisis. Avoiding dependence on them provides stability. Opening up to more foreign banks (2) increases exposure to global financial systems — risky during crisis. Full capital account convertibility (3) allows unrestricted capital flows — during a crisis, this can accelerate capital flight and worsen vulnerability. Only avoiding short-term borrowings provides immunity.'},
+
+  {id:12,yr:'2020',topic:'Money Supply',
+   text:'If you withdraw ₹1,00,000 in cash from your Demand Deposit Account at your bank, the immediate effect on aggregate money supply in the economy will be:',
+   opts:['To reduce it by ₹1,00,000','To increase it by ₹1,00,000','To increase it by more than ₹1,00,000','To leave it unchanged'],
+   ans:3,exp:'Money supply (M1/M3) includes both currency in circulation AND demand deposits. When you withdraw cash from your bank account, demand deposits decrease by ₹1,00,000 but currency in circulation increases by ₹1,00,000. These two effects exactly cancel out — aggregate money supply remains unchanged. The composition changes (from deposits to cash) but total M1 is the same.'},
+
+  {id:13,yr:'2020',topic:'WPI & CPI',
+   text:'Consider the following statements:\n1. The weightage of food in Consumer Price Index (CPI) is higher than that in Wholesale Price Index (WPI).\n2. The WPI does not capture changes in the prices of services, which CPI does.\n3. Reserve Bank of India has now adopted WPI as its key measure of inflation to decide on changing key policy rates.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 and 2 only','2 only','3 only','1, 2 and 3'],
+   ans:0,exp:'Statement 1: CORRECT — Food has ~45% weight in CPI vs ~24% in WPI. Statement 2: CORRECT — WPI covers goods only (primary articles, fuel, manufactured goods). CPI includes services like health, education, transport. Statement 3: WRONG — RBI switched from WPI to CPI (Consumer Price Index – Combined) as its inflation anchor after the Urjit Patel Committee recommendation in 2014. RBI now targets CPI inflation.'},
+
+  {id:14,yr:'2020',topic:'Monetary Policy',
+   text:'If the RBI decides to adopt an expansionist monetary policy, which of the following would it NOT do?\n1. Cut and optimize the Statutory Liquidity Ratio.\n2. Increase the Marginal Standing Facility Rate.\n3. Cut the Bank Rate and Repo Rate.\n\nSelect the correct answer:',
+   opts:['1 and 2 only','2 only','1 and 3 only','1, 2 and 3'],
+   ans:1,exp:'Expansionary monetary policy aims to increase money supply and reduce borrowing costs. Cutting SLR (1) frees up more funds for lending — consistent with expansion. Cutting Bank Rate and Repo Rate (3) lowers cost of borrowing — consistent with expansion. Increasing MSF rate (2) would make emergency borrowing more expensive for banks — this is CONTRACTIONARY, not expansionary. RBI would NOT increase MSF rate during expansion.'},
+
+  {id:15,yr:'2019',topic:'Forex',
+   text:'Which one of the following is NOT the most likely measure the Government/RBI takes to stop the slide of Indian rupee?',
+   opts:['Curbing imports of non-essential goods and promoting exports','Encouraging Indian borrowers to issue rupee denominated Masala Bonds','Easing conditions relating to external commercial borrowing','Following an expansionary monetary policy'],
+   ans:3,exp:'Expansionary monetary policy (increasing money supply, cutting rates) would WEAKEN the rupee further by increasing inflation and making India less attractive for carry trade. All other options strengthen the rupee: curbing imports reduces dollar demand (A), Masala Bonds attract foreign capital in rupees reducing forex risk (B), easing ECB conditions increases dollar inflows (C). Expansionary policy is thus NOT a measure to support the rupee.'},
+
+  {id:16,yr:'2019',topic:'Money Supply',
+   text:'The money multiplier in an economy increases with which one of the following?',
+   opts:['Increase in the cash reserve ratio','Increase in the banking habit of the population','Increase in the statutory liquidity ratio','Increase in the population of the country'],
+   ans:1,exp:'Money multiplier = 1 / (reserve ratio + currency-deposit ratio). When banking habits increase, people prefer deposits over cash → currency-deposit ratio falls → money multiplier rises. An increase in CRR or SLR increases total reserve requirements, which REDUCES the multiplier. Population increase doesn\'t directly affect the multiplier formula.'},
+
+  {id:17,yr:'2017',topic:'Monetary Policy',
+   text:'Which of the following statements is/are correct regarding the Monetary Policy Committee (MPC)?\n1. It decides the RBI\'s benchmark interest rates.\n2. It is a 12-member body including the Governor of RBI and is reconstituted every year.\n3. It functions under the chairmanship of the Union Finance Minister.\n\nSelect the correct answer:',
+   opts:['1 only','1 and 2 only','3 only','2 and 3 only'],
+   ans:0,exp:'Statement 1: CORRECT — MPC decides the policy repo rate (benchmark rate) to achieve the inflation target. Statement 2: WRONG — MPC is a 6-member body (3 RBI officials including Governor + 3 external members appointed by GoI), NOT 12. It is reconstituted every 4 years, not annually. Statement 3: WRONG — MPC is chaired by the RBI Governor, NOT the Finance Minister.'},
+
+  {id:18,yr:'2016',topic:'Forex',
+   text:'Which of the following best describes the term \'import cover\', sometimes seen in the news?',
+   opts:['It is the ratio of value of imports to the GDP of a country','It is the total value of imports of a country in a year','It is the ratio between the value of exports and that of imports between two countries','It is the number of months of imports that could be paid for by a country\'s international reserves'],
+   ans:3,exp:'Import cover (also called import coverage ratio) measures the adequacy of a country\'s foreign exchange reserves by expressing them in terms of how many months of imports they can finance. Formula: Import Cover = Forex Reserves / (Monthly Imports). India typically maintains around 9-12 months of import cover. RBI considers adequate import cover as an important indicator of external sector stability.'},
+
+  {id:19,yr:'2015',topic:'Monetary Policy',
+   text:'With reference to India economy, consider the following:\n1. Bank rate\n2. Open market operations\n3. Public debt\n4. Public revenue\n\nWhich of the above is/are component(s) of Monetary Policy?',
+   opts:['1 only','2, 3 and 4','1 and 2','1, 3 and 4'],
+   ans:2,exp:'Monetary policy tools operated by RBI include: Bank Rate (rate at which RBI lends to commercial banks long-term), Repo Rate, Reverse Repo Rate, CRR, SLR, Open Market Operations (buying/selling government securities), MSF, etc. Public debt and Public revenue are components of FISCAL policy (managed by Ministry of Finance/government), not monetary policy. Only 1 (Bank Rate) and 2 (OMO) are monetary policy instruments.'},
+
+  {id:20,yr:'2015',topic:'Inflation',
+   text:'With reference to inflation in India, which of the following statements is correct?',
+   opts:['Controlling the inflation in India is the responsibility of the Government of India only','The Reserve Bank of India has no role in controlling the inflation','Decreased money circulation helps in controlling the inflation','Increased money circulation helps in controlling the inflation'],
+   ans:2,exp:'Decreased money circulation (contraction of money supply) reduces purchasing power and aggregate demand, helping to control inflation. This is the basic principle of contractionary monetary policy. The Quantity Theory of Money (MV=PQ) shows that reducing money supply (M) with stable velocity and output leads to lower prices. Options A and B are incorrect — both RBI (monetary) and Government (fiscal) have roles in inflation control.'},
+
+  {id:21,yr:'2015',topic:'Monetary Policy',
+   text:'When the Reserve Bank of India reduces the Statutory Liquidity Ratio by 50 basis points, which of the following is likely to happen?',
+   opts:['India\'s GDP growth rate increases drastically','Foreign Institutional Investors may bring more capital into our country','Scheduled Commercial Banks may cut their lending rates','It may drastically reduce the liquidity to the banking system'],
+   ans:2,exp:'When SLR is reduced, banks are required to maintain less of their NDTL (Net Demand and Time Liabilities) in liquid assets (govt securities, gold, cash). This frees up more funds for lending. With more lendable funds and competitive pressure, banks may reduce their lending rates (MCLR/base rate). Options A (too extreme), B (no direct link), D (wrong direction — SLR reduction increases, not reduces liquidity) are incorrect.'},
+
+  {id:22,yr:'2015',topic:'WPI & CPI',
+   text:'Which of the following brings out the \'Consumer Price Index Number for the Industrial Workers\'?',
+   opts:['The Reserve Bank of India','The Department of Economic Affairs','The Labour Bureau','The Department of Personnel and Training'],
+   ans:2,exp:'The Consumer Price Index for Industrial Workers (CPI-IW) is compiled and published by the Labour Bureau, under the Ministry of Labour and Employment. CPI-IW is used for calculating Dearness Allowance (DA) for central government employees and workers in organized industries. It has a base year of 2016. Different CPI series: CPI-IW (Labour Bureau), CPI-AL (Ministry of Agriculture), CPI-Combined (MoSPI).'},
+
+  {id:23,yr:'2015',topic:'Convertibility',
+   text:'Convertibility of rupee implies:',
+   opts:['Being able to convert rupee notes into gold','Allowing the value of rupee to be fixed by market forces','Freely permitting the conversion of rupee to other currencies and vice versa','Developing an international market for currencies in India'],
+   ans:2,exp:'Currency convertibility means the ease with which a country\'s currency can be converted into other foreign currencies and vice versa without restrictions. India has: (1) Full current account convertibility (for trade in goods and services), (2) Partial capital account convertibility (restrictions remain on financial flows). Full convertibility would mean free conversion for all purposes — trade, investment, and capital flows.'},
+
+  {id:24,yr:'2014',topic:'Balance of Payments',
+   text:'With reference to Balance of Payments, which of the following constitute(s) the Current Account?\n1. Balance of trade\n2. Foreign assets\n3. Balance of invisibles\n4. Special Drawing Rights\n\nSelect the correct answer:',
+   opts:['1 only','2 and 3','1 and 3','1, 2 and 4'],
+   ans:2,exp:'Current Account of BoP includes: (1) Balance of Trade (visible trade — exports minus imports of goods), (3) Balance of Invisibles (services, transfers, remittances, income). Foreign assets (2) are part of the Capital/Financial Account. Special Drawing Rights (4) are reserve assets under the Reserve Account (part of Capital Account), not Current Account. Answer: 1 and 3 only.'},
+
+  {id:25,yr:'2014',topic:'Banking',
+   text:'In the context of Indian economy, which of the following is/are the purpose(s) of \'Statutory Reserve Requirements\'?\n1. To enable the Central Bank to control the amount of advances the banks can create.\n2. To make the people\'s deposits with banks safe and liquid.\n3. To prevent the commercial banks from making excessive profits.\n4. To force the banks to have sufficient vault cash to meet their day-to-day requirements.\n\nSelect the correct answer:',
+   opts:['1 only','1 and 2 only','2 and 3 only','1, 2, 3 and 4'],
+   ans:0,exp:'Statutory Reserve Requirements (CRR + SLR) primarily serve as a monetary policy tool — by mandating a portion of deposits be held as reserves, the central bank can control credit creation by commercial banks (purpose 1 — CORRECT). Purpose 2 partially valid but deposits are insured by DICGC, not primarily through SLR. Purpose 3 is not a primary objective. Purpose 4 describes operational/prudential requirements, not the statutory mandate. The primary purpose is monetary control.'},
+
+  {id:26,yr:'2014',topic:'Monetary Policy',
+   text:'If the interest rate is decreased in an economy, it will:',
+   opts:['Decrease the consumption expenditure in the economy','Increase the tax collection of the Government','Increase the investment expenditure in the economy','Increase the total savings in the economy'],
+   ans:2,exp:'Lower interest rates reduce the cost of borrowing, making investment more attractive for businesses (Keynesian investment function: I = I₀ - b×r, where lower r means higher I). It also reduces the reward for saving, which can decrease savings (not increase them — option D wrong). Lower rates stimulate consumption too (not decrease — option A wrong). Tax collection depends on income/GDP, not directly on interest rates.'},
+
+  {id:27,yr:'2013',topic:'Inflation',
+   text:'A rise in general level of prices may be caused by:\n1. An increase in the money supply.\n2. A decrease in the aggregate level of output.\n3. An increase in the effective demand.\n\nSelect the correct answer:',
+   opts:['1 only','1 and 2 only','2 and 3 only','1, 2 and 3'],
+   ans:3,exp:'All three factors can cause inflation: (1) Quantity Theory of Money: MV=PQ; increase in M with constant V and Q leads to rise in P. (2) If aggregate output decreases (supply shock), prices rise (cost-push/supply-side inflation). (3) Increase in effective demand (consumer spending, investment) with fixed supply creates demand-pull inflation. All three are valid causes of price level rise.'},
+
+  {id:28,yr:'2013',topic:'Forex',
+   text:'Which one of the following groups of items is included in India\'s Foreign Exchange Reserves?',
+   opts:['Foreign-currency assets, SDRs and loans from foreign countries','Foreign-currency assets, gold holdings of the RBI and SDRs','Foreign currency assets, loans from the World Bank and SDRs','Foreign currency assets, gold holdings of the RBI and loans from the World Bank'],
+   ans:1,exp:'India\'s Foreign Exchange Reserves comprise: (1) Foreign Currency Assets (FCA) — largest component, (2) Gold held by RBI, (3) Special Drawing Rights (SDRs) allocated by IMF, (4) Reserve Tranche Position in IMF. Loans from foreign countries or World Bank are LIABILITIES, not reserves. They do not form part of forex reserves.'},
+
+  {id:29,yr:'2013',topic:'Inflation',
+   text:'Which one of the following is likely to be the most inflationary in its effect?',
+   opts:['Repayment of public debt','Borrowing from the public to finance a budget deficit','Borrowing from banks to finance a budget deficit','Creating new money to finance a budget deficit'],
+   ans:3,exp:'Creating new money (deficit monetization / seigniorage) is the most inflationary as it directly increases money supply without any reduction elsewhere. Borrowing from banks is less inflationary (limited by bank capacity). Borrowing from public is least inflationary (public\'s purchasing power is reduced, transferred to government — no new money created). Repaying public debt puts money back in public hands but isn\'t a financing activity.'},
+
+  {id:30,yr:'2013',topic:'Money Supply',
+   text:'Supply of money remaining the same, when there is an increase in demand for money, there will be:',
+   opts:['A fall in the level of prices','An increase in the rate of interest','A decrease in the rate of interest','An increase in the level of income and employment'],
+   ans:1,exp:'In money market equilibrium, Ms = Md. If money demand increases while supply is fixed, there is excess demand for money. To equilibrate, the interest rate rises (Keynes\'s Liquidity Preference Theory). Higher interest rates make holding money (bonds) more attractive, reducing excess demand. This is the basic money market equilibrium: intersection of MS (vertical) and Md curves.'},
+
+  {id:31,yr:'2013',topic:'Inflation',
+   text:'Consider the following statements:\n1. Inflation benefits the debtors.\n2. Inflation benefits the bond-holders.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,exp:'Statement 1: CORRECT — Inflation erodes the real value of debt. Debtors pay back loans in money that is worth less in real terms → they benefit. Example: if you borrow ₹100 and inflation is high, you repay ₹100 that buys less → real burden reduced. Statement 2: WRONG — Bond-holders (creditors) LOSE from inflation because the fixed interest and principal they receive have lower purchasing power. Bond-holders are creditors — inflation hurts creditors, benefits debtors.'},
+
+  {id:32,yr:'2013',topic:'Money Supply',
+   text:'Consider the following liquid assets:\n1. Demand deposits with the banks\n2. Time deposits with the banks\n3. Savings deposits with the banks\n4. Currency\n\nThe correct sequence of these assets in DECREASING order of liquidity is:',
+   opts:['1-4-3-2','4-3-2-1','2-3-1-4','4-1-3-2'],
+   ans:3,exp:'Liquidity refers to how quickly and easily an asset can be converted to cash without loss of value. Currency (4) is the most liquid — it IS cash. Demand deposits (1) can be withdrawn on demand — next most liquid. Savings deposits (3) have some restrictions but more accessible than time deposits. Time deposits (2) are least liquid — locked for a fixed period with penalties for early withdrawal. Decreasing order: 4 > 1 > 3 > 2.'},
+
+  {id:33,yr:'2013',topic:'Monetary Policy',
+   text:'In the context of Indian economy, \'Open Market Operations\' refers to?',
+   opts:['Borrowing by scheduled banks from the RBI','Lending by commercial banks to industry and trade','Purchase and sale of government securities by the RBI','None of the above'],
+   ans:2,exp:'Open Market Operations (OMO) is a key monetary policy instrument where the RBI buys or sells government securities (G-secs/T-bills) in the open market to regulate liquidity. RBI buys securities → injects liquidity (expansionary). RBI sells securities → absorbs liquidity (contractionary). OMO is distinct from repo (short-term borrowing) and is used for durable liquidity management. It also influences long-term interest rates.'},
+
+  {id:34,yr:'2013',topic:'Balance of Payments',
+   text:'The balance of payments of a country is a systematic record of?',
+   opts:['All import and export transactions of a country during a given period of time, normally a year','Goods exported from a country during a year','Economic transaction between the governments of one country to another','Capital movements from one country to another'],
+   ans:0,exp:'Balance of Payments (BoP) is a comprehensive systematic record of ALL economic transactions between residents of a country and the rest of the world during a specific period (usually a year). It includes: Current Account (goods, services, transfers), Capital Account (capital transfers, acquisition of non-financial assets), and Financial Account (FDI, FPI, loans, reserves). It\'s broader than just trade in goods.'},
+
+  {id:35,yr:'2013',topic:'Monetary Policy',
+   text:'An increase in the bank rate generally indicates that the:',
+   opts:['Market rate of interest is likely to fall','Central bank is no longer making loans to commercial banks','Central bank is following an easy money policy','Central bank is following a tight money policy'],
+   ans:3,exp:'Bank Rate is the rate at which RBI lends to commercial banks for long periods (rediscounting bills of exchange). An increase in bank rate makes borrowing costlier for commercial banks → they pass this on as higher lending rates to customers → credit becomes expensive → money supply growth slows. This signals a TIGHT (contractionary) monetary policy aimed at controlling inflation or currency depreciation.'},
+
+  {id:36,yr:'2013',topic:'Balance of Payments',
+   text:'Which of the following constitute capital account?\n1. Foreign loans\n2. Foreign direct investment\n3. Private remittances\n4. Portfolio investment\n\nSelect the correct answer:',
+   opts:['1, 2 and 3','1, 2 and 4','2, 3 and 4','1, 3 and 4'],
+   ans:1,exp:'Capital Account (broadly defined as Financial Account in IMF terminology) includes: Foreign loans (1) — external commercial borrowings, NRI deposits, IMF loans; Foreign Direct Investment (2) — equity investment creating lasting interest; Portfolio investment (4) — FII/FPI investment in stocks and bonds. Private remittances (3) are unilateral transfers included in the Current Account (transfer payments sub-account), not Capital Account.'},
+
+  {id:37,yr:'2012',topic:'Money Supply',
+   text:'Which of the following measures would result in an increase in the money supply in the economy?\n1. Purchase of government securities from the public by the Central Bank.\n2. Deposit of currency in the commercial banks by the public.\n3. Borrowing by the government from the Central Bank.\n4. Sale of government securities to the public by the Central Bank.\n\nSelect the correct answer:',
+   opts:['1 only','2 and 4 only','1 and 3','2, 3 and 4'],
+   ans:2,exp:'Measure 1: CORRECT — RBI buying govt securities pays public, injecting money into economy (expansionary OMO). Measure 2: Does not increase money supply — currency deposits become bank deposits; M1 composition changes but total unchanged. Measure 3: CORRECT — when government borrows from RBI, RBI creates new money (deficit monetization) → increases money supply. Measure 4: WRONG — RBI selling securities absorbs money from economy (contractionary OMO). Correct: 1 and 3.'},
+
+  {id:38,yr:'2011',topic:'Inflation',
+   text:'India has experienced persistent and high food inflation in the recent past. What could be the reasons?\n1. Due to switchover to commercial crops, area under food grains decreased by about 30% in last five years.\n2. As a consequence of increasing incomes, consumption patterns of people have undergone a significant change.\n3. The food supply chain has structural constraints.\n\nWhich of the statements given above are correct?',
+   opts:['1 and 2 only','2 and 3 only','1 and 3 only','1, 2 and 3'],
+   ans:1,exp:'Statement 1: WRONG — The 30% figure is an exaggeration; while there has been some shift, the decline in food grain area was not as drastic. The statement is factually incorrect. Statement 2: CORRECT — Rising incomes have diversified diets towards proteins (eggs, meat, milk, vegetables), pushing up demand and prices. Statement 3: CORRECT — India\'s food supply chain has significant issues: poor storage (wastage), inadequate cold chains, multiple intermediaries adding costs, and logistics bottlenecks.'},
+
+  {id:39,yr:'2011',topic:'Balance of Payments',
+   text:'In terms of economy, the visit by foreign nationals to witness the XIX Commonwealth Games in India amounted to?',
+   opts:['Export','Import','Production','Consumption'],
+   ans:0,exp:'When foreigners visit India and spend money on Indian goods and services (hotels, food, transport, tickets), this constitutes an EXPORT of services from India\'s perspective. In BoP accounting, tourism receipts are recorded as credits (exports) under "Travel" in the Current Account\'s services section. India earns foreign exchange, which is equivalent to exporting a service. This is also called "invisible exports."'},
+
+  {id:40,yr:'2011',topic:'Balance of Payments',
+   text:'Consider the following actions which the government can take:\n1. Devaluing the domestic currency.\n2. Reduction in the export subsidy.\n3. Adopting suitable policies which attract greater FDI and more funds from FIIs.\n\nWhich of the above action(s) can help in reducing the current account deficit?',
+   opts:['1 and 2','2 and 3','3 only','1 and 3'],
+   ans:3,exp:'Action 1 (Devaluation): Makes exports cheaper and imports dearer → improves trade balance → reduces CAD (subject to Marshall-Lerner condition). Action 2 (Reducing export subsidies): Makes exports more expensive for foreign buyers → reduces exports → WORSENS CAD, not reduces it. Action 3 (Attracting FDI/FII): These are capital account flows, not current account — they finance CAD but don\'t directly reduce it. However, FDI can improve productive capacity long-term. So primarily 1 and 3 help.'},
+
+  {id:41,yr:'2011',topic:'Inflation',
+   text:'A rapid increase in the rate of inflation is sometimes attributed to the \'base effect\'. What is \'base effect\'?',
+   opts:['It is the impact of drastic deficiency in supply due to failure of crops','It is the impact of the surge in demand due to rapid economic growth','It is the impact of the price levels of previous year on the calculation of inflation rate','None of the statements (a), (b) and (c) given above is correct in this context'],
+   ans:2,exp:'Base effect refers to the distortion in measuring the rate of inflation caused by the price level in the base period (previous year). If prices were abnormally LOW in the same period of the previous year, then even a moderate price level this year would show a high inflation rate (and vice versa). For example, if onion prices crashed last October, any normal price this October shows very high YoY inflation — this artificial spike is the base effect.'},
+
+  {id:42,yr:'2011',topic:'Monetary Policy',
+   text:'The lowering of bank rate by the Reserve Bank of India leads to?',
+   opts:['More liquidity in the market','Less liquidity in the market','No change in the liquidity in the market','Mobilization of more deposits by commercial banks'],
+   ans:0,exp:'When RBI lowers the Bank Rate, borrowing becomes cheaper for commercial banks. This encourages banks to borrow more from RBI and increase lending to customers at lower rates. Result: credit expansion, more money circulating in the economy → MORE liquidity in the market. Lower bank rate = easy money policy = expansionary monetary policy = more liquidity. Higher bank rate = tight money policy = less liquidity.'},
+
+  {id:43,yr:'2010',topic:'Banking',
+   text:'When the Reserve Bank of India announces an increase of the Cash Reserve Ratio, what does it mean?',
+   opts:['The commercial banks will have less money to lend','The Reserve Bank of India will have less money to lend','The Union Government will have less money to lend','The commercial banks will have more money to lend'],
+   ans:0,exp:'Cash Reserve Ratio (CRR) is the percentage of a bank\'s total deposits (NDTL) that must be maintained as cash with the RBI. When CRR increases, banks must keep MORE money with RBI as reserve → less money available to lend to customers. CRR hike = contractionary monetary policy = credit squeeze. RBI uses CRR hike to absorb excess liquidity and control inflation. Money multiplier reduces.'},
+
+  {id:44,yr:'2010',topic:'WPI & CPI',
+   text:'With reference to India, consider the following statements:\n1. The Wholesale Price Index (WPI) in India is available on a monthly basis only.\n2. As compared to Consumer Price Index for Industrial Workers (CPI-IW), the WPI gives less weight to food articles.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:1,exp:'Statement 1: WRONG — WPI data is released weekly in India (every Thursday with 2-week lag), not just monthly. This is one of the key features of WPI — it provides frequent price signals. Statement 2: CORRECT — WPI gives food articles (primary food articles) about 24% weight, whereas CPI-IW gives food and beverages around 46-47% weight, reflecting that industrial workers spend a larger proportion of income on food.'},
+
+  {id:45,yr:'2007',topic:'Convertibility',
+   text:'Tarapore Committee was associated with which one of the following?',
+   opts:['Special Economic Zones','Fuller capital account convertibility','Foreign exchange reserves','Effect of oil-prices on the Indian economy'],
+   ans:1,exp:'Two Tarapore Committees: (1) First Tarapore Committee (1997) recommended a roadmap for Capital Account Convertibility (CAC) with preconditions like low fiscal deficit, controlled inflation, strong banking system. (2) Second Tarapore Committee (2006) again recommended Fuller Capital Account Convertibility (FCAC) with a phased approach. Both were chaired by S.S. Tarapore, former Deputy Governor of RBI.'},
+
+  {id:46,yr:'2007',topic:'Monetary Policy',
+   text:'Consider the following statements:\n1. The repo rate is the rate at which other banks borrow from the Reserve Bank of India.\n2. A value of 1 for Gini Coefficient in a country implies that there is perfectly equal income for everyone in its population.\n\nWhich of the statements given above is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:0,exp:'Statement 1: CORRECT — Repo (Repurchase) Rate is the rate at which commercial banks borrow short-term funds from RBI by pledging government securities as collateral. It is the key policy rate of RBI\'s monetary policy. Statement 2: WRONG — Gini Coefficient of 0 (zero) means perfect equality (everyone has equal income). Gini = 1 means perfect INEQUALITY (one person has all the income). The scale is 0 to 1, where 0 = equality and 1 = maximum inequality.'},
+
+  {id:47,yr:'2007',topic:'Balance of Payments',
+   text:'Assertion (A): Balance of Payments represents a better picture of a country\'s economic transactions with the rest of the world than the Balance of Trade.\nReason (R): Balance of Payments takes into account the exchange of both visible and invisible items whereas Balance of Trade does not.',
+   opts:['Both A and R are true and R is the correct explanation of A','Both A and R are true but R is not the correct explanation of A','A is True but R is false','A is false but R is true'],
+   ans:0,exp:'Assertion is CORRECT — BoP is comprehensive, covering all transactions. Reason is CORRECT — Balance of Trade (BoT) only captures VISIBLE items (physical goods exported and imported). BoP includes both visible (goods) AND invisible (services, remittances, income, capital flows, reserve changes). BoP = BoT + Invisibles + Capital Account + Reserve Account. R correctly explains why BoP is more comprehensive than BoT.'},
+
+  {id:48,yr:'2005',topic:'Forex',
+   text:'Consider the following statements:\n1. During 2004, India\'s foreign exchange reserves did not exceed the 125 billion U.S. dollar mark.\n2. The series of index numbers of wholesale prices introduced from April 2000 has the year 1993-94 as base year.\n\nWhich of the statements is/are correct?',
+   opts:['1 only','2 only','Both 1 and 2','Neither 1 nor 2'],
+   ans:2,exp:'Statement 1: CORRECT — India\'s forex reserves in 2004 were approximately $107-115 billion, which did not exceed $125 billion. Statement 2: CORRECT — The WPI series introduced in April 2000 used 1993-94 as the base year. This was later revised to 2004-05 base (effective from September 2010) and currently the base year is 2011-12.'},
+
+  {id:49,yr:'2003',topic:'Forex',
+   text:'Which one of the following statements is correct with reference to FEMA in India?',
+   opts:['FERA was replaced by FEMA in the year 2001','FERA was given a sunset clause of one year till 31st May 2002 to enable Enforcement Directorate to complete pending investigations','Under FEMA, violation of foreign exchange rules has ceased to be a criminal offence','Enforcement Directorate can arrest and prosecute people for violation of foreign exchange rules under FEMA'],
+   ans:2,exp:'FEMA (Foreign Exchange Management Act) was enacted in 1999 and came into force in June 2000 (not 2001). Key difference from FERA: Under FEMA, violations are CIVIL offences (fines, penalties), not criminal offences — this is the major shift. FERA violations were criminal (imprisonment). FEMA reflects the liberalization philosophy — promoting management of forex rather than regulation/restriction. Enforcement Directorate handles FEMA violations through civil adjudication.'},
+
+  {id:50,yr:'2002',topic:'WPI & CPI',
+   text:'With reference to the Wholesale Price Index (WPI), consider the following statements:\n1. The new WPI series with base 1993-94 = 100 became effective from April 1998.\n2. In the new WPI series, the number of commodities increased and became effective from 1 April 2000.\n3. The weight for electricity has increased in the new WPI series.\n\nWhich of these statements are correct?',
+   opts:['1, 2 and 3','2 and 3','1 and 3','1 and 2'],
+   ans:3,exp:'The WPI series with 1993-94 as base year (with revised commodity basket) became effective from April 1998 (Statement 1: CORRECT). The series was further revised with more commodities and became effective from 1 April 2000 (Statement 2: CORRECT). The weight for electricity in the new series did not necessarily increase in the manner described (Statement 3 requires specific factual verification from the original data — but standard answer key indicates 1 and 2 are correct).'},
+
+  {id:51,yr:'2002',topic:'Money Supply',
+   text:'Consider the following:\n1. Currency with the public\n2. Demand deposits with banks\n3. Time deposits with banks\n\nWhich of these are included in Broad Money (M3) in India?',
+   opts:['1 and 2','1 and 3','2 and 3','1, 2 and 3'],
+   ans:3,exp:'Broad Money (M3) in India includes: Currency with the public (1), Demand deposits with commercial banks (2), Time deposits with commercial banks (3), and Other deposits with RBI. M1 (Narrow Money) = Currency + Demand Deposits + Other deposits with RBI. M3 = M1 + Time Deposits. So M3 includes all of 1, 2, and 3 (plus other RBI deposits). All three items are part of M3.'},
+
+  {id:52,yr:'2002',topic:'Convertibility',
+   text:'Consider the following statements — Full convertibility of the rupee may mean:\n1. Its free float with other international currencies.\n2. Its direct exchange with any other international currency at any prescribed place inside and outside the country.\n3. It acts just like any other international currency.\n\nWhich of these statements are correct?',
+   opts:['1 and 2','1 and 3','2 and 3','1, 2 and 3'],
+   ans:3,exp:'Full convertibility means the rupee can be freely exchanged for any foreign currency for any purpose (trade, investment, capital flows) without restrictions, limitations, or government approval. This implies: free float (market-determined exchange rate — Statement 1), direct exchange anywhere (Statement 2), and functioning like a fully internationalized reserve currency (Statement 3). All three characteristics describe aspects of full convertibility.'},
+
+  {id:53,yr:'2001',topic:'WPI & CPI',
+   text:'The new series of Wholesale Price Index (WPI) released by the Government of India is with reference to the base prices of:',
+   opts:['1981-82','1990-91','1993-94','1994-95'],
+   ans:2,exp:'The new WPI series released around 2001 used 1993-94 as the base year. This series replaced the earlier 1981-82 base year series. Historical WPI base years: 1952-53 (original), 1961-62, 1970-71, 1981-82, 1993-94 (this question\'s answer), 2004-05, and currently 2011-12. The 1993-94 base series remained in use from 1998-2010.'},
+
+  {id:54,yr:'2001',topic:'Forex',
+   text:'Assertion (A): Ceiling on foreign exchange for a host of current account transaction heads was lowered in the year 2000.\nReason (R): There was a fall in foreign currency assets also.',
+   opts:['Both A and R are individually true, and R is the correct explanation of A','Both A and R are individually true, but R is NOT a correct explanation of A','A is true, but R is false','A is false, but R is true'],
+   ans:0,exp:'During 2000, India\'s forex reserves did experience some pressure. If ceilings on current account transactions were lowered (limiting outflows), it could be in response to falling forex reserves. The Assertion (ceiling lowered) is correct, and the Reason (fall in forex assets) provides the causal explanation — when reserves fall, authorities tighten forex outflows. Both A and R are true and R explains A.'},
+
+  {id:55,yr:'2000',topic:'Convertibility',
+   text:'Consider the following statements — The Indian rupee is fully convertible:\nI. In respect of Current Account of Balance of Payment.\nII. In respect of Capital Account of Balance of Payment.\nIII. Into gold.\n\nWhich of these statements is/are correct?',
+   opts:['I alone','III alone','I and II','I, II and III'],
+   ans:0,exp:'India has full current account convertibility — rupee can be freely exchanged for trade in goods and services, current transfers, and income (Statement I: CORRECT). India does NOT have full capital account convertibility — there are restrictions on capital flows (FDI limits, ECB limits, etc.) — Statement II: WRONG. The rupee is not convertible into gold (gold standard was abandoned globally) — Statement III: WRONG. Only Statement I is correct.'},
+
+  {id:56,yr:'1999',topic:'Exchange Rates',
+   text:'Assertion (A): Devaluation of a currency may promote exports.\nReason (R): Price of the country\'s products in the international market may fall due to devaluation.',
+   opts:['Both A and R are true, and R is the correct explanation of A','Both A and R are true, but R is not a correct explanation of A','A is true, but R is false','A is false, but R is true'],
+   ans:0,exp:'Devaluation makes the domestic currency cheaper relative to foreign currencies. This means Indian goods become cheaper for foreign buyers (prices in foreign currency terms fall), making exports more competitive → export promotion. Assertion is CORRECT. Reason is CORRECT and explains the mechanism: devaluation → fall in price of Indian goods in international market (in foreign currency terms) → more exports. R is the correct explanation of A.'},
+
+  {id:57,yr:'1998',topic:'Banking',
+   text:'The banks are required to maintain a certain ratio between their cash in hand and total assets. This is called:',
+   opts:['SBR (Statutory Bank Ratio)','SLR (Statutory Liquid Ratio)','CBR (Central Bank Reserve)','CLR (Central Liquid Reserve)'],
+   ans:1,exp:'Statutory Liquidity Ratio (SLR) is the minimum percentage of Net Demand and Time Liabilities (NDTL) that commercial banks must maintain in the form of liquid assets: cash, gold, and approved government securities. SLR is mandated by RBI under the Banking Regulation Act. Current SLR is around 18%. SLR acts as a safety buffer and also enables RBI to use monetary policy through government securities market.'},
+
+  {id:58,yr:'1998',topic:'Convertibility',
+   text:'Capital Account Convertibility of the Indian Rupee implies:',
+   opts:['That the Indian Rupee can be exchanged by authorised dealers for travel','That the Indian Rupee can be exchanged for any major currency for the purpose of trade in goods and services','That the Indian Rupee can be exchanged for any major currency for the purpose of trading financial assets','None of the above'],
+   ans:2,exp:'Capital Account Convertibility (CAC) specifically refers to the freedom to convert domestic currency into foreign currency and vice versa for CAPITAL transactions — buying/selling financial assets (stocks, bonds, real estate, FDI, etc.) across borders without restrictions. Current account convertibility (option B) covers trade in goods/services. Option A (travel) is a current account transaction. CAC is about financial investment flows, not trade.'},
+
+  {id:59,yr:'1997',topic:'Savings',
+   text:'The average rate of domestic savings (gross) for the Indian economy is currently estimated to be in the range of:',
+   opts:['15 to 20 per cent','20 to 25 per cent','25 to 30 per cent','30 to 35 per cent'],
+   ans:2,exp:'In the mid-to-late 1990s context (when this question was set), India\'s gross domestic savings rate was in the range of 22-26% of GDP. The range of 25-30% was appropriate at that time as savings rates were rising. India\'s savings rate subsequently peaked around 36-37% in 2007-08 before declining. For UPSC, the question tests the approximate savings rate for that period.'},
+
+  {id:60,yr:'1997',topic:'Money Supply',
+   text:'The sum of which of the following constitutes Broad Money in India?\nI. Currency with the Public\nII. Demand deposits with banks\nIII. Time deposits with banks\nIV. Other deposits with RBI\n\nChoose the correct answer:',
+   opts:['I and II','I, II and III','I, II, III and IV','I, II and IV'],
+   ans:1,exp:'Broad Money (M3) = M1 + Time Deposits with Banks. M1 = Currency with Public + Demand Deposits with Banks + Other Deposits with RBI. Therefore M3 = Currency with Public (I) + Demand Deposits (II) + Other RBI Deposits (IV) + Time Deposits (III) = I + II + III + IV. All four components constitute M3. Answer is I, II, III and IV.'},
+
+  {id:61,yr:'1997',topic:'WPI & CPI',
+   text:'In India, inflation is measured by the:',
+   opts:['Wholesale Price Index Number','Consumers Price Index for urban non-manual workers','Consumers Price Index for agricultural workers','National Income deflation'],
+   ans:0,exp:'Historically in India, inflation has been primarily measured by the Wholesale Price Index (WPI). This was the headline inflation measure used by RBI for many decades and for government policy. After the Urjit Patel Committee (2014), India officially switched to CPI-Combined as the inflation target indicator for monetary policy. However, in 1997 (when this question was set), WPI was THE standard measure of inflation in India.'},
+
+  {id:62,yr:'1996',topic:'Convertibility',
+   text:'One of the important goals of the economic liberalisation policy is to achieve full convertibility of the Indian rupee. This is being advocated because:',
+   opts:['Convertibility of the rupee will stabilize its exchange value against major currencies of the world','It will attract more foreign capital inflow in India','It will help promote exports','It will help India secure loans from the world financial markets at attractive terms'],
+   ans:0,exp:'Full convertibility is advocated primarily because a freely convertible currency has a market-determined exchange rate that reflects true economic fundamentals. This market discovery makes the exchange rate more stable in the long run (removes administrative distortions). While it may attract capital, promote exports, and improve credit access, the MOST DIRECT and primary argument in the liberalization context is exchange rate stability through market determination.'},
+
+  {id:63,yr:'1996',topic:'Forex',
+   text:'Hawala transactions relate to payments:',
+   opts:['Received in rupees against overseas currencies and vice versa without going through official channels','Received for sale/transfer of shares without going through the established stock exchanges','Received as commission for services rendered to overseas investors/buyers/sellers','Made to political parties or to individuals for meeting election expenses'],
+   ans:0,exp:'Hawala (meaning "trust" in Arabic) is an informal value transfer system where money is transferred internationally without physical movement of currency through official banking channels. A hawala broker (hawaladar) in one country pays the recipient in local currency while coordinating with an overseas partner who collects the equivalent from the sender. It bypasses official channels, evades taxes, and violates FEMA. Often used for money laundering and terror financing.'},
+
+  {id:64,yr:'1995',topic:'Forex',
+   text:'Which of the following pairs are correctly matched?\nI. Increase in foreign exchange reserves – Monetary expansion\nII. Low import growth rate in India – Recession in Indian Industry\nIII. Euro-issues – Shares held by Indian companies in European countries\nIV. Portfolio investment – Foreign institutional investors\n\nSelect the correct answer:',
+   opts:['I, II and IV','III and IV','I, II and III','I, II, III and IV'],
+   ans:0,exp:'I. CORRECT — When RBI buys forex to prevent rupee appreciation, it releases rupees into system → monetary expansion. II. CORRECT — Low import growth suggests Indian industry is in recession (not demanding capital goods/inputs). III. WRONG — Euro-issues (GDRs listed in Europe) are shares/bonds of Indian companies LISTED on European exchanges, not merely "held in European countries." IV. CORRECT — Portfolio investment (stocks, bonds, short-term) is primarily done by FIIs/FPIs. Pairs I, II, and IV are correctly matched.'},
+
+  {id:65,yr:'1995',topic:'Monetary Policy',
+   text:'Bank Rate implies the rate of interest:',
+   opts:['Paid by the Reserve Bank of India on the deposits of Commercial Banks','Charged by Banks on loans and advances','Payable on Bonds','At which the Reserve Bank of India discounts the Bills of Exchange'],
+   ans:3,exp:'Bank Rate is the rate at which RBI is willing to buy or rediscount bills of exchange or other commercial papers from commercial banks. It is a long-term lending rate (unlike repo which is overnight/short-term). When commercial banks rediscount their bills with RBI, they receive funds at the Bank Rate. Currently, Bank Rate is linked to MSF rate. It differs from Repo Rate which involves collateralized short-term borrowing against government securities.'},
+
+  {id:66,yr:'1995',topic:'Banking',
+   text:'The Narasimham Committee for Financial Sector Reforms has suggested reduction in:',
+   opts:['SLR and CRR','SLR, CRR and Priority Sector Financing','SLR and Financing to capital goods sector','CRR, Priority Sector Financing and Financing to capital goods sector'],
+   ans:1,exp:'The Narasimham Committee on Financial Sector Reforms (1991 — first report; 1998 — second report) recommended: (1) Reduction in CRR from high levels (was ~15%) to 3-5%, (2) Reduction in SLR from ~38.5% to 25% (releasing funds for commercial lending), (3) Reduction in mandatory priority sector lending targets (argued it distorted credit allocation). These reforms aimed to give banks more autonomy and create a market-oriented banking system.'}
+];
+
+// ═══ STATE ═══
+let S={cur:0,ans:new Array(66).fill(null),skp:new Array(66).fill(false),start:null,tLeft:35*60,tInt:null,done:false};
+
+function startQuiz(){
+  const raw=localStorage.getItem('artha_v1');
+  if(raw){
+    try{
+      const d=JSON.parse(raw);
+      if(!d.done&&confirm('Resume your previous session?')){
+        S={...S,...d,tInt:null};
+      }else{localStorage.removeItem('artha_v1');S.start=Date.now();}
+    }catch(e){S.start=Date.now();}
+  }else{S.start=Date.now();}
+  show('quiz');buildDots();renderQ();runTimer();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function runTimer(){
+  if(S.tInt)clearInterval(S.tInt);
+  updTimer();
+  S.tInt=setInterval(()=>{
+    if(S.done){clearInterval(S.tInt);return;}
+    S.tLeft--;updTimer();
+    if(S.tLeft%20===0)save();
+    if(S.tLeft<=0){clearInterval(S.tInt);alert('⏳ Time is up! Submitting…');submitQuiz();}
+  },1000);
+}
+function updTimer(){
+  const m=Math.floor(S.tLeft/60),s=S.tLeft%60;
+  const el=document.getElementById('timerEl');
+  el.textContent=`${pad(m)}:${pad(s)}`;
+  el.className=S.tLeft<=300?'timer danger':'timer';
+}
+
+function renderQ(){
+  const i=S.cur,q=Q[i];
+  document.getElementById('qCur').textContent=i+1;
+  document.getElementById('qTot').textContent=Q.length;
+  document.getElementById('qBadge').textContent='Q'+String(i+1).padStart(2,'0');
+  document.getElementById('qYr').textContent=q.yr;
+  document.getElementById('qTopic').textContent=q.topic;
+  document.getElementById('qBody').textContent=q.text;
+  document.getElementById('pFill').style.width=((i+1)/Q.length*100)+'%';
+
+  const sp=document.getElementById('qStat');
+  if(S.skp[i]){sp.textContent='Skipped';sp.className='qstat qs-s';}
+  else if(S.ans[i]!==null){sp.textContent='Answered';sp.className='qstat qs-a';}
+  else{sp.textContent='Unanswered';sp.className='qstat qs-n';}
+
+  const og=document.getElementById('optsGrid');og.innerHTML='';
+  q.opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(S.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="ok">${L[idx]}</span><span class="ot">${o}</span>`;
+    b.onclick=()=>pick(idx);
+    og.appendChild(b);
+  });
+
+  document.getElementById('btnPrev').disabled=(i===0);
+  const last=(i===Q.length-1);
+  document.getElementById('btnNext').style.display=last?'none':'inline-block';
+  document.getElementById('btnSub').style.display=last?'inline-block':'none';
+  updDots();
+}
+
+function pick(idx){if(S.done)return;S.ans[S.cur]=idx;S.skp[S.cur]=false;renderQ();save();}
+function go(d){const n=S.cur+d;if(n>=0&&n<Q.length){S.cur=n;renderQ();}}
+function skipQ(){S.skp[S.cur]=true;S.ans[S.cur]=null;save();if(S.cur<Q.length-1)go(1);else renderQ();}
+
+function buildDots(){
+  const dm=document.getElementById('dotMap');dm.innerHTML='';
+  Q.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';d.textContent=i+1;d.id=`dot${i}`;
+    d.onclick=()=>{S.cur=i;renderQ();};
+    dm.appendChild(d);
+  });
+}
+function updDots(){
+  Q.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);if(!d)return;
+    d.className='dot';
+    if(i===S.cur)d.classList.add('cur');
+    else if(S.skp[i])d.classList.add('d-s');
+    else if(S.ans[i]!==null)d.classList.add('d-a');
+  });
+}
+
+function showMod(){
+  const a=S.ans.filter(x=>x!==null).length;
+  const sk=S.skp.filter(Boolean).length;
+  document.getElementById('modTxt').textContent=
+    `Answered: ${a}  ·  Skipped: ${sk}  ·  Unanswered: ${Q.length-a-sk}\n\nOnce submitted, answers cannot be changed.`;
+  document.getElementById('modOv').classList.add('on');
+}
+function closeMod(){document.getElementById('modOv').classList.remove('on');}
+
+function submitQuiz(){
+  closeMod();clearInterval(S.tInt);S.done=true;
+  const used=(35*60)-S.tLeft;
+  let cor=0,wr=0,sk=0;
+  Q.forEach((q,i)=>{
+    if(S.skp[i]||S.ans[i]===null)sk++;
+    else if(S.ans[i]===q.ans)cor++;
+    else wr++;
+  });
+  const attempted=cor+wr;
+  const pct=Math.round(cor/Q.length*100);
+  const acc=attempted?Math.round(cor/attempted*100):0;
+  const avg=Math.round(used/Q.length);
+
+  // UPSC marks: +2 correct, -0.666 wrong
+  const upscMarks=(cor*2)-(wr*(2/3));
+  const upscMax=Q.length*2; // 132
+  const upscPct=Math.round(upscMarks/upscMax*100);
+
+  let grade,gc,ringColor;
+  if(pct>=90){grade='⭐ Exceptional';gc='var(--correct)';ringColor='#00c896';}
+  else if(pct>=75){grade='✦ Excellent';gc='var(--emerald)';ringColor='#00c896';}
+  else if(pct>=60){grade='✦ Good';gc='var(--sapphire2)';ringColor='#3a7bd5';}
+  else if(pct>=45){grade='✦ Average';gc='var(--gold)';ringColor='#d4af37';}
+  else{grade='✦ Needs Work';gc='var(--amber)';ringColor='#f5a623';}
+
+  const arc=document.getElementById('ringArc');
+  arc.style.stroke=ringColor;
+  setTimeout(()=>{arc.style.strokeDashoffset=314.16*(1-pct/100);},100);
+
+  document.getElementById('rScore').textContent=cor;
+  const gp=document.getElementById('rGrade');
+  gp.textContent=grade;
+  gp.style.cssText=`background:${ringColor}18;color:${ringColor};border:1px solid ${ringColor}40;`;
+
+  if(pct>=75)document.getElementById('rTitle').textContent='📈 Strong Performance!';
+  else if(pct>=50)document.getElementById('rTitle').textContent='💹 Good Attempt!';
+  else document.getElementById('rTitle').textContent='📊 More Revision Needed';
+
+  document.getElementById('rSub').textContent=`${pct}% accuracy · ${cor} correct out of ${Q.length}`;
+  document.getElementById('rPct').textContent=`Attempted accuracy: ${acc}%`;
+
+  document.getElementById('stC').textContent=cor;
+  document.getElementById('stW').textContent=wr;
+  document.getElementById('stS').textContent=sk;
+  document.getElementById('stAcc').textContent=acc+'%';
+  document.getElementById('stTime').textContent=fmtT(used);
+  document.getElementById('stAvg').textContent=avg+'s';
+
+  // UPSC marks panel
+  const upscEl=document.getElementById('upscPanel');
+  const mColor=upscMarks>=66?'var(--correct)':upscMarks>=40?'var(--gold)':'var(--wrong)';
+  upscEl.innerHTML=`
+    <div class="ins-hd">📋 UPSC Marking Scheme (+2 / −⅔)</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;text-align:center;">
+      <div><div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--correct)">${(cor*2).toFixed(1)}</div><div style="font-size:.62rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em">Marks Earned</div></div>
+      <div><div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--wrong)">-${(wr*(2/3)).toFixed(1)}</div><div style="font-size:.62rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em">Marks Lost</div></div>
+      <div><div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:${mColor}">${upscMarks.toFixed(1)}</div><div style="font-size:.62rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em">Net Score / 132</div></div>
+    </div>
+    <div style="margin-top:.8rem;font-size:.78rem;color:var(--txt2);border-top:1px solid var(--border);padding-top:.7rem;">
+      UPSC net score: <strong style="color:${mColor}">${upscMarks.toFixed(1)} / ${upscMax}</strong> (${upscPct}%) — ${upscMarks>=66?'Above 50% — Safe Zone ✓':upscMarks>=44?'Borderline — Push harder':'Below 50% — High risk of elimination'}
+    </div>`;
+
+  buildInsights(cor,wr,sk,pct,acc,upscMarks);
+  renderRev('all');
+  localStorage.removeItem('artha_v1');
+  show('results');
+}
+
+function fmtT(s){return `${Math.floor(s/60)}m ${pad(s%60)}s`;}
+
+function buildInsights(cor,wr,sk,pct,acc,netMarks){
+  const topErr={};
+  Q.forEach((q,i)=>{
+    if(!S.skp[i]&&S.ans[i]!==null&&S.ans[i]!==q.ans)
+      topErr[q.topic]=(topErr[q.topic]||0)+1;
+  });
+  const ranked=Object.entries(topErr).sort((a,b)=>b[1]-a[1]);
+  const lines=[];
+
+  if(pct>=85)lines.push('Exceptional command over monetary economics and macroeconomics. Ready for advanced UPSC preparation.');
+  else if(pct>=70)lines.push('Strong understanding. Focus on statement-based questions (correct/incorrect) which UPSC loves for Economics.');
+  else if(pct>=50)lines.push('Decent foundation. Revise the conceptual differences — e.g., CRR vs SLR, NEER vs REER, BoT vs BoP.');
+  else lines.push('Start with NCERT Economics (Class 11-12) and Ramesh Singh\'s Indian Economy. Build conceptual clarity first.');
+
+  if(sk>10)lines.push(`${sk} questions skipped. UPSC Economics questions often have enough keywords to eliminate 2 options — attempt more with elimination.`);
+  if(wr>15)lines.push('High wrong count detected. Negative marking at -0.67 per wrong answer is costly — ensure 70%+ confidence before selecting.');
+  if(acc>=80)lines.push('Excellent accuracy! Your guessing/elimination strategy is working well.');
+
+  if(topErr['Monetary Policy']||topErr['Banking'])
+    lines.push('Monetary Policy weak: Remember — CRR/SLR hike → less liquidity; Repo rate cut → more liquidity; OMO buy → inject; OMO sell → absorb.');
+  if(topErr['Inflation'])
+    lines.push('Inflation concepts: Demand-pull (excess demand), Cost-push (supply shock), Monetary (excess money). Base effect = distortion from previous year\'s price level.');
+  if(topErr['Exchange Rates'])
+    lines.push('Exchange Rates: NEER↑ = appreciation. REER↑ = loss of competitiveness. Devaluation = cheaper exports, more expensive imports.');
+  if(topErr['Balance of Payments'])
+    lines.push('BoP: Current Account = Trade (goods) + Invisibles (services/remittances). Capital Account = FDI + FPI + Loans. Private remittances → Current Account.');
+  if(topErr['Money Supply'])
+    lines.push('Money Supply: M1 = Currency + Demand Deposits + RBI deposits. M3 = M1 + Time Deposits. Multiplier = 1/CRR; increases when banking habits improve.');
+  if(topErr['Convertibility'])
+    lines.push('Convertibility: Current account = fully convertible (trade). Capital account = partially convertible (financial flows). Tarapore Committee = Capital Account Convertibility roadmap.');
+  if(topErr['WPI & CPI'])
+    lines.push('WPI: goods only, released weekly, food ~24% weight. CPI: goods + services, food ~45% weight. RBI now targets CPI (switched 2014). CPI-IW by Labour Bureau.');
+
+  if(netMarks<44)lines.push('⚠️ UPSC Strategy: With negative marking, focus on quality over quantity. Only answer if 60%+ confident. Avoid random guesses.');
+
+  ranked.slice(0,3).forEach(([t,c])=>lines.push(`Priority Revision → ${t}: ${c} errors. Practice 10+ PYQs from this topic.`));
+
+  const ib=document.getElementById('insBody');
+  ib.innerHTML=lines.map(l=>`<div class="ins-line">${l}</div>`).join('');
+  if(ranked.length)
+    ib.innerHTML+=`<div class="wchips">${ranked.map(([t])=>`<span class="wchip">${t}</span>`).join('')}</div>`;
+}
+
+function setTab(f,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderRev(f);
+}
+
+function renderRev(f){
+  const rl=document.getElementById('revList');let html='';
+  Q.forEach((q,i)=>{
+    const ua=S.ans[i];
+    const isSk=S.skp[i]||ua===null;
+    const isOk=!isSk&&ua===q.ans;
+    const isWr=!isSk&&!isOk;
+    if(f==='correct'&&!isOk)return;
+    if(f==='wrong'&&!isWr)return;
+    if(f==='skipped'&&!isSk)return;
+    const rc=isOk?'rc':isWr?'rw':'rs';
+    const lbl=isOk?'✓ Correct':isWr?'✗ Wrong':'— Skipped';
+    const uaTxt=isSk?'Not answered / Skipped':`(${L[ua]}) ${q.opts[ua]}`;
+    const caTxt=`(${L[q.ans]}) ${q.opts[q.ans]}`;
+    html+=`<div class="rev-card ${rc}">
+      <div class="rev-top">
+        <span class="rv-n">Q${String(i+1).padStart(2,'0')}</span>
+        <span class="rv-yr">${q.yr}</span>
+        <span class="rv-badge ${rc}">${lbl}</span>
+        <span class="rv-topic">${q.topic}</span>
+      </div>
+      <div class="rv-q">${q.text.replace(/</g,'&lt;')}</div>
+      <div class="rv-row"><span class="rv-lbl">Your answer:</span><span class="rv-val ${isSk?'':isOk?'good':'bad'}">${uaTxt}</span></div>
+      <div class="rv-row"><span class="rv-lbl">Correct answer:</span><span class="rv-val good">${caTxt}</span></div>
+      ${q.exp?`<div class="rv-exp"><strong>Explanation:</strong> ${q.exp}</div>`:''}
+    </div>`;
+  });
+  if(!html)html='<p style="color:var(--txt2);text-align:center;padding:2rem;font-size:.85rem">No questions in this category.</p>';
+  rl.innerHTML=html;
+}
+
+function save(){
+  localStorage.setItem('artha_v1',JSON.stringify({
+    cur:S.cur,ans:S.ans,skp:S.skp,start:S.start,tLeft:S.tLeft,done:S.done
+  }));
+}
+
+function restartQuiz(){
+  if(!confirm('Restart? All progress will be erased.'))return;
+  clearInterval(S.tInt);
+  localStorage.removeItem('artha_v1');
+  S={cur:0,ans:new Array(66).fill(null),skp:new Array(66).fill(false),start:null,tLeft:35*60,tInt:null,done:false};
+  show('start');
+}
+</script>
+</body>
+</html>
